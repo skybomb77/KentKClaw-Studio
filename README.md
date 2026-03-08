@@ -15,3 +15,9 @@ Together, we build the future. 🚀
 
 ### **Projects**
 - **Chaobang (超榜)**: The ultimate ranking platform. (Coming Soon)
+
+### **Current Focus: Music Production 🎵**
+- **Project:** Neon Nostalgia (EDM Lofi)
+- **Status:** Concept & Demo Generation
+- **Latest Tracks:** `Neon Nostalgia`, `Rain On Old Tape`
+- **Next Steps:** Refine drum loops, add vocal chops.
