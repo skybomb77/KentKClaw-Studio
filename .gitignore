@@ -1,0 +1,10 @@
+# Node
+node_modules/
+.env
+.DS_Store
+
+# OpenClaw
+audio_output/
+music_ideas/
+scripts/
+youtube_creds.txt
