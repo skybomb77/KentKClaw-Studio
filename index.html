@@ -43,9 +43,14 @@
             font-size: 0.9rem;
             color: #484f58;
         }
+        .btn-group {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
         .btn {
             display: inline-block;
-            margin-top: 1.5rem;
             padding: 0.75rem 1.5rem;
             font-size: 1rem;
             color: #ffffff;
@@ -54,9 +59,16 @@
             border-radius: 6px;
             text-decoration: none;
             transition: background-color 0.2s;
+            font-weight: bold;
         }
         .btn:hover {
             background-color: #2ea043;
+        }
+        .btn-youtube {
+            background-color: #FF0000;
+        }
+        .btn-youtube:hover {
+            background-color: #CC0000;
         }
     </style>
 </head>
@@ -65,7 +77,10 @@
         <h1>Kent & KClaw Studio</h1>
         <p>Innovation meets Intelligence.</p>
         <p>We build the future, one line of code at a time.</p>
-        <a href="https://github.com/skybomb77" class="btn">View Our GitHub</a>
+        <div class="btn-group">
+            <a href="https://github.com/skybomb77" class="btn" target="_blank">View Our GitHub</a>
+            <a href="https://www.youtube.com/@KentKClawStudio" class="btn btn-youtube" target="_blank">► Subscribe on YouTube</a>
+        </div>
     </div>
     <div class="footer">
         &copy; 2026 Kent & KClaw. All rights reserved. <br> Powered by OpenClaw 🐯
