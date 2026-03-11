@@ -10,21 +10,23 @@
     <style>
         :root {
             --bg: #0b1020;
-            --bg-soft: rgba(16, 22, 40, 0.72);
+            --bg-2: #121a2d;
             --card: rgba(19, 26, 46, 0.88);
+            --card-soft: rgba(24, 33, 58, 0.78);
             --line: rgba(255,255,255,0.1);
+            --line-strong: rgba(110,168,254,0.18);
             --text: #e6edf3;
             --muted: #98a6b8;
             --primary: #6ea8fe;
             --accent: #d2a8ff;
+            --accent-2: #8c61ff;
             --success: #2ecc71;
+            --warning: #ffd166;
             --shadow: 0 20px 60px rgba(0,0,0,0.35);
         }
 
         * { box-sizing: border-box; }
-
         html { scroll-behavior: smooth; }
-
         body {
             margin: 0;
             color: var(--text);
@@ -32,7 +34,7 @@
             background:
                 radial-gradient(circle at top left, rgba(88,166,255,0.16), transparent 30%),
                 radial-gradient(circle at top right, rgba(210,168,255,0.14), transparent 28%),
-                linear-gradient(-45deg, #0b1020, #121a2d, #0e1627, #160d27);
+                linear-gradient(-45deg, var(--bg), var(--bg-2), #0e1627, #160d27);
             background-size: 100% 100%, 100% 100%, 400% 400%;
             animation: gradientBG 18s ease infinite;
         }
@@ -44,95 +46,44 @@
         }
 
         a { color: inherit; }
-
-        .wrap {
-            width: min(1160px, calc(100% - 32px));
-            margin: 0 auto;
-        }
+        .wrap { width: min(1160px, calc(100% - 32px)); margin: 0 auto; }
 
         .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            backdrop-filter: blur(16px);
-            background: rgba(11,16,32,0.72);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            position: sticky; top: 0; z-index: 20; backdrop-filter: blur(16px);
+            background: rgba(11,16,32,0.72); border-bottom: 1px solid rgba(255,255,255,0.06);
         }
 
         .topbar-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            padding: 16px 0;
+            display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0;
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            letter-spacing: 0.2px;
-        }
-
+        .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: 0.2px; }
         .brand-badge {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
+            width: 38px; height: 38px; border-radius: 12px;
             background: linear-gradient(135deg, var(--primary), var(--accent));
-            display: grid;
-            place-items: center;
-            color: white;
+            display: grid; place-items: center; color: white;
             box-shadow: 0 10px 24px rgba(110,168,254,0.25);
         }
 
-        .nav {
-            display: flex;
-            gap: 10px;
-            color: var(--muted);
-            font-size: 0.95rem;
-            align-items: center;
-        }
-
+        .nav { display: flex; gap: 10px; color: var(--muted); font-size: 0.95rem; align-items: center; }
         .nav a {
-            text-decoration: none;
-            padding: 10px 14px;
-            border-radius: 999px;
-            border: 1px solid transparent;
-            transition: 0.22s ease;
+            text-decoration: none; padding: 10px 14px; border-radius: 999px; border: 1px solid transparent; transition: 0.22s ease;
         }
-
-        .nav a:hover {
-            color: var(--text);
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.08);
-        }
-
-        .nav .nav-home {
-            color: #fff;
-            background: linear-gradient(135deg, #4f8cff, #8c61ff);
-            box-shadow: 0 10px 24px rgba(79,140,255,0.22);
-        }
+        .nav a:hover { color: var(--text); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.08); }
+        .nav .nav-home { color: #fff; background: linear-gradient(135deg, #4f8cff, #8c61ff); box-shadow: 0 10px 24px rgba(79,140,255,0.22); }
 
         .hero {
-            padding: 72px 0 48px;
+            padding: 72px 0 36px;
             display: grid;
-            grid-template-columns: 1.2fr 0.9fr;
+            grid-template-columns: 1.1fr 0.9fr;
             gap: 28px;
             align-items: center;
         }
 
         .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 14px;
-            border: 1px solid rgba(110,168,254,0.22);
-            border-radius: 999px;
-            color: #c9d7ea;
-            background: rgba(110,168,254,0.08);
-            font-size: 0.95rem;
-            margin-bottom: 18px;
+            display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px;
+            border: 1px solid rgba(110,168,254,0.22); border-radius: 999px;
+            color: #c9d7ea; background: rgba(110,168,254,0.08); font-size: 0.95rem; margin-bottom: 18px;
         }
 
         h1 {
@@ -142,79 +93,38 @@
             letter-spacing: -0.04em;
         }
 
-        .gradient-text,
-        .section-head h2 {
+        .gradient-text, .section-head h2 {
             background: linear-gradient(90deg, #8cc2ff, #d2a8ff 70%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .lead {
-            margin: 0 0 26px;
+            margin: 0 0 22px;
             color: var(--muted);
             font-size: 1.12rem;
-            line-height: 1.75;
+            line-height: 1.8;
             max-width: 760px;
         }
 
-        .hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px;
-            margin-bottom: 22px;
-        }
+        .hero-actions, .button-row { display: flex; flex-wrap: wrap; gap: 14px; }
+        .hero-actions { margin-bottom: 20px; }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 14px 20px;
-            border-radius: 12px;
-            border: 1px solid transparent;
-            text-decoration: none;
-            font-weight: 700;
-            transition: 0.25s ease;
-            cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 20px;
+            border-radius: 12px; border: 1px solid transparent; text-decoration: none; font-weight: 700; transition: 0.25s ease; cursor: pointer;
         }
+        .btn-primary { color: #fff; background: linear-gradient(135deg, #4f8cff, #8c61ff); box-shadow: 0 12px 28px rgba(79,140,255,0.28); }
+        .btn-primary:hover, .btn-secondary:hover { transform: translateY(-2px); }
+        .btn-secondary { color: var(--text); border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.08); }
 
-        .btn-primary {
-            color: #fff;
-            background: linear-gradient(135deg, #4f8cff, #8c61ff);
-            box-shadow: 0 12px 28px rgba(79,140,255,0.28);
+        .mini-points, .trust-row {
+            display: flex; flex-wrap: wrap; gap: 14px 18px; color: #c6d4e5; font-size: 0.96rem;
         }
+        .mini-points span, .trust-row span { display: inline-flex; align-items: center; gap: 8px; }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 34px rgba(79,140,255,0.36);
-        }
-
-        .btn-secondary {
-            color: var(--text);
-            border-color: rgba(255,255,255,0.12);
-            background: rgba(255,255,255,0.04);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.08);
-            transform: translateY(-2px);
-        }
-
-        .mini-points {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px 18px;
-            color: #c6d4e5;
-            font-size: 0.96rem;
-        }
-
-        .mini-points span {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .hero-card, .card, .pricing-card, .faq-item {
+        .hero-card, .card, .pricing-card, .faq-item, .proof-card, .form-card, .problem-card {
             background: var(--card);
             border: 1px solid var(--line);
             border-radius: 22px;
@@ -224,154 +134,57 @@
         .hero-card {
             padding: 24px;
             background: linear-gradient(135deg, rgba(79,140,255,0.10), rgba(140,97,255,0.10)), var(--card);
-            border-color: rgba(110,168,254,0.18);
+            border-color: var(--line-strong);
         }
 
-        .preview {
+        .proof-grid, .grid-3, .grid-2, .problem-grid, .pricing, .lead-grid {
             display: grid;
-            gap: 16px;
+            gap: 18px;
         }
+        .proof-grid, .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-2, .problem-grid { grid-template-columns: repeat(2, 1fr); }
+        .pricing { grid-template-columns: 0.95fr 1.05fr; }
+        .lead-grid { grid-template-columns: 1.1fr 0.9fr; align-items: stretch; }
 
-        .preview-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
+        .proof-card, .card, .pricing-card, .problem-card { padding: 22px; }
+        .proof-card strong, .metric strong { display: block; font-size: 1.4rem; margin-bottom: 8px; color: #f0f5fb; }
+        .metric { padding: 16px; border-radius: 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); }
 
+        .preview { display: grid; gap: 16px; }
+        .preview-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
         .pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 7px 12px;
-            border-radius: 999px;
-            font-size: 0.9rem;
-            background: rgba(46, 204, 113, 0.12);
-            color: #8cf0b6;
-            border: 1px solid rgba(46, 204, 113, 0.18);
+            display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; font-size: 0.9rem;
+            background: rgba(46, 204, 113, 0.12); color: #8cf0b6; border: 1px solid rgba(46, 204, 113, 0.18);
         }
-
         .preview-screen {
-            border-radius: 18px;
-            padding: 18px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px; padding: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.06);
         }
+        .timeline { display: grid; gap: 10px; margin-top: 14px; }
+        .bar { height: 12px; border-radius: 999px; overflow: hidden; background: rgba(255,255,255,0.07); }
+        .bar > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--primary), var(--accent)); }
 
-        .timeline {
-            display: grid;
-            gap: 10px;
-            margin-top: 14px;
-        }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+        .stat-box { padding: 16px; border-radius: 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); }
+        .stat-box strong { display: block; font-size: 1.25rem; margin-bottom: 6px; }
 
-        .bar {
-            height: 12px;
-            border-radius: 999px;
-            overflow: hidden;
-            background: rgba(255,255,255,0.07);
-        }
-
-        .bar > span {
-            display: block;
-            height: 100%;
-            border-radius: inherit;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-            margin-top: 14px;
-        }
-
-        .stat-box {
-            padding: 16px;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-
-        .stat-box strong {
-            display: block;
-            font-size: 1.25rem;
-            margin-bottom: 6px;
-        }
-
-        section {
-            padding: 28px 0;
-        }
-
-        .section-head {
-            text-align: center;
-            margin-bottom: 26px;
-        }
-
-        .section-head h2 {
-            margin: 0 0 10px;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-        }
-
-        .section-head p {
-            margin: 0 auto;
-            max-width: 760px;
-            color: var(--muted);
-            line-height: 1.7;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-        }
+        section { padding: 28px 0; }
+        .section-head { text-align: center; margin-bottom: 26px; }
+        .section-head h2 { margin: 0 0 10px; font-size: clamp(1.8rem, 4vw, 2.8rem); }
+        .section-head p { margin: 0 auto; max-width: 760px; color: var(--muted); line-height: 1.7; }
 
         .card {
-            padding: 22px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)), rgba(24, 33, 58, 0.78);
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)), var(--card-soft);
         }
-
         .card i {
-            width: 44px;
-            height: 44px;
-            display: grid;
-            place-items: center;
-            border-radius: 14px;
-            margin-bottom: 16px;
-            color: white;
-            background: linear-gradient(135deg, rgba(110,168,254,0.9), rgba(210,168,255,0.9));
+            width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; margin-bottom: 16px; color: white;
+            background: linear-gradient(135deg, rgba(110,168,254,0.9), rgba(210,168,255,0.9)); box-shadow: 0 10px 24px rgba(110,168,254,0.18);
         }
+        .card h3, .problem-card h3, .pricing-card h3, .faq-item h3, .form-card h3 { margin: 0 0 10px; font-size: 1.2rem; color: #f0f5fb; }
+        .card p, .card li, .pricing-card p, .faq-item p, .problem-card p, .proof-card p, .form-card p, label { color: var(--muted); line-height: 1.7; }
+        .list { padding-left: 18px; margin: 12px 0 0; }
 
-        .card h3 {
-            margin: 0 0 10px;
-            font-size: 1.2rem;
-        }
-
-        .card p, .card li, .pricing-card p, .faq-item p {
-            color: var(--muted);
-            line-height: 1.7;
-        }
-
-        .list {
-            padding-left: 18px;
-            margin: 12px 0 0;
-        }
-
-        .pricing {
-            display: grid;
-            grid-template-columns: 0.95fr 1.05fr;
-            gap: 18px;
-        }
-
-        .pricing-card {
-            padding: 24px;
-            position: relative;
-        }
+        .problem-card { background: linear-gradient(135deg, rgba(255,209,102,0.07), rgba(255,255,255,0.02)), var(--card); }
+        .problem-card i { color: var(--warning); margin-right: 8px; }
 
         .pricing-card.featured {
             border-color: rgba(110,168,254,0.35);
@@ -380,161 +193,65 @@
         }
 
         .tag {
-            display: inline-block;
-            margin-bottom: 12px;
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            border-radius: 999px;
-            background: rgba(110,168,254,0.14);
-            color: #bed7ff;
-            border: 1px solid rgba(110,168,254,0.22);
+            display: inline-block; margin-bottom: 12px; padding: 6px 12px; font-size: 0.85rem; font-weight: 700; border-radius: 999px;
+            background: rgba(110,168,254,0.14); color: #bed7ff; border: 1px solid rgba(110,168,254,0.22);
+        }
+        .price { font-size: 2.3rem; font-weight: 800; margin: 8px 0; }
+        .price small { color: var(--muted); font-size: 0.9rem; font-weight: 500; }
+
+        .faq { display: grid; gap: 14px; }
+        .faq-item { padding: 20px; }
+        .faq-item h3 { font-size: 1.05rem; }
+
+        .form-card {
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(79,140,255,0.14), rgba(140,97,255,0.14)), var(--card);
+            border-color: rgba(140,97,255,0.2);
         }
 
-        .price {
-            font-size: 2.3rem;
-            font-weight: 800;
-            margin: 8px 0;
-        }
-
-        .price small {
-            color: var(--muted);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .faq {
+        .form-grid {
             display: grid;
             gap: 14px;
+            margin-top: 18px;
         }
 
-        .faq-item {
-            padding: 20px;
-        }
-
-        .faq-item h3 {
-            margin: 0 0 8px;
-            font-size: 1.05rem;
-        }
-
-        .waitlist {
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 18px;
-            align-items: stretch;
-            margin-top: 8px;
-        }
-
-        .waitlist-card {
-            padding: 24px;
-            background: linear-gradient(135deg, rgba(79,140,255,0.12), rgba(140,97,255,0.12));
-            border: 1px solid rgba(140,97,255,0.18);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-        }
-
-        .waitlist-box {
-            padding: 24px;
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        label { display: block; font-size: 0.95rem; margin-bottom: 6px; }
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.10);
             background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
+            color: var(--text);
+            outline: none;
         }
-
-        .waitlist-list {
-            margin: 14px 0 0;
-            padding-left: 18px;
-            color: var(--muted);
-            line-height: 1.8;
-        }
+        input::placeholder, textarea::placeholder { color: #8ea1b8; }
+        textarea { min-height: 116px; resize: vertical; }
+        .form-note { font-size: 0.9rem; color: #bfd0e2; }
 
         .cta {
-            padding: 28px;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(79,140,255,0.16), rgba(140,97,255,0.16));
-            border: 1px solid rgba(140,97,255,0.18);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            margin: 30px 0 48px;
+            padding: 28px; text-align: center; background: linear-gradient(135deg, rgba(79,140,255,0.16), rgba(140,97,255,0.16));
+            border: 1px solid rgba(140,97,255,0.18); border-radius: 24px; box-shadow: var(--shadow); margin: 30px 0 48px;
         }
 
-        .footer {
-            padding: 28px 0 40px;
-            text-align: center;
-            color: #7f8ca0;
-            font-size: 0.95rem;
-        }
-
-        .socials {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 18px;
-            flex-wrap: wrap;
-        }
-
-        .socials a {
-            text-decoration: none;
-        }
+        .footer { padding: 28px 0 40px; text-align: center; color: #7f8ca0; font-size: 0.95rem; }
+        .socials { display: flex; justify-content: center; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+        .socials a { text-decoration: none; }
 
         @media (max-width: 920px) {
-            .hero,
-            .pricing,
-            .grid-3,
-            .grid-2,
-            .waitlist {
+            .hero, .pricing, .grid-3, .grid-2, .problem-grid, .proof-grid, .lead-grid, .field-row {
                 grid-template-columns: 1fr;
             }
-
-            .nav {
-                display: none;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-        }
-    
-        .who-we-are {
-            margin-top: 2.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .who-we-are h2 {
-            font-size: 1.5rem;
-            color: #d2a8ff;
-            margin-bottom: 1.5rem;
-        }
-        .team-grid {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .member {
-            background: rgba(13, 17, 23, 0.5);
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            min-width: 120px;
-            transition: transform 0.3s;
-        }
-        .member:hover {
-            transform: translateY(-5px);
-            background: rgba(22, 27, 34, 0.8);
-        }
-        .member i {
-            font-size: 1.8rem;
-            color: #58a6ff;
-            margin-bottom: 0.5rem;
-        }
-        .member h3 {
-            margin: 0.5rem 0 0.2rem 0;
-            font-size: 1.1rem;
-            color: #c9d1d9;
-        }
-        .member span {
-            font-size: 0.85rem;
-            color: #8b949e;
+            .nav { display: none; }
+            .stats { grid-template-columns: 1fr; }
+            .wrap { width: min(1160px, calc(100% - 20px)); }
+            .hero { padding-top: 42px; }
+            h1 { font-size: clamp(2.2rem, 10vw, 3.3rem); }
+            .btn { width: 100%; }
+            .hero-actions, .button-row { flex-direction: column; }
+            .mini-points, .trust-row { gap: 10px 12px; }
+            section { padding: 20px 0; }
         }
     </style>
 </head>
@@ -551,6 +268,7 @@
                 <a href="#workflow">Workflow</a>
                 <a href="#pricing">Pricing</a>
                 <a href="#faq">FAQ</a>
+                <a href="#waitlist">Get Access</a>
             </nav>
         </div>
     </header>
@@ -567,13 +285,11 @@
                     <a href="#waitlist" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Join Early Access</a>
                     <a href="#pricing" class="btn btn-secondary"><i class="fa-solid fa-tag"></i> See Pricing</a>
                     <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> View GitHub</a>
-                    <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> Watch YouTube</a>
                 </div>
-                <div class="mini-points">
-                    <span><i class="fa-solid fa-check"></i> Auto beat sync</span>
-                    <span><i class="fa-solid fa-check"></i> Viral templates</span>
-                    <span><i class="fa-solid fa-check"></i> 9:16 / 1:1 / 16:9 export</span>
-                    <span><i class="fa-solid fa-check"></i> Faster editing, less busywork</span>
+                <div class="trust-row">
+                    <span><i class="fa-solid fa-check"></i> Built for creators</span>
+                    <span><i class="fa-solid fa-check"></i> Short-form first</span>
+                    <span><i class="fa-solid fa-check"></i> Faster than manual editing</span>
                 </div>
             </div>
 
@@ -609,6 +325,31 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="proof-grid">
+                <article class="proof-card"><strong>For creators</strong><p>Perfect for reels, shorts, lyric videos, promo clips, and quick content drafts.</p></article>
+                <article class="proof-card"><strong>For editors</strong><p>Reduce repetitive work and ship more client-ready drafts in less time.</p></article>
+                <article class="proof-card"><strong>For brands</strong><p>Turn ideas and audio into short-form social content without a heavy production workflow.</p></article>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-head">
+                <h2>Why people would pay for this</h2>
+                <p>The value is not just “make a video.” The value is making a good short-form video faster, with less editing pain.</p>
+            </div>
+            <div class="problem-grid">
+                <article class="problem-card">
+                    <h3><i class="fa-solid fa-triangle-exclamation"></i>Manual editing is slow</h3>
+                    <p>Users waste time lining up cuts, canvas sizes, timing, subtitles, and exports when they just want something that looks good and ships fast.</p>
+                </article>
+                <article class="problem-card">
+                    <h3><i class="fa-solid fa-sparkles"></i>This product fixes the busywork</h3>
+                    <p>Beat sync, templates, subtitle motion, and export presets turn the product into a real workflow shortcut instead of another complicated editor.</p>
+                </article>
             </div>
         </section>
 
@@ -734,6 +475,74 @@
             </div>
         </section>
 
+        <section id="waitlist">
+            <div class="section-head">
+                <h2>Get early access</h2>
+                <p>This version uses a real web form so people can actually leave their info instead of only opening an email client.</p>
+            </div>
+            <div class="lead-grid">
+                <article class="form-card">
+                    <span class="tag">Early access form</span>
+                    <h3 style="margin-top:0;">Join the first creator batch</h3>
+                    <p>Leave your contact and what kind of content you make. Submissions will be sent to your inbox so you can start building a real waitlist.</p>
+                    <form class="form-grid" action="https://formsubmit.co/skybomb77@gmail.com" method="POST">
+                        <input type="hidden" name="_subject" value="Kent & KClaw Studio Early Access Lead">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_next" value="https://skybomb77.github.io/KentKClaw-Studio/product.html?submitted=1">
+                        <div class="field-row">
+                            <div>
+                                <label for="name">Name</label>
+                                <input id="name" name="name" type="text" placeholder="Your name" required>
+                            </div>
+                            <div>
+                                <label for="email">Email</label>
+                                <input id="email" name="email" type="email" placeholder="you@example.com" required>
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div>
+                                <label for="role">I am a...</label>
+                                <select id="role" name="role">
+                                    <option>Creator</option>
+                                    <option>Freelance editor</option>
+                                    <option>Brand / business</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="platform">Main platform</label>
+                                <select id="platform" name="platform">
+                                    <option>TikTok</option>
+                                    <option>Instagram Reels</option>
+                                    <option>YouTube Shorts</option>
+                                    <option>Multiple platforms</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="message">What do you want this product to help you do?</label>
+                            <textarea id="message" name="message" placeholder="For example: make lyric videos faster, turn promo tracks into reels, produce more client drafts..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Join Early Access</button>
+                        <div class="form-note">Submissions are currently routed to <strong>skybomb77@gmail.com</strong> via FormSubmit.</div>
+                    </form>
+                </article>
+                <article class="card">
+                    <h3 style="margin-top:0;">Why this converts better</h3>
+                    <ul class="list">
+                        <li>People can submit directly on the page</li>
+                        <li>No need to open their mail app first</li>
+                        <li>You collect role + platform + use case, not just an email</li>
+                        <li>Better for founder-led outreach and early product interviews</li>
+                    </ul>
+                    <div class="button-row" style="margin-top:18px;">
+                        <a href="mailto:skybomb77@gmail.com?subject=Kent%20%26%20KClaw%20Studio%20Demo" class="btn btn-secondary"><i class="fa-solid fa-envelope"></i> Prefer email instead?</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
         <section id="faq">
             <div class="section-head">
                 <h2>FAQ</h2>
@@ -755,43 +564,14 @@
             </div>
         </section>
 
-        <section id="waitlist">
-            <div class="section-head">
-                <h2>Start collecting demand before the product is finished</h2>
-                <p>Even before full launch, the site should do one job well: explain the value fast and turn interest into a waitlist, DM, or founder conversation.</p>
-            </div>
-            <div class="waitlist">
-                <article class="waitlist-card">
-                    <span class="tag">Early access</span>
-                    <h3 style="margin-top:0; font-size:1.5rem;">Join the first creator batch</h3>
-                    <p style="color: #dce6f3; line-height: 1.8;">
-                        If you want faster music-to-video creation, better short-form output, and less manual editing, join the early access list and get updates when the product opens up.
-                    </p>
-                    <div class="hero-actions" style="margin-top:18px; margin-bottom:0;">
-                        <a href="mailto:skybomb77@gmail.com?subject=Kent%20%26%20KClaw%20Studio%20Early%20Access" class="btn btn-primary"><i class="fa-solid fa-envelope"></i> Join via Email</a>
-                        <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> Watch Product Updates</a>
-                    </div>
-                </article>
-                <article class="waitlist-box">
-                    <h3 style="margin-top:0;">Why join early?</h3>
-                    <ul class="waitlist-list">
-                        <li>Get notified when the first usable build is ready</li>
-                        <li>Help shape the template packs and workflow</li>
-                        <li>Get early-bird pricing before public rollout</li>
-                        <li>Perfect for creators, editors, and small brands testing short-form content</li>
-                    </ul>
-                </article>
-            </div>
-        </section>
-
         <section class="cta">
             <h2 style="margin-top:0;">Build faster. Publish faster. Grow faster.</h2>
             <p style="max-width:720px; margin: 0 auto 20px; color: #d9e2ee; line-height: 1.75;">
                 Kent & KClaw Studio is positioned around the features people actually pay for: speed, template quality, output quality, and less repetitive editing work.
             </p>
             <div class="hero-actions" style="justify-content:center; margin-bottom:0;">
-                <a href="mailto:skybomb77@gmail.com?subject=Kent%20%26%20KClaw%20Studio%20Demo" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Request a Demo</a>
-                <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> Follow the Build</a>
+                <a href="#waitlist" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Join the Waitlist</a>
+                <a href="mailto:skybomb77@gmail.com?subject=Kent%20%26%20KClaw%20Studio%20Demo" class="btn btn-secondary"><i class="fa-solid fa-paper-plane"></i> Request a Demo</a>
                 <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> Watch Updates</a>
             </div>
         </section>
