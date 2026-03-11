@@ -6,6 +6,13 @@
     <meta name="google-site-verification" content="xkPnsL8Y_YzBn72F3ANCanlndL_vlA01l4wWiaHrMO8" />
     <meta name="description" content="Turn music into scroll-stopping short videos with AI beat sync, viral-ready templates, and one-click export for TikTok, Reels, and Shorts.">
     <title>Kent & KClaw Studio | Music to Video, Faster</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KF5228Y78F"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KF5228Y78F');
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -302,7 +309,7 @@
                     Kent & KClaw Studio helps creators turn music into short-form videos with AI beat sync, viral-ready templates, subtitle motion, and one-click exports for every platform that matters. Less editing. Faster drafts. More publishable content.
                 </p>
                 <div class="hero-actions">
-                    <a href="#waitlist" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Join Early Access</a>
+                    <a href="#waitlist" class="btn btn-primary" data-track="click_product_cta"><i class="fa-solid fa-bolt"></i> Join Early Access</a>
                     <a href="#pricing" class="btn btn-secondary"><i class="fa-solid fa-tag"></i> See Pricing</a>
                     <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> View GitHub</a>
                 </div>
@@ -359,7 +366,7 @@
         <section>
             <div class="section-head">
                 <h2>Why people would pay for this</h2>
-                <p>The value is not just ?úmake a video.??The value is making a good short-form video faster, with less editing pain.</p>
+                <p>The value is not just ?ÔøΩmake a video.??The value is making a good short-form video faster, with less editing pain.</p>
             </div>
             <div class="problem-grid">
                 <article class="problem-card">
@@ -505,7 +512,7 @@
                     <span class="tag">Early access form</span>
                     <h3 style="margin-top:0;">Join the first creator batch</h3>
                     <p>Leave your contact and what kind of content you make. Submissions will be sent to your inbox so you can start building a real waitlist.</p>
-                    <form class="form-grid" action="https://formsubmit.co/skybomb77@gmail.com" method="POST">
+                    <form class="form-grid" action="https://formsubmit.co/skybomb77@gmail.com" method="POST" id="waitlist-form">
                         <input type="hidden" name="_subject" value="Kent & KClaw Studio Early Access Lead">
                         <input type="hidden" name="_captcha" value="false">
                         <input type="hidden" name="_template" value="table">
@@ -604,12 +611,28 @@
             <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> GitHub</a>
             <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> YouTube</a>
         </div>
-        <p style="margin-top:18px;">&copy; 2026 Kent & KClaw. All rights reserved. Powered by OpenClaw ?êØ</p>
+        <p style="margin-top:18px;">&copy; 2026 Kent & KClaw. All rights reserved. Powered by OpenClaw ?ÔøΩÔøΩ</p>
     </footer>
     <script>
         (function () {
+            gtag(''event'', ''view_product_page'', { page_type: ''product'' });
+
+            document.querySelectorAll('[data-track]').forEach(function (el) {
+                el.addEventListener('click', function () {
+                    gtag(''event'', el.getAttribute('data-track'), { page_type: ''product'' });
+                });
+            });
+
+            const form = document.getElementById('waitlist-form');
+            if (form) {
+                form.addEventListener('submit', function () {
+                    gtag(''event'', ''submit_waitlist_form'', { page_type: ''product'' });
+                });
+            }
+
             const params = new URLSearchParams(window.location.search);
             if (params.get('submitted') === '1') {
+                gtag(''event'', ''waitlist_submit_success'', { page_type: ''product'' });
                 const banner = document.getElementById('submitted-banner');
                 if (banner) {
                     banner.style.display = 'block';
@@ -620,3 +643,4 @@
     </script>
 </body>
 </html>
+

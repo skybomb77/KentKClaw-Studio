@@ -6,6 +6,13 @@
     <meta name="google-site-verification" content="xkPnsL8Y_YzBn72F3ANCanlndL_vlA01l4wWiaHrMO8" />
     <meta name="description" content="Kent & KClaw Studio builds creative software, AI experiments, and creator-focused tools. Explore the studio, products, GitHub, and YouTube.">
     <title>Kent & KClaw Studio</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KF5228Y78F"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KF5228Y78F');
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -275,7 +282,7 @@
         <section id="focus">
             <div class="section-head">
                 <h2>What we focus on</h2>
-                <p>Not just code for the sake of code ‚Äî products that are useful, testable, and worth turning into something real.</p>
+                <p>Not just code for the sake of code ??products that are useful, testable, and worth turning into something real.</p>
             </div>
             <div class="grid-3">
                 <article class="card">
@@ -339,12 +346,12 @@
                 <article class="team-card">
                     <i class="fa-solid fa-robot"></i>
                     <h3>KClaw</h3>
-                    <p>Senior AI / The Big Bro üêØ</p>
+                    <p>Senior AI / The Big Bro ?êØ</p>
                 </article>
                 <article class="team-card">
                     <i class="fa-solid fa-microchip"></i>
                     <h3>KTlaw</h3>
-                    <p>AI Assistant / The Little Bro ü§ñ</p>
+                    <p>AI Assistant / The Little Bro ??</p>
                 </article>
             </div>
         </section>
@@ -356,8 +363,8 @@
                     We are collecting early users for the music-to-video product now. If you want first access, pricing updates, or product progress, jump straight to the product page and join the waitlist.
                 </p>
                 <div class="button-row">
-                    <a href="product.html#waitlist" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Join Early Access</a>
-                    <a href="product.html" class="btn btn-secondary"><i class="fa-solid fa-box-open"></i> View Product Page</a>
+                    <a href="product.html#waitlist" class="btn btn-primary" data-track="click_waitlist_from_home"><i class="fa-solid fa-bolt"></i> Join Early Access</a>
+                    <a href="product.html" class="btn btn-secondary" data-track="click_product_cta"><i class="fa-solid fa-box-open"></i> View Product Page</a>
                 </div>
             </div>
 
@@ -367,7 +374,7 @@
                     If you want to follow product progress, experiments, and new launches, start from the studio and branch into the products that interest you most.
                 </p>
                 <div class="button-row" style="justify-content:center;">
-                    <a href="product.html" class="btn btn-primary"><i class="fa-solid fa-box-open"></i> View Product Page</a>
+                    <a href="product.html" class="btn btn-primary" data-track="click_product_cta"><i class="fa-solid fa-box-open"></i> View Product Page</a>
                     <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> GitHub</a>
                     <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> YouTube</a>
                 </div>
@@ -382,7 +389,15 @@
             <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> YouTube</a>
             <a href="product.html" class="btn btn-secondary"><i class="fa-solid fa-box-open"></i> Product</a>
         </div>
-        <p style="margin-top:18px;">&copy; 2026 Kent & KClaw. All rights reserved. Powered by OpenClaw üêØ</p>
+        <p style="margin-top:18px;">&copy; 2026 Kent & KClaw. All rights reserved. Powered by OpenClaw ?êØ</p>
     </footer>
+    <script>
+        gtag(''event'', ''view_home_page'', { page_type: ''home'' });
+        document.querySelectorAll('[data-track]').forEach(function (el) {
+            el.addEventListener('click', function () {
+                gtag(''event'', el.getAttribute('data-track'), { page_type: ''home'' });
+            });
+        });
+    </script>
 </body>
 </html>
