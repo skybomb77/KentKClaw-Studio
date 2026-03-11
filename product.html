@@ -121,10 +121,12 @@
             display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 20px;
             border-radius: 12px; border: 1px solid transparent; text-decoration: none; font-weight: 700; transition: 0.25s ease; cursor: pointer;
         }
-        .btn-primary { color: #fff; background: linear-gradient(135deg, #ff4da6, #7c5cff 55%, #38d5ff); box-shadow: 0 12px 28px rgba(255,77,166,0.30); }
-        .btn-primary:hover, .btn-secondary:hover { transform: translateY(-2px); }
+        .btn-primary { color: var(--text); background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); box-shadow: none; }
+        .btn-primary:hover { background: #7c5cff; border-color: #7c5cff; color: #fff; transform: translateY(-1px); }
+        .btn-primary:active { background: #ff4da6; border-color: #ff4da6; color: #fff; transform: translateY(0); }
         .btn-secondary { color: var(--text); border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.08); }
+        .btn-secondary:hover { background: #7c5cff; border-color: #7c5cff; color: #fff; transform: translateY(-1px); }
+        .btn-secondary:active { background: #38d5ff; border-color: #38d5ff; color: #07070d; transform: translateY(0); }
 
         .trust-row {
             display: flex; flex-wrap: wrap; gap: 14px 18px; color: #c6d4e5; font-size: 0.96rem;
