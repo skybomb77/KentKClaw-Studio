@@ -397,6 +397,37 @@
             font-size: 1.05rem;
         }
 
+        .waitlist {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 18px;
+            align-items: stretch;
+            margin-top: 8px;
+        }
+
+        .waitlist-card {
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(79,140,255,0.12), rgba(140,97,255,0.12));
+            border: 1px solid rgba(140,97,255,0.18);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .waitlist-box {
+            padding: 24px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .waitlist-list {
+            margin: 14px 0 0;
+            padding-left: 18px;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
         .cta {
             padding: 28px;
             text-align: center;
@@ -430,7 +461,8 @@
             .hero,
             .pricing,
             .grid-3,
-            .grid-2 {
+            .grid-2,
+            .waitlist {
                 grid-template-columns: 1fr;
             }
 
@@ -508,10 +540,11 @@
                 <div class="eyebrow"><i class="fa-solid fa-bolt"></i> Music to video, built for TikTok, Reels, and Shorts</div>
                 <h1>Turn songs into <span class="gradient-text">scroll-stopping videos</span> in minutes.</h1>
                 <p class="lead">
-                    Kent & KClaw Studio helps creators turn music into short-form videos with AI beat sync, viral-ready templates, subtitle motion, and one-click exports for every platform that matters.
+                    Kent & KClaw Studio helps creators turn music into short-form videos with AI beat sync, viral-ready templates, subtitle motion, and one-click exports for every platform that matters. Less editing. Faster drafts. More publishable content.
                 </p>
                 <div class="hero-actions">
-                    <a href="#pricing" class="btn btn-primary"><i class="fa-solid fa-rocket"></i> See Pricing</a>
+                    <a href="#waitlist" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Join Early Access</a>
+                    <a href="#pricing" class="btn btn-secondary"><i class="fa-solid fa-tag"></i> See Pricing</a>
                     <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> View GitHub</a>
                     <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> Watch YouTube</a>
                 </div>
@@ -701,13 +734,43 @@
             </div>
         </section>
 
+        <section id="waitlist">
+            <div class="section-head">
+                <h2>Start collecting demand before the product is finished</h2>
+                <p>Even before full launch, the site should do one job well: explain the value fast and turn interest into a waitlist, DM, or founder conversation.</p>
+            </div>
+            <div class="waitlist">
+                <article class="waitlist-card">
+                    <span class="tag">Early access</span>
+                    <h3 style="margin-top:0; font-size:1.5rem;">Join the first creator batch</h3>
+                    <p style="color: #dce6f3; line-height: 1.8;">
+                        If you want faster music-to-video creation, better short-form output, and less manual editing, join the early access list and get updates when the product opens up.
+                    </p>
+                    <div class="hero-actions" style="margin-top:18px; margin-bottom:0;">
+                        <a href="mailto:skybomb77@gmail.com?subject=Kent%20%26%20KClaw%20Studio%20Early%20Access" class="btn btn-primary"><i class="fa-solid fa-envelope"></i> Join via Email</a>
+                        <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> Watch Product Updates</a>
+                    </div>
+                </article>
+                <article class="waitlist-box">
+                    <h3 style="margin-top:0;">Why join early?</h3>
+                    <ul class="waitlist-list">
+                        <li>Get notified when the first usable build is ready</li>
+                        <li>Help shape the template packs and workflow</li>
+                        <li>Get early-bird pricing before public rollout</li>
+                        <li>Perfect for creators, editors, and small brands testing short-form content</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
         <section class="cta">
             <h2 style="margin-top:0;">Build faster. Publish faster. Grow faster.</h2>
             <p style="max-width:720px; margin: 0 auto 20px; color: #d9e2ee; line-height: 1.75;">
-                If your product goal is to turn music into marketable short video content, this landing page should sell speed, simplicity, and output quality first. That is where the money is.
+                Kent & KClaw Studio is positioned around the features people actually pay for: speed, template quality, output quality, and less repetitive editing work.
             </p>
             <div class="hero-actions" style="justify-content:center; margin-bottom:0;">
-                <a href="https://github.com/skybomb77" target="_blank" class="btn btn-primary"><i class="fab fa-github"></i> Follow the Build</a>
+                <a href="mailto:skybomb77@gmail.com?subject=Kent%20%26%20KClaw%20Studio%20Demo" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Request a Demo</a>
+                <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> Follow the Build</a>
                 <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> Watch Updates</a>
             </div>
         </section>
