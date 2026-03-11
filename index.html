@@ -10,16 +10,24 @@
     <style>
         :root {
             --bg: #0b1020;
+            --bg-2: #121a2d;
             --card: rgba(19, 26, 46, 0.88);
+            --card-soft: rgba(24, 33, 58, 0.78);
             --line: rgba(255,255,255,0.1);
+            --line-strong: rgba(110,168,254,0.18);
             --text: #e6edf3;
-            --muted: #98a6b8;
+            --muted: #9aabc0;
             --primary: #6ea8fe;
             --accent: #d2a8ff;
+            --accent-2: #8c61ff;
+            --glow: rgba(110,168,254,0.22);
             --shadow: 0 20px 60px rgba(0,0,0,0.35);
+            --section-glow: linear-gradient(135deg, rgba(79,140,255,0.10), rgba(140,97,255,0.10));
         }
+
         * { box-sizing: border-box; }
         html { scroll-behavior: smooth; }
+
         body {
             margin: 0;
             color: var(--text);
@@ -27,32 +35,40 @@
             background:
                 radial-gradient(circle at top left, rgba(88,166,255,0.16), transparent 30%),
                 radial-gradient(circle at top right, rgba(210,168,255,0.14), transparent 28%),
-                linear-gradient(-45deg, #0b1020, #121a2d, #0e1627, #160d27);
+                linear-gradient(-45deg, var(--bg), var(--bg-2), #0e1627, #160d27);
             background-size: 100% 100%, 100% 100%, 400% 400%;
             animation: gradientBG 18s ease infinite;
         }
+
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
         a { color: inherit; }
         .wrap { width: min(1160px, calc(100% - 32px)); margin: 0 auto; }
+
         .topbar {
             position: sticky; top: 0; z-index: 20; backdrop-filter: blur(16px);
             background: rgba(11,16,32,0.72); border-bottom: 1px solid rgba(255,255,255,0.06);
         }
+
         .topbar-inner {
             display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0;
         }
+
         .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+
         .brand-badge {
             width: 38px; height: 38px; border-radius: 12px;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             display: grid; place-items: center; color: white;
             box-shadow: 0 10px 24px rgba(110,168,254,0.25);
         }
+
         .nav { display: flex; gap: 10px; color: var(--muted); font-size: 0.95rem; align-items: center; }
+
         .nav a {
             text-decoration: none;
             padding: 10px 14px;
@@ -60,68 +76,147 @@
             border: 1px solid transparent;
             transition: 0.22s ease;
         }
+
         .nav a:hover {
             color: var(--text);
             background: rgba(255,255,255,0.05);
             border-color: rgba(255,255,255,0.08);
         }
+
         .nav .nav-cta {
             color: #fff;
             background: linear-gradient(135deg, #4f8cff, #8c61ff);
             box-shadow: 0 10px 24px rgba(79,140,255,0.22);
         }
+
         .hero {
             padding: 78px 0 54px;
             display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 28px; align-items: center;
         }
+
         .eyebrow {
             display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px;
             border: 1px solid rgba(110,168,254,0.22); border-radius: 999px;
             color: #c9d7ea; background: rgba(110,168,254,0.08); font-size: 0.95rem; margin-bottom: 18px;
         }
+
         h1 {
-            margin: 0 0 18px; font-size: clamp(2.8rem, 6vw, 4.8rem); line-height: 1.04; letter-spacing: -0.04em;
+            margin: 0 0 18px;
+            font-size: clamp(2.8rem, 6vw, 4.8rem);
+            line-height: 1.04;
+            letter-spacing: -0.04em;
         }
-        .gradient-text {
+
+        .gradient-text,
+        .section-head h2,
+        .team-title {
             background: linear-gradient(90deg, #8cc2ff, #d2a8ff 70%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+
         .lead { margin: 0 0 26px; color: var(--muted); font-size: 1.12rem; line-height: 1.8; max-width: 760px; }
         .hero-actions, .button-row { display: flex; flex-wrap: wrap; gap: 14px; }
+
         .btn {
             display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 20px;
             border-radius: 12px; border: 1px solid transparent; text-decoration: none; font-weight: 700; transition: 0.25s ease;
         }
-        .btn-primary { color: #fff; background: linear-gradient(135deg, #4f8cff, #8c61ff); box-shadow: 0 12px 28px rgba(79,140,255,0.28); }
-        .btn-primary:hover, .btn-secondary:hover { transform: translateY(-2px); }
-        .btn-secondary { color: var(--text); border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
-        .hero-card, .card, .cta {
-            background: var(--card); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow);
+
+        .btn-primary {
+            color: #fff;
+            background: linear-gradient(135deg, #4f8cff, #8c61ff);
+            box-shadow: 0 12px 28px rgba(79,140,255,0.28);
         }
-        .hero-card { padding: 24px; }
+
+        .btn-primary:hover, .btn-secondary:hover { transform: translateY(-2px); }
+
+        .btn-secondary {
+            color: var(--text);
+            border-color: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+        }
+
+        .hero-card, .card, .cta, .team-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-card {
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(79,140,255,0.10), rgba(140,97,255,0.10)), var(--card);
+            border-color: var(--line-strong);
+        }
+
         .hero-list { margin: 16px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.8; }
         section { padding: 28px 0; }
+
         .section-head { text-align: center; margin-bottom: 26px; }
         .section-head h2 { margin: 0 0 10px; font-size: clamp(1.8rem, 4vw, 2.8rem); }
         .section-head p { margin: 0 auto; max-width: 760px; color: var(--muted); line-height: 1.7; }
+
         .grid-3, .grid-2 { display: grid; gap: 18px; }
         .grid-3 { grid-template-columns: repeat(3, 1fr); }
         .grid-2 { grid-template-columns: repeat(2, 1fr); }
-        .card { padding: 22px; }
+
+        .card {
+            padding: 22px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)), var(--card-soft);
+        }
+
         .card i {
             width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; margin-bottom: 16px;
             color: white; background: linear-gradient(135deg, rgba(110,168,254,0.9), rgba(210,168,255,0.9));
+            box-shadow: 0 10px 24px rgba(110,168,254,0.18);
         }
-        .card h3 { margin: 0 0 10px; font-size: 1.2rem; }
+
+        .card h3 { margin: 0 0 10px; font-size: 1.2rem; color: #f0f5fb; }
         .card p, .card li { color: var(--muted); line-height: 1.7; }
+
         .highlight {
-            border: 1px solid rgba(110,168,254,0.2); background: linear-gradient(135deg, rgba(79,140,255,0.10), rgba(140,97,255,0.10));
+            border: 1px solid rgba(110,168,254,0.24);
+            background: linear-gradient(135deg, rgba(79,140,255,0.14), rgba(140,97,255,0.14)), var(--card);
+            box-shadow: 0 22px 52px rgba(79,140,255,0.14);
         }
-        .cta { padding: 30px; text-align: center; margin: 30px 0 48px; }
+
+        .cta {
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0 48px;
+            background: linear-gradient(135deg, rgba(79,140,255,0.16), rgba(140,97,255,0.16));
+            border-color: rgba(140,97,255,0.2);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .team-card {
+            padding: 24px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)), var(--card-soft);
+        }
+
+        .team-card i {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .team-card h3 { margin: 0 0 8px; }
+        .team-card p { margin: 0; color: var(--muted); }
+
         .footer { padding: 28px 0 40px; text-align: center; color: #7f8ca0; font-size: 0.95rem; }
         .socials { display: flex; justify-content: center; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+
         @media (max-width: 920px) {
-            .hero, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+            .hero, .grid-3, .grid-2, .team-grid { grid-template-columns: 1fr; }
             .nav { display: none; }
         }
     </style>
@@ -159,7 +254,7 @@
                 </div>
             </div>
             <div class="hero-card">
-                <h3 style="margin-top:0;">What the studio is about</h3>
+                <h3 style="margin-top:0; color:#f0f5fb;">What the studio is about</h3>
                 <ul class="hero-list">
                     <li>AI-powered creator tools</li>
                     <li>Music-to-video and short-form content workflows</li>
@@ -222,6 +317,30 @@
             </div>
         </section>
 
+        <section id="team">
+            <div class="section-head">
+                <h2 class="team-title">Who We Are</h2>
+                <p>The brains behind the innovation.</p>
+            </div>
+            <div class="team-grid">
+                <article class="team-card">
+                    <i class="fa-solid fa-crown"></i>
+                    <h3>Kent</h3>
+                    <p>Boss & Founder</p>
+                </article>
+                <article class="team-card">
+                    <i class="fa-solid fa-robot"></i>
+                    <h3>KClaw</h3>
+                    <p>Senior AI / The Big Bro 🐯</p>
+                </article>
+                <article class="team-card">
+                    <i class="fa-solid fa-microchip"></i>
+                    <h3>KTlaw</h3>
+                    <p>AI Assistant / The Little Bro 🤖</p>
+                </article>
+            </div>
+        </section>
+
         <section id="contact" class="cta">
             <h2 style="margin-top:0;">Follow the studio and watch what ships next</h2>
             <p style="max-width:740px; margin:0 auto 20px; color:#d9e2ee; line-height:1.8;">
@@ -233,31 +352,6 @@
                 <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> YouTube</a>
             </div>
         </section>
-    
-        <section id="team" style="margin-top: 5rem; text-align: center;">
-            <div class="section-head">
-                <h2>Who We Are</h2>
-                <p>The brains behind the innovation.</p>
-            </div>
-            <div class="features-grid" style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
-                <article class="feature-card" style="min-width: 200px;">
-                    <i class="fas fa-crown" style="font-size: 2.5rem; color: #58a6ff; margin-bottom: 1rem;"></i>
-                    <h3>Kent</h3>
-                    <p style="margin-top: 0.5rem; color: #8b949e;">Boss & Founder</p>
-                </article>
-                <article class="feature-card" style="min-width: 200px;">
-                    <i class="fas fa-robot" style="font-size: 2.5rem; color: #d2a8ff; margin-bottom: 1rem;"></i>
-                    <h3>KClaw</h3>
-                    <p style="margin-top: 0.5rem; color: #8b949e;">Senior AI / The Big Bro 🐯</p>
-                </article>
-                <article class="feature-card" style="min-width: 200px;">
-                    <i class="fas fa-microchip" style="font-size: 2.5rem; color: #3fb950; margin-bottom: 1rem;"></i>
-                    <h3>KTlaw</h3>
-                    <p style="margin-top: 0.5rem; color: #8b949e;">AI Assistant / The Little Bro 🤖</p>
-                </article>
-            </div>
-        </section>
-
     </main>
 
     <footer class="footer wrap">
