@@ -392,15 +392,17 @@
         <p style="margin-top:18px;">&copy; 2026 Kent & KClaw. All rights reserved. Powered by OpenClaw</p>
     </footer>
     <script>
-        gtag('event', 'view_home_page'', { page_type: ''home' });
+        gtag('event', 'view_home_page', { page_type: 'home' });
         document.querySelectorAll('[data-track]').forEach(function (el) {
             el.addEventListener('click', function () {
-                gtag(''event'', el.getAttribute('data-track'), { page_type: ''home' });
+                gtag('event', el.getAttribute('data-track'), { page_type: 'home' });
             });
         });
     </script>
 </body>
 </html>
+
+
 
 
 
