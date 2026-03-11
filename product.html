@@ -124,7 +124,7 @@
         }
         .mini-points span, .trust-row span { display: inline-flex; align-items: center; gap: 8px; }
 
-        .hero-card, .card, .pricing-card, .faq-item, .proof-card, .form-card, .problem-card {
+        .hero-card, .card, .pricing-card, .faq-item, .proof-card, .form-card, .problem-card, .success-banner {
             background: var(--card);
             border: 1px solid var(--line);
             border-radius: 22px;
@@ -203,6 +203,21 @@
         .faq-item { padding: 20px; }
         .faq-item h3 { font-size: 1.05rem; }
 
+        .success-banner {
+            display: none;
+            padding: 18px 20px;
+            margin: 22px 0 8px;
+            background: linear-gradient(135deg, rgba(46,204,113,0.16), rgba(79,140,255,0.12)), var(--card);
+            border-color: rgba(46,204,113,0.26);
+            color: #dff7e8;
+        }
+
+        .success-banner strong {
+            display: block;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+
         .form-card {
             padding: 24px;
             background: linear-gradient(135deg, rgba(79,140,255,0.14), rgba(140,97,255,0.14)), var(--card);
@@ -263,7 +278,7 @@
                 <span>Kent & KClaw Studio</span>
             </div>
             <nav class="nav">
-                <a href="index.html" class="nav-home">‚Üê Home</a>
+                <a href="index.html" class="nav-home">??Home</a>
                 <a href="#features">Features</a>
                 <a href="#workflow">Workflow</a>
                 <a href="#pricing">Pricing</a>
@@ -274,6 +289,11 @@
     </header>
 
     <main class="wrap">
+        <div id="submitted-banner" class="success-banner">
+            <strong>You're on the list.</strong>
+            Your form was submitted successfully. Check your inbox if FormSubmit asks for first-time email confirmation, then future leads should arrive normally.
+        </div>
+
         <section class="hero">
             <div>
                 <div class="eyebrow"><i class="fa-solid fa-bolt"></i> Music to video, built for TikTok, Reels, and Shorts</div>
@@ -339,7 +359,7 @@
         <section>
             <div class="section-head">
                 <h2>Why people would pay for this</h2>
-                <p>The value is not just ‚Äúmake a video.‚Äù The value is making a good short-form video faster, with less editing pain.</p>
+                <p>The value is not just ?úmake a video.??The value is making a good short-form video faster, with less editing pain.</p>
             </div>
             <div class="problem-grid">
                 <article class="problem-card">
@@ -584,7 +604,19 @@
             <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> GitHub</a>
             <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> YouTube</a>
         </div>
-        <p style="margin-top:18px;">&copy; 2026 Kent & KClaw. All rights reserved. Powered by OpenClaw üêØ</p>
+        <p style="margin-top:18px;">&copy; 2026 Kent & KClaw. All rights reserved. Powered by OpenClaw ?êØ</p>
     </footer>
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('submitted') === '1') {
+                const banner = document.getElementById('submitted-banner');
+                if (banner) {
+                    banner.style.display = 'block';
+                    banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        })();
+    </script>
 </body>
 </html>

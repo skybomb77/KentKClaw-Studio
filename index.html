@@ -137,7 +137,7 @@
             background: rgba(255,255,255,0.04);
         }
 
-        .hero-card, .card, .cta, .team-card {
+        .hero-card, .card, .cta, .team-card, .lead-strip {
             background: var(--card);
             border: 1px solid var(--line);
             border-radius: 24px;
@@ -179,6 +179,14 @@
             border: 1px solid rgba(110,168,254,0.24);
             background: linear-gradient(135deg, rgba(79,140,255,0.14), rgba(140,97,255,0.14)), var(--card);
             box-shadow: 0 22px 52px rgba(79,140,255,0.14);
+        }
+
+        .lead-strip {
+            padding: 24px;
+            margin: 8px 0 12px;
+            background: linear-gradient(135deg, rgba(79,140,255,0.16), rgba(140,97,255,0.16));
+            border-color: rgba(140,97,255,0.2);
+            text-align: left;
         }
 
         .cta {
@@ -341,15 +349,28 @@
             </div>
         </section>
 
-        <section id="contact" class="cta">
-            <h2 style="margin-top:0;">Follow the studio and watch what ships next</h2>
-            <p style="max-width:740px; margin:0 auto 20px; color:#d9e2ee; line-height:1.8;">
-                If you want to follow product progress, experiments, and new launches, start from the studio and branch into the products that interest you most.
-            </p>
-            <div class="button-row" style="justify-content:center;">
-                <a href="product.html" class="btn btn-primary"><i class="fa-solid fa-box-open"></i> View Product Page</a>
-                <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> GitHub</a>
-                <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> YouTube</a>
+        <section id="contact">
+            <div class="lead-strip">
+                <h2 style="margin-top:0;">Want updates when the product opens up?</h2>
+                <p style="max-width:760px; margin:0 0 18px; color:#d9e2ee; line-height:1.8;">
+                    We are collecting early users for the music-to-video product now. If you want first access, pricing updates, or product progress, jump straight to the product page and join the waitlist.
+                </p>
+                <div class="button-row">
+                    <a href="product.html#waitlist" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Join Early Access</a>
+                    <a href="product.html" class="btn btn-secondary"><i class="fa-solid fa-box-open"></i> View Product Page</a>
+                </div>
+            </div>
+
+            <div class="cta">
+                <h2 style="margin-top:0;">Follow the studio and watch what ships next</h2>
+                <p style="max-width:740px; margin:0 auto 20px; color:#d9e2ee; line-height:1.8;">
+                    If you want to follow product progress, experiments, and new launches, start from the studio and branch into the products that interest you most.
+                </p>
+                <div class="button-row" style="justify-content:center;">
+                    <a href="product.html" class="btn btn-primary"><i class="fa-solid fa-box-open"></i> View Product Page</a>
+                    <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> GitHub</a>
+                    <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> YouTube</a>
+                </div>
             </div>
         </section>
     </main>
