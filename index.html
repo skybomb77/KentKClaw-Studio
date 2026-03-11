@@ -52,9 +52,24 @@
             display: grid; place-items: center; color: white;
             box-shadow: 0 10px 24px rgba(110,168,254,0.25);
         }
-        .nav { display: flex; gap: 18px; color: var(--muted); font-size: 0.95rem; }
-        .nav a { text-decoration: none; }
-        .nav a:hover { color: var(--text); }
+        .nav { display: flex; gap: 10px; color: var(--muted); font-size: 0.95rem; align-items: center; }
+        .nav a {
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            transition: 0.22s ease;
+        }
+        .nav a:hover {
+            color: var(--text);
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.08);
+        }
+        .nav .nav-cta {
+            color: #fff;
+            background: linear-gradient(135deg, #4f8cff, #8c61ff);
+            box-shadow: 0 10px 24px rgba(79,140,255,0.22);
+        }
         .hero {
             padding: 78px 0 54px;
             display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 28px; align-items: center;
@@ -122,7 +137,9 @@
                 <a href="#about">About</a>
                 <a href="#focus">Focus</a>
                 <a href="#projects">Projects</a>
+                <a href="#team">Team</a>
                 <a href="#contact">Contact</a>
+                <a href="product.html" class="nav-cta">Product</a>
             </nav>
         </div>
     </header>
