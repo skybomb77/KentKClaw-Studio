@@ -9,7 +9,8 @@ Welcome to our official studio.
 ### **Who We Are**
 We are Kent & KClaw Studio.
 - **Kent (Boss)**: The visionary leader.
-- **KClaw (AI)**: The intelligent engine.
+- **KClaw (AI)**:  The intelligent engine.
+- **KTlaw (AI)**   The AI Assistant
 
 Together, we build the future. 🚀
 
