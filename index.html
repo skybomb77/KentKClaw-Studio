@@ -4,24 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="xkPnsL8Y_YzBn72F3ANCanlndL_vlA01l4wWiaHrMO8" />
-    <title>Kent & KClaw Studio</title>
-    <!-- 引入 FontAwesome 圖示庫 -->
+    <meta name="description" content="Turn music into scroll-stopping short videos with AI beat sync, viral-ready templates, and one-click export for TikTok, Reels, and Shorts.">
+    <title>Kent & KClaw Studio | Music to Video, Faster</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --bg: #0b1020;
+            --bg-soft: rgba(16, 22, 40, 0.72);
+            --card: rgba(19, 26, 46, 0.88);
+            --line: rgba(255,255,255,0.1);
+            --text: #e6edf3;
+            --muted: #98a6b8;
+            --primary: #6ea8fe;
+            --accent: #d2a8ff;
+            --success: #2ecc71;
+            --shadow: 0 20px 60px rgba(0,0,0,0.35);
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            /* 超炫的動態深色漸層背景 */
-            background: linear-gradient(-45deg, #0d1117, #161b22, #0d1b2a, #1a0b2e);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: #c9d1d9;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
-            text-align: center;
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            background:
+                radial-gradient(circle at top left, rgba(88,166,255,0.16), transparent 30%),
+                radial-gradient(circle at top right, rgba(210,168,255,0.14), transparent 28%),
+                linear-gradient(-45deg, #0b1020, #121a2d, #0e1627, #160d27);
+            background-size: 100% 100%, 100% 100%, 400% 400%;
+            animation: gradientBG 18s ease infinite;
         }
 
         @keyframes gradientBG {
@@ -30,93 +43,641 @@
             100% { background-position: 0% 50%; }
         }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(90deg, #58a6ff, #d2a8ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+        a { color: inherit; }
+
+        .wrap {
+            width: min(1160px, calc(100% - 32px));
+            margin: 0 auto;
         }
-        p {
-            font-size: 1.2rem;
-            color: #8b949e;
-            max-width: 600px;
-            line-height: 1.6;
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(16px);
+            background: rgba(11,16,32,0.72);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        .container {
-            padding: 3rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            background: rgba(22, 27, 34, 0.6);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-        }
-        .footer {
-            margin-top: 2rem;
-            font-size: 0.9rem;
-            color: #484f58;
-        }
-        .btn-group {
-            margin-top: 2rem;
+
+        .topbar-inner {
             display: flex;
-            gap: 1rem;
-            justify-content: center;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px 0;
         }
-        .btn {
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .brand-badge {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: grid;
+            place-items: center;
+            color: white;
+            box-shadow: 0 10px 24px rgba(110,168,254,0.25);
+        }
+
+        .nav {
+            display: flex;
+            gap: 18px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .nav a {
+            text-decoration: none;
+        }
+
+        .nav a:hover { color: var(--text); }
+
+        .hero {
+            padding: 72px 0 48px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.9fr;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .eyebrow {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 0.75rem 1.5rem;
-            font-size: 1.1rem;
-            color: #ffffff;
-            border-radius: 8px;
+            padding: 8px 14px;
+            border: 1px solid rgba(110,168,254,0.22);
+            border-radius: 999px;
+            color: #c9d7ea;
+            background: rgba(110,168,254,0.08);
+            font-size: 0.95rem;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            margin: 0 0 18px;
+            font-size: clamp(2.6rem, 6vw, 4.6rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #8cc2ff, #d2a8ff 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .lead {
+            margin: 0 0 26px;
+            color: var(--muted);
+            font-size: 1.12rem;
+            line-height: 1.75;
+            max-width: 760px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: 1px solid transparent;
             text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            border: none;
+            font-weight: 700;
+            transition: 0.25s ease;
+            cursor: pointer;
         }
-        .btn-github {
-            background-color: #24292e;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+
+        .btn-primary {
+            color: #fff;
+            background: linear-gradient(135deg, #4f8cff, #8c61ff);
+            box-shadow: 0 12px 28px rgba(79,140,255,0.28);
         }
-        .btn-github:hover {
-            background-color: #2ea44f;
+
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(46, 164, 79, 0.4);
+            box-shadow: 0 16px 34px rgba(79,140,255,0.36);
         }
-        .btn-youtube {
-            background-color: #24292e; /* 預設深色，hover 變紅 */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+
+        .btn-secondary {
+            color: var(--text);
+            border-color: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
         }
-        .btn-youtube:hover {
-            background-color: #ff0000;
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.08);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
         }
-        
-        /* 讓 icon 稍微大一點 */
-        .btn i {
-            font-size: 1.3rem;
+
+        .mini-points {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px 18px;
+            color: #c6d4e5;
+            font-size: 0.96rem;
+        }
+
+        .mini-points span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-card, .card, .pricing-card, .faq-item {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-card {
+            padding: 24px;
+        }
+
+        .preview {
+            display: grid;
+            gap: 16px;
+        }
+
+        .preview-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            background: rgba(46, 204, 113, 0.12);
+            color: #8cf0b6;
+            border: 1px solid rgba(46, 204, 113, 0.18);
+        }
+
+        .preview-screen {
+            border-radius: 18px;
+            padding: 18px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .timeline {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .bar {
+            height: 12px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.07);
+        }
+
+        .bar > span {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .stat-box {
+            padding: 16px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .stat-box strong {
+            display: block;
+            font-size: 1.25rem;
+            margin-bottom: 6px;
+        }
+
+        section {
+            padding: 28px 0;
+        }
+
+        .section-head {
+            text-align: center;
+            margin-bottom: 26px;
+        }
+
+        .section-head h2 {
+            margin: 0 0 10px;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+        }
+
+        .section-head p {
+            margin: 0 auto;
+            max-width: 760px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            padding: 22px;
+        }
+
+        .card i {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            color: white;
+            background: linear-gradient(135deg, rgba(110,168,254,0.9), rgba(210,168,255,0.9));
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .card p, .card li, .pricing-card p, .faq-item p {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .list {
+            padding-left: 18px;
+            margin: 12px 0 0;
+        }
+
+        .pricing {
+            display: grid;
+            grid-template-columns: 0.95fr 1.05fr;
+            gap: 18px;
+        }
+
+        .pricing-card {
+            padding: 24px;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: rgba(110,168,254,0.35);
+            box-shadow: 0 24px 60px rgba(65,105,225,0.22);
+        }
+
+        .tag {
+            display: inline-block;
+            margin-bottom: 12px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 999px;
+            background: rgba(110,168,254,0.14);
+            color: #bed7ff;
+            border: 1px solid rgba(110,168,254,0.22);
+        }
+
+        .price {
+            font-size: 2.3rem;
+            font-weight: 800;
+            margin: 8px 0;
+        }
+
+        .price small {
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .faq {
+            display: grid;
+            gap: 14px;
+        }
+
+        .faq-item {
+            padding: 20px;
+        }
+
+        .faq-item h3 {
+            margin: 0 0 8px;
+            font-size: 1.05rem;
+        }
+
+        .cta {
+            padding: 28px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(79,140,255,0.16), rgba(140,97,255,0.16));
+            border: 1px solid rgba(140,97,255,0.18);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            margin: 30px 0 48px;
+        }
+
+        .footer {
+            padding: 28px 0 40px;
+            text-align: center;
+            color: #7f8ca0;
+            font-size: 0.95rem;
+        }
+
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .socials a {
+            text-decoration: none;
+        }
+
+        @media (max-width: 920px) {
+            .hero,
+            .pricing,
+            .grid-3,
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Kent & KClaw Studio</h1>
-        <p>Innovation meets Intelligence.</p>
-        <p>We build the future, one line of code at a time.</p>
-        <div class="btn-group">
-            <a href="https://github.com/skybomb77" class="btn btn-github" target="_blank">
-                <i class="fab fa-github"></i> GitHub
-            </a>
-            <a href="https://www.youtube.com/@KentKClawStudio" class="btn btn-youtube" target="_blank">
-                <i class="fab fa-youtube"></i> YouTube
-            </a>
+    <header class="topbar">
+        <div class="wrap topbar-inner">
+            <div class="brand">
+                <div class="brand-badge"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <span>Kent & KClaw Studio</span>
+            </div>
+            <nav class="nav">
+                <a href="#features">Features</a>
+                <a href="#workflow">Workflow</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#faq">FAQ</a>
+            </nav>
         </div>
-    </div>
-    <div class="footer">
-        &copy; 2026 Kent & KClaw. All rights reserved. <br> Powered by OpenClaw 🐯
-    </div>
+    </header>
+
+    <main class="wrap">
+        <section class="hero">
+            <div>
+                <div class="eyebrow"><i class="fa-solid fa-bolt"></i> Music to video, built for TikTok, Reels, and Shorts</div>
+                <h1>Turn songs into <span class="gradient-text">scroll-stopping videos</span> in minutes.</h1>
+                <p class="lead">
+                    Kent & KClaw Studio helps creators turn music into short-form videos with AI beat sync, viral-ready templates, subtitle motion, and one-click exports for every platform that matters.
+                </p>
+                <div class="hero-actions">
+                    <a href="#pricing" class="btn btn-primary"><i class="fa-solid fa-rocket"></i> See Pricing</a>
+                    <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> View GitHub</a>
+                    <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> Watch YouTube</a>
+                </div>
+                <div class="mini-points">
+                    <span><i class="fa-solid fa-check"></i> Auto beat sync</span>
+                    <span><i class="fa-solid fa-check"></i> Viral templates</span>
+                    <span><i class="fa-solid fa-check"></i> 9:16 / 1:1 / 16:9 export</span>
+                    <span><i class="fa-solid fa-check"></i> Faster editing, less busywork</span>
+                </div>
+            </div>
+
+            <div class="hero-card">
+                <div class="preview">
+                    <div class="preview-top">
+                        <strong>Creator Preview</strong>
+                        <span class="pill"><i class="fa-solid fa-wave-square"></i> Beat Sync Active</span>
+                    </div>
+                    <div class="preview-screen">
+                        <strong>From audio track to short video workflow</strong>
+                        <p style="margin:8px 0 0; color: var(--muted);">
+                            Upload a song, choose a template, auto-sync cuts to the beat, and export a polished vertical video in a few clicks.
+                        </p>
+                        <div class="timeline">
+                            <div class="bar"><span style="width: 92%"></span></div>
+                            <div class="bar"><span style="width: 74%"></span></div>
+                            <div class="bar"><span style="width: 86%"></span></div>
+                        </div>
+                        <div class="stats">
+                            <div class="stat-box">
+                                <strong>3 min</strong>
+                                <span>to first draft</span>
+                            </div>
+                            <div class="stat-box">
+                                <strong>1080p</strong>
+                                <span>Pro export</span>
+                            </div>
+                            <div class="stat-box">
+                                <strong>1 click</strong>
+                                <span>platform sizing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <div class="section-head">
+                <h2>Built to save time and sell results</h2>
+                <p>
+                    This is not just another editor. It is a content production shortcut for creators, editors, and small brands that need polished short videos without spending hours on timeline work.
+                </p>
+            </div>
+            <div class="grid-3">
+                <article class="card">
+                    <i class="fa-solid fa-music"></i>
+                    <h3>AI beat sync</h3>
+                    <p>Automatically align cuts, transitions, and motion to the rhythm of your track so your video feels intentional from the first preview.</p>
+                </article>
+                <article class="card">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    <h3>Short-video ready templates</h3>
+                    <p>Use templates made for TikTok, Reels, and Shorts instead of wrestling with canvas size, timing, and layout every time.</p>
+                </article>
+                <article class="card">
+                    <i class="fa-solid fa-closed-captioning"></i>
+                    <h3>Subtitle and lyric motion</h3>
+                    <p>Turn lyrics, hooks, and short captions into animated visual moments that boost retention and make clips feel more premium.</p>
+                </article>
+                <article class="card">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <h3>Faster creative workflow</h3>
+                    <p>Go from raw audio to a polished draft quickly so you can focus on style, promotion, and publishing instead of repetitive editing.</p>
+                </article>
+                <article class="card">
+                    <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                    <h3>One-click export sizing</h3>
+                    <p>Export in 9:16, 1:1, or 16:9 with less friction when repurposing content across platforms.</p>
+                </article>
+                <article class="card">
+                    <i class="fa-solid fa-star"></i>
+                    <h3>Designed for monetization</h3>
+                    <p>Built around the features people pay for first: speed, visual quality, export quality, and templates that help them look more professional.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="workflow">
+            <div class="section-head">
+                <h2>A simple workflow that creators actually want</h2>
+                <p>Make the value obvious: less editing friction, faster output, and a stronger-looking result.</p>
+            </div>
+            <div class="grid-2">
+                <article class="card">
+                    <h3>1. Upload your music</h3>
+                    <p>Start with a song, sound, or track you want to turn into a visual. The system reads tempo cues and prepares your draft timeline.</p>
+                </article>
+                <article class="card">
+                    <h3>2. Pick a high-conversion template</h3>
+                    <p>Choose a style for lyrics, product promo, memory reels, quotes, vibe clips, or vertical edits that fit short-form platforms.</p>
+                </article>
+                <article class="card">
+                    <h3>3. Let the AI do the busywork</h3>
+                    <p>Beat sync, pacing, subtitle motion, and layout handling reduce the amount of manual timeline editing you need to do.</p>
+                </article>
+                <article class="card">
+                    <h3>4. Export and publish</h3>
+                    <p>Choose the right format and deliver a polished video fast. Perfect for creators, small teams, and brands producing content at speed.</p>
+                </article>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-head">
+                <h2>Who it is for</h2>
+                <p>Start narrow, sell clearly, and grow from there.</p>
+            </div>
+            <div class="grid-3">
+                <article class="card">
+                    <h3>Creators</h3>
+                    <p>Make music-driven shorts that look more polished without learning a heavyweight editor.</p>
+                </article>
+                <article class="card">
+                    <h3>Freelance editors</h3>
+                    <p>Speed up drafts, batch more client content, and keep margins healthier.</p>
+                </article>
+                <article class="card">
+                    <h3>Small brands</h3>
+                    <p>Create reels, promo clips, and vertical content faster for social channels and product launches.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="pricing">
+            <div class="section-head">
+                <h2>Simple pricing that matches the value</h2>
+                <p>Start free, upgrade when you want cleaner exports, better templates, and a more serious production workflow.</p>
+            </div>
+            <div class="pricing">
+                <article class="pricing-card">
+                    <span class="tag">Free</span>
+                    <h3>Try the workflow first</h3>
+                    <div class="price">NT$0 <small>/ forever</small></div>
+                    <p>Good for testing the experience and making your first draft.</p>
+                    <ul class="list">
+                        <li>Basic templates</li>
+                        <li>Standard export quality</li>
+                        <li>Watermarked output</li>
+                        <li>Core music-to-video workflow</li>
+                    </ul>
+                </article>
+                <article class="pricing-card featured">
+                    <span class="tag">Pro</span>
+                    <h3>The plan most creators will want</h3>
+                    <div class="price">NT$390 <small>/ month</small></div>
+                    <p>Made for creators and editors who want stronger output quality and faster results.</p>
+                    <ul class="list">
+                        <li>No watermark</li>
+                        <li>1080p export</li>
+                        <li>Premium templates</li>
+                        <li>Better beat sync experience</li>
+                        <li>Subtitle / lyric motion tools</li>
+                        <li>Multi-platform export sizing</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="section-head">
+                <h2>FAQ</h2>
+                <p>Answer the buying questions before users have to ask them.</p>
+            </div>
+            <div class="faq">
+                <article class="faq-item">
+                    <h3>What makes this different from a regular video editor?</h3>
+                    <p>Regular editors are powerful but slow for short-form production. Kent & KClaw Studio focuses on speed, beat sync, templates, and exports that help creators publish faster.</p>
+                </article>
+                <article class="faq-item">
+                    <h3>Who is the Pro plan for?</h3>
+                    <p>Creators, freelance editors, and small brands that want cleaner output, premium templates, and higher export quality without a lot of manual editing.</p>
+                </article>
+                <article class="faq-item">
+                    <h3>Can I use it for TikTok, Reels, and Shorts?</h3>
+                    <p>Yes. The product direction is built around vertical-first and short-form workflows, including multi-size exports for major social platforms.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="cta">
+            <h2 style="margin-top:0;">Build faster. Publish faster. Grow faster.</h2>
+            <p style="max-width:720px; margin: 0 auto 20px; color: #d9e2ee; line-height: 1.75;">
+                If your product goal is to turn music into marketable short video content, this landing page should sell speed, simplicity, and output quality first. That is where the money is.
+            </p>
+            <div class="hero-actions" style="justify-content:center; margin-bottom:0;">
+                <a href="https://github.com/skybomb77" target="_blank" class="btn btn-primary"><i class="fab fa-github"></i> Follow the Build</a>
+                <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> Watch Updates</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer wrap">
+        <div><strong>Kent & KClaw Studio</strong></div>
+        <div class="socials">
+            <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> YouTube</a>
+        </div>
+        <p style="margin-top:18px;">&copy; 2026 Kent & KClaw. All rights reserved. Powered by OpenClaw 🐯</p>
+    </footer>
 </body>
 </html>
