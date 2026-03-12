@@ -10,9 +10,10 @@ const port = 3000;
 
 const COMFY_SERVER = '192.168.50.124:8188';
 
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
+// ... (storage setup remains same) ...
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(__dirname, 'audio_output');
@@ -25,10 +26,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// 存放每個任務的進度更新機制 (SSE)
 const clients = new Map();
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public/mv-creator.html')));
+app.get('/', (req, res) => res.redirect('/mv-creator.html'));
 
 // SSE 連線，讓前端可以即時收到算圖進度
 app.get('/api/stream/:jobId', (req, res) => {
