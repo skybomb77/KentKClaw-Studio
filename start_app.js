@@ -17,7 +17,7 @@ const { spawn } = require('child_process');
         console.log('=============================================\n');
 
         // 將這串網址動態寫入 mv-creator.html，讓 Vercel 的網頁知道要連到這裡
-        const htmlPath = path.join(__dirname, 'mv-creator.html');
+        const htmlPath = path.join(__dirname, 'app/index.html');
         if (fs.existsSync(htmlPath)) {
             let html = fs.readFileSync(htmlPath, 'utf8');
             // 我們把原本的 `const BACKEND_URL = ...` 替換掉
