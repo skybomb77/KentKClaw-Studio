@@ -40,7 +40,7 @@
             color: inherit;
         }
 
-        /* 導覽列 Navbar (OpenAI style) */
+        /* Navbar 權級拉高，確保按鈕不會被擋住 */
         nav {
             display: flex;
             justify-content: space-between;
@@ -51,7 +51,7 @@
             width: 100%;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(12px);
-            z-index: 100;
+            z-index: 1000; /* 拉高 z-index 確保點擊有效 */
             border-bottom: 1px solid transparent;
             transition: border-bottom 0.3s ease;
         }
@@ -99,6 +99,8 @@
             font-size: 0.85rem;
             transition: 0.2s;
             display: none; /* 預設隱藏，確認未登入才顯示 */
+            position: relative; /* 確保在原位可被點擊 */
+            z-index: 1001; /* 比 nav 更高 */
         }
         #login-btn:hover {
             border-color: var(--text-secondary);
