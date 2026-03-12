@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaobang AI MV Creator | Echoes of Tomorrow</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+TC:wght@300;500&display=swap');
+        
+        body {
+            background-color: #0d0d0d;
+            color: #ffffff;
+            font-family: 'Noto Sans TC', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            color: #00ffaa;
+            text-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-weight: 300;
+            color: #888;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            background: rgba(25, 25, 25, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 170, 0.2);
+            border-radius: 12px;
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        input[type="file"] {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px dashed rgba(0, 255, 170, 0.5);
+            padding: 15px;
+            border-radius: 6px;
+            color: #fff;
+            cursor: pointer;
+            transition: border 0.3s ease;
+        }
+        
+        input[type="file"]:hover {
+            border-color: #00ffaa;
+        }
+
+        textarea {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 6px;
+            color: #00ffaa;
+            font-family: monospace;
+            resize: vertical;
+            min-height: 80px;
+            outline: none;
+            transition: border 0.3s ease;
+        }
+
+        textarea:focus {
+            border-color: #00ffaa;
+        }
+
+        .cyber-btn {
+            background: transparent;
+            border: none;
+            color: #ccc;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        .cyber-btn:hover {
+            background: rgba(0, 255, 170, 0.15);
+            color: #00ffaa;
+            box-shadow: 0 0 20px rgba(0, 255, 170, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .cyber-btn:active {
+            background: rgba(0, 255, 170, 0.3);
+            transform: scale(0.98);
+        }
+
+        .terminal {
+            margin-top: 30px;
+            background: #050505;
+            border: 1px solid #333;
+            border-left: 3px solid #00ffaa;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #00ffaa;
+            height: 120px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .terminal p {
+            margin: 5px 0;
+            opacity: 0.8;
+        }
+
+        .video-container {
+            margin-top: 30px;
+            width: 100%;
+            display: none;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 255, 170, 0.2);
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Chaobang AI MV</h1>
+    <div class="subtitle">Audio-Reactive Video Generator</div>
+
+    <div class="container">
+        <form id="uploadForm">
+            <div class="input-group">
+                <label>1. 上傳音樂音軌 (Audio File)</label>
+                <input type="file" id="audioUpload" name="audio" accept="audio/*" required>
+            </div>
+
+            <div class="input-group">
+                <label>2. 畫面風格提示詞 (Visual Prompt)</label>
+                <textarea id="promptInput" name="prompt">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
+            </div>
+
+            <button type="submit" class="cyber-btn" id="generateBtn">GENERATE MV</button>
+        </form>
+
+        <div class="terminal" id="statusTerminal">
+            <p>> 系統就緒，等待上傳音樂與指令...</p>
+        </div>
+
+        <div class="video-container" id="videoResult">
+            <video id="outputVideo" controls loop></video>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        const btn = document.getElementById('generateBtn');
+        const terminal = document.getElementById('statusTerminal');
+        const videoCont = document.getElementById('videoResult');
+        const outputVideo = document.getElementById('outputVideo');
+        
+        function logMsg(msg) {
+            terminal.innerHTML += `<p>> ${msg}</p>`;
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            terminal.style.display = 'block';
+            videoCont.style.display = 'none';
+            btn.innerText = "UPLOADING...";
+            btn.style.pointerEvents = "none";
+            
+            logMsg("開始上傳音軌，準備呼叫 ComfyUI 聽覺外掛...");
+            
+            const formData = new FormData(form);
+            
+            try {
+                const response = await fetch('/api/generate-mv', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    logMsg(`❌ 錯誤: ${data.error}`);
+                    btn.innerText = "GENERATE MV";
+                    btn.style.pointerEvents = "auto";
+                    return;
+                }
+                
+                logMsg("任務送達，啟動即時算圖進度回傳 (SSE)...");
+                btn.innerText = "GENERATING...";
+                
+                // 建立 EventSource 連線聽取進度
+                const eventSource = new EventSource(`/api/stream/${data.jobId}`);
+                
+                eventSource.onmessage = function(event) {
+                    const msgData = JSON.parse(event.data);
+                    
+                    if (msgData.type === 'log') {
+                        logMsg(msgData.msg);
+                    } else if (msgData.type === 'progress') {
+                        logMsg(`[進度] ${msgData.percent}% (${msgData.val}/${msgData.max}) - 運算中...`);
+                    } else if (msgData.type === 'done') {
+                        logMsg(`✅ 算圖完成！影片合成成功。`);
+                        btn.innerText = "GENERATE MV";
+                        btn.style.pointerEvents = "auto";
+                        
+                        videoCont.style.display = 'block';
+                        outputVideo.src = msgData.url;
+                        outputVideo.play();
+                        
+                        eventSource.close();
+                    } else if (msgData.type === 'error') {
+                        logMsg(`❌ 算圖錯誤: ${msgData.msg}`);
+                        btn.innerText = "GENERATE MV";
+                        btn.style.pointerEvents = "auto";
+                        eventSource.close();
+                    }
+                };
+                
+            } catch (err) {
+                logMsg(`❌ 連線錯誤: ${err.message}`);
+                btn.innerText = "GENERATE MV";
+                btn.style.pointerEvents = "auto";
+            }
+        });
+    </script>
+</body>
+</html>
