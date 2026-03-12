@@ -4,8 +4,10 @@ const path = require('path');
 const { spawn } = require('child_process');
 
 (async function() {
-    console.log('⏳ 正在為您的 Mac 引擎挖掘全球公開隧道...');
+    console.log('⏳ 正在強制清理舊隧道並挖掘全新隧道...');
     try {
+        await ngrok.kill(); // 強制殺死所有卡住的 ngrok 背景服務
+        
         const url = await ngrok.connect({
             addr: 3000,
             authtoken: '3AqvYHB9fLiLfO8XgS1NfBB73gm_3AQZHxKuhrm4USqUQDnRQ'
