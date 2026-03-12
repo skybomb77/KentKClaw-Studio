@@ -85,6 +85,25 @@
             gap: 16px;
         }
 
+        #user-button {
+            display: none; /* 預設隱藏，登入後顯示大頭貼 */
+        }
+
+        #login-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            display: none; /* 預設隱藏，確認未登入才顯示 */
+        }
+        #login-btn:hover {
+            border-color: var(--text-secondary);
+        }
+
         .lang-btn {
             background: transparent;
             border: 1px solid var(--border-color);
@@ -239,6 +258,8 @@
         </div>
         <div class="nav-right">
             <button class="lang-btn" id="langToggle">中文</button>
+            <button id="login-btn" data-i18n="navLogin">Sign In</button>
+            <div id="user-button"></div>
         </div>
     </nav>
 
@@ -297,6 +318,7 @@
             en: {
                 navTone: "ToneForge",
                 navWire: "WireVision",
+                navLogin: "Sign In",
                 heroTitle: "Creative AI for the next generation.",
                 heroSub: "Two powerful engines. One creative studio. Build music and visual content faster than ever before.",
                 heroCTA: "Explore Products",
@@ -311,6 +333,7 @@
             zh: {
                 navTone: "ToneForge 音樂",
                 navWire: "WireVision 視覺",
+                navLogin: "登入 / 註冊",
                 heroTitle: "為次世代打造的 AI 創意引擎",
                 heroSub: "兩個強大的引擎，一個創意工作室。用前所未有的速度打造音樂與視覺內容。",
                 heroCTA: "探索產品",
@@ -347,6 +370,40 @@
 
         // Init
         updateContent();
+
+        // ======= 🚀 CLERK 專業會員登入系統 (官網全域化) =======
+        const publishableKey = "pk_test_cmF0aW9uYWwtd2FscnVzLTkwLmNsZXJrLmFjY291bnRzLmRldiQ";
+        const script = document.createElement("script");
+        script.setAttribute("data-clerk-publishable-key", publishableKey);
+        script.async = true;
+        script.src = "https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js";
+        script.crossOrigin = "anonymous";
+        
+        script.addEventListener("load", async () => {
+            try {
+                await window.Clerk.load();
+                const loginBtn = document.getElementById("login-btn");
+                const userBtnDiv = document.getElementById("user-button");
+
+                if (window.Clerk.user) {
+                    // 已登入：顯示大頭貼，隱藏登入按鈕
+                    userBtnDiv.style.display = 'block';
+                    loginBtn.style.display = 'none';
+                    window.Clerk.mountUserButton(userBtnDiv);
+                } else {
+                    // 未登入：顯示登入按鈕
+                    loginBtn.style.display = 'block';
+                    userBtnDiv.style.display = 'none';
+                    
+                    // 點擊觸發 Clerk 登入彈窗
+                    loginBtn.addEventListener('click', () => {
+                        window.Clerk.openSignIn();
+                    });
+                }
+            } catch (err) { console.error("Clerk 初始化錯誤:", err); }
+        });
+        document.body.appendChild(script);
+
     </script>
 </body>
 </html>
