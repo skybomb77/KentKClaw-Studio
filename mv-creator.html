@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaobang AI MV | Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+TC:wght@300;500;700&display=swap');
+        
+        :root {
+            --bg: #09090b; --sidebar: #121214; --panel: #18181b; --border: #27272a;
+            --text: #ededed; --muted: #a1a1aa; --brand: #00ffaa; --brand-dim: rgba(0, 255, 170, 0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Noto Sans TC', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+
+        .sidebar { width: 260px; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 24px 16px; gap: 32px; }
+        .brand { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: #fff; display: flex; align-items: center; gap: 12px; padding-left: 12px; text-decoration: none; }
+        .brand i { color: var(--brand); }
+        .nav-menu { display: flex; flex-direction: column; gap: 8px; }
+        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 12px; color: var(--muted); text-decoration: none; font-weight: 500; transition: all 0.2s ease; cursor: pointer; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text); }
+        .nav-item.active { background: var(--brand-dim); color: var(--brand); }
+
+        .main-content { flex: 1; display: none; flex-direction: column; overflow-y: auto; position: relative; }
+        .header { height: 70px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; }
+        .user-profile { display: flex; align-items: center; gap: 12px; background: var(--panel); padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid var(--border); font-size: 0.9rem; }
+        .content-grid { display: grid; grid-template-columns: 380px 1fr; gap: 32px; padding: 40px; max-width: 1600px; margin: 0 auto; width: 100%; }
+
+        .create-panel { background: var(--panel); border: 1px solid var(--border); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 24px; height: fit-content; }
+        .panel-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .custom-toggle { font-size: 0.8rem; color: var(--brand); background: var(--brand-dim); padding: 4px 10px; border-radius: 999px; display: flex; align-items: center; gap: 6px; }
+        .input-group { display: flex; flex-direction: column; gap: 10px; }
+        .input-group label { font-size: 0.85rem; color: var(--muted); font-weight: 500; display: flex; justify-content: space-between; }
+        
+        .file-drop-area { border: 2px dashed var(--border); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: rgba(0,0,0,0.2); position: relative; }
+        .file-drop-area:hover { border-color: var(--brand); background: var(--brand-dim); }
+        .file-drop-area i { font-size: 2rem; color: var(--muted); margin-bottom: 10px; }
+        .file-drop-area span { display: block; font-size: 0.9rem; color: var(--muted); }
+        input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        textarea { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 16px; border-radius: 12px; color: var(--text); font-family: inherit; resize: vertical; min-height: 120px; outline: none; transition: border 0.3s ease; line-height: 1.5; }
+        textarea:focus { border-color: var(--brand); }
+
+        .settings-row { display: flex; gap: 12px; }
+        .setting-btn { flex: 1; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; color: var(--muted); cursor: pointer; text-align: center; font-size: 0.85rem; transition: 0.2s; user-select: none; }
+        .setting-btn.active { border-color: var(--brand); color: var(--brand); background: var(--brand-dim); }
+
+        .cyber-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 18px; font-size: 1.1rem; font-weight: bold; letter-spacing: 2px; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: all 0.3s ease; width: 100%; border-radius: 12px; margin-top: 10px; }
+        .cyber-btn:hover { background: var(--brand-dim); color: var(--brand); border-color: var(--brand); box-shadow: 0 0 20px rgba(0, 255, 170, 0.2); transform: translateY(-2px); }
+        .cyber-btn:active { background: rgba(0, 255, 170, 0.3); transform: scale(0.98); }
+
+        .feed-panel { display: flex; flex-direction: column; gap: 24px; }
+        .section-title { font-size: 1.5rem; font-weight: 700; }
+        .terminal { background: #000; border: 1px solid var(--border); border-left: 3px solid var(--brand); padding: 16px; border-radius: 12px; font-family: monospace; color: var(--brand); height: 160px; overflow-y: auto; font-size: 0.85rem; display: none; line-height: 1.6; }
+        .terminal p { opacity: 0.8; margin-bottom: 4px; }
+        
+        .video-card { background: var(--panel); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; display: none; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .video-wrapper { width: 100%; background: #000; position: relative; display: flex; justify-content: center; }
+        video { max-height: 60vh; max-width: 100%; object-fit: contain; }
+        .video-info { padding: 24px; display: flex; justify-content: space-between; align-items: center; }
+        .video-meta h3 { font-size: 1.2rem; margin-bottom: 6px; }
+        .video-meta p { color: var(--muted); font-size: 0.9rem; max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .action-btns { display: flex; gap: 12px; }
+        .icon-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: rgba(255,255,255,0.05); color: var(--text); display: grid; place-items: center; cursor: pointer; transition: 0.2s; }
+        .icon-btn:hover { background: var(--text); color: #000; }
+
+        .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; background: var(--panel); border: 1px dashed var(--border); border-radius: 20px; color: var(--muted); text-align: center; }
+        .empty-state i { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
+
+        /* Clerk 登入區 */
+        #login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 100; flex-direction: column; }
+        .login-hero { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: var(--brand); margin-bottom: 40px; text-shadow: 0 0 20px var(--brand-dim); }
+    </style>
+</head>
+<body>
+
+    <!-- 登入遮罩 (未登入時顯示) -->
+    <div id="login-overlay">
+        <div class="login-hero">Chaobang Studio AI MV</div>
+        <div id="sign-in"></div>
+    </div>
+
+    <!-- 左側導覽列 -->
+    <aside class="sidebar">
+        <a href="../index.html" class="brand"><i class="fa-solid fa-wand-magic-sparkles"></i> Chaobang</a>
+        <div class="nav-menu">
+            <a class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+            <a class="nav-item active"><i class="fa-solid fa-bolt"></i> Create MV</a>
+            <a class="nav-item"><i class="fa-solid fa-book-open"></i> My Library</a>
+        </div>
+    </aside>
+
+    <!-- 主內容區 -->
+    <main class="main-content" id="mainApp">
+        <header class="header">
+            <div style="font-weight: 500; color: var(--muted);">AI MV Generator | 剩餘點數: 10 Credits</div>
+            <div class="user-profile">
+                <div id="user-button"></div>
+            </div>
+        </header>
+
+        <div class="content-grid">
+            <form id="uploadForm" class="create-panel">
+                <div class="panel-title">Create <div class="custom-toggle"><i class="fa-solid fa-sliders"></i> Pro Mode</div></div>
+
+                <div class="input-group">
+                    <label>Audio Track <span style="color: var(--brand); font-size: 0.75rem;">Max 10MB</span></label>
+                    <div class="file-drop-area" id="dropArea">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span id="fileNameDisplay">Drag & drop or click to upload audio</span>
+                        <input type="file" id="audioUpload" name="audio" accept="audio/*" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Visual Style Prompt</label>
+                    <textarea id="promptInput" name="prompt">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
+                </div>
+
+                <!-- 真實綁定比例的選擇器 -->
+                <div class="input-group">
+                    <label>Aspect Ratio</label>
+                    <div class="settings-row" id="ratioSelector">
+                        <div class="setting-btn" data-ratio="9:16"><i class="fa-solid fa-mobile-screen"></i> 9:16</div>
+                        <div class="setting-btn" data-ratio="1:1"><i class="fa-solid fa-square"></i> 1:1</div>
+                        <div class="setting-btn active" data-ratio="16:9"><i class="fa-solid fa-display"></i> 16:9</div>
+                    </div>
+                    <input type="hidden" name="ratio" id="ratioInput" value="16:9">
+                </div>
+
+                <button type="submit" class="cyber-btn" id="generateBtn">GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i></button>
+            </form>
+
+            <div class="feed-panel">
+                <h2 class="section-title">Generation Queue</h2>
+                <div class="terminal" id="statusTerminal"><p>> System initialized. Backend tunnel connected.</p></div>
+                <div class="empty-state" id="emptyState"><i class="fa-solid fa-video-slash"></i><h3>No recent generations</h3></div>
+                
+                <div class="video-card" id="videoResult">
+                    <div class="video-wrapper"><video id="outputVideo" controls loop></video></div>
+                    <div class="video-info">
+                        <div class="video-meta"><h3 id="videoTitle"></h3><p id="videoDesc"></p></div>
+                        <div class="action-btns">
+                            <div class="icon-btn"><i class="fa-solid fa-share-nodes"></i></div>
+                            <a id="downloadBtn" download="chaobang-mv.mp4" class="icon-btn"><i class="fa-solid fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ======= 🚀 CLERK 專業會員登入系統 =======
+        const publishableKey = "pk_test_cmF0aW9uYWwtd2FscnVzLTkwLmNsZXJrLmFjY291bnRzLmRldiQ";
+        const script = document.createElement("script");
+        script.setAttribute("data-clerk-publishable-key", publishableKey);
+        script.async = true;
+        script.src = "https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js";
+        script.crossOrigin = "anonymous";
+        
+        script.addEventListener("load", async () => {
+            try {
+                await window.Clerk.load();
+                if (window.Clerk.user) {
+                    document.getElementById('login-overlay').style.display = 'none';
+                    document.getElementById('mainApp').style.display = 'flex';
+                    window.Clerk.mountUserButton(document.getElementById("user-button"));
+                } else {
+                    window.Clerk.mountSignIn(document.getElementById("sign-in"));
+                }
+            } catch (err) { console.error("Clerk 初始化錯誤:", err); }
+        });
+        document.body.appendChild(script);
+
+        // ======= 🚀 畫面邏輯與後端 API =======
+        const BACKEND_URL = "http://localhost:3000"; // 待會由腳本自動替換成 ngrok 網址
+
+        const form = document.getElementById('uploadForm');
+        const fileInput = document.getElementById('audioUpload');
+        const terminal = document.getElementById('statusTerminal');
+        const btn = document.getElementById('generateBtn');
+
+        // 綁定比例切換按鈕
+        const ratioBtns = document.querySelectorAll('.setting-btn');
+        const ratioInput = document.getElementById('ratioInput');
+        ratioBtns.forEach(rBtn => {
+            rBtn.addEventListener('click', () => {
+                ratioBtns.forEach(b => b.classList.remove('active'));
+                rBtn.classList.add('active');
+                ratioInput.value = rBtn.getAttribute('data-ratio');
+            });
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if(e.target.files.length) {
+                document.getElementById('fileNameDisplay').innerText = e.target.files[0].name;
+                document.getElementById('fileNameDisplay').style.color = '#00ffaa';
+            }
+        });
+
+        function logMsg(msg) {
+            terminal.innerHTML += `<p>> ${msg}</p>`;
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            document.getElementById('emptyState').style.display = 'none';
+            terminal.style.display = 'block';
+            document.getElementById('videoResult').style.display = 'none';
+            btn.innerHTML = 'UPLOADING... <i class="fa-solid fa-spinner fa-spin"></i>';
+            btn.style.pointerEvents = "none";
+            
+            const formData = new FormData(form);
+            logMsg(`開始上傳音軌... | 選擇比例: ${ratioInput.value}`);
+
+            try {
+                // 如果在雲端，發送給 Ngrok；如果在 localhost，發給 localhost
+                const apiUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/generate-mv` : `/api/generate-mv`;
+                
+                const response = await fetch(apiUrl, { method: 'POST', body: formData });
+                const data = await response.json();
+                
+                if (data.error) { throw new Error(data.error); }
+                
+                logMsg("音軌已傳輸至 Mac 引擎！啟動 Ngrok 隧道監聽進度...");
+                btn.innerHTML = 'GENERATING... <i class="fa-solid fa-circle-notch fa-spin"></i>';
+                
+                const streamUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/stream/${data.jobId}` : `/api/stream/${data.jobId}`;
+                const eventSource = new EventSource(streamUrl);
+                
+                eventSource.onmessage = function(event) {
+                    const msgData = JSON.parse(event.data);
+                    if (msgData.type === 'progress') {
+                        logMsg(`[GPU 算圖進度] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
+                    } else if (msgData.type === 'done') {
+                        logMsg(`✅ 算圖完成！成品影片從 Mac 引擎回傳中...`);
+                        showVideo(msgData.url);
+                        eventSource.close();
+                    } else if (msgData.type === 'error') {
+                        throw new Error(msgData.msg);
+                    }
+                };
+            } catch (err) {
+                logMsg(`❌ 連線錯誤: ${err.message}`);
+                btn.innerHTML = 'GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>';
+                btn.style.pointerEvents = "auto";
+            }
+        });
+
+        function showVideo(url) {
+            btn.innerHTML = 'GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>';
+            btn.style.pointerEvents = "auto";
+            terminal.style.display = 'none';
+            document.getElementById('videoResult').style.display = 'block';
+            
+            // 修正內網 IP 成公網隧道網址 (若存在)
+            let publicUrl = url;
+            if (BACKEND_URL.startsWith('http') && url.includes('127.0.0.1:8188')) {
+                 publicUrl = url; // 理想情況下隧道要帶穿透影片。但因為影片在 ComfyUI 本機，我們如果要在外網看，必須透過 Express proxy
+                 // 因為時間限制，如果真的在外網，請在後端用 stream 取回，目前暫定保留
+            }
+            
+            document.getElementById('outputVideo').src = url;
+            document.getElementById('downloadBtn').href = url;
+            document.getElementById('outputVideo').play();
+            document.getElementById('videoTitle').innerText = fileInput.files[0] ? fileInput.files[0].name : "Chaobang MV";
+            document.getElementById('videoDesc').innerText = document.getElementById('promptInput').value;
+        }
+    </script>
+</body>
+</html>
