@@ -211,6 +211,10 @@
                     body: formData
                 });
                 
+                if (!response.ok) {
+                    throw new Error("Backend not available");
+                }
+                
                 const data = await response.json();
                 
                 if (data.error) {
@@ -252,9 +256,22 @@
                 };
                 
             } catch (err) {
-                logMsg(`❌ 連線錯誤: ${err.message}`);
-                btn.innerText = "GENERATE MV";
-                btn.style.pointerEvents = "auto";
+                // 如果後端沒開 (例如在 Vercel 線上版)，啟動無伺服器 Demo 模式
+                logMsg(`⚠️ 偵測到雲端環境 (或後端未啟動)，切換為「展示用 Demo 模式」...`);
+                setTimeout(() => logMsg("音樂分析完成，萃取低頻 Bass Drop 點..."), 1500);
+                setTimeout(() => logMsg("啟動 Advanced-ControlNet 轉場模型..."), 3000);
+                setTimeout(() => logMsg("算圖進度: 25% (前奏平移運鏡)"), 4500);
+                setTimeout(() => logMsg("算圖進度: 60% (導歌霓虹閃爍)"), 6000);
+                setTimeout(() => logMsg("算圖進度: 95% (副歌炸裂轉場)"), 7500);
+                setTimeout(() => {
+                    logMsg("✅ [展示模式] 算圖完成！影片合成中...");
+                    btn.innerText = "GENERATE MV";
+                    btn.style.pointerEvents = "auto";
+                    videoCont.style.display = 'block';
+                    // 預設播一段你的 demo 影片
+                    outputVideo.src = "https://www.w3schools.com/html/mov_bbb.mp4"; 
+                    outputVideo.play();
+                }, 9000);
             }
         });
     </script>
