@@ -29,6 +29,9 @@ const upload = multer({ storage: storage });
 
 const clients = new Map();
 
+// 確保 /app 路由精準指向我們的前端介面
+app.get('/app', (req, res) => res.sendFile(path.join(__dirname, 'app', 'index.html')));
+
 app.get('/api/stream/:jobId', (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
