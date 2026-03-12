@@ -4,16 +4,17 @@ const path = require('path');
 const fs = require('fs');
 const WebSocket = require('ws');
 const http = require('http');
+const cors = require('cors');
 
 const app = express();
 const port = 3000;
+const COMFY_SERVER = '127.0.0.1:8188';
 
-const COMFY_SERVER = '192.168.50.124:8188';
-
-app.use(express.static(path.join(__dirname, 'public')));
+// 啟用 CORS 允許來自 Vercel 和 Ngrok 隧道的請求
+app.use(cors());
+app.use(express.static(__dirname));
 app.use(express.json());
 
-// ... (storage setup remains same) ...
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(__dirname, 'audio_output');
@@ -28,9 +29,6 @@ const upload = multer({ storage: storage });
 
 const clients = new Map();
 
-app.get('/', (req, res) => res.redirect('/mv-creator.html'));
-
-// SSE 連線，讓前端可以即時收到算圖進度
 app.get('/api/stream/:jobId', (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
@@ -46,30 +44,37 @@ function sendToClient(jobId, data) {
     if (res) res.write(`data: ${JSON.stringify(data)}\n\n`);
 }
 
+app.get('/api/video/:filename', (req, res) => {
+    const filename = req.params.filename;
+    const url = `http://${COMFY_SERVER}/view?filename=${filename}`;
+    http.get(url, (response) => {
+        res.setHeader('Content-Type', 'video/mp4');
+        response.pipe(res);
+    }).on('error', (err) => {
+        res.status(500).send('Error fetching video from engine');
+    });
+});
+
 app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
     try {
         const file = req.file;
         const promptText = req.body.prompt;
+        const ratio = req.body.ratio || '16:9';
         const jobId = `job_${Date.now()}`;
         const clientId = `app_client_${Date.now()}`;
         
-        // --- 真實測試擴充：將上傳的音軌複製到 ComfyUI 的 input 資料夾 ---
         if (file) {
             const comfyInputPath = path.join(__dirname, '../ComfyUI/input', file.filename);
             if (!fs.existsSync(path.dirname(comfyInputPath))) {
                 fs.mkdirSync(path.dirname(comfyInputPath), { recursive: true });
             }
             fs.copyFileSync(file.path, comfyInputPath);
-            console.log(`[真實測試] 已將音軌複製給 ComfyUI: ${comfyInputPath}`);
+            console.log(`[隧道測試] 已收到客戶端音軌並存入引擎: ${file.filename}`);
         }
-        // -------------------------------------------------------------
 
-        // 1. 先回傳 OK，讓前端開始準備接收 SSE
         res.json({ success: true, jobId });
-        
-        console.log(`[Chaobang] 新任務 ${jobId}: ${promptText}`);
+        console.log(`[Chaobang SaaS] 新客戶任務 ${jobId} | 比例: ${ratio} | 提示詞: ${promptText}`);
 
-        // 2. 準備 ComfyUI 的 JSON
         const workflowPath = path.join(__dirname, '../ComfyUI/workflow_animatediff.json');
         let promptJson = null;
         if (fs.existsSync(workflowPath)) {
@@ -77,19 +82,29 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
             if (promptJson["6"] && promptJson["6"]["inputs"]) {
                 promptJson["6"]["inputs"]["text"] = promptText;
             }
+            // --- 自動計算尺寸比例 (Aspect Ratio) ---
+            if (promptJson["11"] && promptJson["11"]["inputs"]) {
+                if (ratio === '9:16') {
+                    promptJson["11"]["inputs"]["width"] = 512;
+                    promptJson["11"]["inputs"]["height"] = 910;
+                } else if (ratio === '1:1') {
+                    promptJson["11"]["inputs"]["width"] = 512;
+                    promptJson["11"]["inputs"]["height"] = 512;
+                } else { // Default 16:9
+                    promptJson["11"]["inputs"]["width"] = 910;
+                    promptJson["11"]["inputs"]["height"] = 512;
+                }
+            }
         } else {
             console.error("找不到工作流 JSON！");
             sendToClient(jobId, { type: 'error', msg: '找不到 ComfyUI 工作流設定檔' });
             return;
         }
 
-        // 3. 連線 ComfyUI WebSocket 以獲取進度
         const ws = new WebSocket(`ws://${COMFY_SERVER}/ws?clientId=${clientId}`);
         
         ws.on('open', () => {
-            sendToClient(jobId, { type: 'log', msg: '📡 成功連上算圖伺服器，開始執行任務...' });
-            
-            // 呼叫 API 送出任務
+            sendToClient(jobId, { type: 'log', msg: '📡 成功穿透內網連接到算圖引擎，開始為您執行...' });
             const data = JSON.stringify({ prompt: promptJson, client_id: clientId });
             const reqComfy = http.request({
                 hostname: COMFY_SERVER.split(':')[0],
@@ -114,15 +129,13 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
                     let videoUrl = null;
                     for (let id of Object.keys(outputs)) {
                         if (outputs[id] && outputs[id].gifs) {
-                            videoUrl = `http://${COMFY_SERVER}/view?filename=${outputs[id].gifs[0].filename}`;
+                            const filename = outputs[id].gifs[0].filename;
+                            videoUrl = `${req.protocol}://${req.get('host')}/api/video/${filename}`;
                             break;
                         }
                     }
-                    if (videoUrl) {
-                        sendToClient(jobId, { type: 'done', url: videoUrl });
-                    } else {
-                        sendToClient(jobId, { type: 'error', msg: '找不到生成的影片檔案' });
-                    }
+                    if (videoUrl) sendToClient(jobId, { type: 'done', url: videoUrl });
+                    else sendToClient(jobId, { type: 'error', msg: '找不到生成的影片檔案' });
                 } catch (e) {
                     sendToClient(jobId, { type: 'error', msg: '影片網址解析失敗' });
                 }
@@ -131,8 +144,7 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
         });
         
         ws.on('error', (err) => {
-            console.error('WebSocket Error:', err);
-            sendToClient(jobId, { type: 'error', msg: '算圖伺服器連線中斷' });
+            sendToClient(jobId, { type: 'error', msg: '內部算圖引擎離線，請聯繫管理員啟動伺服器' });
         });
 
     } catch (error) {
@@ -142,5 +154,5 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`🚀 [Chaobang AI MV] 後端就緒: http://localhost:${port}`);
+    console.log(`🚀 [Chaobang SaaS Node] 本機引擎就緒於 port ${port}`);
 });

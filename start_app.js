@@ -16,18 +16,26 @@ const { spawn } = require('child_process');
         console.log(`➡️  ${url}`);
         console.log('=============================================\n');
 
-        // 將這串網址動態寫入 mv-creator.html，讓 Vercel 的網頁知道要連到這裡
-        const htmlPath = path.join(__dirname, 'app/index.html');
-        if (fs.existsSync(htmlPath)) {
-            let html = fs.readFileSync(htmlPath, 'utf8');
-            // 我們把原本的 `const BACKEND_URL = ...` 替換掉
+        // 將這串網址動態寫入 app/index.html (讓前端知道要把音軌打給哪個 API)
+        const appHtmlPath = path.join(__dirname, 'app/index.html');
+        if (fs.existsSync(appHtmlPath)) {
+            let html = fs.readFileSync(appHtmlPath, 'utf8');
             if (html.includes('const BACKEND_URL =')) {
                 html = html.replace(/const BACKEND_URL = ".*?";/g, `const BACKEND_URL = "${url}";`);
             } else {
                 html = html.replace('<script>', `<script>\n        const BACKEND_URL = "${url}";`);
             }
-            fs.writeFileSync(htmlPath, html);
-            console.log('✅ 已成功將隧道網址綁定到前端設定檔。');
+            fs.writeFileSync(appHtmlPath, html);
+        }
+
+        // --- 終極絕招：直接把 Vercel 首頁的「Try AI MV Creator」按鈕，指向你 Mac mini 的 Ngrok 隧道 ---
+        const indexHtmlPath = path.join(__dirname, 'index.html');
+        if (fs.existsSync(indexHtmlPath)) {
+            let indexHtml = fs.readFileSync(indexHtmlPath, 'utf8');
+            // 將兩個按鈕直接替換為 Ngrok 獨立站網址 (包含 /app 也就是我們的軟體介面)
+            indexHtml = indexHtml.replace(/href="[^"]*app"/g, `href="${url}/app"`);
+            fs.writeFileSync(indexHtmlPath, indexHtml);
+            console.log('✅ 已成功將官網首頁按鈕直接連通至您的 Mac 隧道。');
         }
 
         console.log('🚀 啟動 Chaobang 後端中樞神經...');
