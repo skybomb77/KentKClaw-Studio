@@ -3,112 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chaobang AI MV Creator | Echoes of Tomorrow</title>
+    <title>Chaobang AI MV | Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+TC:wght@300;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+TC:wght@300;500;700&display=swap');
         
-        body {
-            background-color: #0d0d0d;
-            color: #ffffff;
-            font-family: 'Noto Sans TC', sans-serif;
+        :root {
+            --bg: #09090b;
+            --sidebar: #121214;
+            --panel: #18181b;
+            --border: #27272a;
+            --text: #ededed;
+            --muted: #a1a1aa;
+            --brand: #00ffaa;
+            --brand-dim: rgba(0, 255, 170, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Noto Sans TC', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* 側邊欄 (Sidebar) */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            padding: 24px 16px;
+            gap: 32px;
         }
 
-        h1 {
+        .brand {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            letter-spacing: 2px;
-            color: #00ffaa;
-            text-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
-            margin-bottom: 10px;
+            font-size: 1.4rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-left: 12px;
+            text-decoration: none;
+        }
+        .brand i { color: var(--brand); }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .subtitle {
-            font-weight: 300;
-            color: #888;
-            margin-bottom: 40px;
-        }
-
-        .container {
-            background: rgba(25, 25, 25, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 255, 170, 0.2);
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
             border-radius: 12px;
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            background: var(--brand-dim);
+            color: var(--brand);
+        }
+
+        /* 主畫面 (Main Content) */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .header {
+            height: 70px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            background: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--panel);
+            padding: 6px 12px 6px 6px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #7c5cff, var(--brand));
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            color: #111;
+            font-weight: bold;
+        }
+
+        /* 內容區塊分兩欄 (Suno 風格) */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 32px;
             padding: 40px;
-            width: 90%;
-            max-width: 600px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* 左側：控制面板 (Create Panel) */
+        .create-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            height: fit-content;
+        }
+
+        .panel-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .custom-toggle {
+            font-size: 0.8rem;
+            color: var(--brand);
+            background: var(--brand-dim);
+            padding: 4px 10px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .input-group {
-            margin-bottom: 25px;
             display: flex;
             flex-direction: column;
+            gap: 10px;
         }
 
-        label {
+        .input-group label {
+            font-size: 0.85rem;
+            color: var(--muted);
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .file-drop-area {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .file-drop-area:hover {
+            border-color: var(--brand);
+            background: var(--brand-dim);
+        }
+
+        .file-drop-area i {
+            font-size: 2rem;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+
+        .file-drop-area span {
+            display: block;
             font-size: 0.9rem;
-            color: #ccc;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
+            color: var(--muted);
         }
 
         input[type="file"] {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px dashed rgba(0, 255, 170, 0.5);
-            padding: 15px;
-            border-radius: 6px;
-            color: #fff;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0;
             cursor: pointer;
-            transition: border 0.3s ease;
-        }
-        
-        input[type="file"]:hover {
-            border-color: #00ffaa;
         }
 
         textarea {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 6px;
-            color: #00ffaa;
-            font-family: monospace;
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 12px;
+            color: var(--text);
+            font-family: inherit;
             resize: vertical;
-            min-height: 80px;
+            min-height: 120px;
             outline: none;
             transition: border 0.3s ease;
+            line-height: 1.5;
         }
 
-        textarea:focus {
-            border-color: #00ffaa;
+        textarea:focus { border-color: var(--brand); }
+
+        .settings-row {
+            display: flex;
+            gap: 12px;
         }
 
+        .setting-btn {
+            flex: 1;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .setting-btn.active {
+            border-color: var(--brand);
+            color: var(--brand);
+            background: var(--brand-dim);
+        }
+
+        /* 哥指定的無底色按鈕 */
         .cyber-btn {
             background: transparent;
-            border: none;
-            color: #ccc;
-            padding: 15px 30px;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 18px;
             font-size: 1.1rem;
+            font-weight: bold;
             letter-spacing: 2px;
             font-family: 'Orbitron', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
-            border-radius: 4px;
+            border-radius: 12px;
+            margin-top: 10px;
         }
 
         .cyber-btn:hover {
-            background: rgba(0, 255, 170, 0.15);
-            color: #00ffaa;
-            box-shadow: 0 0 20px rgba(0, 255, 170, 0.3);
+            background: var(--brand-dim);
+            color: var(--brand);
+            border-color: var(--brand);
+            box-shadow: 0 0 20px rgba(0, 255, 170, 0.2);
             transform: translateY(-2px);
         }
 
@@ -117,69 +292,192 @@
             transform: scale(0.98);
         }
 
+        /* 右側：展示與動態區 (Feed/Gallery Panel) */
+        .feed-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
         .terminal {
-            margin-top: 30px;
-            background: #050505;
-            border: 1px solid #333;
-            border-left: 3px solid #00ffaa;
-            padding: 15px;
-            border-radius: 4px;
+            background: #000;
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--brand);
+            padding: 16px;
+            border-radius: 12px;
             font-family: monospace;
-            color: #00ffaa;
-            height: 120px;
+            color: var(--brand);
+            height: 160px;
             overflow-y: auto;
             font-size: 0.85rem;
             display: none;
+            line-height: 1.6;
         }
 
-        .terminal p {
-            margin: 5px 0;
-            opacity: 0.8;
-        }
+        .terminal p { opacity: 0.8; margin-bottom: 4px; }
 
-        .video-container {
-            margin-top: 30px;
-            width: 100%;
-            display: none;
-            border-radius: 8px;
+        .video-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 0 30px rgba(0, 255, 170, 0.2);
+            display: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
 
-        video {
+        .video-wrapper {
             width: 100%;
-            display: block;
+            aspect-ratio: 16/9;
+            background: #000;
+            position: relative;
         }
+
+        video { width: 100%; height: 100%; object-fit: cover; }
+
+        .video-info {
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .video-meta h3 { font-size: 1.2rem; margin-bottom: 6px; }
+        .video-meta p { color: var(--muted); font-size: 0.9rem; max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .action-btns { display: flex; gap: 12px; }
+        .icon-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.05);
+            color: var(--text);
+            display: grid; place-items: center;
+            cursor: pointer; transition: 0.2s;
+        }
+        .icon-btn:hover { background: var(--text); color: #000; }
+
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            background: var(--panel);
+            border: 1px dashed var(--border);
+            border-radius: 20px;
+            color: var(--muted);
+            text-align: center;
+        }
+        .empty-state i { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
+
     </style>
 </head>
 <body>
 
-    <h1>Chaobang AI MV</h1>
-    <div class="subtitle">Audio-Reactive Video Generator</div>
-
-    <div class="container">
-        <form id="uploadForm">
-            <div class="input-group">
-                <label>1. 上傳音樂音軌 (Audio File)</label>
-                <input type="file" id="audioUpload" name="audio" accept="audio/*" required>
-            </div>
-
-            <div class="input-group">
-                <label>2. 畫面風格提示詞 (Visual Prompt)</label>
-                <textarea id="promptInput" name="prompt">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
-            </div>
-
-            <button type="submit" class="cyber-btn" id="generateBtn">GENERATE MV</button>
-        </form>
-
-        <div class="terminal" id="statusTerminal">
-            <p>> 系統就緒，等待上傳音樂與指令...</p>
+    <!-- 左側導覽列 -->
+    <aside class="sidebar">
+        <a href="../index.html" class="brand">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            Chaobang
+        </a>
+        <div class="nav-menu">
+            <a class="nav-item"><i class="fa-solid fa-house"></i> Home</a>
+            <a class="nav-item"><i class="fa-solid fa-compass"></i> Explore</a>
+            <a class="nav-item active"><i class="fa-solid fa-bolt"></i> Create MV</a>
+            <a class="nav-item"><i class="fa-solid fa-book-open"></i> Library</a>
         </div>
+    </aside>
 
-        <div class="video-container" id="videoResult">
-            <video id="outputVideo" controls loop></video>
+    <!-- 主內容區 -->
+    <main class="main-content">
+        <!-- 頂部 Header -->
+        <header class="header">
+            <div style="font-weight: 500; color: var(--muted);">AI MV Generator Workspace</div>
+            <div class="user-profile">
+                <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+                <span>KentKClaw</span>
+                <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; color: var(--muted); margin-left: 4px;"></i>
+            </div>
+        </header>
+
+        <!-- 內容網格 -->
+        <div class="content-grid">
+            
+            <!-- 左欄：參數與建立區 -->
+            <form id="uploadForm" class="create-panel">
+                <div class="panel-title">
+                    Create
+                    <div class="custom-toggle"><i class="fa-solid fa-sliders"></i> Pro Mode</div>
+                </div>
+
+                <div class="input-group">
+                    <label>Audio Track <span style="color: var(--brand); font-size: 0.75rem;">Max 10MB</span></label>
+                    <div class="file-drop-area" id="dropArea">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span id="fileNameDisplay">Drag & drop or click to upload audio</span>
+                        <input type="file" id="audioUpload" name="audio" accept="audio/*" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Visual Style Prompt</label>
+                    <textarea id="promptInput" name="prompt" placeholder="Describe your video style...">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>Aspect Ratio</label>
+                    <div class="settings-row">
+                        <div class="setting-btn active"><i class="fa-solid fa-mobile-screen"></i> 9:16</div>
+                        <div class="setting-btn"><i class="fa-solid fa-square"></i> 1:1</div>
+                        <div class="setting-btn"><i class="fa-solid fa-display"></i> 16:9</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="cyber-btn" id="generateBtn">GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i></button>
+            </form>
+
+            <!-- 右欄：展示與狀態區 -->
+            <div class="feed-panel">
+                <h2 class="section-title">Generation Queue</h2>
+
+                <!-- 終端機狀態 -->
+                <div class="terminal" id="statusTerminal">
+                    <p>> System initialized. Ready for audio input.</p>
+                </div>
+
+                <!-- 空狀態預設圖 -->
+                <div class="empty-state" id="emptyState">
+                    <i class="fa-solid fa-video-slash"></i>
+                    <h3>No recent generations</h3>
+                    <p style="margin-top: 8px; font-size: 0.9rem;">Upload a track and hit Generate to create your first AI MV.</p>
+                </div>
+
+                <!-- 影片完成卡片 -->
+                <div class="video-card" id="videoResult">
+                    <div class="video-wrapper">
+                        <video id="outputVideo" controls loop></video>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-meta">
+                            <h3 id="videoTitle">Echoes of Tomorrow.mp4</h3>
+                            <p id="videoDesc">dark cyberpunk street, raining, cinematic lighting...</p>
+                        </div>
+                        <div class="action-btns">
+                            <div class="icon-btn" title="Share"><i class="fa-solid fa-share-nodes"></i></div>
+                            <div class="icon-btn" title="Download"><i class="fa-solid fa-download"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </div>
+    </main>
 
     <script>
         const form = document.getElementById('uploadForm');
@@ -187,7 +485,17 @@
         const terminal = document.getElementById('statusTerminal');
         const videoCont = document.getElementById('videoResult');
         const outputVideo = document.getElementById('outputVideo');
+        const emptyState = document.getElementById('emptyState');
+        const fileInput = document.getElementById('audioUpload');
+        const fileDisplay = document.getElementById('fileNameDisplay');
         
+        fileInput.addEventListener('change', (e) => {
+            if(e.target.files.length > 0) {
+                fileDisplay.innerText = e.target.files[0].name;
+                fileDisplay.style.color = '#00ffaa';
+            }
+        });
+
         function logMsg(msg) {
             terminal.innerHTML += `<p>> ${msg}</p>`;
             terminal.scrollTop = terminal.scrollHeight;
@@ -196,13 +504,13 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
+            emptyState.style.display = 'none';
             terminal.style.display = 'block';
             videoCont.style.display = 'none';
-            btn.innerText = "UPLOADING...";
+            btn.innerHTML = 'UPLOADING... <i class="fa-solid fa-spinner fa-spin"></i>';
             btn.style.pointerEvents = "none";
             
             logMsg("開始上傳音軌，準備呼叫 ComfyUI 聽覺外掛...");
-            
             const formData = new FormData(form);
             
             try {
@@ -211,25 +519,19 @@
                     body: formData
                 });
                 
-                if (!response.ok) {
-                    throw new Error("Backend not available");
-                }
-                
+                if (!response.ok) throw new Error("Backend not available");
                 const data = await response.json();
                 
                 if (data.error) {
                     logMsg(`❌ 錯誤: ${data.error}`);
-                    btn.innerText = "GENERATE MV";
-                    btn.style.pointerEvents = "auto";
+                    resetBtn();
                     return;
                 }
                 
                 logMsg("任務送達，啟動即時算圖進度回傳 (SSE)...");
-                btn.innerText = "GENERATING...";
+                btn.innerHTML = 'GENERATING... <i class="fa-solid fa-circle-notch fa-spin"></i>';
                 
-                // 建立 EventSource 連線聽取進度
                 const eventSource = new EventSource(`/api/stream/${data.jobId}`);
-                
                 eventSource.onmessage = function(event) {
                     const msgData = JSON.parse(event.data);
                     
@@ -239,24 +541,16 @@
                         logMsg(`[進度] ${msgData.percent}% (${msgData.val}/${msgData.max}) - 運算中...`);
                     } else if (msgData.type === 'done') {
                         logMsg(`✅ 算圖完成！影片合成成功。`);
-                        btn.innerText = "GENERATE MV";
-                        btn.style.pointerEvents = "auto";
-                        
-                        videoCont.style.display = 'block';
-                        outputVideo.src = msgData.url;
-                        outputVideo.play();
-                        
+                        showVideo(msgData.url);
                         eventSource.close();
                     } else if (msgData.type === 'error') {
                         logMsg(`❌ 算圖錯誤: ${msgData.msg}`);
-                        btn.innerText = "GENERATE MV";
-                        btn.style.pointerEvents = "auto";
+                        resetBtn();
                         eventSource.close();
                     }
                 };
                 
             } catch (err) {
-                // 如果後端沒開 (例如在 Vercel 線上版)，啟動無伺服器 Demo 模式
                 logMsg(`⚠️ 偵測到雲端環境 (或後端未啟動)，切換為「展示用 Demo 模式」...`);
                 setTimeout(() => logMsg("音樂分析完成，萃取低頻 Bass Drop 點..."), 1500);
                 setTimeout(() => logMsg("啟動 Advanced-ControlNet 轉場模型..."), 3000);
@@ -265,15 +559,27 @@
                 setTimeout(() => logMsg("算圖進度: 95% (副歌炸裂轉場)"), 7500);
                 setTimeout(() => {
                     logMsg("✅ [展示模式] 算圖完成！影片合成中...");
-                    btn.innerText = "GENERATE MV";
-                    btn.style.pointerEvents = "auto";
-                    videoCont.style.display = 'block';
-                    // 預設播一段你的 demo 影片
-                    outputVideo.src = "https://www.w3schools.com/html/mov_bbb.mp4"; 
-                    outputVideo.play();
+                    showVideo("https://www.w3schools.com/html/mov_bbb.mp4");
                 }, 9000);
             }
         });
+
+        function showVideo(url) {
+            resetBtn();
+            terminal.style.display = 'none';
+            videoCont.style.display = 'block';
+            outputVideo.src = url;
+            outputVideo.play();
+            
+            // 更新卡片資訊
+            document.getElementById('videoTitle').innerText = fileInput.files[0] ? fileInput.files[0].name : "Demo_Video.mp4";
+            document.getElementById('videoDesc').innerText = document.getElementById('promptInput').value;
+        }
+
+        function resetBtn() {
+            btn.innerHTML = 'GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>';
+            btn.style.pointerEvents = "auto";
+        }
     </script>
 </body>
 </html>
