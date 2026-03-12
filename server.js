@@ -53,6 +53,17 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
         const jobId = `job_${Date.now()}`;
         const clientId = `app_client_${Date.now()}`;
         
+        // --- 真實測試擴充：將上傳的音軌複製到 ComfyUI 的 input 資料夾 ---
+        if (file) {
+            const comfyInputPath = path.join(__dirname, '../ComfyUI/input', file.filename);
+            if (!fs.existsSync(path.dirname(comfyInputPath))) {
+                fs.mkdirSync(path.dirname(comfyInputPath), { recursive: true });
+            }
+            fs.copyFileSync(file.path, comfyInputPath);
+            console.log(`[真實測試] 已將音軌複製給 ComfyUI: ${comfyInputPath}`);
+        }
+        // -------------------------------------------------------------
+
         // 1. 先回傳 OK，讓前端開始準備接收 SSE
         res.json({ success: true, jobId });
         
