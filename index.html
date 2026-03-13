@@ -3,812 +3,407 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="xkPnsL8Y_YzBn72F3ANCanlndL_vlA01l4wWiaHrMO8" />
-    <meta name="description" content="Turn music into scroll-stopping short videos with AI beat sync, viral-ready templates, and one-click export for TikTok, Reels, and Shorts.">
-    <title>Kent & KClaw Studio | Music to Video, Faster</title>
+    <meta name="description" content="Kent & KClaw Studio builds creative AI software. ToneForge for music, WireVision for visuals.">
+    <title>Kent & KClaw Studio</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+
         :root {
-            --bg: #0b1020;
-            --bg-soft: rgba(16, 22, 40, 0.72);
-            --card: rgba(19, 26, 46, 0.88);
-            --line: rgba(255,255,255,0.1);
-            --text: #e6edf3;
-            --muted: #98a6b8;
-            --primary: #6ea8fe;
-            --accent: #d2a8ff;
-            --success: #2ecc71;
-            --shadow: 0 20px 60px rgba(0,0,0,0.35);
+            --bg-color: #000000;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border-color: rgba(255, 255, 255, 0.15);
+            --accent-green: #00ffaa;
+            --accent-purple: #b97af5;
         }
 
-        * { box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+        }
 
         body {
-            margin: 0;
-            color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-            background:
-                radial-gradient(circle at top left, rgba(88,166,255,0.16), transparent 30%),
-                radial-gradient(circle at top right, rgba(210,168,255,0.14), transparent 28%),
-                linear-gradient(-45deg, #0b1020, #121a2d, #0e1627, #160d27);
-            background-size: 100% 100%, 100% 100%, 400% 400%;
-            animation: gradientBG 18s ease infinite;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
-        a { color: inherit; }
-
-        .wrap {
-            width: min(1160px, calc(100% - 32px));
-            margin: 0 auto;
-        }
-
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            backdrop-filter: blur(16px);
-            background: rgba(11,16,32,0.72);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-
-        .topbar-inner {
+        /* 導覽列 Navbar (OpenAI style) */
+        nav {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            gap: 16px;
-            padding: 16px 0;
+            align-items: center;
+            padding: 24px 5%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.3s ease;
+        }
+        nav.scrolled {
+            border-bottom: 1px solid var(--border-color);
         }
 
         .brand {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
             display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            letter-spacing: 0.2px;
-        }
-
-        .brand-badge {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            display: grid;
-            place-items: center;
-            color: white;
-            box-shadow: 0 10px 24px rgba(110,168,254,0.25);
-        }
-
-        .nav {
-            display: flex;
-            gap: 18px;
-            color: var(--muted);
-            font-size: 0.95rem;
-        }
-
-        .nav a {
-            text-decoration: none;
-        }
-
-        .nav a:hover { color: var(--text); }
-
-        .hero {
-            padding: 72px 0 48px;
-            display: grid;
-            grid-template-columns: 1.2fr 0.9fr;
-            gap: 28px;
-            align-items: center;
-        }
-
-        .eyebrow {
-            display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 8px 14px;
-            border: 1px solid rgba(110,168,254,0.22);
-            border-radius: 999px;
-            color: #c9d7ea;
-            background: rgba(110,168,254,0.08);
-            font-size: 0.95rem;
-            margin-bottom: 18px;
         }
 
-        h1 {
-            margin: 0 0 18px;
-            font-size: clamp(2.6rem, 6vw, 4.6rem);
-            line-height: 1.05;
-            letter-spacing: -0.04em;
-        }
-
-        .gradient-text {
-            background: linear-gradient(90deg, #8cc2ff, #d2a8ff 70%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .lead {
-            margin: 0 0 26px;
-            color: var(--muted);
-            font-size: 1.12rem;
-            line-height: 1.75;
-            max-width: 760px;
-        }
-
-        .hero-actions {
+        .nav-links {
             display: flex;
-            flex-wrap: wrap;
-            gap: 14px;
-            margin-bottom: 22px;
+            gap: 32px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        #user-button {
+            display: none; /* 預設隱藏，登入後顯示大頭貼 */
+        }
+
+        #login-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            display: none; /* 預設隱藏，確認未登入才顯示 */
+        }
+        #login-btn:hover {
+            border-color: var(--text-secondary);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .lang-btn:hover {
+            border-color: var(--text-secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5%;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 500;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            max-width: 1000px;
+            margin-bottom: 24px;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            font-weight: 300;
+            margin-bottom: 48px;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 14px 20px;
-            border-radius: 12px;
-            border: 1px solid transparent;
-            text-decoration: none;
-            font-weight: 700;
-            transition: 0.25s ease;
+            gap: 8px;
+            padding: 14px 28px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            border-radius: 999px;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
 
         .btn-primary {
-            color: #fff;
-            background: linear-gradient(135deg, #4f8cff, #8c61ff);
-            box-shadow: 0 12px 28px rgba(79,140,255,0.28);
+            background: var(--text-primary);
+            color: var(--bg-color);
+            border: 1px solid var(--text-primary);
         }
-
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 34px rgba(79,140,255,0.36);
+            background: transparent;
+            color: var(--text-primary);
         }
 
-        .btn-secondary {
-            color: var(--text);
-            border-color: rgba(255,255,255,0.12);
-            background: rgba(255,255,255,0.04);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.08);
-            transform: translateY(-2px);
-        }
-
-        .mini-points {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px 18px;
-            color: #c6d4e5;
-            font-size: 0.96rem;
-        }
-
-        .mini-points span {
-            display: inline-flex;
+        /* 產品區塊 (Alternating Sections) */
+        .product-section {
+            padding: 120px 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
             align-items: center;
-            gap: 8px;
+            border-top: 1px solid var(--border-color);
         }
 
-        .hero-card, .card, .pricing-card, .faq-item {
-            background: var(--card);
-            border: 1px solid var(--line);
-            border-radius: 22px;
-            box-shadow: var(--shadow);
-        }
-
-        .hero-card {
-            padding: 24px;
-        }
-
-        .preview {
-            display: grid;
-            gap: 16px;
-        }
-
-        .preview-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 7px 12px;
-            border-radius: 999px;
-            font-size: 0.9rem;
-            background: rgba(46, 204, 113, 0.12);
-            color: #8cf0b6;
-            border: 1px solid rgba(46, 204, 113, 0.18);
-        }
-
-        .preview-screen {
-            border-radius: 18px;
-            padding: 18px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-
-        .timeline {
-            display: grid;
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        .bar {
-            height: 12px;
-            border-radius: 999px;
-            overflow: hidden;
-            background: rgba(255,255,255,0.07);
-        }
-
-        .bar > span {
-            display: block;
-            height: 100%;
-            border-radius: inherit;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-            margin-top: 14px;
-        }
-
-        .stat-box {
-            padding: 16px;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-
-        .stat-box strong {
-            display: block;
-            font-size: 1.25rem;
-            margin-bottom: 6px;
-        }
-
-        section {
-            padding: 28px 0;
-        }
-
-        .section-head {
-            text-align: center;
-            margin-bottom: 26px;
-        }
-
-        .section-head h2 {
-            margin: 0 0 10px;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-        }
-
-        .section-head p {
-            margin: 0 auto;
-            max-width: 760px;
-            color: var(--muted);
-            line-height: 1.7;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-        }
-
-        .card {
-            padding: 22px;
-        }
-
-        .card i {
-            width: 44px;
-            height: 44px;
-            display: grid;
-            place-items: center;
-            border-radius: 14px;
-            margin-bottom: 16px;
-            color: white;
-            background: linear-gradient(135deg, rgba(110,168,254,0.9), rgba(210,168,255,0.9));
-        }
-
-        .card h3 {
-            margin: 0 0 10px;
-            font-size: 1.2rem;
-        }
-
-        .card p, .card li, .pricing-card p, .faq-item p {
-            color: var(--muted);
-            line-height: 1.7;
-        }
-
-        .list {
-            padding-left: 18px;
-            margin: 12px 0 0;
-        }
-
-        .pricing {
-            display: grid;
-            grid-template-columns: 0.95fr 1.05fr;
-            gap: 18px;
-        }
-
-        .pricing-card {
-            padding: 24px;
-            position: relative;
-        }
-
-        .pricing-card.featured {
-            border-color: rgba(110,168,254,0.35);
-            box-shadow: 0 24px 60px rgba(65,105,225,0.22);
-        }
-
-        .tag {
-            display: inline-block;
-            margin-bottom: 12px;
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            border-radius: 999px;
-            background: rgba(110,168,254,0.14);
-            color: #bed7ff;
-            border: 1px solid rgba(110,168,254,0.22);
-        }
-
-        .price {
-            font-size: 2.3rem;
-            font-weight: 800;
-            margin: 8px 0;
-        }
-
-        .price small {
-            color: var(--muted);
-            font-size: 0.9rem;
+        .product-content h2 {
+            font-size: clamp(2rem, 5vw, 4rem);
             font-weight: 500;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
         }
 
-        .faq {
-            display: grid;
-            gap: 14px;
+        .product-content .sub-heading {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            font-weight: 400;
         }
 
-        .faq-item {
-            padding: 20px;
-        }
-
-        .faq-item h3 {
-            margin: 0 0 8px;
-            font-size: 1.05rem;
-        }
-
-        .waitlist {
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 18px;
-            align-items: stretch;
-            margin-top: 8px;
-        }
-
-        .waitlist-card {
-            padding: 24px;
-            background: linear-gradient(135deg, rgba(79,140,255,0.12), rgba(140,97,255,0.12));
-            border: 1px solid rgba(140,97,255,0.18);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-        }
-
-        .waitlist-box {
-            padding: 24px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-        }
-
-        .waitlist-list {
-            margin: 14px 0 0;
-            padding-left: 18px;
-            color: var(--muted);
-            line-height: 1.8;
-        }
-
-        .cta {
-            padding: 28px;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(79,140,255,0.16), rgba(140,97,255,0.16));
-            border: 1px solid rgba(140,97,255,0.18);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            margin: 30px 0 48px;
-        }
-
-        .footer {
-            padding: 28px 0 40px;
-            text-align: center;
-            color: #7f8ca0;
-            font-size: 0.95rem;
-        }
-
-        .socials {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 18px;
-            flex-wrap: wrap;
-        }
-
-        .socials a {
-            text-decoration: none;
-        }
-
-        @media (max-width: 920px) {
-            .hero,
-            .pricing,
-            .grid-3,
-            .grid-2,
-            .waitlist {
-                grid-template-columns: 1fr;
-            }
-
-            .nav {
-                display: none;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-        }
-    
-        .who-we-are {
-            margin-top: 2.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .who-we-are h2 {
-            font-size: 1.5rem;
-            color: #d2a8ff;
-            margin-bottom: 1.5rem;
-        }
-        .team-grid {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .member {
-            background: rgba(13, 17, 23, 0.5);
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            min-width: 120px;
-            transition: transform 0.3s;
-        }
-        .member:hover {
-            transform: translateY(-5px);
-            background: rgba(22, 27, 34, 0.8);
-        }
-        .member i {
-            font-size: 1.8rem;
-            color: #58a6ff;
-            margin-bottom: 0.5rem;
-        }
-        .member h3 {
-            margin: 0.5rem 0 0.2rem 0;
+        .product-content p {
             font-size: 1.1rem;
-            color: #c9d1d9;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 40px;
+            max-width: 500px;
         }
-        .member span {
-            font-size: 0.85rem;
-            color: #8b949e;
+
+        .visual-box {
+            background: #111;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #222;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 專屬色彩微調 */
+        .toneforge-text { background: -webkit-linear-gradient(0deg, #b97af5, #7c5cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .wirevision-text { background: -webkit-linear-gradient(0deg, #00ffaa, #00b8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .btn-wirevision {
+            background: rgba(0, 255, 170, 0.1);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+        }
+        .btn-wirevision:hover {
+            background: var(--accent-green);
+            color: #000;
+        }
+
+        footer {
+            padding: 40px 5%;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 900px) {
+            .product-section {
+                grid-template-columns: 1fr;
+                padding: 80px 5%;
+            }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
-    <header class="topbar">
-        <div class="wrap topbar-inner">
-            <div class="brand">
-                <div class="brand-badge"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                <span>Kent & KClaw Studio</span>
-            </div>
-            <nav class="nav">
-                <a href="#features">Features</a>
-                <a href="#workflow">Workflow</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#faq">FAQ</a>
-                <a href="/app/index.html" style="color: #00ffaa;"><i class="fa-solid fa-wand-magic-sparkles"></i> AI MV Creator</a>
-            </nav>
+
+    <nav id="navbar">
+        <a href="#" class="brand">
+            <i class="fa-solid fa-infinity"></i> Kent & KClaw
+        </a>
+        <div class="nav-links">
+            <a href="#toneforge" data-i18n="navTone">ToneForge</a>
+            <a href="#wirevision" data-i18n="navWire">WireVision</a>
+            <a href="https://github.com/skybomb77/KentKClaw-Studio" target="_blank">GitHub</a>
         </div>
-    </header>
-
-    <main class="wrap">
-        <section class="hero">
-            <div>
-                <div class="eyebrow"><i class="fa-solid fa-bolt"></i> Music to video, built for TikTok, Reels, and Shorts</div>
-                <h1>Turn songs into <span class="gradient-text">scroll-stopping videos</span> in minutes.</h1>
-                <p class="lead">
-                    Kent & KClaw Studio helps creators turn music into short-form videos with AI beat sync, viral-ready templates, subtitle motion, and one-click exports for every platform that matters. Less editing. Faster drafts. More publishable content.
-                </p>
-                <div class="hero-actions">
-                    <a href="/app/index.html" class="btn btn-primary" style="background: rgba(0, 255, 170, 0.2); color: #00ffaa; border-color: #00ffaa;"><i class="fa-solid fa-wand-magic-sparkles"></i> Try AI MV Creator</a>
-                    <a href="#waitlist" class="btn btn-secondary"><i class="fa-solid fa-bolt"></i> Join Early Access</a>
-                    <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> View GitHub</a>
-                    <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> Watch YouTube</a>
-                </div>
-                <div class="mini-points">
-                    <span><i class="fa-solid fa-check"></i> Auto beat sync</span>
-                    <span><i class="fa-solid fa-check"></i> Viral templates</span>
-                    <span><i class="fa-solid fa-check"></i> 9:16 / 1:1 / 16:9 export</span>
-                    <span><i class="fa-solid fa-check"></i> Faster editing, less busywork</span>
-                </div>
-            </div>
-
-            <div class="hero-card">
-                <div class="preview">
-                    <div class="preview-top">
-                        <strong>Creator Preview</strong>
-                        <span class="pill"><i class="fa-solid fa-wave-square"></i> Beat Sync Active</span>
-                    </div>
-                    <div class="preview-screen">
-                        <strong>From audio track to short video workflow</strong>
-                        <p style="margin:8px 0 0; color: var(--muted);">
-                            Upload a song, choose a template, auto-sync cuts to the beat, and export a polished vertical video in a few clicks.
-                        </p>
-                        <div class="timeline">
-                            <div class="bar"><span style="width: 92%"></span></div>
-                            <div class="bar"><span style="width: 74%"></span></div>
-                            <div class="bar"><span style="width: 86%"></span></div>
-                        </div>
-                        <div class="stats">
-                            <div class="stat-box">
-                                <strong>3 min</strong>
-                                <span>to first draft</span>
-                            </div>
-                            <div class="stat-box">
-                                <strong>1080p</strong>
-                                <span>Pro export</span>
-                            </div>
-                            <div class="stat-box">
-                                <strong>1 click</strong>
-                                <span>platform sizing</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="features">
-            <div class="section-head">
-                <h2>Built to save time and sell results</h2>
-                <p>
-                    This is not just another editor. It is a content production shortcut for creators, editors, and small brands that need polished short videos without spending hours on timeline work.
-                </p>
-            </div>
-            <div class="grid-3">
-                <article class="card">
-                    <i class="fa-solid fa-music"></i>
-                    <h3>AI beat sync</h3>
-                    <p>Automatically align cuts, transitions, and motion to the rhythm of your track so your video feels intentional from the first preview.</p>
-                </article>
-                <article class="card">
-                    <i class="fa-solid fa-mobile-screen-button"></i>
-                    <h3>Short-video ready templates</h3>
-                    <p>Use templates made for TikTok, Reels, and Shorts instead of wrestling with canvas size, timing, and layout every time.</p>
-                </article>
-                <article class="card">
-                    <i class="fa-solid fa-closed-captioning"></i>
-                    <h3>Subtitle and lyric motion</h3>
-                    <p>Turn lyrics, hooks, and short captions into animated visual moments that boost retention and make clips feel more premium.</p>
-                </article>
-                <article class="card">
-                    <i class="fa-solid fa-layer-group"></i>
-                    <h3>Faster creative workflow</h3>
-                    <p>Go from raw audio to a polished draft quickly so you can focus on style, promotion, and publishing instead of repetitive editing.</p>
-                </article>
-                <article class="card">
-                    <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
-                    <h3>One-click export sizing</h3>
-                    <p>Export in 9:16, 1:1, or 16:9 with less friction when repurposing content across platforms.</p>
-                </article>
-                <article class="card">
-                    <i class="fa-solid fa-star"></i>
-                    <h3>Designed for monetization</h3>
-                    <p>Built around the features people pay for first: speed, visual quality, export quality, and templates that help them look more professional.</p>
-                </article>
-            </div>
-        </section>
-
-        <section id="workflow">
-            <div class="section-head">
-                <h2>A simple workflow that creators actually want</h2>
-                <p>Make the value obvious: less editing friction, faster output, and a stronger-looking result.</p>
-            </div>
-            <div class="grid-2">
-                <article class="card">
-                    <h3>1. Upload your music</h3>
-                    <p>Start with a song, sound, or track you want to turn into a visual. The system reads tempo cues and prepares your draft timeline.</p>
-                </article>
-                <article class="card">
-                    <h3>2. Pick a high-conversion template</h3>
-                    <p>Choose a style for lyrics, product promo, memory reels, quotes, vibe clips, or vertical edits that fit short-form platforms.</p>
-                </article>
-                <article class="card">
-                    <h3>3. Let the AI do the busywork</h3>
-                    <p>Beat sync, pacing, subtitle motion, and layout handling reduce the amount of manual timeline editing you need to do.</p>
-                </article>
-                <article class="card">
-                    <h3>4. Export and publish</h3>
-                    <p>Choose the right format and deliver a polished video fast. Perfect for creators, small teams, and brands producing content at speed.</p>
-                </article>
-            </div>
-        </section>
-
-        <section>
-            <div class="section-head">
-                <h2>Who it is for</h2>
-                <p>Start narrow, sell clearly, and grow from there.</p>
-            </div>
-            <div class="grid-3">
-                <article class="card">
-                    <h3>Creators</h3>
-                    <p>Make music-driven shorts that look more polished without learning a heavyweight editor.</p>
-                </article>
-                <article class="card">
-                    <h3>Freelance editors</h3>
-                    <p>Speed up drafts, batch more client content, and keep margins healthier.</p>
-                </article>
-                <article class="card">
-                    <h3>Small brands</h3>
-                    <p>Create reels, promo clips, and vertical content faster for social channels and product launches.</p>
-                </article>
-            </div>
-        </section>
-
-        <section id="pricing">
-            <div class="section-head">
-                <h2>Simple pricing that matches the value</h2>
-                <p>Start free, upgrade when you want cleaner exports, better templates, and a more serious production workflow.</p>
-            </div>
-            <div class="pricing">
-                <article class="pricing-card">
-                    <span class="tag">Free</span>
-                    <h3>Try the workflow first</h3>
-                    <div class="price">NT$0 <small>/ forever</small></div>
-                    <p>Good for testing the experience and making your first draft.</p>
-                    <ul class="list">
-                        <li>Basic templates</li>
-                        <li>Standard export quality</li>
-                        <li>Watermarked output</li>
-                        <li>Core music-to-video workflow</li>
-                    </ul>
-                </article>
-                <article class="pricing-card featured">
-                    <span class="tag">Pro</span>
-                    <h3>The plan most creators will want</h3>
-                    <div class="price">NT$390 <small>/ month</small></div>
-                    <p>Made for creators and editors who want stronger output quality and faster results.</p>
-                    <ul class="list">
-                        <li>No watermark</li>
-                        <li>1080p export</li>
-                        <li>Premium templates</li>
-                        <li>Better beat sync experience</li>
-                        <li>Subtitle / lyric motion tools</li>
-                        <li>Multi-platform export sizing</li>
-                    </ul>
-                </article>
-            </div>
-        </section>
-
-        <section id="faq">
-            <div class="section-head">
-                <h2>FAQ</h2>
-                <p>Answer the buying questions before users have to ask them.</p>
-            </div>
-            <div class="faq">
-                <article class="faq-item">
-                    <h3>What makes this different from a regular video editor?</h3>
-                    <p>Regular editors are powerful but slow for short-form production. Kent & KClaw Studio focuses on speed, beat sync, templates, and exports that help creators publish faster.</p>
-                </article>
-                <article class="faq-item">
-                    <h3>Who is the Pro plan for?</h3>
-                    <p>Creators, freelance editors, and small brands that want cleaner output, premium templates, and higher export quality without a lot of manual editing.</p>
-                </article>
-                <article class="faq-item">
-                    <h3>Can I use it for TikTok, Reels, and Shorts?</h3>
-                    <p>Yes. The product direction is built around vertical-first and short-form workflows, including multi-size exports for major social platforms.</p>
-                </article>
-            </div>
-        </section>
-
-        <section id="waitlist">
-            <div class="section-head">
-                <h2>Start collecting demand before the product is finished</h2>
-                <p>Even before full launch, the site should do one job well: explain the value fast and turn interest into a waitlist, DM, or founder conversation.</p>
-            </div>
-            <div class="waitlist">
-                <article class="waitlist-card">
-                    <span class="tag">Early access</span>
-                    <h3 style="margin-top:0; font-size:1.5rem;">Join the first creator batch</h3>
-                    <p style="color: #dce6f3; line-height: 1.8;">
-                        If you want faster music-to-video creation, better short-form output, and less manual editing, join the early access list and get updates when the product opens up.
-                    </p>
-                    <div class="hero-actions" style="margin-top:18px; margin-bottom:0;">
-                        <a href="mailto:skybomb77@gmail.com?subject=Kent%20%26%20KClaw%20Studio%20Early%20Access" class="btn btn-primary"><i class="fa-solid fa-envelope"></i> Join via Email</a>
-                        <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> Watch Product Updates</a>
-                    </div>
-                </article>
-                <article class="waitlist-box">
-                    <h3 style="margin-top:0;">Why join early?</h3>
-                    <ul class="waitlist-list">
-                        <li>Get notified when the first usable build is ready</li>
-                        <li>Help shape the template packs and workflow</li>
-                        <li>Get early-bird pricing before public rollout</li>
-                        <li>Perfect for creators, editors, and small brands testing short-form content</li>
-                    </ul>
-                </article>
-            </div>
-        </section>
-
-        <section class="cta">
-            <h2 style="margin-top:0;">Build faster. Publish faster. Grow faster.</h2>
-            <p style="max-width:720px; margin: 0 auto 20px; color: #d9e2ee; line-height: 1.75;">
-                Kent & KClaw Studio is positioned around the features people actually pay for: speed, template quality, output quality, and less repetitive editing work.
-            </p>
-            <div class="hero-actions" style="justify-content:center; margin-bottom:0;">
-                <a href="mailto:skybomb77@gmail.com?subject=Kent%20%26%20KClaw%20Studio%20Demo" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Request a Demo</a>
-                <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> Follow the Build</a>
-                <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> Watch Updates</a>
-            </div>
-        </section>
-    
-        <section id="team" style="margin-top: 5rem; text-align: center;">
-            <div class="section-head">
-                <h2>Who We Are</h2>
-                <p>The brains behind the innovation.</p>
-            </div>
-            <div class="features-grid" style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
-                <article class="feature-card" style="min-width: 200px;">
-                    <i class="fas fa-crown" style="font-size: 2.5rem; color: #58a6ff; margin-bottom: 1rem;"></i>
-                    <h3>Kent</h3>
-                    <p style="margin-top: 0.5rem; color: #8b949e;">Boss & Founder</p>
-                </article>
-                <article class="feature-card" style="min-width: 200px;">
-                    <i class="fas fa-robot" style="font-size: 2.5rem; color: #d2a8ff; margin-bottom: 1rem;"></i>
-                    <h3>KClaw</h3>
-                    <p style="margin-top: 0.5rem; color: #8b949e;">Senior AI / The Big Bro 🐯</p>
-                </article>
-                <article class="feature-card" style="min-width: 200px;">
-                    <i class="fas fa-microchip" style="font-size: 2.5rem; color: #3fb950; margin-bottom: 1rem;"></i>
-                    <h3>KTlaw</h3>
-                    <p style="margin-top: 0.5rem; color: #8b949e;">AI Assistant / The Little Bro 🤖</p>
-                </article>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="footer wrap">
-        <div><strong>Kent & KClaw Studio</strong></div>
-        <div class="socials">
-            <a href="https://github.com/skybomb77" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> GitHub</a>
-            <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" class="btn btn-secondary"><i class="fab fa-youtube"></i> YouTube</a>
+        <div class="nav-right">
+            <button class="lang-btn" id="langToggle">中文</button>
+            <button id="login-btn" data-i18n="navLogin">Sign In</button>
+            <div id="user-button"></div>
         </div>
-        <p style="margin-top:18px;">&copy; 2026 Kent & KClaw. All rights reserved. Powered by OpenClaw 🐯</p>
+    </nav>
+
+    <section class="hero">
+        <h1 data-i18n="heroTitle">Creative AI for the next generation.</h1>
+        <p data-i18n="heroSub">Two powerful engines. One creative studio. Build music and visual content faster than ever before.</p>
+        <div>
+            <a href="#wirevision" class="btn btn-primary" data-i18n="heroCTA">Explore Products</a>
+        </div>
+    </section>
+
+    <!-- Product 1: ToneForge -->
+    <section class="product-section" id="toneforge">
+        <div class="product-content">
+            <h2 class="toneforge-text">ToneForge</h2>
+            <div class="sub-heading" data-i18n="tfSub">The AI Music Engine.</div>
+            <p data-i18n="tfDesc">An AI music product for creators, editors, and brands. Generate short-form, ad-ready soundtracks in minutes. Describe the vibe, get the track.</p>
+            <a href="#" class="btn" style="border: 1px solid var(--border-color);" data-i18n="tfBtn">Explore ToneForge</a>
+        </div>
+        <div class="visual-box" style="box-shadow: 0 0 80px rgba(185, 122, 245, 0.1);">
+            <i class="fa-solid fa-wave-square" style="color: rgba(185, 122, 245, 0.3);"></i>
+        </div>
+    </section>
+
+    <!-- Product 2: WireVision -->
+    <section class="product-section" id="wirevision">
+        <div class="visual-box" style="box-shadow: 0 0 80px rgba(0, 255, 170, 0.1);">
+            <i class="fa-solid fa-film" style="color: rgba(0, 255, 170, 0.3);"></i>
+        </div>
+        <div class="product-content">
+            <h2 class="wirevision-text">WireVision</h2>
+            <div class="sub-heading" data-i18n="wvSub">The AI Visual Engine.</div>
+            <p data-i18n="wvDesc">Turn songs into scroll-stopping short videos. Upload your audio, enter a style prompt, and let our ComfyUI-powered engine generate a beat-synced MV instantly.</p>
+            <a href="app/index.html" class="btn btn-wirevision"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="wvBtn">Launch MV Creator</span></a>
+        </div>
+    </section>
+
+    <footer>
+        <div data-i18n="footer">© 2026 Kent & KClaw Studio. All rights reserved.</div>
+        <div>
+            <a href="https://github.com/skybomb77" target="_blank" style="margin-right: 15px;"><i class="fa-brands fa-github"></i></a>
+            <a href="https://youtube.com/@KentKClawStudio" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+        </div>
     </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // 雙語系統 (Bilingual System)
+        const dict = {
+            en: {
+                navTone: "ToneForge",
+                navWire: "WireVision",
+                navLogin: "Sign In",
+                heroTitle: "Creative AI for the next generation.",
+                heroSub: "Two powerful engines. One creative studio. Build music and visual content faster than ever before.",
+                heroCTA: "Explore Products",
+                tfSub: "The AI Music Engine.",
+                tfDesc: "An AI music product for creators, editors, and brands. Generate short-form, ad-ready soundtracks in minutes. Describe the vibe, get the track.",
+                tfBtn: "Explore ToneForge",
+                wvSub: "The AI Visual Engine.",
+                wvDesc: "Turn songs into scroll-stopping short videos. Upload your audio, enter a style prompt, and let our ComfyUI-powered engine generate a beat-synced MV instantly.",
+                wvBtn: "Launch MV Creator",
+                footer: "© 2026 Kent & KClaw Studio. All rights reserved."
+            },
+            zh: {
+                navTone: "ToneForge 音樂",
+                navWire: "WireVision 視覺",
+                navLogin: "登入 / 註冊",
+                heroTitle: "為次世代打造的 AI 創意引擎",
+                heroSub: "兩個強大的引擎，一個創意工作室。用前所未有的速度打造音樂與視覺內容。",
+                heroCTA: "探索產品",
+                tfSub: "AI 商業音樂引擎",
+                tfDesc: "專為創作者、剪輯師與品牌打造的 AI 音樂產品。幾分鐘內生成短影音、廣告級別的配樂。輸入情境，取得音樂。",
+                tfBtn: "了解 ToneForge",
+                wvSub: "AI 視覺與動畫引擎",
+                wvDesc: "把音樂變成超吸睛的短影片。上傳音軌、輸入視覺提示詞，讓我們的 ComfyUI 引擎為你即時生成節拍同步的專屬 MV。",
+                wvBtn: "啟動 MV 產生器 (SaaS)",
+                footer: "© 2026 Kent & KClaw Studio. 保留所有權利。"
+            }
+        };
+
+        let currentLang = localStorage.getItem('site-lang') || 'en';
+        const langToggleBtn = document.getElementById('langToggle');
+
+        function updateContent() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[currentLang][key]) {
+                    if (el.tagName === 'SPAN') el.innerText = dict[currentLang][key];
+                    else el.innerHTML = el.innerHTML.replace(el.innerText, dict[currentLang][key]);
+                }
+            });
+            langToggleBtn.innerText = currentLang === 'en' ? '中文' : 'EN';
+            document.documentElement.lang = currentLang === 'en' ? 'en' : 'zh-Hant';
+            localStorage.setItem('site-lang', currentLang);
+        }
+
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'zh' : 'en';
+            updateContent();
+        });
+
+        // Init
+        updateContent();
+
+        // ======= 🚀 CLERK 專業會員登入系統 (官網全域化) =======
+        const publishableKey = "pk_test_cmF0aW9uYWwtd2FscnVzLTkwLmNsZXJrLmFjY291bnRzLmRldiQ";
+        const script = document.createElement("script");
+        script.setAttribute("data-clerk-publishable-key", publishableKey);
+        script.async = true;
+        script.src = "https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js";
+        script.crossOrigin = "anonymous";
+        
+        script.addEventListener("load", async () => {
+            try {
+                await window.Clerk.load();
+                const loginBtn = document.getElementById("login-btn");
+                const userBtnDiv = document.getElementById("user-button");
+
+                if (window.Clerk.user) {
+                    // 已登入：顯示大頭貼，隱藏登入按鈕
+                    userBtnDiv.style.display = 'block';
+                    loginBtn.style.display = 'none';
+                    window.Clerk.mountUserButton(userBtnDiv);
+                } else {
+                    // 未登入：顯示登入按鈕
+                    loginBtn.style.display = 'block';
+                    userBtnDiv.style.display = 'none';
+                    
+                    // 點擊觸發 Clerk 登入彈窗
+                    loginBtn.addEventListener('click', () => {
+                        window.Clerk.openSignIn();
+                    });
+                }
+            } catch (err) { console.error("Clerk 初始化錯誤:", err); }
+        });
+        document.body.appendChild(script);
+
+    </script>
 </body>
 </html>

@@ -153,6 +153,7 @@
     </main>
 
     <script>
+        // ======= 🚀 CLERK 專業會員登入系統 =======
         const publishableKey = "pk_test_cmF0aW9uYWwtd2FscnVzLTkwLmNsZXJrLmFjY291bnRzLmRldiQ";
         const script = document.createElement("script");
         script.setAttribute("data-clerk-publishable-key", publishableKey);
@@ -168,13 +169,15 @@
                     document.getElementById('mainApp').style.display = 'flex';
                     window.Clerk.mountUserButton(document.getElementById("user-button"));
                 } else {
-                    window.Clerk.mountSignIn(document.getElementById("sign-in"));
+                    // 如果在 App 頁面未登入，強制導向首頁登入
+                    window.location.href = "../index.html";
                 }
             } catch (err) { console.error("Clerk 初始化錯誤:", err); }
         });
         document.body.appendChild(script);
 
-        const BACKEND_URL = "https://thirty-ravens-fail.loca.lt"; // 你的 Mac mini 隧道
+        // ======= 🚀 畫面邏輯與後端 API =======
+        const BACKEND_URL = "https://upset-moose-boil.loca.lt"; // 你的 Mac mini 隧道
 
         const form = document.getElementById('uploadForm');
         const fileInput = document.getElementById('audioUpload');
