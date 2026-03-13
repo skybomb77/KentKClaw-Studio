@@ -27,12 +27,23 @@ const { spawn } = require('child_process');
         }
 
         const indexHtmlPath = path.join(__dirname, 'index.html');
+        
+
         if (fs.existsSync(indexHtmlPath)) {
             let indexHtml = fs.readFileSync(indexHtmlPath, 'utf8');
             indexHtml = indexHtml.replace(/href="https:\/\/.*\.loca\.lt\/app"/g, `href="app/index.html"`);
             fs.writeFileSync(indexHtmlPath, indexHtml);
             console.log('✅ 已成功將官網首頁按鈕直接連通至您的 Mac 隧道。');
         }
+        // === AUTO PUSH TO VERCEL ===
+        try {
+            const { execSync } = require("child_process");
+            execSync("git add app/index.html index.html", { cwd: __dirname });
+            execSync("git commit -m \"Auto-update Backend URL for Vercel\"", { cwd: __dirname });
+            execSync("git push origin main", { cwd: __dirname });
+            console.log("✅ 隧道網址已推送到 GitHub！您的 Vercel 網站（chaobang.vercel.app）現在已經與本機伺服器完全同步。\n");
+        } catch(e) { /* Ignore if no changes */ }
+
 
         console.log('🚀 啟動 Chaobang 後端中樞神經...');
         const server = spawn('node', ['server.js'], { stdio: 'inherit' });

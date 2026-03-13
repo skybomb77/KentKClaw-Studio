@@ -51,6 +51,10 @@ app.get('/api/video/:filename', (req, res) => {
     const filename = req.params.filename;
     const url = `http://${COMFY_SERVER}/view?filename=${filename}`;
     http.get(url, (response) => {
+            if (response.statusCode !== 200) {
+                res.status(response.statusCode).send('Error fetching video from engine');
+                return;
+            }
         res.setHeader('Content-Type', 'video/mp4');
         response.pipe(res);
     }).on('error', (err) => {
@@ -79,6 +83,10 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
         console.log(`[Chaobang SaaS] 新客戶任務 ${jobId} | 比例: ${ratio} | 提示詞: ${promptText}`);
 
         const workflowPath = path.join(__dirname, '../ComfyUI/workflow_animatediff.json');
+        if (!fs.existsSync(workflowPath)) {
+            console.error('Workflow 檔案不存在');
+            return res.status(500).json({ success: false, error: "System Configuration Error (Workflow Missing)" });
+        }
         let promptJson = null;
         if (fs.existsSync(workflowPath)) {
             promptJson = JSON.parse(fs.readFileSync(workflowPath, 'utf8'));
