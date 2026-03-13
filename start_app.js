@@ -29,7 +29,7 @@ const { spawn } = require('child_process');
         const indexHtmlPath = path.join(__dirname, 'index.html');
         if (fs.existsSync(indexHtmlPath)) {
             let indexHtml = fs.readFileSync(indexHtmlPath, 'utf8');
-            indexHtml = indexHtml.replace(/href="[^"]*app"/g, `href="${url}/app"`);
+            indexHtml = indexHtml.replace(/href="https:\/\/.*\.loca\.lt\/app"/g, `href="app/index.html"`);
             fs.writeFileSync(indexHtmlPath, indexHtml);
             console.log('✅ 已成功將官網首頁按鈕直接連通至您的 Mac 隧道。');
         }

@@ -396,7 +396,7 @@
                     userBtnDiv.style.display = 'none';
                     
                     // 點擊觸發 Clerk 登入彈窗
-                    loginBtn.addEventListener('click', () => {
+                    loginBtn.addEventListener('click', (e) => { e.preventDefault();
                         window.Clerk.openSignIn();
                     });
                 }
