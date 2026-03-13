@@ -311,7 +311,7 @@
             const nav = document.getElementById('navbar');
             if (window.scrollY > 20) nav.classList.add('scrolled');
             else nav.classList.remove('scrolled');
-        });
+        
 
         // 雙語系統 (Bilingual System)
         const dict = {
@@ -357,7 +357,7 @@
                     if (el.tagName === 'SPAN') el.innerText = dict[currentLang][key];
                     else el.innerHTML = el.innerHTML.replace(el.innerText, dict[currentLang][key]);
                 }
-            });
+            
             langToggleBtn.innerText = currentLang === 'en' ? '中文' : 'EN';
             document.documentElement.lang = currentLang === 'en' ? 'en' : 'zh-Hant';
             localStorage.setItem('site-lang', currentLang);
@@ -366,7 +366,7 @@
         langToggleBtn.addEventListener('click', () => {
             currentLang = currentLang === 'en' ? 'zh' : 'en';
             updateContent();
-        });
+        
 
         // Init
         updateContent();
@@ -378,6 +378,7 @@
         script.async = true;
         script.src = "https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js";
         script.crossOrigin = "anonymous";
+        
         
         script.addEventListener("load", async () => {
             try {
@@ -394,15 +395,10 @@
                     // 未登入：顯示登入按鈕
                     loginBtn.style.display = 'block';
                     userBtnDiv.style.display = 'none';
-                    
-                    // 點擊觸發 Clerk 登入彈窗
-                    loginBtn.addEventListener('click', (e) => { e.preventDefault();
-                        window.Clerk.openSignIn();
-                    });
                 }
             } catch (err) { console.error("Clerk 初始化錯誤:", err); }
         });
-        document.body.appendChild(script);
+document.body.appendChild(script);
 
     </script>
 
