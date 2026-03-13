@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ToneForge app demo.">
+  <title>ToneForge App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{--bg:#07070d;--bg2:#151022;--card:rgba(18,14,30,.88);--line:rgba(255,255,255,.1);--text:#f6f2ff;--muted:#b9b1c9;--primary:#7c5cff;--accent:#ff4da6;--accent2:#38d5ff;--ok:#42d392;--warn:#ffd166;--shadow:0 20px 60px rgba(0,0,0,.35)}
+    *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at top left, rgba(124,92,255,.20), transparent 30%),radial-gradient(circle at top right, rgba(255,77,166,.18), transparent 28%),linear-gradient(-45deg,var(--bg),var(--bg2),#120a1c,#090912)}a{text-decoration:none;color:inherit}.wrap{width:min(1280px,calc(100% - 32px));margin:0 auto}.topbar{position:sticky;top:0;background:rgba(11,16,32,.72);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06);z-index:20}.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0}.brand{display:flex;align-items:center;gap:12px;font-weight:700}.brand-badge{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--accent),var(--accent2));display:grid;place-items:center;color:#fff}.nav{display:flex;gap:10px;flex-wrap:wrap}.nav a{padding:10px 14px;border-radius:999px;color:var(--muted)}.nav a:hover,.nav a.active{background:rgba(255,255,255,.06);color:var(--text)}.nav a.home{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:var(--text)}.nav a.home:hover{background:#7c5cff;border-color:#7c5cff;color:#fff}
+    .hero{padding:28px 0 18px}.title{font-size:clamp(2rem,5vw,3.2rem);margin:0 0 10px}.lead{color:var(--muted);line-height:1.8;max-width:900px}.app-grid{display:grid;grid-template-columns:340px minmax(0,1fr) 320px;gap:18px;padding:18px 0 48px}.panel,.result-card,.mini-card{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:22px}.panel h3,.mini-card h3,.result-card h3{margin:0 0 10px}.field{margin-bottom:14px}.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:block;margin-bottom:6px;color:var(--muted);font-size:.95rem}textarea,select,input{width:100%;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text)}textarea{min-height:110px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 20px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);font-weight:700;color:var(--text);transition:background .2s ease,border-color .2s ease,color .2s ease,transform .2s ease;cursor:pointer}.btn:hover{background:#7c5cff;border-color:#7c5cff;color:#fff;transform:translateY(-1px)}.btn:active{background:#ff4da6;border-color:#ff4da6;color:#fff}.btn.small{padding:10px 12px;font-size:.9rem}.btn.ghost{background:transparent}.results{display:grid;gap:16px}.result-card.active{border-color:rgba(124,92,255,.6);box-shadow:0 0 0 1px rgba(124,92,255,.25),var(--shadow)}.result-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);font-size:.9rem;color:#d8d0e8}.muted{color:var(--muted)}.loading,.history-item,.fake-player,.library-item,.credit-box,.status-box,.detail-box,.empty-box,.brief-box,.meta-grid>div,.toast{padding:14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}.hidden{display:none}.fake-bar{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin:10px 0}.fake-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--primary),var(--accent2));transition:width .25s ease}.history,.library{margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08)}.stack{display:grid;gap:16px}.kpi{font-size:1.8rem;font-weight:800}.small{font-size:.92rem;color:var(--muted)}.tag{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);font-size:.84rem;color:#ddd}.gen-steps{display:grid;gap:8px;margin-top:12px}.gen-step{padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);color:var(--muted)}.gen-step.active{border-color:rgba(124,92,255,.5);color:#fff}.library-item{cursor:pointer}.library-item.saved{border-color:rgba(255,77,166,.4)}.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.rename-row,.detail-actions,.result-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.queue{display:grid;gap:10px}.queue-item{padding:12px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}.queue-item strong{display:block}.toast{position:fixed;right:18px;bottom:18px;min-width:240px;background:rgba(18,14,30,.96);backdrop-filter:blur(12px);display:none}.toast.show{display:block}.ok{color:var(--ok)}.warn{color:var(--warn)}@media(max-width:1120px){.app-grid{grid-template-columns:1fr}.nav{display:none}.field-row,.meta-grid{grid-template-columns:1fr}.btn{width:100%}.rename-row,.detail-actions,.result-actions{flex-direction:column}}
+  </style>
+<script src="assets/lang.js"></script></head>
+<body>
+<header class="topbar"><div class="wrap topbar-inner"><a href="toneforge.html" class="brand"><div class="brand-badge"><i class="fa-solid fa-wave-square"></i></div><span>ToneForge App</span></a><nav class="nav"><a href="toneforge.html" class="home">&larr; Back to ToneForge</a><a href="wirevision.html">WireVision</a><select data-lang-toggle style="margin-left:10px;padding:10px 12px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:inherit"><option value="en">EN</option><option value="zh">いゅ</option></select></nav></div></header>
+<main class="wrap">
+  <section class="hero">
+    <h1 class="title">ToneForge App</h1>
+    <p class="lead">A no-paid-API prototype for generating usable music options for short videos, ads, and creator workflows. Built around briefs, variants, selection, and reusable concepts instead of pretending to be a full song-generation platform.</p>
+  </section>
+  <section class="app-grid">
+    <article class="panel">
+      <h3>Create brief</h3>
+      <div class="field"><label for="prompt">Creative brief</label><textarea id="prompt" placeholder="Example: premium fashion-tech soundtrack for a 15-second product reel with a confident, glossy feel"></textarea></div>
+      <div class="field-row">
+        <div class="field"><label for="useCase">Use case</label><select id="useCase"><option>Short video</option><option>Ad / brand</option><option>Creator content</option></select></div>
+        <div class="field"><label for="duration">Duration</label><select id="duration"><option>15s</option><option>30s</option><option>60s</option></select></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="mood">Mood</label><select id="mood"><option>Glossy</option><option>Cinematic</option><option>Luxury</option><option>Hype</option><option>Chill</option></select></div>
+        <div class="field"><label for="energy">Energy</label><select id="energy"><option>Low</option><option>Medium</option><option>High</option></select></div>
+      </div>
+      <button class="btn" id="generateBtn"><i class="fa-solid fa-bolt"></i> Generate Variants</button>
+      <div class="history"><h3 style="font-size:1rem">Recent briefs</h3><div id="history"></div></div>
+      <div class="history"><h3 style="font-size:1rem">Queue</h3><div id="queue" class="queue"><div class="queue-item"><span class="small">No queued jobs.</span></div></div></div>
+    </article>
+
+    <article class="panel">
+      <h3>Version results</h3>
+      <div id="loading" class="loading hidden">Building creative variants...</div>
+      <div id="emptyResults" class="empty-box">No variants yet. Start with a creative brief.</div>
+      <div id="results" class="results"></div>
+    </article>
+
+    <div class="stack">
+      <article class="mini-card">
+        <h3>Workspace</h3>
+        <div class="status-box"><div class="small">Status</div><div><strong id="runStatus">Prototype mode</strong></div></div>
+        <div class="status-box" style="margin-top:12px"><div class="small">Model</div><div><strong>Local concept generator</strong></div></div>
+        <div class="gen-steps">
+          <div class="gen-step" id="stepPrompt">1. Brief captured</div>
+          <div class="gen-step" id="stepGenerate">2. Variants scored</div>
+          <div class="gen-step" id="stepReady">3. Best fit selected</div>
+        </div>
+      </article>
+      <article class="mini-card">
+        <h3>Credits</h3>
+        <div class="credit-box"><div class="kpi" id="creditsLeft">24</div><div class="small">local demo runs left</div></div>
+      </article>
+      <article class="mini-card">
+        <h3>Track detail</h3>
+        <div id="detailPanel" class="detail-box"><div class="small">Selected variant</div><div style="margin-top:8px"><strong>No variant selected</strong></div></div>
+      </article>
+      <article class="mini-card">
+        <h3>Library</h3>
+        <div id="library"></div>
+      </article>
+    </div>
+  </section>
+</main>
+<div id="toast" class="toast"></div>
+<script>
+const resultsEl=document.getElementById('results');
+const loadingEl=document.getElementById('loading');
+const emptyResultsEl=document.getElementById('emptyResults');
+const historyEl=document.getElementById('history');
+const libraryEl=document.getElementById('library');
+const queueEl=document.getElementById('queue');
+const creditsEl=document.getElementById('creditsLeft');
+const runStatusEl=document.getElementById('runStatus');
+const detailPanelEl=document.getElementById('detailPanel');
+const toastEl=document.getElementById('toast');
+const stepPrompt=document.getElementById('stepPrompt');
+const stepGenerate=document.getElementById('stepGenerate');
+const stepReady=document.getElementById('stepReady');
+const historyKey='toneforge-history';
+const libraryKey='toneforge-library';
+const creditsKey='toneforge-credits';
+let currentTracks=[];
+let selectedTrackId=null;
+let currentBrief=null;
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function getJson(key,fallback){return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback));}
+function setJson(key,value){localStorage.setItem(key,JSON.stringify(value));}
+function toast(msg){toastEl.textContent=msg;toastEl.classList.add('show');clearTimeout(toastEl._t);toastEl._t=setTimeout(()=>toastEl.classList.remove('show'),1600)}
+function renderHistory(){const items=getJson(historyKey,[]);historyEl.innerHTML=items.length?items.map(item=>`<div class="history-item">${item.prompt} 路 ${item.useCase} 路 ${item.duration}</div>`).join(''):'<div class="history-item">No briefs yet.</div>';}
+function renderLibrary(){const items=getJson(libraryKey,[]);libraryEl.innerHTML=items.length?items.map(item=>`<div class="library-item ${item.saved?'saved':''}" data-id="${item.id}"><strong>${item.title}</strong><div class="small">${item.duration} 路 ${item.fit}</div></div>`).join(''):'<div class="library-item">No saved concepts yet.</div>';}
+function renderQueue(items=[]){queueEl.innerHTML=items.length?items.map(item=>`<div class="queue-item"><strong>${item.label}</strong><span class="small">${item.state}</span></div>`).join(''):'<div class="queue-item"><span class="small">No queued jobs.</span></div>';}
+function renderCredits(){creditsEl.textContent=localStorage.getItem(creditsKey)||'24';}
+function saveHistory(prompt,useCase,duration){const items=getJson(historyKey,[]);items.unshift({prompt,useCase,duration});setJson(historyKey,items.slice(0,5));renderHistory();}
+function saveLibrary(track){const items=getJson(libraryKey,[]);const next=[{...track,saved:true},...items.filter(item=>item.id!==track.id)];setJson(libraryKey,next.slice(0,12));renderLibrary();}
+function getLibraryTrack(id){return getJson(libraryKey,[]).find(item=>item.id===id)}
+function deleteLibraryTrack(id){const items=getJson(libraryKey,[]).filter(item=>item.id!==id);setJson(libraryKey,items);renderLibrary();}
+function useCredit(){let credits=parseInt(localStorage.getItem(creditsKey)||'24',10);credits=Math.max(credits-1,0);localStorage.setItem(creditsKey,String(credits));renderCredits();}
+function setStep(step){[stepPrompt,stepGenerate,stepReady].forEach(el=>el.classList.remove('active')); if(step>=1)stepPrompt.classList.add('active'); if(step>=2)stepGenerate.classList.add('active'); if(step>=3)stepReady.classList.add('active');}
+function pickTrack(id){selectedTrackId=id; renderTracks(currentTracks); const track=currentTracks.find(t=>t.id===id) || getLibraryTrack(id); if(track) renderDetail(track);}
+function renderDetail(track){
+  detailPanelEl.innerHTML=`<div class="small">Selected variant</div><div style="margin-top:8px"><strong>${track.title}</strong></div><div class="small" style="margin-top:8px">${track.duration} 路 ${track.useCase} 路 ${track.bpm} BPM</div><div style="margin-top:12px" class="tag">${track.fit}</div><div style="margin-top:12px">${track.note}</div><div class="meta-grid"><div><div class="small">Mood</div><div>${track.mood}</div></div><div><div class="small">Energy</div><div>${track.energy}</div></div><div><div class="small">Score</div><div>${track.score}/100</div></div><div><div class="small">Best for</div><div>${track.bestFor}</div></div></div><div class="rename-row"><input id="renameInput" value="${track.title}"><button class="btn small" id="renameBtn">Rename</button></div><div class="detail-actions"><button class="btn small" id="duplicateBtn">Duplicate</button><button class="btn small" id="deleteBtn">Delete</button><button class="btn small" id="retryBtn">Retry Brief</button></div>`;
+  document.getElementById('renameBtn').addEventListener('click',()=>renameTrack(track.id, document.getElementById('renameInput').value.trim()));
+  document.getElementById('duplicateBtn').addEventListener('click',()=>duplicateTrack(track.id));
+  document.getElementById('deleteBtn').addEventListener('click',()=>deleteTrack(track.id));
+  document.getElementById('retryBtn').addEventListener('click',()=>retryBrief());
+}
+function renameTrack(id,value){if(!value) return; currentTracks=currentTracks.map(t=>t.id===id?{...t,title:value}:t); const lib=getJson(libraryKey,[]).map(t=>t.id===id?{...t,title:value}:t); setJson(libraryKey,lib); renderLibrary(); renderTracks(currentTracks); pickTrack(id); toast('Renamed');}
+function duplicateTrack(id){const track=currentTracks.find(t=>t.id===id) || getLibraryTrack(id); if(!track) return; const copy={...track,id:uid(),title:`${track.title} Copy`}; currentTracks=[copy,...currentTracks]; renderTracks(currentTracks); pickTrack(copy.id); toast('Duplicated');}
+function deleteTrack(id){currentTracks=currentTracks.filter(t=>t.id!==id); deleteLibraryTrack(id); if(!currentTracks.length){selectedTrackId=null; resultsEl.innerHTML=''; emptyResultsEl.classList.remove('hidden'); detailPanelEl.innerHTML='<div class="small">Selected variant</div><div style="margin-top:8px"><strong>No variant selected</strong></div>'; } else { selectedTrackId=currentTracks[0].id; renderTracks(currentTracks); pickTrack(selectedTrackId);} toast('Removed');}
+function retryBrief(){if(!currentBrief) return; document.getElementById('prompt').value=currentBrief.prompt; document.getElementById('useCase').value=currentBrief.useCase; document.getElementById('duration').value=currentBrief.duration; document.getElementById('mood').value=currentBrief.mood; document.getElementById('energy').value=currentBrief.energy; generateVariants(); toast('Brief loaded');}
+function makeVariants(prompt,useCase,duration,mood,energy){
+  return [
+    {id:uid(),title:'Launch Hook', fit:'Best for hook/opening', bestFor:'Fast first 3 seconds', bpm:98, energy, mood, duration, useCase, note:'Cleaner intro impact for short-form openings.', score:91},
+    {id:uid(),title:'Brand Glide', fit:'Best for brand / product shots', bestFor:'Premium product pacing', bpm:112, energy, mood, duration, useCase, note:'More polished and premium for product pacing.', score:94},
+    {id:uid(),title:'Creator Push', fit:'Best for creator pacing', bestFor:'Edit-driven social content', bpm:128, energy, mood, duration, useCase, note:'More motion and energy for fast edits.', score:89}
+  ].map(v=>({...v, brief:prompt.split(' ').slice(0,8).join(' ')}));
+}
+function renderTracks(tracks){
+  currentTracks=tracks;
+  emptyResultsEl.classList.add('hidden');
+  resultsEl.innerHTML=tracks.map((t,i)=>`<article class="result-card ${t.id===selectedTrackId || (!selectedTrackId && i===0)?'active':''}" data-id="${t.id}"><div class="result-top"><div><h3>${t.title}</h3><p class="muted">${t.brief}</p></div><span class="pill">${t.duration} 路 ${t.bpm} BPM</span></div><div class="brief-box"><strong>${t.fit}</strong><div class="small" style="margin-top:6px">${t.note}</div></div><div class="fake-player" style="margin-top:12px"><div class="muted preview-state">Ready to preview concept</div><div class="fake-bar"><span style="width:${38 + i*14}%"></span></div><div class="small">Suitability score: ${t.score}/100</div></div><div class="result-actions"><button class="btn action-preview" type="button">Preview</button><button class="btn action-save" type="button" data-id="${t.id}">Save</button><button class="btn action-apply" type="button">Use This Direction</button></div></article>`).join('');
+  if(!selectedTrackId && tracks[0]) selectedTrackId=tracks[0].id;
+  const track=tracks.find(t=>t.id===selectedTrackId) || tracks[0];
+  if(track) renderDetail(track);
+}
+function generateVariants(){
+  const prompt=document.getElementById('prompt').value.trim();
+  const useCase=document.getElementById('useCase').value;
+  const duration=document.getElementById('duration').value;
+  const mood=document.getElementById('mood').value;
+  const energy=document.getElementById('energy').value;
+  if(!prompt){alert('Enter a creative brief first.');return;}
+  currentBrief={prompt,useCase,duration,mood,energy};
+  saveHistory(prompt,useCase,duration); useCredit(); setStep(1); runStatusEl.textContent='Generating variants...';
+  renderQueue([{label:'Creative brief',state:'Analyzing vibe'},{label:'Variant set',state:'Queued'}]);
+  selectedTrackId=null; resultsEl.innerHTML=''; emptyResultsEl.classList.add('hidden'); loadingEl.classList.remove('hidden');
+  setTimeout(()=>{
+    setStep(2); renderQueue([{label:'Creative brief',state:'Scored'},{label:'Variant set',state:'Rendering options'}]);
+    const tracks=makeVariants(prompt,useCase,duration,mood,energy);
+    loadingEl.classList.add('hidden');
+    renderTracks(tracks);
+    runStatusEl.textContent='Variants ready';
+    renderQueue([{label:'Creative brief',state:'Complete'},{label:'Variant set',state:'Ready for review'}]);
+    setStep(3);
+  },900);
+}
+renderHistory(); renderLibrary(); renderCredits(); renderQueue(); setStep(0);
+document.getElementById('generateBtn').addEventListener('click',generateVariants);
+resultsEl.addEventListener('click',(e)=>{
+  const card=e.target.closest('.result-card');
+  const btn=e.target.closest('button');
+  if(card) pickTrack(card.dataset.id);
+  if(!btn) return;
+  const track=currentTracks.find(t=>t.id===card.dataset.id);
+  if(!track) return;
+  if(btn.classList.contains('action-preview')){btn.textContent=btn.textContent==='Preview'?'Pause':'Preview'; return;}
+  if(btn.classList.contains('action-save')){saveLibrary(track); btn.textContent='Saved'; toast('Saved to library'); return;}
+  if(btn.classList.contains('action-apply')){runStatusEl.textContent='Direction selected'; btn.textContent='Selected'; toast('Direction selected'); return;}
+});
+libraryEl.addEventListener('click',(e)=>{
+  const item=e.target.closest('.library-item[data-id]');
+  if(!item) return;
+  const track=getLibraryTrack(item.dataset.id);
+  if(track){renderDetail(track); runStatusEl.textContent='Reviewing saved concept'; toast('Loaded from library');}
+});
+</script>
+</body>
+</html>
