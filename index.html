@@ -434,7 +434,8 @@
                     launchMvBtn.addEventListener('click', (e) => {
                         if (!window.Clerk.user) {
                             e.preventDefault(); // 阻止跳轉
-                            window.Clerk.openSignIn({ fallbackRedirectUrl: 'app/index.html', signUpFallbackRedirectUrl: 'app/index.html' }); // 彈出登入框
+                            const targetUrl = new URL('app/index.html', window.location.href).href;
+                            window.Clerk.openSignIn({ fallbackRedirectUrl: targetUrl, signUpFallbackRedirectUrl: targetUrl }); // 彈出登入框
                         }
                     });
                 }
