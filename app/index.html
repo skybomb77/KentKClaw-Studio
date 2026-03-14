@@ -169,10 +169,12 @@
                 if (window.Clerk.user) {
                     document.getElementById('login-overlay').style.display = 'none';
                     document.getElementById('mainApp').style.display = 'flex';
-                    window.Clerk.mountUserButton(document.getElementById("user-button"), { afterSignOutUrl: window.location.href });
+                    const targetUrl = new URL('../index.html', window.location.href).href;
+                    window.Clerk.mountUserButton(document.getElementById("user-button"), { afterSignOutUrl: targetUrl });
                 } else {
                     // 如果在 App 頁面未登入，強制導向首頁登入
-                    window.location.href = "../index.html";
+                    const targetUrl = new URL('../index.html', window.location.href).href;
+                    window.location.href = targetUrl;
                 }
             } catch (err) { console.error("Clerk 初始化錯誤:", err); }
         });
