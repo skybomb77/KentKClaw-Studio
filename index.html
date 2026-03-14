@@ -232,8 +232,21 @@
             border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
+            align-items: center;
             color: var(--text-secondary);
             font-size: 0.9rem;
+        }
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: var(--text-primary);
         }
 
         @media (max-width: 900px) {
@@ -299,8 +312,10 @@
 
     <footer>
         <div data-i18n="footer">© 2026 Kent & KClaw Studio. All rights reserved.</div>
-        <div>
-            <a href="https://github.com/skybomb77" target="_blank" style="margin-right: 15px;"><i class="fa-brands fa-github"></i></a>
+        <div class="footer-links">
+            <a href="terms.html" data-i18n="terms">Terms of Service</a>
+            <a href="privacy.html" data-i18n="privacy">Privacy Policy</a>
+            <a href="https://github.com/skybomb77" target="_blank" style="margin-left: 10px;"><i class="fa-brands fa-github"></i></a>
             <a href="https://youtube.com/@KentKClawStudio" target="_blank"><i class="fa-brands fa-youtube"></i></a>
         </div>
     </footer>
@@ -328,7 +343,9 @@
                 wvSub: "The AI Visual Engine.",
                 wvDesc: "Turn songs into scroll-stopping short videos. Upload your audio, enter a style prompt, and let our ComfyUI-powered engine generate a beat-synced MV instantly.",
                 wvBtn: "Launch MV Creator",
-                footer: "© 2026 Kent & KClaw Studio. All rights reserved."
+                footer: "© 2026 Kent & KClaw Studio. All rights reserved.",
+                terms: "Terms of Service",
+                privacy: "Privacy Policy"
             },
             zh: {
                 navTone: "ToneForge 音樂",
@@ -343,7 +360,9 @@
                 wvSub: "AI 視覺與動畫引擎",
                 wvDesc: "把音樂變成超吸睛的短影片。上傳音軌、輸入視覺提示詞，讓我們的 ComfyUI 引擎為你即時生成節拍同步的專屬 MV。",
                 wvBtn: "啟動 MV 產生器 (SaaS)",
-                footer: "© 2026 Kent & KClaw Studio. 保留所有權利。"
+                footer: "© 2026 Kent & KClaw Studio. 保留所有權利。",
+                terms: "服務條款",
+                privacy: "隱私權政策"
             }
         };
 
