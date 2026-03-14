@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background -->
+  <circle cx="100" cy="100" r="95" fill="#09090b" stroke="#27272a" stroke-width="4"/>
+  
+  <!-- Soundwave Bars (Left) -->
+  <rect x="50" y="80" width="8" height="40" rx="4" fill="#a1a1aa" opacity="0.6"/>
+  <rect x="65" y="60" width="8" height="80" rx="4" fill="#a1a1aa" opacity="0.8"/>
+  <rect x="80" y="40" width="8" height="120" rx="4" fill="#a1a1aa"/>
+  
+  <!-- Glowing Claw Marks (Right) overlapping the soundwave -->
+  <!-- Claw 1 (Top) -->
+  <path d="M110,35 Q140,80 160,130 Q145,130 115,85 Z" fill="#00ffaa" filter="drop-shadow(0 0 8px rgba(0, 255, 170, 0.6))"/>
+  
+  <!-- Claw 2 (Middle) -->
+  <path d="M90,70 Q130,110 150,150 Q135,150 100,115 Z" fill="#00ffaa" filter="drop-shadow(0 0 8px rgba(0, 255, 170, 0.6))"/>
+  
+  <!-- Inner Circle/Tech Eye -->
+  <circle cx="120" cy="100" r="10" fill="#ededed"/>
+</svg>
