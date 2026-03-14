@@ -426,11 +426,6 @@
                     // 未登入：顯示登入按鈕
                     loginBtn.style.display = 'block';
                     userBtnDiv.style.display = 'none';
-                    
-                    // 點擊觸發 Clerk 登入彈窗
-                    loginBtn.addEventListener('click', (e) => { e.preventDefault();
-                        window.Clerk.openSignIn();
-                    });
                 }
                 
                 // ✨ 攔截 MV Creator 按鈕
