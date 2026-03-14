@@ -293,7 +293,7 @@
             <h2 class="wirevision-text">WireVision</h2>
             <div class="sub-heading" data-i18n="wvSub">The AI Visual Engine.</div>
             <p data-i18n="wvDesc">Turn songs into scroll-stopping short videos. Upload your audio, enter a style prompt, and let our ComfyUI-powered engine generate a beat-synced MV instantly.</p>
-            <a href="app/index.html" class="btn btn-wirevision"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="wvBtn">Launch MV Creator</span></a>
+            <a href="app/index.html" id="launch-mv-btn" class="btn btn-wirevision"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="wvBtn">Launch MV Creator</span></a>
         </div>
     </section>
 
@@ -395,6 +395,22 @@
                     // 未登入：顯示登入按鈕
                     loginBtn.style.display = 'block';
                     userBtnDiv.style.display = 'none';
+                    
+                    // 點擊觸發 Clerk 登入彈窗
+                    loginBtn.addEventListener('click', (e) => { e.preventDefault();
+                        window.Clerk.openSignIn();
+                    });
+                }
+                
+                // ✨ 攔截 MV Creator 按鈕
+                const launchMvBtn = document.getElementById("launch-mv-btn");
+                if (launchMvBtn) {
+                    launchMvBtn.addEventListener('click', (e) => {
+                        if (!window.Clerk.user) {
+                            e.preventDefault(); // 阻止跳轉
+                            window.Clerk.openSignIn(); // 彈出登入框
+                        }
+                    });
                 }
             } catch (err) { console.error("Clerk 初始化錯誤:", err); }
         });
