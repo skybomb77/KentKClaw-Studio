@@ -271,7 +271,7 @@
         </div>
         <div class="nav-right">
             <button class="lang-btn" id="langToggle">中文</button>
-            <button id="login-btn" data-i18n="navLogin" onclick="if(window.Clerk && window.Clerk.isReady) window.Clerk.openSignIn(); else alert('登入系統正在載入中，請稍候...');">Sign In</button>
+            <button id="login-btn" data-i18n="navLogin" onclick="if(window.Clerk && window.Clerk.isReady) window.Clerk.openSignIn({ fallbackRedirectUrl: window.location.href, signUpFallbackRedirectUrl: window.location.href }); else alert('登入系統正在載入中，請稍候...');">Sign In</button>
             <div id="user-button"></div>
         </div>
     </nav>
@@ -421,7 +421,7 @@
                     // 已登入：顯示大頭貼，隱藏登入按鈕
                     userBtnDiv.style.display = 'block';
                     loginBtn.style.display = 'none';
-                    window.Clerk.mountUserButton(userBtnDiv);
+                    window.Clerk.mountUserButton(userBtnDiv, { afterSignOutUrl: window.location.href });
                 } else {
                     // 未登入：顯示登入按鈕
                     loginBtn.style.display = 'block';
@@ -434,7 +434,7 @@
                     launchMvBtn.addEventListener('click', (e) => {
                         if (!window.Clerk.user) {
                             e.preventDefault(); // 阻止跳轉
-                            window.Clerk.openSignIn(); // 彈出登入框
+                            window.Clerk.openSignIn({ fallbackRedirectUrl: 'app/index.html', signUpFallbackRedirectUrl: 'app/index.html' }); // 彈出登入框
                         }
                     });
                 }
