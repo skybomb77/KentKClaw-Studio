@@ -311,7 +311,7 @@
             const nav = document.getElementById('navbar');
             if (window.scrollY > 20) nav.classList.add('scrolled');
             else nav.classList.remove('scrolled');
-        
+        });
 
         // 雙語系統 (Bilingual System)
         const dict = {
@@ -348,24 +348,35 @@
         };
 
         let currentLang = localStorage.getItem('site-lang') || 'en';
-        const langToggleBtn = document.getElementById('langToggle');
 
         function updateContent() {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (dict[currentLang][key]) {
-                    if (el.tagName === 'SPAN') el.innerText = dict[currentLang][key];
-                    else el.innerHTML = el.innerHTML.replace(el.innerText, dict[currentLang][key]);
+                if (dict[currentLang] && dict[currentLang][key]) {
+                    if (el.tagName === 'SPAN') {
+                        el.innerText = dict[currentLang][key];
+                    } else {
+                        // replace text safely
+                        el.innerHTML = dict[currentLang][key];
+                    }
                 }
+            });
             
-            langToggleBtn.innerText = currentLang === 'en' ? '中文' : 'EN';
+            const langToggleBtn = document.getElementById('langToggle');
+            if(langToggleBtn) {
+                langToggleBtn.innerText = currentLang === 'en' ? '中文' : 'EN';
+            }
             document.documentElement.lang = currentLang === 'en' ? 'en' : 'zh-Hant';
             localStorage.setItem('site-lang', currentLang);
         }
 
-        langToggleBtn.addEventListener('click', () => {
-            currentLang = currentLang === 'en' ? 'zh' : 'en';
-            updateContent();
+        const langToggleBtn = document.getElementById('langToggle');
+        if(langToggleBtn) {
+            langToggleBtn.addEventListener('click', () => {
+                currentLang = currentLang === 'en' ? 'zh' : 'en';
+                updateContent();
+            });
+        }
         
 
         // Init
