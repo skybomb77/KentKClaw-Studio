@@ -258,7 +258,7 @@
         </div>
         <div class="nav-right">
             <button class="lang-btn" id="langToggle">中文</button>
-            <button id="login-btn" data-i18n="navLogin" onclick="if(window.Clerk) window.Clerk.openSignIn(); else alert('登入系統正在載入中，請稍候...');">Sign In</button>
+            <button id="login-btn" data-i18n="navLogin" onclick="if(window.Clerk && window.Clerk.isReady) window.Clerk.openSignIn(); else alert('登入系統正在載入中，請稍候...');">Sign In</button>
             <div id="user-button"></div>
         </div>
     </nav>
@@ -394,6 +394,7 @@
         script.addEventListener("load", async () => {
             try {
                 await window.Clerk.load();
+                window.Clerk.isReady = true; // 標記已準備好
                 const loginBtn = document.getElementById("login-btn");
                 const userBtnDiv = document.getElementById("user-button");
 
