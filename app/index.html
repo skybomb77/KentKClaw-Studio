@@ -140,6 +140,13 @@
 
             <div class="feed-panel">
                 <h2 class="section-title">Generation Queue</h2>
+                <div id="progress-container" style="display: none; width: 100%; background: #000; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 16px; position: relative; height: 28px;">
+                    <div id="progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #00ffaa, #00b377); transition: width 0.3s ease;"></div>
+                    <div style="position: absolute; width: 100%; top: 0; left: 0; height: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 12px; font-size: 0.8rem; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); font-weight: bold; pointer-events: none; font-family: 'Orbitron', sans-serif;">
+                        <span id="progress-text">0%</span>
+                        <span id="progress-eta" style="color: #00ffaa;">ETA: Calculating...</span>
+                    </div>
+                </div>
                 <div class="terminal" id="statusTerminal"><p>> System initialized. Backend tunnel connected.</p></div>
                 <div class="empty-state" id="emptyState"><i class="fa-solid fa-video-slash"></i><h3>No recent generations</h3></div>
                 
@@ -184,6 +191,7 @@
         document.body.appendChild(script);
 
         // ======= 🚀 畫面邏輯與後端 API =======
+        let startTime = null;
         const BACKEND_URL = "https://interstaminal-unvirtuously-gennie.ngrok-free.dev"; // 你的 Mac mini 隧道
 
         const form = document.getElementById('uploadForm');
@@ -218,6 +226,11 @@
             e.preventDefault();
             document.getElementById('emptyState').style.display = 'none';
             terminal.style.display = 'block';
+            document.getElementById('progress-container').style.display = 'block';
+            document.getElementById('progress-bar').style.width = '0%';
+            document.getElementById('progress-text').innerText = '0%';
+            document.getElementById('progress-eta').innerText = 'ETA: Calculating...';
+            startTime = Date.now();
             document.getElementById('videoResult').style.display = 'none';
             btn.innerHTML = 'UPLOADING... <i class="fa-solid fa-spinner fa-spin"></i>';
             btn.style.pointerEvents = "none";
@@ -251,10 +264,22 @@
                     const msgData = JSON.parse(event.data);
                     if (msgData.type === 'progress') {
                         logMsg(`[GPU 算圖進度] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
+                        document.getElementById('progress-bar').style.width = msgData.percent + '%';
+                        document.getElementById('progress-text').innerText = msgData.percent + '%';
+                        if (msgData.percent > 0 && msgData.percent < 100) {
+                            const elapsed = (Date.now() - startTime) / 1000;
+                            const totalEst = elapsed / (msgData.percent / 100);
+                            const rem = Math.max(0, Math.round(totalEst - elapsed));
+                            document.getElementById('progress-eta').innerText = `ETA: ${rem}s`;
+                        } else if (msgData.percent === 100) {
+                            document.getElementById('progress-eta').innerText = 'Finishing...';
+                        }
                     } else if (msgData.type === 'done') {
                         logMsg(`✅ 算圖完成！成品影片從 Mac 引擎回傳中...`);
+                        document.getElementById('progress-eta').innerText = 'Done!';
                         showVideo(msgData.url);
                         eventSource.close();
+                        setTimeout(() => { document.getElementById('progress-container').style.display = 'none'; }, 3000);
                     } else if (msgData.type === 'error') {
                         throw new Error(msgData.msg);
                     }
