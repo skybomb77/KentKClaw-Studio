@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://skybomb77.github.io/KentKClaw-Studio/$1",
+      "permanent": true
+    }
+  ]
+}

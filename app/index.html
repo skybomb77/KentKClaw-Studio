@@ -88,9 +88,10 @@
             <img src="../assets/logo.svg" alt="Logo" style="width: 24px; height: 24px;"> Kent & KClaw
         </a>
         <div class="nav-menu">
-            <a class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
-            <a class="nav-item active"><i class="fa-solid fa-bolt"></i> Create MV</a>
-            <a class="nav-item"><i class="fa-solid fa-book-open"></i> My Library</a>
+            <a href="#" class="nav-item" onclick="switchTab('dashboard')"><i class="fa-solid fa-house"></i> Dashboard</a>
+            <a href="#" class="nav-item active" onclick="switchTab('create')"><i class="fa-solid fa-bolt"></i> Create MV</a>
+            <a href="#" class="nav-item" onclick="switchTab('library')"><i class="fa-solid fa-book-open"></i> My Library</a>
+            <a href="pricing.html" class="nav-item"><i class="fa-solid fa-star"></i> Subscription</a>
         </div>
     </aside>
 
@@ -103,7 +104,8 @@
             </div>
         </header>
 
-        <div class="content-grid">
+        <div id="other-view" style="display:none;"></div>
+        <div class="content-grid" id="create-view">
             <form id="uploadForm" class="create-panel">
                 <div class="panel-title">Create <div class="custom-toggle"><i class="fa-solid fa-sliders"></i> Pro Mode</div></div>
 
@@ -281,6 +283,20 @@
             document.getElementById('outputVideo').play();
             document.getElementById('videoTitle').innerText = fileInput.files[0] ? fileInput.files[0].name : "Chaobang MV";
             document.getElementById('videoDesc').innerText = document.getElementById('promptInput').value;
+        }
+    
+        function switchTab(tab) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            if(tab === 'create') {
+                document.getElementById('create-view').style.display = 'grid';
+                document.getElementById('other-view').style.display = 'none';
+            } else {
+                document.getElementById('create-view').style.display = 'none';
+                document.getElementById('other-view').style.display = 'block';
+                document.getElementById('other-view').innerHTML = `<div style="padding:40px; text-align:center;"><h2 style="font-family:'Orbitron', sans-serif; margin-bottom:16px;">${tab.charAt(0).toUpperCase() + tab.slice(1)}</h2><p style="color:var(--muted);">This feature is currently under development. Stay tuned!</p></div>`;
+            }
         }
     </script>
 </body>
