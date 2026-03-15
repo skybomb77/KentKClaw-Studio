@@ -226,7 +226,14 @@
                 // 如果在雲端，發送給 Ngrok；如果在 localhost，發給 localhost
                 const apiUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/generate-mv` : `/api/generate-mv`;
                 
-                const response = await fetch(apiUrl, { method: 'POST', body: formData });
+                const response = await fetch(apiUrl, { 
+                    method: 'POST', 
+                    headers: {
+                        'bypass-tunnel-reminder': 'true',
+                        'ngrok-skip-browser-warning': 'true'
+                    },
+                    body: formData 
+                });
                 const data = await response.json();
                 
                 if (data.error) { throw new Error(data.error); }
