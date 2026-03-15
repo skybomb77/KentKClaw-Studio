@@ -268,7 +268,7 @@
         function showVideo(url) {
             btn.innerHTML = 'GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>';
             btn.style.pointerEvents = "auto";
-            terminal.style.display = 'none';
+            terminal.style.display = 'block'; // Keep queue visible
             document.getElementById('videoResult').style.display = 'block';
             
             // 修正內網 IP 成公網隧道網址 (若存在)
