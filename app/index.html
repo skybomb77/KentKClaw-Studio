@@ -88,9 +88,9 @@
             <img src="../assets/logo.svg" alt="Logo" style="width: 24px; height: 24px;"> Kent & KClaw
         </a>
         <div class="nav-menu">
-            <a href="#" class="nav-item" onclick="switchTab('dashboard')"><i class="fa-solid fa-house"></i> Dashboard</a>
-            <a href="#" class="nav-item active" onclick="switchTab('create')"><i class="fa-solid fa-bolt"></i> Create MV</a>
-            <a href="#" class="nav-item" onclick="switchTab('library')"><i class="fa-solid fa-book-open"></i> My Library</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'dashboard')"><i class="fa-solid fa-house"></i> Dashboard</a>
+            <a href="#" class="nav-item active" onclick="switchTab(event, 'create')"><i class="fa-solid fa-bolt"></i> Create MV</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'library')"><i class="fa-solid fa-book-open"></i> My Library</a>
             <a href="pricing.html" class="nav-item"><i class="fa-solid fa-star"></i> Subscription</a>
         </div>
     </aside>
@@ -119,7 +119,7 @@
                 </div>
 
                 <div class="input-group">
-                    <label>Visual Style Prompt</label>
+                    <label>Visual Style Prompt <span style="color:var(--brand); cursor:pointer; font-size:0.8rem; background:var(--brand-dim); padding:2px 8px; border-radius:4px;" onclick="generateRandomPrompt()"><i class="fa-solid fa-dice"></i> Surprise Me</span></label>
                     <textarea id="promptInput" name="prompt">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
                 </div>
 
@@ -285,9 +285,66 @@
             document.getElementById('videoDesc').innerText = document.getElementById('promptInput').value;
         }
     
-        function switchTab(tab) {
+(event, tab) {
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            if(event) event.currentTarget.classList.add('active');
+            
+            if(tab === 'create') {
+                document.getElementById('create-view').style.display = 'grid';
+                document.getElementById('other-view').style.display = 'none';
+            } else if(tab === 'dashboard') {
+                document.getElementById('create-view').style.display = 'none';
+                document.getElementById('other-view').style.display = 'block';
+                document.getElementById('other-view').innerHTML = `
+                    <div style="padding: 40px; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px;">
+                        <!-- Hero Promo -->
+                        <div style="background: linear-gradient(135deg, rgba(0,255,170,0.1), rgba(124,92,255,0.1)); border: 1px solid var(--border); border-radius: 20px; padding: 40px; display: flex; align-items: center; justify-content: space-between;">
+                            <div style="max-width: 50%;">
+                                <h1 style="font-family: 'Orbitron', sans-serif; font-size: 2.5rem; margin-bottom: 16px;">Bring your <span style="color:var(--brand)">music</span> to life.</h1>
+                                <p style="color: var(--muted); line-height: 1.6; margin-bottom: 24px; font-size: 1.1rem;">Turn your audio tracks into stunning, beat-synced AI music videos in minutes. High resolution, commercial rights, and unlimited creative freedom.</p>
+                                <button onclick="switchTab(null, 'create')" class="cyber-btn" style="width: auto; padding: 14px 32px; margin-top: 0;">START CREATING <i class="fa-solid fa-bolt"></i></button>
+                            </div>
+                            <div style="width: 45%; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                                <video src="../assets/demo.mp4" autoplay loop muted playsinline style="width: 100%; display: block;"></video>
+                            </div>
+                        </div>
+
+                        <!-- Pinned Subscription -->
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
+                                <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.5rem;"><i class="fa-solid fa-star" style="color: #7c5cff; margin-right: 8px;"></i> Upgrade Your Workflow</h2>
+                                <a href="pricing.html" style="color: var(--brand); text-decoration: none; font-size: 0.9rem;">View All Plans &rarr;</a>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div style="background: var(--panel); border: 1px solid var(--border); padding: 24px; border-radius: 16px;">
+                                    <h3 style="margin-bottom: 8px;">Free Explorer</h3>
+                                    <div style="font-size: 2rem; font-family: 'Orbitron', sans-serif; margin-bottom: 16px;">$0<span style="font-size:1rem; color:var(--muted); font-family:'Noto Sans TC', sans-serif;">/mo</span></div>
+                                    <ul style="list-style: none; color: var(--muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 20px;">
+                                        <li><i class="fa-solid fa-check" style="color: var(--brand); margin-right: 8px;"></i> 10 Generations / month</li>
+                                        <li><i class="fa-solid fa-check" style="color: var(--brand); margin-right: 8px;"></i> 720p Output</li>
+                                    </ul>
+                                    <button class="setting-btn active" style="width:100%; pointer-events:none;">Current Plan</button>
+                                </div>
+                                <div style="background: linear-gradient(180deg, rgba(124, 92, 255, 0.05) 0%, var(--panel) 100%); border: 1px solid #7c5cff; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
+                                    <div style="position: absolute; top: 10px; right: -25px; background: #7c5cff; color: white; font-size: 0.6rem; font-weight: bold; padding: 4px 25px; transform: rotate(45deg);">PRO</div>
+                                    <h3 style="margin-bottom: 8px; color: #fff;">Creator Pro</h3>
+                                    <div style="font-size: 2rem; font-family: 'Orbitron', sans-serif; margin-bottom: 16px;">$15<span style="font-size:1rem; color:var(--muted); font-family:'Noto Sans TC', sans-serif;">/mo</span></div>
+                                    <ul style="list-style: none; color: var(--text); font-size: 0.9rem; line-height: 1.8; margin-bottom: 20px;">
+                                        <li><i class="fa-solid fa-check" style="color: #00ffaa; margin-right: 8px;"></i> 100 Generations / month</li>
+                                        <li><i class="fa-solid fa-check" style="color: #00ffaa; margin-right: 8px;"></i> 1080p High-Res (No Watermark)</li>
+                                    </ul>
+                                    <a href="pricing.html" style="display:block; text-align:center; background:#7c5cff; color:#fff; text-decoration:none; padding:10px; border-radius:8px; font-weight:bold;">Upgrade Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                document.getElementById('create-view').style.display = 'none';
+                document.getElementById('other-view').style.display = 'block';
+                document.getElementById('other-view').innerHTML = `<div style="padding:40px; text-align:center;"><h2 style="font-family:'Orbitron', sans-serif; margin-bottom:16px;">${tab.charAt(0).toUpperCase() + tab.slice(1)}</h2><p style="color:var(--muted);">This feature is currently under development. Stay tuned!</p></div>`;
+            }
+        }
             
             if(tab === 'create') {
                 document.getElementById('create-view').style.display = 'grid';
