@@ -90,7 +90,8 @@
         <div class="nav-menu">
             <a href="#" class="nav-item" onclick="switchTab(event, 'dashboard')"><i class="fa-solid fa-house"></i> Dashboard</a>
             <a href="#" class="nav-item active" onclick="switchTab(event, 'create')"><i class="fa-solid fa-bolt"></i> Create MV</a>
-            <a href="#" class="nav-item" onclick="switchTab(event, 'library')"><i class="fa-solid fa-book-open"></i> My Library</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'screening')"><i class="fa-solid fa-film"></i> My Screening Room</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'nostalgia')"><i class="fa-solid fa-clock-rotate-left"></i> Nostalgia Vault</a>
             <a href="pricing.html" class="nav-item"><i class="fa-solid fa-star"></i> Subscription</a>
         </div>
     </aside>
@@ -363,7 +364,7 @@
             } else {
                 document.getElementById('create-view').style.display = 'none';
                 document.getElementById('other-view').style.display = 'block';
-                document.getElementById('other-view').innerHTML = `<div style="padding:40px; text-align:center;"><h2 style="font-family:'Orbitron', sans-serif; margin-bottom:16px;">${tab.charAt(0).toUpperCase() + tab.slice(1)}</h2><p style="color:var(--muted);">This feature is currently under development. Stay tuned!</p></div>`;
+                document.getElementById('other-view').innerHTML = `<div style="padding:40px; text-align:center;"><h2 style="font-family:'Orbitron', sans-serif; margin-bottom:16px;">${tab === 'screening' ? 'My Screening Room' : (tab === 'nostalgia' ? 'Nostalgia Vault (Trash)' : tab.charAt(0).toUpperCase() + tab.slice(1))}</h2><p style="color:var(--muted);">This feature is currently under development. Stay tuned!</p></div>`;
             }
         }
     </script>
