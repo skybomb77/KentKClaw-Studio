@@ -284,10 +284,31 @@
             document.getElementById('videoTitle').innerText = fileInput.files[0] ? fileInput.files[0].name : "Chaobang MV";
             document.getElementById('videoDesc').innerText = document.getElementById('promptInput').value;
         }
-    
-(event, tab) {
+
+        const prompts = [
+            "neon lit tokyo streets at night, volumetric fog, cinematic, highly detailed, 8k resolution, octane render, vivid colors",
+            "dark fantasy gothic castle, red moon, bats flying, dramatic lighting, highly detailed, concept art, greg rutkowski style",
+            "retro 80s synthwave landscape, glowing grid, wireframe mountains, vibrant purple and pink neon, sunset, nostalgic aesthetic",
+            "ethereal underwater ruins, glowing bioluminescent plants, ancient statues, light rays shining through water, serene atmosphere",
+            "post-apocalyptic wasteland, overgrown city ruins, rusty mechs, golden hour lighting, cinematic composition, photorealistic",
+            "cyberpunk dj spinning tracks in a futuristic club, holographic equalizers, neon lasers, energetic crowd, highly detailed"
+        ];
+        function generateRandomPrompt() {
+            const random = prompts[Math.floor(Math.random() * prompts.length)];
+            document.getElementById('promptInput').value = random;
+        }
+
+        function switchTab(event, tab) {
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            if(event) event.currentTarget.classList.add('active');
+            if(event) {
+                event.currentTarget.classList.add('active');
+            } else {
+                document.querySelectorAll('.nav-item').forEach(el => {
+                    if(el.getAttribute('onclick') && el.getAttribute('onclick').includes(tab)) {
+                        el.classList.add('active');
+                    }
+                });
+            }
             
             if(tab === 'create') {
                 document.getElementById('create-view').style.display = 'grid';
@@ -302,10 +323,10 @@
                             <div style="max-width: 50%;">
                                 <h1 style="font-family: 'Orbitron', sans-serif; font-size: 2.5rem; margin-bottom: 16px;">Bring your <span style="color:var(--brand)">music</span> to life.</h1>
                                 <p style="color: var(--muted); line-height: 1.6; margin-bottom: 24px; font-size: 1.1rem;">Turn your audio tracks into stunning, beat-synced AI music videos in minutes. High resolution, commercial rights, and unlimited creative freedom.</p>
-                                <button onclick="switchTab(null, 'create')" class="cyber-btn" style="width: auto; padding: 14px 32px; margin-top: 0;">START CREATING <i class="fa-solid fa-bolt"></i></button>
+                                <button onclick="switchTab(null, 'create')" class="cyber-btn" style="width: auto; padding: 14px 32px; margin-top: 0; display: inline-block;">START CREATING <i class="fa-solid fa-bolt"></i></button>
                             </div>
                             <div style="width: 45%; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                                <video src="../assets/demo.mp4" autoplay loop muted playsinline style="width: 100%; display: block;"></video>
+                                <video src="https://videos.pexels.com/video-files/3163534/3163534-sd_640_360_30fps.mp4" autoplay loop muted playsinline style="width: 100%; display: block;"></video>
                             </div>
                         </div>
 
@@ -339,16 +360,6 @@
                         </div>
                     </div>
                 `;
-            } else {
-                document.getElementById('create-view').style.display = 'none';
-                document.getElementById('other-view').style.display = 'block';
-                document.getElementById('other-view').innerHTML = `<div style="padding:40px; text-align:center;"><h2 style="font-family:'Orbitron', sans-serif; margin-bottom:16px;">${tab.charAt(0).toUpperCase() + tab.slice(1)}</h2><p style="color:var(--muted);">This feature is currently under development. Stay tuned!</p></div>`;
-            }
-        }
-            
-            if(tab === 'create') {
-                document.getElementById('create-view').style.display = 'grid';
-                document.getElementById('other-view').style.display = 'none';
             } else {
                 document.getElementById('create-view').style.display = 'none';
                 document.getElementById('other-view').style.display = 'block';
