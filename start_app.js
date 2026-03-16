@@ -6,10 +6,10 @@ const { spawn, execSync } = require('child_process');
     console.log('⏳ 正在透過 Ngrok (CLI) 建立穩定安全連線通道...');
     try {
         // Kill existing ngrok processes
-        try { execSync('killall ngrok', { stdio: 'ignore' }); } catch(e) {}
+        try { execSync('taskkill /F /IM ngrok.exe', { stdio: 'ignore' }); } catch(e) {}
         
         // Start ngrok in the background
-        const ngrokProcess = spawn('ngrok', ['http', '3000', '--log=stdout'], { stdio: 'pipe' });
+        const ngrokProcess = spawn(path.join(__dirname, 'ngrok.exe'), ['http', '3000', '--region=jp', '--log=stdout'], { stdio: 'pipe' });
         
         let url = null;
         console.log('等待 Ngrok 啟動...');
