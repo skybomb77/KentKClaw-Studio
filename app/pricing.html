@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing & Subscriptions | Chaobang Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+TC:wght@300;500;700&display=swap');
+        
+        :root {
+            --bg: #09090b; --sidebar: #121214; --panel: #18181b; --border: #27272a;
+            --text: #ededed; --muted: #a1a1aa; --brand: #00ffaa; --brand-dim: rgba(0, 255, 170, 0.15);
+            --pro: #7c5cff; --pro-dim: rgba(124, 92, 255, 0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Noto Sans TC', sans-serif; display: flex; min-height: 100vh; }
+
+        .sidebar { width: 260px; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 24px 16px; gap: 32px; flex-shrink: 0; }
+        .brand { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: #fff; display: flex; align-items: center; gap: 12px; padding-left: 12px; text-decoration: none; }
+        .brand i { color: var(--brand); }
+        .nav-menu { display: flex; flex-direction: column; gap: 8px; }
+        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 12px; color: var(--muted); text-decoration: none; font-weight: 500; transition: all 0.2s ease; cursor: pointer; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text); }
+        .nav-item.active { background: var(--brand-dim); color: var(--brand); }
+
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding: 60px; align-items: center; }
+        .header-title { text-align: center; margin-bottom: 50px; }
+        .header-title h1 { font-family: 'Orbitron', sans-serif; font-size: 3rem; margin-bottom: 16px; background: linear-gradient(90deg, var(--brand), var(--pro)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header-title p { color: var(--muted); font-size: 1.1rem; }
+
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; width: 100%; }
+        .tier-card { background: var(--panel); border: 1px solid var(--border); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 24px; transition: transform 0.2s ease, border-color 0.2s ease; position: relative; overflow: hidden; }
+        .tier-card:hover { transform: translateY(-4px); border-color: rgba(255, 255, 255, 0.2); }
+        .tier-card.popular { border-color: var(--pro); background: linear-gradient(180deg, rgba(124, 92, 255, 0.05) 0%, var(--panel) 100%); }
+        .tier-card.popular::before { content: "MOST POPULAR"; position: absolute; top: 12px; right: -30px; background: var(--pro); color: white; font-size: 0.7rem; font-weight: bold; padding: 4px 30px; transform: rotate(45deg); letter-spacing: 1px; }
+
+        .tier-header { text-align: left; }
+        .tier-name { font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+        .tier-price { font-size: 2.5rem; font-weight: 700; color: #fff; font-family: 'Orbitron', sans-serif; display: flex; align-items:baseline; gap: 4px; }
+        .tier-price span { font-size: 1rem; color: var(--muted); font-family: 'Noto Sans TC', sans-serif; font-weight: normal; }
+        .tier-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.5; margin-top: 12px; height: 40px; }
+
+        .tier-features { flex: 1; display: flex; flex-direction: column; gap: 12px; list-style: none; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 24px; }
+        .tier-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.95rem; color: var(--text); line-height: 1.4; }
+        .tier-features li i { color: var(--brand); margin-top: 3px; font-size: 0.85rem; }
+        .tier-features li.disabled i { color: var(--border); }
+        .tier-features li.disabled { color: var(--muted); text-decoration: line-through; }
+
+        .action-btn { background: var(--brand-dim); border: 1px solid var(--brand); color: var(--brand); font-weight: bold; padding: 14px; border-radius: 12px; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.2s; font-family: 'Orbitron', sans-serif; width: 100%; display: inline-block; }
+        .action-btn:hover { background: var(--brand); color: #000; box-shadow: 0 0 15px var(--brand-dim); }
+        .action-btn.pro-btn { background: var(--pro); border-color: var(--pro); color: #fff; }
+        .action-btn.pro-btn:hover { background: #967aff; box-shadow: 0 0 15px var(--pro-dim); }
+        .action-btn.enterprise-btn { background: transparent; border-color: var(--border); color: var(--text); }
+        .action-btn.enterprise-btn:hover { border-color: var(--muted); background: rgba(255,255,255,0.05); }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <a href="index.html" class="brand"><i class="fa-solid fa-wand-magic-sparkles"></i> <span>Studio</span></a>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+            <a href="index.html" class="nav-item"><i class="fa-solid fa-bolt"></i> Create MV</a>
+            <a href="index.html" class="nav-item"><i class="fa-solid fa-film"></i> My Screening Room</a>
+            <a href="pricing.html" class="nav-item active"><i class="fa-solid fa-star"></i> Subscription</a>
+        </nav>
+        <a href="index.html" class="nav-item" style="margin-top: auto; color: #ef4444; background: rgba(239,68,68,0.05);"><i class="fa-solid fa-trash-can"></i> Nostalgia Vault (Trash)</a>
+    </aside>
+
+    <main class="main-content">
+        <div class="header-title">
+            <h1>Upgrade Your Creative Workflow</h1>
+            <p>Unlock faster rendering, higher resolutions, and commercial rights.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Basic Tier -->
+            <div class="tier-card">
+                <div class="tier-header">
+                    <div class="tier-name">Free Explorer</div>
+                    <div class="tier-price">$0<span>/mo</span></div>
+                    <div class="tier-desc">For testing and personal experiments.</div>
+                </div>
+                <ul class="tier-features">
+                    <li><i class="fa-solid fa-check"></i> 10 Generations per month</li>
+                    <li><i class="fa-solid fa-check"></i> Standard Queue (Slow)</li>
+                    <li><i class="fa-solid fa-check"></i> 720p Output</li>
+                    <li><i class="fa-solid fa-check"></i> Chaobang Watermark</li>
+                    <li class="disabled"><i class="fa-solid fa-xmark"></i> Commercial Rights</li>
+                </ul>
+                <a href="#" class="action-btn">Current Plan</a>
+            </div>
+
+            <!-- Pro Tier -->
+            <div class="tier-card popular">
+                <div class="tier-header">
+                    <div class="tier-name">Creator Pro</div>
+                    <div class="tier-price">$15<span>/mo</span></div>
+                    <div class="tier-desc">For active creators and social media managers.</div>
+                </div>
+                <ul class="tier-features">
+                    <li><i class="fa-solid fa-check"></i> 100 Generations per month</li>
+                    <li><i class="fa-solid fa-check"></i> Priority Server Queue (Fast)</li>
+                    <li><i class="fa-solid fa-check"></i> 1080p High-Res Output</li>
+                    <li><i class="fa-solid fa-check"></i> No Watermark</li>
+                    <li><i class="fa-solid fa-check"></i> Basic Commercial Rights</li>
+                </ul>
+                <a href="#" class="action-btn pro-btn">Upgrade to Pro</a>
+            </div>
+
+            <!-- Studio Tier -->
+            <div class="tier-card">
+                <div class="tier-header">
+                    <div class="tier-name">Studio Max</div>
+                    <div class="tier-price">$39<span>/mo</span></div>
+                    <div class="tier-desc">For agencies, musicians, and power users.</div>
+                </div>
+                <ul class="tier-features">
+                    <li><i class="fa-solid fa-check"></i> Unlimited Generations</li>
+                    <li><i class="fa-solid fa-check"></i> Dedicated GPU Node (Instant)</li>
+                    <li><i class="fa-solid fa-check"></i> 4K Ultra-Res & Custom Ratios</li>
+                    <li><i class="fa-solid fa-check"></i> Advanced Style Tuning (LoRA)</li>
+                    <li><i class="fa-solid fa-check"></i> Full Commercial & Resale Rights</li>
+                </ul>
+                <a href="mailto:skybomb77@gmail.com" class="action-btn enterprise-btn">Contact Sales</a>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
