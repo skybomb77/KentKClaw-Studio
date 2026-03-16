@@ -77,9 +77,13 @@
 <body>
 
     <!-- 登入遮罩 (未登入時顯示) -->
-    <div id="login-overlay">
-        <div class="login-hero">Chaobang Studio AI MV</div>
-        <div id="sign-in"></div>
+    <div id="login-overlay" style="position: relative; overflow: hidden;">
+        <!-- 登入頁背景影片 -->
+        <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -1; transform: translate(-50%, -50%); opacity: 0.4; filter: contrast(1.2) saturate(1.5);">
+            <source src="https://videos.pexels.com/video-files/3163534/3163534-sd_640_360_30fps.mp4" type="video/mp4">
+        </video>
+        <div class="login-hero" style="text-shadow: 0 0 30px #00ffaa, 0 0 10px #000; z-index: 1;">Chaobang Studio AI MV</div>
+        <div id="sign-in" style="z-index: 1; box-shadow: 0 0 50px rgba(0,0,0,0.8); border-radius: 12px;"></div>
     </div>
 
     <!-- 左側導覽列 -->
@@ -91,6 +95,8 @@
             <a href="#" class="nav-item" onclick="switchTab(event, 'dashboard')"><i class="fa-solid fa-house"></i> Dashboard</a>
             <a href="#" class="nav-item active" onclick="switchTab(event, 'create')"><i class="fa-solid fa-bolt"></i> Create MV</a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'screening')"><i class="fa-solid fa-film"></i> My Screening Room</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'styles')"><i class="fa-solid fa-palette"></i> Style Library</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'split')"><i class="fa-solid fa-music"></i> Audio Stem Splitter (Pro)</a>
             <a href="pricing.html" class="nav-item"><i class="fa-solid fa-star"></i> Subscription</a>
         </div>
         <a href="#" class="nav-item" onclick="switchTab(event, 'nostalgia')" style="margin-top: auto; color: #ef4444; background: rgba(239,68,68,0.05);"><i class="fa-solid fa-trash-can"></i> Nostalgia Vault (Trash)</a>
@@ -114,7 +120,7 @@
                     <label>Audio Track <span style="color: var(--brand); font-size: 0.75rem;">Max 10MB</span></label>
                     <div class="file-drop-area" id="dropArea">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <span id="fileNameDisplay">Drag & drop or click to upload audio</span>
+                        <span id="fileNameDisplay">Drag & drop audio here<br><span style="font-size: 0.75rem; color: #7c5cff;">Supported: .MP3, .WAV, .OGG</span></span>
                         <input type="file" id="audioUpload" name="audio" accept="audio/*" required>
                     </div>
                 </div>
