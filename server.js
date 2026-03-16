@@ -67,6 +67,7 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
         const file = req.file;
         const promptText = req.body.prompt;
         const ratio = req.body.ratio || '16:9';
+        const resolution = req.body.resolution || '720p';
         const jobId = `job_${Date.now()}`;
         const clientId = `app_client_${Date.now()}`;
         
@@ -80,7 +81,7 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
         }
 
         res.json({ success: true, jobId });
-        console.log(`[Chaobang SaaS] 新客戶任務 ${jobId} | 比例: ${ratio} | 提示詞: ${promptText}`);
+        console.log(`[Chaobang SaaS] 新客戶任務 ${jobId} | 比例: ${ratio} | 畫質: ${resolution} | 提示詞: ${promptText}`);
 
         const workflowPath = path.join(__dirname, '../ComfyUI/workflow_animatediff.json');
         if (!fs.existsSync(workflowPath)) {
@@ -95,16 +96,21 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
             }
             // --- 自動計算尺寸比例 (Aspect Ratio) ---
             if (promptJson["11"] && promptJson["11"]["inputs"]) {
-                if (ratio === '9:16') {
-                    promptJson["11"]["inputs"]["width"] = 512;
-                    promptJson["11"]["inputs"]["height"] = 910;
-                } else if (ratio === '1:1') {
-                    promptJson["11"]["inputs"]["width"] = 512;
-                    promptJson["11"]["inputs"]["height"] = 512;
-                } else { // Default 16:9
-                    promptJson["11"]["inputs"]["width"] = 910;
-                    promptJson["11"]["inputs"]["height"] = 512;
+                let baseW = 910, baseH = 512;
+                if (ratio === '9:16') { baseW = 512; baseH = 910; }
+                else if (ratio === '1:1') { baseW = 512; baseH = 512; }
+                
+                // 如果是 1080p (Pro)，將長寬放大 1.5 倍 (考量 Mac mini 記憶體極限)
+                if (resolution === '1080p') {
+                    baseW = Math.floor(baseW * 1.5);
+                    baseH = Math.floor(baseH * 1.5);
+                    // 確保是 8 的倍數 (ComfyUI 限制)
+                    baseW = baseW - (baseW % 8);
+                    baseH = baseH - (baseH % 8);
                 }
+                
+                promptJson["11"]["inputs"]["width"] = baseW;
+                promptJson["11"]["inputs"]["height"] = baseH;
             }
         } else {
             console.error("找不到工作流 JSON！");

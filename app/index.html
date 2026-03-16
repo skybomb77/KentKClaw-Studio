@@ -29,7 +29,7 @@
         .user-profile { display: flex; align-items: center; gap: 12px; background: var(--panel); padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid var(--border); font-size: 0.9rem; }
         .content-grid { display: grid; grid-template-columns: 380px 1fr; gap: 32px; padding: 40px; max-width: 1600px; margin: 0 auto; width: 100%; }
 
-        .create-panel { background: var(--panel); border: 1px solid var(--border); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 24px; height: fit-content; }
+        .create-panel { background: var(--panel); border: 1px solid var(--border); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 24px; min-height: 700px; }
         .panel-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .custom-toggle { font-size: 0.8rem; color: var(--brand); background: var(--brand-dim); padding: 4px 10px; border-radius: 999px; display: flex; align-items: center; gap: 6px; }
         .input-group { display: flex; flex-direction: column; gap: 10px; }
@@ -135,6 +135,16 @@
                     <input type="hidden" name="ratio" id="ratioInput" value="16:9">
                 </div>
 
+                
+                <div class="input-group">
+                    <label>Resolution Quality</label>
+                    <div class="settings-row" id="resSelector">
+                        <div class="setting-btn active" data-res="720p">720p (Standard)</div>
+                        <div class="setting-btn" data-res="1080p" style="color: #7c5cff; border-color: rgba(124,92,255,0.5);"><i class="fa-solid fa-crown"></i> 1080p (Pro)</div>
+                    </div>
+                    <input type="hidden" name="resolution" id="resInput" value="720p">
+                </div>
+    
                 <button type="submit" class="cyber-btn" id="generateBtn">GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i></button>
             </form>
 
@@ -202,6 +212,26 @@
         // 綁定比例切換按鈕
         const ratioBtns = document.querySelectorAll('.setting-btn');
         const ratioInput = document.getElementById('ratioInput');
+
+        const resBtns = document.querySelectorAll('#resSelector .setting-btn');
+        const resInput = document.getElementById('resInput');
+        resBtns.forEach(rBtn => {
+            rBtn.addEventListener('click', () => {
+                resBtns.forEach(b => {
+                    b.classList.remove('active');
+                    if(b.getAttribute('data-res') === '1080p') b.style.borderColor = 'rgba(124,92,255,0.5)';
+                });
+                rBtn.classList.add('active');
+                if(rBtn.getAttribute('data-res') === '1080p') {
+                    rBtn.style.borderColor = '#7c5cff';
+                    rBtn.style.backgroundColor = 'rgba(124,92,255,0.1)';
+                } else {
+                    document.querySelector('[data-res="1080p"]').style.backgroundColor = 'transparent';
+                }
+                resInput.value = rBtn.getAttribute('data-res');
+            });
+        });
+    
         ratioBtns.forEach(rBtn => {
             rBtn.addEventListener('click', () => {
                 ratioBtns.forEach(b => b.classList.remove('active'));
