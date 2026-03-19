@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -9,14 +9,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+TC:wght@300;500;700&display=swap');
         
         :root {
-            --bg: transparent; --sidebar: rgba(18, 18, 20, 0.65); --panel: rgba(24, 24, 27, 0.75); --border: #27272a;
+            --bg: #09090b; --sidebar: #121214; --panel: #18181b; --border: #27272a;
             --text: #ededed; --muted: #a1a1aa; --brand: #00ffaa; --brand-dim: rgba(0, 255, 170, 0.15);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Noto Sans TC', sans-serif; height: 100vh; display: flex; overflow: hidden; }
 
-        .sidebar { width: 260px; background: var(--sidebar); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 24px 16px; gap: 32px; }
+        .sidebar { width: 260px; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 24px 16px; gap: 32px; }
         .brand { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: #fff; display: flex; align-items: center; gap: 12px; padding-left: 12px; text-decoration: none; }
         .brand i { color: var(--brand); }
         .nav-menu { display: flex; flex-direction: column; gap: 8px; }
@@ -29,7 +29,7 @@
         .user-profile { display: flex; align-items: center; gap: 12px; background: var(--panel); padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid var(--border); font-size: 0.9rem; }
         .content-grid { display: grid; grid-template-columns: 380px 1fr; gap: 32px; padding: 40px; max-width: 1600px; margin: 0 auto; width: 100%; }
 
-        .create-panel { background: var(--panel); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid var(--border); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 24px; min-height: 700px; }
+        .create-panel { background: var(--panel); border: 1px solid var(--border); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 24px; min-height: 700px; }
         .panel-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .custom-toggle { font-size: 0.8rem; color: var(--brand); background: var(--brand-dim); padding: 4px 10px; border-radius: 999px; display: flex; align-items: center; gap: 6px; }
         .input-group { display: flex; flex-direction: column; gap: 10px; }
@@ -56,7 +56,7 @@
         .terminal { background: #000; border: 1px solid var(--border); border-left: 3px solid var(--brand); padding: 16px; border-radius: 12px; font-family: monospace; color: var(--brand); height: 160px; overflow-y: auto; font-size: 0.85rem; display: none; line-height: 1.6; }
         .terminal p { opacity: 0.8; margin-bottom: 4px; }
         
-        .video-card { background: var(--panel); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; display: none; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .video-card { background: var(--panel); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; display: none; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
         .video-wrapper { width: 100%; background: #000; position: relative; display: flex; justify-content: center; }
         video { max-height: 60vh; max-width: 100%; object-fit: contain; }
         .video-info { padding: 24px; display: flex; justify-content: space-between; align-items: center; }
@@ -69,21 +69,16 @@
         .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; background: var(--panel); border: 1px dashed var(--border); border-radius: 20px; color: var(--muted); text-align: center; }
         .empty-state i { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
 
-        /* Clerk ?嚙賢?嚙?*/
+        /* Clerk 登入區 */
         #login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 100; flex-direction: column; }
         .login-hero { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: var(--brand); margin-bottom: 40px; text-shadow: 0 0 20px var(--brand-dim); }
     </style>
 </head>
 <body>
-    <!-- 高級音樂 MV 背景 -->
-    <video autoplay loop muted playsinline style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -2; opacity: 0.35; filter: blur(8px) brightness(0.8) contrast(1.2) saturate(1.2); pointer-events: none;">
-        <source src="https://videos.pexels.com/video-files/3135061/3135061-hd_1920_1080_24fps.mp4" type="video/mp4">
-    </video>
-    <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 50% 50%, rgba(9,9,11,0.3) 0%, rgba(9,9,11,0.95) 100%); z-index: -1; pointer-events: none;"></div>
 
-    <!-- ?嚙賢?嚙賜蔗 (?嚙賜?嚙踝蕭?憿舐內) -->
+    <!-- 登入遮罩 (未登入時顯示) -->
     <div id="login-overlay" style="position: relative; overflow: hidden;">
-        <!-- ?嚙賢?嚙踝蕭??嚙賢蔣??-->
+        <!-- 登入頁背景影片 -->
         <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -1; transform: translate(-50%, -50%); opacity: 0.4; filter: contrast(1.2) saturate(1.5);">
             <source src="https://videos.pexels.com/video-files/3163534/3163534-sd_640_360_30fps.mp4" type="video/mp4">
         </video>
@@ -91,7 +86,7 @@
         <div id="sign-in" style="z-index: 1; box-shadow: 0 0 50px rgba(0,0,0,0.8); border-radius: 12px;"></div>
     </div>
 
-    <!-- 撌血撠汗??-->
+    <!-- 左側導覽列 -->
     <aside class="sidebar">
         <a href="../index.html" class="brand">
             <img src="../assets/logo.svg" alt="Logo" style="width: 24px; height: 24px;"> Kent & KClaw
@@ -105,9 +100,9 @@
             <a href="pricing.html" class="nav-item"><i class="fa-solid fa-star"></i> Subscription</a>
         </div>
         <a href="#" class="nav-item" onclick="switchTab(event, 'nostalgia')" style="margin-top: auto; color: #ef4444; background: rgba(239,68,68,0.05);"><i class="fa-solid fa-trash-can"></i> Nostalgia Vault (Trash)</a>
-            <div style="font-weight: 500; color: var(--muted);">AI MV Generator | 剩餘點數: 10 Credits</div>
+    </aside>
 
-    <!-- 銝餃摰對蕭? -->
+    <!-- 主內容區 -->
     <main class="main-content" id="mainApp">
         <header class="header">
             <div style="font-weight: 500; color: var(--muted);">AI MV Generator | 剩餘點數: 10 Credits</div>
@@ -130,12 +125,12 @@
                     </div>
                 </div>
 
-                <div class="input-group" style="display:none;">
+                <div class="input-group">
                     <label>Visual Style Prompt <span style="color:var(--brand); cursor:pointer; font-size:0.8rem; background:var(--brand-dim); padding:2px 8px; border-radius:4px;" onclick="generateRandomPrompt()"><i class="fa-solid fa-dice"></i> Surprise Me</span></label>
                     <textarea id="promptInput" name="prompt">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
                 </div>
 
-                <!-- ?嚙賢祕蝬蕭?瘥蕭??嚙賡?嚙賢 -->
+                <!-- 真實綁定比例的選擇器 -->
                 <div class="input-group">
                     <label>Aspect Ratio</label>
                     <div class="settings-row" id="ratioSelector">
@@ -156,7 +151,7 @@
                     <input type="hidden" name="resolution" id="resInput" value="720p">
                 </div>
     
-                <div style="display: flex; gap: 12px; margin-top: 10px;"><button type="submit" class="cyber-btn" id="generateBtn" style="flex: 1; margin-top: 0;">GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i></button><button type="button" class="cyber-btn" id="cancelBtn" style="display: none; flex: 0 0 auto; margin-top: 0; background: rgba(239, 68, 68, 0.1); border-color: #ef4444; color: #ef4444; padding: 0 24px;" onclick="window.location.reload();"><i class="fa-solid fa-xmark"></i></button></div>
+                <button type="submit" class="cyber-btn" id="generateBtn">GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i></button>
             </form>
 
             <div class="feed-panel">
@@ -169,16 +164,7 @@
                     </div>
                 </div>
                 <div class="terminal" id="statusTerminal"><p>> System initialized. Backend tunnel connected.</p></div>
-                <div class="empty-state" id="emptyState" style="position: relative; overflow: hidden; height: 380px;">
-                    <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: 0; transform: translate(-50%, -50%); opacity: 0.35; filter: saturate(0.5);">
-                        <source src="https://videos.pexels.com/video-files/3163534/3163534-sd_640_360_30fps.mp4" type="video/mp4">
-                    </video>
-                    <div style="z-index: 1; display: flex; flex-direction: column; align-items: center;">
-                        <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 3.5rem; margin-bottom: 16px; color: var(--brand); opacity: 0.9; text-shadow: 0 0 20px rgba(0,255,170,0.5);"></i>
-                        <h3 style="color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.8); letter-spacing: 1px;">Ready to Generate</h3>
-                        <p style="color: var(--brand); font-size: 0.95rem; margin-top: 8px; text-shadow: 0 0 10px rgba(0,0,0,0.8);">Upload your audio track to preview the AI MV here</p>
-                    </div>
-                </div>
+                <div class="empty-state" id="emptyState"><i class="fa-solid fa-video-slash"></i><h3>No recent generations</h3></div>
                 
                 <div class="video-card" id="videoResult">
                     <div class="video-wrapper"><video id="outputVideo" controls loop></video></div>
@@ -195,7 +181,7 @@
     </main>
 
     <script>
-        // ======= ?? CLERK 撠平?嚙賢?嚙賢蝟餌絞 =======
+        // ======= 🚀 CLERK 專業會員登入系統 =======
         const publishableKey = "pk_test_cmF0aW9uYWwtd2FscnVzLTkwLmNsZXJrLmFjY291bnRzLmRldiQ";
         const script = document.createElement("script");
         script.setAttribute("data-clerk-publishable-key", publishableKey);
@@ -212,25 +198,25 @@
                     const targetUrl = new URL('../index.html', window.location.href).href;
                     window.Clerk.mountUserButton(document.getElementById("user-button"), { afterSignOutUrl: targetUrl });
                 } else {
-                    // 憒蕭???App ?嚙賡?嚙賜?嚙踝蕭?撘瑕撠蕭?擐蕭??嚙賢
+                    // 如果在 App 頁面未登入，強制導向首頁登入
                     const targetUrl = new URL('../index.html', window.location.href).href;
                     window.location.href = targetUrl;
                 }
-            } catch (err) { console.error("Clerk ?嚙踝蕭??嚙賡嚙?", err); }
+            } catch (err) { console.error("Clerk 初始化錯誤:", err); }
         });
         document.body.appendChild(script);
 
-        // ======= ?? ?嚙賡?嚙質摩?嚙踝蕭?嚙?API =======
+        // ======= 🚀 畫面邏輯與後端 API =======
         let startTime = null;
-        const BACKEND_URL = "https://nonchimeric-fabled-nila.ngrok-free.dev"; // 雿蕭? Mac mini ?嚙踝蕭?
+        const BACKEND_URL = "https://interstaminal-unvirtuously-gennie.ngrok-free.dev"; // 你的 Mac mini 隧道
 
         const form = document.getElementById('uploadForm');
         const fileInput = document.getElementById('audioUpload');
         const terminal = document.getElementById('statusTerminal');
         const btn = document.getElementById('generateBtn');
 
-        // 蝬蕭?瘥蕭??嚙踝蕭??嚙踝蕭?
-        const ratioBtns = document.querySelectorAll('#ratioSelector .setting-btn');
+        // 綁定比例切換按鈕
+        const ratioBtns = document.querySelectorAll('.setting-btn');
         const ratioInput = document.getElementById('ratioInput');
 
         const resBtns = document.querySelectorAll('#resSelector .setting-btn');
@@ -272,7 +258,7 @@
             terminal.scrollTop = terminal.scrollHeight;
         }
 
-            logMsg(`音軌上傳中... | 長寬比例: ${ratioInput.value}`);
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             document.getElementById('emptyState').style.display = 'none';
             terminal.style.display = 'block';
@@ -286,12 +272,12 @@
             btn.style.pointerEvents = "none";
             
             const formData = new FormData(form);
-            logMsg(`?唾?銝銝?.. | ?瑕祝瘥?: ${ratioInput.value}`);
+            logMsg(`開始上傳音軌... | 選擇比例: ${ratioInput.value}`);
 
             try {
-                // 憒蕭??嚙賡蝡荔蕭??嚙賡策 Ngrok嚗蕭??嚙賢 localhost嚗嚙?localhost
-                logMsg("音軌已傳輸至本機引擎！啟動隧道監聽進度...");
-                logMsg("⚡ 任務接收成功！引擎正在全力產生第一幀 (約需1~2分鐘)...");
+                // 如果在雲端，發送給 Ngrok；如果在 localhost，發給 localhost
+                const apiUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/generate-mv` : `/api/generate-mv`;
+                
                 const response = await fetch(apiUrl, { 
                     method: 'POST', 
                     headers: {
@@ -300,11 +286,11 @@
                     },
                     body: formData 
                 });
-                        logMsg(`[GPU 算圖進度] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
+                const data = await response.json();
                 
                 if (data.error) { throw new Error(data.error); }
                 
-                logMsg("?唾?撌脣頛貉?祆?撘?嚗????賡脣漲...");
+                logMsg("音軌已傳輸至 Mac 引擎！啟動 Ngrok 隧道監聽進度...");
                 btn.innerHTML = 'GENERATING... <i class="fa-solid fa-circle-notch fa-spin"></i>';
                 
                 const streamUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/stream/${data.jobId}` : `/api/stream/${data.jobId}`;
@@ -312,8 +298,8 @@
                 
                 eventSource.onmessage = function(event) {
                     const msgData = JSON.parse(event.data);
-                        logMsg(`算圖完成！正在從引擎回傳影片...`);
-                        logMsg(`[GPU 蝞??脣漲] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
+                    if (msgData.type === 'progress') {
+                        logMsg(`[GPU 算圖進度] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
                         document.getElementById('progress-bar').style.width = msgData.percent + '%';
                         document.getElementById('progress-text').innerText = msgData.percent + '%';
                         if (msgData.percent > 0 && msgData.percent < 100) {
@@ -322,10 +308,10 @@
                             const rem = Math.max(0, Math.round(totalEst - elapsed));
                             document.getElementById('progress-eta').innerText = `ETA: ${rem}s`;
                         } else if (msgData.percent === 100) {
-                logMsg(`連線錯誤: ${err.message}`);
+                            document.getElementById('progress-eta').innerText = 'Finishing...';
                         }
                     } else if (msgData.type === 'done') {
-                        logMsg(`蝞?摰?嚗迤?典?撘??敶梁?...`);
+                        logMsg(`✅ 算圖完成！成品影片從 Mac 引擎回傳中...`);
                         document.getElementById('progress-eta').innerText = 'Done!';
                         showVideo(msgData.url);
                         eventSource.close();
@@ -335,9 +321,8 @@
                     }
                 };
             } catch (err) {
-                logMsg(`????航炊: ${err.message}`);
+                logMsg(`❌ 連線錯誤: ${err.message}`);
                 btn.innerHTML = 'GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>';
-                document.getElementById("cancelBtn").style.display="none";
                 btn.style.pointerEvents = "auto";
             }
         });
@@ -348,11 +333,11 @@
             terminal.style.display = 'block'; // Keep queue visible
             document.getElementById('videoResult').style.display = 'block';
             
-            // 靽格迤?嚙賜雯 IP ?嚙賢蝬脤?嚙賜雯?嚙?(?嚙踝蕭???
+            // 修正內網 IP 成公網隧道網址 (若存在)
             let publicUrl = url;
             if (BACKEND_URL.startsWith('http') && url.includes('127.0.0.1:8188')) {
-                 publicUrl = url; // ?嚙賣?嚙踝蕭?銝?嚙踝蕭?撣嗥忽?嚙賢蔣?嚙賬蕭??嚙賜敶梧蕭???ComfyUI ?嚙踝蕭?嚗蕭??嚙踝蕭??嚙踝蕭??嚙踝蕭?蝬莎蕭?嚗蕭??嚙賡蕭? Express proxy
-                 // ?嚙賜?嚙踝蕭??嚙賢嚗蕭??嚙踝蕭??嚙賢憭雯嚗蕭??嚙踝蕭?蝡舐 stream ?嚙踝蕭?嚗?嚙賣摰蕭???
+                 publicUrl = url; // 理想情況下隧道要帶穿透影片。但因為影片在 ComfyUI 本機，我們如果要在外網看，必須透過 Express proxy
+                 // 因為時間限制，如果真的在外網，請在後端用 stream 取回，目前暫定保留
             }
             
             document.getElementById('outputVideo').src = url;
