@@ -69,16 +69,16 @@
         .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; background: var(--panel); border: 1px dashed var(--border); border-radius: 20px; color: var(--muted); text-align: center; }
         .empty-state i { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
 
-        /* Clerk ?»å…¥?€ */
+        /* Clerk ?ï¿½å…¥?ï¿½ */
         #login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 100; flex-direction: column; }
         .login-hero { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: var(--brand); margin-bottom: 40px; text-shadow: 0 0 20px var(--brand-dim); }
     </style>
 </head>
 <body>
 
-    <!-- ?»å…¥?®ç½© (?ªç™»?¥æ?é¡¯ç¤º) -->
+    <!-- ?ï¿½å…¥?ï¿½ç½© (?ï¿½ç™»?ï¿½ï¿½?é¡¯ç¤º) -->
     <div id="login-overlay" style="position: relative; overflow: hidden;">
-        <!-- ?»å…¥?è??¯å½±??-->
+        <!-- ?ï¿½å…¥?ï¿½ï¿½??ï¿½å½±??-->
         <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -1; transform: translate(-50%, -50%); opacity: 0.4; filter: contrast(1.2) saturate(1.5);">
             <source src="https://videos.pexels.com/video-files/3163534/3163534-sd_640_360_30fps.mp4" type="video/mp4">
         </video>
@@ -102,10 +102,10 @@
         <a href="#" class="nav-item" onclick="switchTab(event, 'nostalgia')" style="margin-top: auto; color: #ef4444; background: rgba(239,68,68,0.05);"><i class="fa-solid fa-trash-can"></i> Nostalgia Vault (Trash)</a>
     </aside>
 
-    <!-- ä¸»å…§å®¹å? -->
+    <!-- ä¸»å…§å®¹ï¿½? -->
     <main class="main-content" id="mainApp">
         <header class="header">
-            <div style="font-weight: 500; color: var(--muted);">AI MV Generator | ?©é?é»æ•¸: 10 Credits</div>
+            <div style="font-weight: 500; color: var(--muted);">AI MV Generator | ?ï¿½ï¿½?é»æ•¸: 10 Credits</div>
             <div class="user-profile">
                 <div id="user-button"></div>
             </div>
@@ -130,7 +130,7 @@
                     <textarea id="promptInput" name="prompt">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
                 </div>
 
-                <!-- ?Ÿå¯¦ç¶å?æ¯”ä??„é¸?‡å™¨ -->
+                <!-- ?ï¿½å¯¦ç¶ï¿½?æ¯”ï¿½??ï¿½é¸?ï¿½å™¨ -->
                 <div class="input-group">
                     <label>Aspect Ratio</label>
                     <div class="settings-row" id="ratioSelector">
@@ -181,7 +181,7 @@
     </main>
 
     <script>
-        // ======= ?? CLERK å°ˆæ¥­?ƒå“¡?»å…¥ç³»çµ± =======
+        // ======= ?? CLERK å°ˆæ¥­?ï¿½å“¡?ï¿½å…¥ç³»çµ± =======
         const publishableKey = "pk_test_cmF0aW9uYWwtd2FscnVzLTkwLmNsZXJrLmFjY291bnRzLmRldiQ";
         const script = document.createElement("script");
         script.setAttribute("data-clerk-publishable-key", publishableKey);
@@ -198,24 +198,24 @@
                     const targetUrl = new URL('../index.html', window.location.href).href;
                     window.Clerk.mountUserButton(document.getElementById("user-button"), { afterSignOutUrl: targetUrl });
                 } else {
-                    // å¦‚æ???App ?é¢?ªç™»?¥ï?å¼·åˆ¶å°å?é¦–é??»å…¥
+                    // å¦‚ï¿½???App ?ï¿½é¢?ï¿½ç™»?ï¿½ï¿½?å¼·åˆ¶å°ï¿½?é¦–ï¿½??ï¿½å…¥
                     const targetUrl = new URL('../index.html', window.location.href).href;
                     window.location.href = targetUrl;
                 }
-            } catch (err) { console.error("Clerk ?å??–éŒ¯èª?", err); }
+            } catch (err) { console.error("Clerk ?ï¿½ï¿½??ï¿½éŒ¯ï¿½?", err); }
         });
         document.body.appendChild(script);
 
-        // ======= ?? ?«é¢?è¼¯?‡å?ç«?API =======
+        // ======= ?? ?ï¿½é¢?ï¿½è¼¯?ï¿½ï¿½?ï¿½?API =======
         let startTime = null;
-        const BACKEND_URL = "https://nonchimeric-fabled-nila.ngrok-free.dev"; // ä½ ç? Mac mini ?§é?
+        const BACKEND_URL = "https://nonchimeric-fabled-nila.ngrok-free.dev"; // ä½ ï¿½? Mac mini ?ï¿½ï¿½?
 
         const form = document.getElementById('uploadForm');
         const fileInput = document.getElementById('audioUpload');
         const terminal = document.getElementById('statusTerminal');
         const btn = document.getElementById('generateBtn');
 
-        // ç¶å?æ¯”ä??‡æ??‰é?
+        // ç¶ï¿½?æ¯”ï¿½??ï¿½ï¿½??ï¿½ï¿½?
         const ratioBtns = document.querySelectorAll('#ratioSelector .setting-btn');
         const ratioInput = document.getElementById('ratioInput');
 
@@ -272,10 +272,10 @@
             btn.style.pointerEvents = "none";
             
             const formData = new FormData(form);
-            logMsg(`?‹å?ä¸Šå‚³?³è?... | ?¸æ?æ¯”ä?: ${ratioInput.value}`);
+            logMsg(`?ï¿½ï¿½?ä¸Šå‚³?ï¿½ï¿½?... | ?ï¿½ï¿½?æ¯”ï¿½?: ${ratioInput.value}`);
 
             try {
-                // å¦‚æ??¨é›²ç«¯ï??¼é€çµ¦ Ngrokï¼›å??œåœ¨ localhostï¼Œç™¼çµ?localhost
+                // å¦‚ï¿½??ï¿½é›²ç«¯ï¿½??ï¿½é€çµ¦ Ngrokï¼›ï¿½??ï¿½åœ¨ localhostï¼Œç™¼ï¿½?localhost
                 const apiUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/generate-mv` : `/api/generate-mv`;
                 
                 const response = await fetch(apiUrl, { 
@@ -290,7 +290,7 @@
                 
                 if (data.error) { throw new Error(data.error); }
                 
-                logMsg("?³è?å·²å‚³è¼¸è‡³ Mac å¼•æ?ï¼å???Ngrok ?§é???½?²åº¦...");
+                logMsg("?ï¿½ï¿½?å·²å‚³è¼¸è‡³ Mac å¼•ï¿½?ï¼ï¿½???Ngrok ?ï¿½ï¿½???ï¿½ï¿½?ï¿½åº¦...");
                 btn.innerHTML = 'GENERATING... <i class="fa-solid fa-circle-notch fa-spin"></i>';
                 
                 const streamUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/stream/${data.jobId}` : `/api/stream/${data.jobId}`;
@@ -299,7 +299,7 @@
                 eventSource.onmessage = function(event) {
                     const msgData = JSON.parse(event.data);
                     if (msgData.type === 'progress') {
-                        logMsg(`[GPU ç®—å??²åº¦] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
+                        logMsg(`[GPU ç®—ï¿½??ï¿½åº¦] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
                         document.getElementById('progress-bar').style.width = msgData.percent + '%';
                         document.getElementById('progress-text').innerText = msgData.percent + '%';
                         if (msgData.percent > 0 && msgData.percent < 100) {
@@ -311,7 +311,7 @@
                             document.getElementById('progress-eta').innerText = 'Finishing...';
                         }
                     } else if (msgData.type === 'done') {
-                        logMsg(`??ç®—å?å®Œæ?ï¼æ??å½±?‡å? Mac å¼•æ??å‚³ä¸?..`);
+                        logMsg(`??ç®—ï¿½?å®Œï¿½?ï¼ï¿½??ï¿½å½±?ï¿½ï¿½? Mac å¼•ï¿½??ï¿½å‚³ï¿½?..`);
                         document.getElementById('progress-eta').innerText = 'Done!';
                         showVideo(msgData.url);
                         eventSource.close();
@@ -321,7 +321,7 @@
                     }
                 };
             } catch (err) {
-                logMsg(`??????¯èª¤: ${err.message}`);
+                logMsg(`??????ï¿½èª¤: ${err.message}`);
                 btn.innerHTML = 'GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>';
                 btn.style.pointerEvents = "auto";
             }
@@ -333,11 +333,11 @@
             terminal.style.display = 'block'; // Keep queue visible
             document.getElementById('videoResult').style.display = 'block';
             
-            // ä¿®æ­£?§ç¶² IP ?å…¬ç¶²éš§?“ç¶²?€ (?¥å???
+            // ä¿®æ­£?ï¿½ç¶² IP ?ï¿½å…¬ç¶²éš§?ï¿½ç¶²?ï¿½ (?ï¿½ï¿½???
             let publicUrl = url;
             if (BACKEND_URL.startsWith('http') && url.includes('127.0.0.1:8188')) {
-                 publicUrl = url; // ?†æƒ³?…æ?ä¸‹éš§?“è?å¸¶ç©¿?å½±?‡ã€‚ä?? ç‚ºå½±ç???ComfyUI ?¬æ?ï¼Œæ??‘å??œè??¨å?ç¶²ç?ï¼Œå??ˆé€é? Express proxy
-                 // ? ç‚º?‚é??åˆ¶ï¼Œå??œç??„åœ¨å¤–ç¶²ï¼Œè??¨å?ç«¯ç”¨ stream ?–å?ï¼Œç›®?æš«å®šä???
+                 publicUrl = url; // ?ï¿½æƒ³?ï¿½ï¿½?ä¸‹éš§?ï¿½ï¿½?å¸¶ç©¿?ï¿½å½±?ï¿½ã€‚ï¿½??ï¿½ç‚ºå½±ï¿½???ComfyUI ?ï¿½ï¿½?ï¼Œï¿½??ï¿½ï¿½??ï¿½ï¿½??ï¿½ï¿½?ç¶²ï¿½?ï¼Œï¿½??ï¿½é€ï¿½? Express proxy
+                 // ?ï¿½ç‚º?ï¿½ï¿½??ï¿½åˆ¶ï¼Œï¿½??ï¿½ï¿½??ï¿½åœ¨å¤–ç¶²ï¼Œï¿½??ï¿½ï¿½?ç«¯ç”¨ stream ?ï¿½ï¿½?ï¼Œç›®?ï¿½æš«å®šï¿½???
             }
             
             document.getElementById('outputVideo').src = url;
