@@ -69,16 +69,16 @@
         .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; background: var(--panel); border: 1px dashed var(--border); border-radius: 20px; color: var(--muted); text-align: center; }
         .empty-state i { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
 
-        /* Clerk 登入區 */
+        /* Clerk ?�入?� */
         #login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 100; flex-direction: column; }
         .login-hero { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: var(--brand); margin-bottom: 40px; text-shadow: 0 0 20px var(--brand-dim); }
     </style>
 </head>
 <body>
 
-    <!-- 登入遮罩 (未登入時顯示) -->
+    <!-- ?�入?�罩 (?�登?��?顯示) -->
     <div id="login-overlay" style="position: relative; overflow: hidden;">
-        <!-- 登入頁背景影片 -->
+        <!-- ?�入?��??�影??-->
         <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -1; transform: translate(-50%, -50%); opacity: 0.4; filter: contrast(1.2) saturate(1.5);">
             <source src="https://videos.pexels.com/video-files/3163534/3163534-sd_640_360_30fps.mp4" type="video/mp4">
         </video>
@@ -86,7 +86,7 @@
         <div id="sign-in" style="z-index: 1; box-shadow: 0 0 50px rgba(0,0,0,0.8); border-radius: 12px;"></div>
     </div>
 
-    <!-- 左側導覽列 -->
+    <!-- 左側導覽??-->
     <aside class="sidebar">
         <a href="../index.html" class="brand">
             <img src="../assets/logo.svg" alt="Logo" style="width: 24px; height: 24px;"> Kent & KClaw
@@ -102,10 +102,10 @@
         <a href="#" class="nav-item" onclick="switchTab(event, 'nostalgia')" style="margin-top: auto; color: #ef4444; background: rgba(239,68,68,0.05);"><i class="fa-solid fa-trash-can"></i> Nostalgia Vault (Trash)</a>
     </aside>
 
-    <!-- 主內容區 -->
+    <!-- 主內容�? -->
     <main class="main-content" id="mainApp">
         <header class="header">
-            <div style="font-weight: 500; color: var(--muted);">AI MV Generator | 剩餘點數: 10 Credits</div>
+            <div style="font-weight: 500; color: var(--muted);">AI MV Generator | ?��?點數: 10 Credits</div>
             <div class="user-profile">
                 <div id="user-button"></div>
             </div>
@@ -130,7 +130,7 @@
                     <textarea id="promptInput" name="prompt">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
                 </div>
 
-                <!-- 真實綁定比例的選擇器 -->
+                <!-- ?�實綁�?比�??�選?�器 -->
                 <div class="input-group">
                     <label>Aspect Ratio</label>
                     <div class="settings-row" id="ratioSelector">
@@ -181,7 +181,7 @@
     </main>
 
     <script>
-        // ======= 🚀 CLERK 專業會員登入系統 =======
+        // ======= ?? CLERK 專業?�員?�入系統 =======
         const publishableKey = "pk_test_cmF0aW9uYWwtd2FscnVzLTkwLmNsZXJrLmFjY291bnRzLmRldiQ";
         const script = document.createElement("script");
         script.setAttribute("data-clerk-publishable-key", publishableKey);
@@ -198,24 +198,24 @@
                     const targetUrl = new URL('../index.html', window.location.href).href;
                     window.Clerk.mountUserButton(document.getElementById("user-button"), { afterSignOutUrl: targetUrl });
                 } else {
-                    // 如果在 App 頁面未登入，強制導向首頁登入
+                    // 如�???App ?�面?�登?��?強制導�?首�??�入
                     const targetUrl = new URL('../index.html', window.location.href).href;
                     window.location.href = targetUrl;
                 }
-            } catch (err) { console.error("Clerk 初始化錯誤:", err); }
+            } catch (err) { console.error("Clerk ?��??�錯�?", err); }
         });
         document.body.appendChild(script);
 
-        // ======= 🚀 畫面邏輯與後端 API =======
+        // ======= ?? ?�面?�輯?��?�?API =======
         let startTime = null;
-        const BACKEND_URL = "https://nonchimeric-fabled-nila.ngrok-free.dev"; // 你的 Mac mini 隧道
+        const BACKEND_URL = "https://nonchimeric-fabled-nila.ngrok-free.dev"; // 你�? Mac mini ?��?
 
         const form = document.getElementById('uploadForm');
         const fileInput = document.getElementById('audioUpload');
         const terminal = document.getElementById('statusTerminal');
         const btn = document.getElementById('generateBtn');
 
-        // 綁定比例切換按鈕
+        // 綁�?比�??��??��?
         const ratioBtns = document.querySelectorAll('#ratioSelector .setting-btn');
         const ratioInput = document.getElementById('ratioInput');
 
@@ -272,10 +272,10 @@
             btn.style.pointerEvents = "none";
             
             const formData = new FormData(form);
-            logMsg(`開始上傳音軌... | 選擇比例: ${ratioInput.value}`);
+            logMsg(`?��?上傳?��?... | ?��?比�?: ${ratioInput.value}`);
 
             try {
-                // 如果在雲端，發送給 Ngrok；如果在 localhost，發給 localhost
+                // 如�??�雲端�??�送給 Ngrok；�??�在 localhost，發�?localhost
                 const apiUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/generate-mv` : `/api/generate-mv`;
                 
                 const response = await fetch(apiUrl, { 
@@ -290,7 +290,7 @@
                 
                 if (data.error) { throw new Error(data.error); }
                 
-                logMsg("音軌已傳輸至 Mac 引擎！啟動 Ngrok 隧道監聽進度...");
+                logMsg("?��?已傳輸至 Mac 引�?！�???Ngrok ?��???��?�度...");
                 btn.innerHTML = 'GENERATING... <i class="fa-solid fa-circle-notch fa-spin"></i>';
                 
                 const streamUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/stream/${data.jobId}` : `/api/stream/${data.jobId}`;
@@ -299,7 +299,7 @@
                 eventSource.onmessage = function(event) {
                     const msgData = JSON.parse(event.data);
                     if (msgData.type === 'progress') {
-                        logMsg(`[GPU 算圖進度] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
+                        logMsg(`[GPU 算�??�度] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
                         document.getElementById('progress-bar').style.width = msgData.percent + '%';
                         document.getElementById('progress-text').innerText = msgData.percent + '%';
                         if (msgData.percent > 0 && msgData.percent < 100) {
@@ -311,7 +311,7 @@
                             document.getElementById('progress-eta').innerText = 'Finishing...';
                         }
                     } else if (msgData.type === 'done') {
-                        logMsg(`✅ 算圖完成！成品影片從 Mac 引擎回傳中...`);
+                        logMsg(`??算�?完�?！�??�影?��? Mac 引�??�傳�?..`);
                         document.getElementById('progress-eta').innerText = 'Done!';
                         showVideo(msgData.url);
                         eventSource.close();
@@ -321,7 +321,7 @@
                     }
                 };
             } catch (err) {
-                logMsg(`❌ 連線錯誤: ${err.message}`);
+                logMsg(`??????�誤: ${err.message}`);
                 btn.innerHTML = 'GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>';
                 btn.style.pointerEvents = "auto";
             }
@@ -333,11 +333,11 @@
             terminal.style.display = 'block'; // Keep queue visible
             document.getElementById('videoResult').style.display = 'block';
             
-            // 修正內網 IP 成公網隧道網址 (若存在)
+            // 修正?�網 IP ?�公網隧?�網?� (?��???
             let publicUrl = url;
             if (BACKEND_URL.startsWith('http') && url.includes('127.0.0.1:8188')) {
-                 publicUrl = url; // 理想情況下隧道要帶穿透影片。但因為影片在 ComfyUI 本機，我們如果要在外網看，必須透過 Express proxy
-                 // 因為時間限制，如果真的在外網，請在後端用 stream 取回，目前暫定保留
+                 publicUrl = url; // ?�想?��?下隧?��?帶穿?�影?�。�??�為影�???ComfyUI ?��?，�??��??��??��?網�?，�??�透�? Express proxy
+                 // ?�為?��??�制，�??��??�在外網，�??��?端用 stream ?��?，目?�暫定�???
             }
             
             document.getElementById('outputVideo').src = url;
