@@ -105,7 +105,7 @@
             <a href="pricing.html" class="nav-item"><i class="fa-solid fa-star"></i> Subscription</a>
         </div>
         <a href="#" class="nav-item" onclick="switchTab(event, 'nostalgia')" style="margin-top: auto; color: #ef4444; background: rgba(239,68,68,0.05);"><i class="fa-solid fa-trash-can"></i> Nostalgia Vault (Trash)</a>
-    </aside>
+            <div style="font-weight: 500; color: var(--muted);">AI MV Generator | 剩餘點數: 10 Credits</div>
 
     <!-- 銝餃摰對蕭? -->
     <main class="main-content" id="mainApp">
@@ -272,7 +272,7 @@
             terminal.scrollTop = terminal.scrollHeight;
         }
 
-        form.addEventListener('submit', async (e) => {
+            logMsg(`音軌上傳中... | 長寬比例: ${ratioInput.value}`);
             e.preventDefault();
             document.getElementById('emptyState').style.display = 'none';
             terminal.style.display = 'block';
@@ -290,8 +290,8 @@
 
             try {
                 // 憒蕭??嚙賡蝡荔蕭??嚙賡策 Ngrok嚗蕭??嚙賢 localhost嚗嚙?localhost
-                const apiUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/generate-mv` : `/api/generate-mv`;
-                
+                logMsg("音軌已傳輸至本機引擎！啟動隧道監聽進度...");
+                logMsg("⚡ 任務接收成功！引擎正在全力產生第一幀 (約需1~2分鐘)...");
                 const response = await fetch(apiUrl, { 
                     method: 'POST', 
                     headers: {
@@ -300,7 +300,7 @@
                     },
                     body: formData 
                 });
-                const data = await response.json();
+                        logMsg(`[GPU 算圖進度] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
                 
                 if (data.error) { throw new Error(data.error); }
                 
@@ -312,7 +312,7 @@
                 
                 eventSource.onmessage = function(event) {
                     const msgData = JSON.parse(event.data);
-                    if (msgData.type === 'progress') {
+                        logMsg(`算圖完成！正在從引擎回傳影片...`);
                         logMsg(`[GPU 蝞??脣漲] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
                         document.getElementById('progress-bar').style.width = msgData.percent + '%';
                         document.getElementById('progress-text').innerText = msgData.percent + '%';
@@ -322,7 +322,7 @@
                             const rem = Math.max(0, Math.round(totalEst - elapsed));
                             document.getElementById('progress-eta').innerText = `ETA: ${rem}s`;
                         } else if (msgData.percent === 100) {
-                            document.getElementById('progress-eta').innerText = 'Finishing...';
+                logMsg(`連線錯誤: ${err.message}`);
                         }
                     } else if (msgData.type === 'done') {
                         logMsg(`蝞?摰?嚗迤?典?撘??敶梁?...`);
