@@ -91,9 +91,19 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
         let promptJson = null;
         if (fs.existsSync(workflowPath)) {
             promptJson = JSON.parse(fs.readFileSync(workflowPath, 'utf8'));
-            if (promptJson["6"] && promptJson["6"]["inputs"]) {
-                promptJson["6"]["inputs"]["text"] = promptText;
+            
+            if (promptJson["3"] && promptJson["3"]["inputs"]) {
+                promptJson["3"]["inputs"]["steps"] = 6; // 極限降低步數加速
+                promptJson["3"]["inputs"]["cfg"] = 2; // 降低CFG加速
             }
+            if (promptJson["11"] && promptJson["11"]["inputs"]) {
+                promptJson["11"]["inputs"]["batch_size"] = 4; // 極限減少幀數加速 (變成短片)
+            }
+            // 預設提示詞
+            if (promptJson["6"] && promptJson["6"]["inputs"]) {
+                promptJson["6"]["inputs"]["text"] = "masterpiece, highly detailed, visually stunning, neon light glow, dynamic action";
+            }
+
             // --- 自動計算尺寸比例 (Aspect Ratio) ---
             if (promptJson["11"] && promptJson["11"]["inputs"]) {
                 let baseW = 910, baseH = 512;
