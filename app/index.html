@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -69,16 +69,16 @@
         .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; background: var(--panel); border: 1px dashed var(--border); border-radius: 20px; color: var(--muted); text-align: center; }
         .empty-state i { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
 
-        /* Clerk ?�入?� */
+        /* Clerk ?嚙賢?嚙?*/
         #login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 100; flex-direction: column; }
         .login-hero { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: var(--brand); margin-bottom: 40px; text-shadow: 0 0 20px var(--brand-dim); }
     </style>
 </head>
 <body>
 
-    <!-- ?�入?�罩 (?�登?��?顯示) -->
+    <!-- ?嚙賢?嚙賜蔗 (?嚙賜?嚙踝蕭?憿舐內) -->
     <div id="login-overlay" style="position: relative; overflow: hidden;">
-        <!-- ?�入?��??�影??-->
+        <!-- ?嚙賢?嚙踝蕭??嚙賢蔣??-->
         <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -1; transform: translate(-50%, -50%); opacity: 0.4; filter: contrast(1.2) saturate(1.5);">
             <source src="https://videos.pexels.com/video-files/3163534/3163534-sd_640_360_30fps.mp4" type="video/mp4">
         </video>
@@ -86,7 +86,7 @@
         <div id="sign-in" style="z-index: 1; box-shadow: 0 0 50px rgba(0,0,0,0.8); border-radius: 12px;"></div>
     </div>
 
-    <!-- 左側導覽??-->
+    <!-- 撌血撠汗??-->
     <aside class="sidebar">
         <a href="../index.html" class="brand">
             <img src="../assets/logo.svg" alt="Logo" style="width: 24px; height: 24px;"> Kent & KClaw
@@ -102,10 +102,10 @@
         <a href="#" class="nav-item" onclick="switchTab(event, 'nostalgia')" style="margin-top: auto; color: #ef4444; background: rgba(239,68,68,0.05);"><i class="fa-solid fa-trash-can"></i> Nostalgia Vault (Trash)</a>
     </aside>
 
-    <!-- 主內容�? -->
+    <!-- 銝餃摰對蕭? -->
     <main class="main-content" id="mainApp">
         <header class="header">
-            <div style="font-weight: 500; color: var(--muted);">AI MV Generator | 剩餘點數: 10 Credits</div>
+            <div style="font-weight: 500; color: var(--muted);">AI MV Generator | ?拚?暺: 10 Credits</div>
             <div class="user-profile">
                 <div id="user-button"></div>
             </div>
@@ -130,7 +130,7 @@
                     <textarea id="promptInput" name="prompt">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
                 </div>
 
-                <!-- ?�實綁�?比�??�選?�器 -->
+                <!-- ?嚙賢祕蝬蕭?瘥蕭??嚙賡?嚙賢 -->
                 <div class="input-group">
                     <label>Aspect Ratio</label>
                     <div class="settings-row" id="ratioSelector">
@@ -151,7 +151,7 @@
                     <input type="hidden" name="resolution" id="resInput" value="720p">
                 </div>
     
-                <button type="submit" class="cyber-btn" id="generateBtn">GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i></button>
+                <div style="display: flex; gap: 12px; margin-top: 10px;"><button type="submit" class="cyber-btn" id="generateBtn" style="flex: 1; margin-top: 0;">GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i></button><button type="button" class="cyber-btn" id="cancelBtn" style="display: none; flex: 0 0 auto; margin-top: 0; background: rgba(239, 68, 68, 0.1); border-color: #ef4444; color: #ef4444; padding: 0 24px;" onclick="window.location.reload();"><i class="fa-solid fa-xmark"></i></button></div>
             </form>
 
             <div class="feed-panel">
@@ -190,7 +190,7 @@
     </main>
 
     <script>
-        // ======= ?? CLERK 專業?�員?�入系統 =======
+        // ======= ?? CLERK 撠平?嚙賢?嚙賢蝟餌絞 =======
         const publishableKey = "pk_test_cmF0aW9uYWwtd2FscnVzLTkwLmNsZXJrLmFjY291bnRzLmRldiQ";
         const script = document.createElement("script");
         script.setAttribute("data-clerk-publishable-key", publishableKey);
@@ -207,24 +207,24 @@
                     const targetUrl = new URL('../index.html', window.location.href).href;
                     window.Clerk.mountUserButton(document.getElementById("user-button"), { afterSignOutUrl: targetUrl });
                 } else {
-                    // 如�???App ?�面?�登?��?強制導�?首�??�入
+                    // 憒蕭???App ?嚙賡?嚙賜?嚙踝蕭?撘瑕撠蕭?擐蕭??嚙賢
                     const targetUrl = new URL('../index.html', window.location.href).href;
                     window.location.href = targetUrl;
                 }
-            } catch (err) { console.error("Clerk ?��??�錯�?", err); }
+            } catch (err) { console.error("Clerk ?嚙踝蕭??嚙賡嚙?", err); }
         });
         document.body.appendChild(script);
 
-        // ======= ?? ?�面?�輯?��?�?API =======
+        // ======= ?? ?嚙賡?嚙質摩?嚙踝蕭?嚙?API =======
         let startTime = null;
-        const BACKEND_URL = "https://nonchimeric-fabled-nila.ngrok-free.dev"; // 你�? Mac mini ?��?
+        const BACKEND_URL = "https://nonchimeric-fabled-nila.ngrok-free.dev"; // 雿蕭? Mac mini ?嚙踝蕭?
 
         const form = document.getElementById('uploadForm');
         const fileInput = document.getElementById('audioUpload');
         const terminal = document.getElementById('statusTerminal');
         const btn = document.getElementById('generateBtn');
 
-        // 綁�?比�??��??��?
+        // 蝬蕭?瘥蕭??嚙踝蕭??嚙踝蕭?
         const ratioBtns = document.querySelectorAll('#ratioSelector .setting-btn');
         const ratioInput = document.getElementById('ratioInput');
 
@@ -281,10 +281,10 @@
             btn.style.pointerEvents = "none";
             
             const formData = new FormData(form);
-            logMsg(`音軌上傳中... | 長寬比例: ${ratioInput.value}`);
+            logMsg(`?唾?銝銝?.. | ?瑕祝瘥?: ${ratioInput.value}`);
 
             try {
-                // 如�??�雲端�??�送給 Ngrok；�??�在 localhost，發�?localhost
+                // 憒蕭??嚙賡蝡荔蕭??嚙賡策 Ngrok嚗蕭??嚙賢 localhost嚗嚙?localhost
                 const apiUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/generate-mv` : `/api/generate-mv`;
                 
                 const response = await fetch(apiUrl, { 
@@ -299,7 +299,7 @@
                 
                 if (data.error) { throw new Error(data.error); }
                 
-                logMsg("音軌已傳輸至本機引擎！啟動隧道監聽進度...");
+                logMsg("?唾?撌脣頛貉?祆?撘?嚗????賡脣漲...");
                 btn.innerHTML = 'GENERATING... <i class="fa-solid fa-circle-notch fa-spin"></i>';
                 
                 const streamUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/stream/${data.jobId}` : `/api/stream/${data.jobId}`;
@@ -308,7 +308,7 @@
                 eventSource.onmessage = function(event) {
                     const msgData = JSON.parse(event.data);
                     if (msgData.type === 'progress') {
-                        logMsg(`[GPU 算圖進度] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
+                        logMsg(`[GPU 蝞??脣漲] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
                         document.getElementById('progress-bar').style.width = msgData.percent + '%';
                         document.getElementById('progress-text').innerText = msgData.percent + '%';
                         if (msgData.percent > 0 && msgData.percent < 100) {
@@ -320,7 +320,7 @@
                             document.getElementById('progress-eta').innerText = 'Finishing...';
                         }
                     } else if (msgData.type === 'done') {
-                        logMsg(`算圖完成！正在從引擎回傳影片...`);
+                        logMsg(`蝞?摰?嚗迤?典?撘??敶梁?...`);
                         document.getElementById('progress-eta').innerText = 'Done!';
                         showVideo(msgData.url);
                         eventSource.close();
@@ -330,7 +330,7 @@
                     }
                 };
             } catch (err) {
-                logMsg(`連線錯誤: ${err.message}`);
+                logMsg(`????航炊: ${err.message}`);
                 btn.innerHTML = 'GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>';
                 btn.style.pointerEvents = "auto";
             }
@@ -342,11 +342,11 @@
             terminal.style.display = 'block'; // Keep queue visible
             document.getElementById('videoResult').style.display = 'block';
             
-            // 修正?�網 IP ?�公網隧?�網?� (?��???
+            // 靽格迤?嚙賜雯 IP ?嚙賢蝬脤?嚙賜雯?嚙?(?嚙踝蕭???
             let publicUrl = url;
             if (BACKEND_URL.startsWith('http') && url.includes('127.0.0.1:8188')) {
-                 publicUrl = url; // ?�想?��?下隧?��?帶穿?�影?�。�??�為影�???ComfyUI ?��?，�??��??��??��?網�?，�??�透�? Express proxy
-                 // ?�為?��??�制，�??��??�在外網，�??��?端用 stream ?��?，目?�暫定�???
+                 publicUrl = url; // ?嚙賣?嚙踝蕭?銝?嚙踝蕭?撣嗥忽?嚙賢蔣?嚙賬蕭??嚙賜敶梧蕭???ComfyUI ?嚙踝蕭?嚗蕭??嚙踝蕭??嚙踝蕭??嚙踝蕭?蝬莎蕭?嚗蕭??嚙賡蕭? Express proxy
+                 // ?嚙賜?嚙踝蕭??嚙賢嚗蕭??嚙踝蕭??嚙賢憭雯嚗蕭??嚙踝蕭?蝡舐 stream ?嚙踝蕭?嚗?嚙賣摰蕭???
             }
             
             document.getElementById('outputVideo').src = url;
