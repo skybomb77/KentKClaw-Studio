@@ -105,7 +105,7 @@
     <!-- 主內容�? -->
     <main class="main-content" id="mainApp">
         <header class="header">
-            <div style="font-weight: 500; color: var(--muted);">AI MV Generator | ?��?點數: 10 Credits</div>
+            <div style="font-weight: 500; color: var(--muted);">AI MV Generator | 剩餘點數: 10 Credits</div>
             <div class="user-profile">
                 <div id="user-button"></div>
             </div>
@@ -272,7 +272,7 @@
             btn.style.pointerEvents = "none";
             
             const formData = new FormData(form);
-            logMsg(`?��?上傳?��?... | ?��?比�?: ${ratioInput.value}`);
+            logMsg(`音軌上傳中... | 長寬比例: ${ratioInput.value}`);
 
             try {
                 // 如�??�雲端�??�送給 Ngrok；�??�在 localhost，發�?localhost
@@ -290,7 +290,7 @@
                 
                 if (data.error) { throw new Error(data.error); }
                 
-                logMsg("?��?已傳輸至 Mac 引�?！�???Ngrok ?��???��?�度...");
+                logMsg("音軌已傳輸至本機引擎！啟動隧道監聽進度...");
                 btn.innerHTML = 'GENERATING... <i class="fa-solid fa-circle-notch fa-spin"></i>';
                 
                 const streamUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/stream/${data.jobId}` : `/api/stream/${data.jobId}`;
@@ -299,7 +299,7 @@
                 eventSource.onmessage = function(event) {
                     const msgData = JSON.parse(event.data);
                     if (msgData.type === 'progress') {
-                        logMsg(`[GPU 算�??�度] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
+                        logMsg(`[GPU 算圖進度] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
                         document.getElementById('progress-bar').style.width = msgData.percent + '%';
                         document.getElementById('progress-text').innerText = msgData.percent + '%';
                         if (msgData.percent > 0 && msgData.percent < 100) {
@@ -311,7 +311,7 @@
                             document.getElementById('progress-eta').innerText = 'Finishing...';
                         }
                     } else if (msgData.type === 'done') {
-                        logMsg(`??算�?完�?！�??�影?��? Mac 引�??�傳�?..`);
+                        logMsg(`算圖完成！正在從引擎回傳影片...`);
                         document.getElementById('progress-eta').innerText = 'Done!';
                         showVideo(msgData.url);
                         eventSource.close();
@@ -321,7 +321,7 @@
                     }
                 };
             } catch (err) {
-                logMsg(`??????�誤: ${err.message}`);
+                logMsg(`連線錯誤: ${err.message}`);
                 btn.innerHTML = 'GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>';
                 btn.style.pointerEvents = "auto";
             }
