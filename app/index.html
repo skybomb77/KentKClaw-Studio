@@ -303,13 +303,20 @@
                 
                 if (data.error) { throw new Error(data.error); }
                 
-                logMsg("音軌已傳輸至 本機引擎！啟動 Ngrok 隧道監聽進度...");
+                logMsg("音軌已傳輸至 本機引擎！啟動 WebSocket 監聽進度...");
                 btn.innerHTML = 'GENERATING... <i class="fa-solid fa-circle-notch fa-spin"></i>';
                 
-                const streamUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/stream/${data.jobId}` : `/api/stream/${data.jobId}`;
-                const eventSource = new EventSource(streamUrl);
+                let wsUrl;
+                if (BACKEND_URL.startsWith('http')) {
+                    wsUrl = BACKEND_URL.replace('http', 'ws') + `/api/ws/${data.jobId}`;
+                } else {
+                    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                    wsUrl = `${protocol}//${window.location.host}/api/ws/${data.jobId}`;
+                }
+
+                const socket = new WebSocket(wsUrl);
                 
-                eventSource.onmessage = function(event) {
+                socket.onmessage = function(event) {
                     const msgData = JSON.parse(event.data);
                     if (msgData.type === 'progress') {
                         logMsg(`[GPU 算圖進度] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
@@ -327,11 +334,16 @@
                         logMsg(`✅ 算圖完成！成品影片從 本機引擎回傳中...`);
                         document.getElementById('progress-eta').innerText = 'Done!';
                         showVideo(msgData.url);
-                        eventSource.close();
+                        socket.close();
                         setTimeout(() => { document.getElementById('progress-container').style.display = 'none'; }, 3000);
                     } else if (msgData.type === 'error') {
-                        throw new Error(msgData.msg);
+                        logMsg(`❌ 算圖錯誤: ${msgData.msg}`);
+                        socket.close();
                     }
+                };
+
+                socket.onerror = function(err) {
+                    logMsg(`❌ WebSocket 連線錯誤`);
                 };
             } catch (err) {
                 logMsg(`❌ 連線錯誤: ${err.message}`);
