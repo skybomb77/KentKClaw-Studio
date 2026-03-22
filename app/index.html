@@ -364,12 +364,11 @@
             // 修正內網 IP 成公網隧道網址 (若存在)
             let publicUrl = url;
             if (BACKEND_URL.startsWith('http') && url.includes('127.0.0.1:8188')) {
-                 publicUrl = url; // 理想情況下隧道要帶穿透影片。但因為影片在 ComfyUI 本機，我們如果要在外網看，必須透過 Express proxy
-                 // 因為時間限制，如果真的在外網，請在後端用 stream 取回，目前暫定保留
+                 publicUrl = url.replace(/http:\/\/127\.0\.0\.1:8188/, BACKEND_URL);
             }
             
-            document.getElementById('outputVideo').src = url;
-            document.getElementById('downloadBtn').href = url;
+            document.getElementById('outputVideo').src = publicUrl;
+            document.getElementById('downloadBtn').href = publicUrl;
             document.getElementById('outputVideo').play();
             document.getElementById('videoTitle').innerText = fileInput.files[0] ? fileInput.files[0].name : "Chaobang MV";
             document.getElementById('videoDesc').innerText = document.getElementById('promptInput').value;
