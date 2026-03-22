@@ -307,7 +307,9 @@
                 btn.innerHTML = 'GENERATING... <i class="fa-solid fa-circle-notch fa-spin"></i>';
                 
                 let wsUrl;
-                if (BACKEND_URL.startsWith('http')) {
+                if (BACKEND_URL.startsWith('https')) {
+                    wsUrl = BACKEND_URL.replace('https', 'wss') + `/api/ws/${data.jobId}`;
+                } else if (BACKEND_URL.startsWith('http')) {
                     wsUrl = BACKEND_URL.replace('http', 'ws') + `/api/ws/${data.jobId}`;
                 } else {
                     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
