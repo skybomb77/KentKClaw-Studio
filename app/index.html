@@ -134,6 +134,11 @@
                     <textarea id="promptInput" name="prompt">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
                 </div>
 
+                <div class="input-group">
+                    <label>Lyrics / Script (Optional) <span style="color:var(--brand); font-size:0.8rem;">For Text-to-Video Sync</span></label>
+                    <textarea id="lyricsInput" name="lyrics" placeholder="Paste your lyrics here to help AI understand the mood and timing..."></textarea>
+                </div>
+
                 <!-- 真實綁定比例的選擇器 -->
                 <div class="input-group">
                     <label>Aspect Ratio</label>
@@ -285,7 +290,8 @@
             btn.style.pointerEvents = "none";
             
             const formData = new FormData(form);
-            logMsg(`開始上傳音軌... | 選擇比例: ${ratioInput.value}`);
+            const lyricsText = document.getElementById('lyricsInput').value;
+            logMsg(`開始上傳音軌... | 比例: ${ratioInput.value} | 歌詞長度: ${lyricsText.length} 字`);
 
             try {
                 // 如果在雲端，發送給 Ngrok；如果在 localhost，發給 localhost
