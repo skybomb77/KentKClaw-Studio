@@ -160,7 +160,14 @@
                     <input type="hidden" name="resolution" id="resInput" value="720p">
                 </div>
     
-                <div style="display: flex; gap: 12px; margin-top: 10px;"><button type="submit" class="cyber-btn" id="generateBtn" style="flex: 1; margin-top: 0;">GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i></button><button type="button" class="cyber-btn" id="cancelBtn" style="display: none; flex: 0 0 auto; margin-top: 0; background: rgba(239, 68, 68, 0.1); border-color: #ef4444; color: #ef4444; padding: 0 24px;" onclick="window.location.reload();"><i class="fa-solid fa-xmark"></i></button></div>
+                <div style="display: flex; gap: 10px; margin-top: 15px; align-items: stretch;">
+                    <button type="submit" class="cyber-btn" id="generateBtn" style="margin-top: 0; flex: 1;">
+                        GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>
+                    </button>
+                    <button type="button" class="cyber-btn" id="cancelBtn" style="margin-top: 0; flex: 0 0 64px; background: rgba(239, 68, 68, 0.15); border-color: #ef4444; color: #ef4444; padding: 0; display: flex; align-items: center; justify-content: center;" title="STOP / RESET" onclick="window.location.reload();">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </div>
             </form>
 
             <div class="feed-panel">
@@ -356,7 +363,6 @@
             } catch (err) {
                 logMsg(`❌ 連線錯誤: ${err.message}`);
                 btn.innerHTML = 'GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>';
-                document.getElementById("cancelBtn").style.display = "none";
                 btn.style.pointerEvents = "auto";
             }
         });
