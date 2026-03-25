@@ -368,7 +368,7 @@
             <h2 class="toneforge-text">ToneForge</h2>
             <div class="sub-heading" data-i18n="tfSub">ToneForge (AI Music Engine)</div>
             <p data-i18n="tfDesc">An AI music product for creators, editors, and brands. Generate short-form, ad-ready soundtracks in minutes. Describe the vibe, get the track.</p>
-            <a href="toneforge-app.html" id="launch-tf-btn" class="btn" style="border: 1px solid var(--accent-purple); color: var(--accent-purple); background: rgba(185, 122, 245, 0.1);">
+            <a href="app/index.html?tab=toneforge" id="launch-tf-btn" class="btn" style="border: 1px solid var(--accent-purple); color: var(--accent-purple); background: rgba(185, 122, 245, 0.1);">
                 <i class="fa-solid fa-music"></i> <span data-i18n="tfBtn">Launch AI Music Engine</span>
             </a>
         </div>
@@ -558,7 +558,7 @@
                     launchMvBtn.addEventListener('click', (e) => handleProtectedClick(e, 'app/index.html'));
                 }
                 if (launchTfBtn) {
-                    launchTfBtn.addEventListener('click', (e) => handleProtectedClick(e, 'toneforge-app.html'));
+                    launchTfBtn.addEventListener('click', (e) => handleProtectedClick(e, 'app/index.html?tab=toneforge'));
                 }
                 showcaseCards.forEach(card => {
                     card.addEventListener('click', (e) => {

@@ -438,6 +438,15 @@
             }
         }
 
+        // Init
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab');
+            if (tab) {
+                switchTab(null, tab);
+            }
+        });
+
         function switchTab(event, tab) {
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             if(event) {
