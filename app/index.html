@@ -98,6 +98,7 @@
         <div class="nav-menu">
             <a href="#" class="nav-item" onclick="switchTab(event, 'dashboard')"><i class="fa-solid fa-house"></i> Dashboard</a>
             <a href="#" class="nav-item active" onclick="switchTab(event, 'create')"><i class="fa-solid fa-bolt"></i> Create MV</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'toneforge')"><i class="fa-solid fa-music"></i> ToneForge (BGM)</a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'screening')"><i class="fa-solid fa-film"></i> My Screening Room</a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'styles')"><i class="fa-solid fa-palette"></i> Style Library</a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'split')"><i class="fa-solid fa-music"></i> Audio Stem Splitter (Pro)</a>
@@ -399,6 +400,44 @@
             document.getElementById('promptInput').value = random;
         }
 
+        // ======= 🚀 ToneForge 音樂鍛造邏輯 =======
+        let selectedToneLen = 15;
+        function selectToneLen(btn, len) {
+            btn.parentElement.querySelectorAll('.setting-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedToneLen = len;
+        }
+
+        async function forgeMusic() {
+            const style = document.getElementById('toneStyle').value;
+            const mood = document.getElementById('toneMood').value;
+            const resultDiv = document.getElementById('toneResult');
+            const statusDiv = document.getElementById('toneStatus');
+            const playerDiv = document.getElementById('tonePlayer');
+            
+            statusDiv.innerHTML = `<i class="fa-solid fa-spinner fa-spin" style="font-size:3rem; color:var(--brand); margin-bottom:20px;"></i><p>正在鍛造音軌... 預計需要 30 秒</p>`;
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/forge-music`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ style, mood, duration: selectedToneLen })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    statusDiv.style.display = 'none';
+                    playerDiv.style.display = 'block';
+                    document.getElementById('toneTitle').innerText = `${style} - ${selectedToneLen}s Custom Beat`;
+                    document.getElementById('audioOut').src = data.audioUrl;
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (err) {
+                statusDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p>鍛造失敗: ${err.message}</p>`;
+            }
+        }
+
         function switchTab(event, tab) {
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             if(event) {
@@ -414,6 +453,57 @@
             if(tab === 'create') {
                 document.getElementById('create-view').style.display = 'grid';
                 document.getElementById('other-view').style.display = 'none';
+            } else if(tab === 'toneforge') {
+                document.getElementById('create-view').style.display = 'none';
+                document.getElementById('other-view').style.display = 'block';
+                document.getElementById('other-view').innerHTML = `
+                    <div style="padding: 40px; max-width: 1000px; margin: 0 auto;">
+                        <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:10px;">ToneForge <span style="color:var(--brand)">BGM</span></h1>
+                        <p style="color:var(--muted); margin-bottom:30px;">專為短影片與插曲設計的 AI 配樂引擎</p>
+                        
+                        <div style="display:grid; grid-template-columns: 400px 1fr; gap:30px;">
+                            <div class="create-panel" style="min-height: auto;">
+                                <div class="input-group">
+                                    <label>音樂風格 (Music Style)</label>
+                                    <select id="toneStyle" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border); padding:12px; border-radius:8px; color:white; outline:none;">
+                                        <option value="Lofi Hip Hop">Lofi Hip Hop (放鬆隨興)</option>
+                                        <option value="Cinematic">Cinematic (壯闊史詩)</option>
+                                        <option value="Cyberpunk Techno">Cyberpunk Techno (科幻重音)</option>
+                                        <option value="Acoustic Folk">Acoustic Folk (溫暖民謠)</option>
+                                        <option value="Epic Orchestral">Epic Orchestral (磅礡管弦)</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>氛圍描述 (Atmosphere)</label>
+                                    <textarea id="toneMood" placeholder="例如：深夜下雨的街道、孤獨但有希望的旋律..." style="min-height:80px;"></textarea>
+                                </div>
+                                <div class="input-group">
+                                    <label>長度 (Duration)</label>
+                                    <div class="settings-row">
+                                        <div class="setting-btn active" onclick="selectToneLen(this, 15)">15s</div>
+                                        <div class="setting-btn" onclick="selectToneLen(this, 30)">30s</div>
+                                        <div class="setting-btn" onclick="selectToneLen(this, 60)">60s</div>
+                                    </div>
+                                </div>
+                                <button class="cyber-btn" onclick="forgeMusic()">START FORGING <i class="fa-solid fa-hammer"></i></button>
+                            </div>
+                            
+                            <div class="feed-panel">
+                                <div id="toneResult" style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:300px;">
+                                    <div id="toneStatus">
+                                        <i class="fa-solid fa-music" style="font-size:3rem; color:var(--muted); opacity:0.3; margin-bottom:20px;"></i>
+                                        <p style="color:var(--muted);">設定參數並開始鍛造你的專屬配樂</p>
+                                    </div>
+                                    <div id="tonePlayer" style="display:none; width:100%;">
+                                        <h3 id="toneTitle" style="margin-bottom:15px; text-align:center;"></h3>
+                                        <audio id="audioOut" controls style="width:100%; margin-bottom:20px;"></audio>
+                                        <button class="cyber-btn" style="background:var(--brand-dim); color:var(--brand); border-color:var(--brand);">DOWNLOAD .WAV</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
             } else if(tab === 'dashboard') {
                 document.getElementById('create-view').style.display = 'none';
                 document.getElementById('other-view').style.display = 'block';

@@ -10,9 +10,40 @@ const app = express();
 const port = 3000;
 const COMFY_SERVER = '127.0.0.1:8188';
 
-// 啟用 CORS 允許來自 Vercel 和 Ngrok 隧道的請求
-app.use(cors());
+// 啟用 CORS 允許來自 GitHub Pages 和 Vercel 的請求
+app.use(cors({
+    origin: true, // 全部放行
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning', 'bypass-tunnel-reminder'],
+    credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+}));
+
+// 中間件：確保所有回應都帶有必要的 Header，並且解決 Ngrok 403
+app.use((req, res, next) => {
+    const origin = req.headers.origin || '*';
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, ngrok-skip-browser-warning, bypass-tunnel-reminder, x-clerk-auth-token');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('ngrok-skip-browser-warning', 'true');
+
+    // 驗證 Clerk Token (選填，目前先 Log 出來)
+    if (req.headers.authorization) {
+        console.log(`[Auth] Received Token from: ${req.headers.origin}`);
+    }
+
+    // 關鍵：如果瀏覽器發送 OPTIONS 預檢請求，直接回傳 200/204
+    if (req.method === 'OPTIONS') {
+        return res.status(204).end();
+    }
+    next();
+});
+
 app.use(express.static(__dirname));
+app.use('/favicon.ico', (req, res) => res.status(204).end());
+app.use('/app', express.static(path.join(__dirname, 'app')));
 app.use(express.json());
 
 const storage = multer.diskStorage({
@@ -32,24 +63,52 @@ const clients = new Map();
 // 確保 /app 路由精準指向我們的前端介面
 app.get('/app', (req, res) => res.sendFile(path.join(__dirname, 'app', 'index.html')));
 
-app.get('/api/stream/:jobId', (req, res) => {
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
-    res.flushHeaders();
-    clients.set(req.params.jobId, res);
+// 建立一個標準的 HTTP 伺服器
+const server = http.createServer(app);
+
+app.get('/health', (req, res) => res.json({ status: 'ok', engine: COMFY_SERVER }));
+
+// 初始化 WebSocket 伺服器 (供前端監聽算圖進度)
+const wss = new WebSocket.Server({ noServer: true });
+
+server.on('upgrade', (request, socket, head) => {
+    const pathname = request.url;
+    console.log(`[Upgrade] Request to: ${pathname}`);
+    if (pathname.includes('/api/ws/')) {
+        wss.handleUpgrade(request, socket, head, (ws) => {
+            wss.emit('connection', ws, request);
+        });
+    } else {
+        console.log(`[Upgrade] Rejected: ${pathname}`);
+        socket.destroy();
+    }
+});
+
+wss.on('connection', (ws, request) => {
+    const jobId = request.url.split('/').pop();
+    clients.set(jobId, ws);
+    console.log(`[WebSocket] 客戶端已連線至任務: ${jobId}`);
     
-    req.on('close', () => clients.delete(req.params.jobId));
+    ws.on('close', () => {
+        clients.delete(jobId);
+        console.log(`[WebSocket] 任務連線已斷開: ${jobId}`);
+    });
 });
 
 function sendToClient(jobId, data) {
-    const res = clients.get(jobId);
-    if (res) res.write(`data: ${JSON.stringify(data)}\n\n`);
+    const ws = clients.get(jobId);
+    if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify(data));
+    }
 }
+
+// 移除舊的 SSE 路由
+// app.get('/api/stream/:jobId', ...); 
 
 app.get('/api/video/:filename', (req, res) => {
     const filename = req.params.filename;
-    const url = `http://${COMFY_SERVER}/view?filename=${filename}`;
+    // 支援 ComfyUI 預設的 view API
+    const url = `http://${COMFY_SERVER}/view?filename=${filename}&type=output`;
     http.get(url, (response) => {
             if (response.statusCode !== 200) {
                 res.status(response.statusCode).send('Error fetching video from engine');
@@ -62,10 +121,41 @@ app.get('/api/video/:filename', (req, res) => {
     });
 });
 
+// === ToneForge: AI 音樂鍛造 API ===
+app.post('/api/forge-music', async (req, res) => {
+    const { style, mood, duration } = req.body;
+    const outputFilename = `forge_${Date.now()}.wav`;
+    const outputPath = path.join(__dirname, 'audio_output', outputFilename);
+    
+    console.log(`[ToneForge] 鍛造請求: ${style} | ${mood} | ${duration}s`);
+
+    // 這裡調用 Python 腳本進行物理建模合成或 AI 生成
+    // 目前先使用內建的 generate_music.py 進行示範性合成
+    const pythonProcess = spawn('python', [
+        path.join(__dirname, 'scripts/generate_music.py'),
+        '--style', style,
+        '--duration', duration,
+        '--output', outputPath
+    ]);
+
+    pythonProcess.on('close', (code) => {
+        if (code === 0) {
+            const audioUrl = `${req.protocol}://${req.get('host')}/audio_output/${outputFilename}`;
+            res.json({ success: true, audioUrl });
+        } else {
+            res.status(500).json({ success: false, error: 'Music synthesis failed' });
+        }
+    });
+});
+
+// 靜態資源：允許訪問產出的音訊檔
+app.use('/audio_output', express.static(path.join(__dirname, 'audio_output')));
+
 app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
     try {
         const file = req.file;
         const promptText = req.body.prompt;
+        const lyrics = req.body.lyrics; // 新增：抓取歌詞欄位
         const ratio = req.body.ratio || '16:9';
         const resolution = req.body.resolution || '720p';
         const jobId = `job_${Date.now()}`;
@@ -85,23 +175,94 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
 
         const workflowPath = path.join(__dirname, '../ComfyUI/workflow_animatediff.json');
         if (!fs.existsSync(workflowPath)) {
-            console.error('Workflow 檔案不存在');
+            console.error('Workflow 檔案不存在:', workflowPath);
             return res.status(500).json({ success: false, error: "System Configuration Error (Workflow Missing)" });
         }
         let promptJson = null;
         if (fs.existsSync(workflowPath)) {
             promptJson = JSON.parse(fs.readFileSync(workflowPath, 'utf8'));
             
-            if (promptJson["3"] && promptJson["3"]["inputs"]) {
-                promptJson["3"]["inputs"]["steps"] = 6; // 極限降低步數加速
-                promptJson["3"]["inputs"]["cfg"] = 2; // 降低CFG加速
-            }
             if (promptJson["11"] && promptJson["11"]["inputs"]) {
-                promptJson["11"]["inputs"]["batch_size"] = 4; // 極限減少幀數加速 (變成短片)
+                // 哥，調優 15 秒 (120 幀)，確保 5070 Ti 滿速運轉
+                promptJson["11"]["inputs"]["batch_size"] = 120; 
             }
-            // 預設提示詞
+
+            // --- 音訊自動掛載 (修復沒聲音問題) ---
+            if (file) {
+                promptJson["20"] = {
+                    "inputs": { "audio": file.filename },
+                    "class_type": "VHS_AudioLoader",
+                    "_meta": { "title": "Audio Engine" }
+                };
+                if (promptJson["12"] && promptJson["12"]["inputs"]) {
+                    promptJson["12"]["inputs"]["audio"] = ["20", 0];
+                }
+            }
+
+            // 優化滑動窗口參數，讓引擎更早開始輸出第一幀
+            promptJson["15"] = {
+                "inputs": {
+                    "context_length": 16,
+                    "context_stride": 1,
+                    "context_overlap": 4,
+                    "context_schedule": "uniform",
+                    "closed_loop": false,
+                    "fuse_method": "flat",
+                    "use_on_equal_length": false,
+                    "start_percent": 0,
+                    "guarantee_steps": 1
+                },
+                "class_type": "ADE_AnimateDiffUniformContextOptions",
+                "_meta": { "title": "顯存優化核心" }
+            };
+
+            // 將優化機制掛載到 AnimateDiff 載入器 (Node 10)
+            if (promptJson["10"] && promptJson["10"]["inputs"]) {
+                promptJson["10"]["inputs"]["context_options"] = ["15", 0];
+            }
+
+            // 確保輸出幀率與長度匹配 (Node 12)
+            if (promptJson["12"] && promptJson["12"]["inputs"]) {
+                promptJson["12"]["inputs"]["frame_rate"] = 8; 
+            }
+
+            // 調回更輕量化的算圖參數，確保引擎「秒給回應」
+            if (promptJson["3"] && promptJson["3"]["inputs"]) {
+                promptJson["3"]["inputs"]["seed"] = Math.floor(Math.random() * 1000000); 
+                promptJson["3"]["inputs"]["steps"] = 6; // Blackwell 加速：6 步即可，省下一半時間
+                promptJson["3"]["inputs"]["cfg"] = 2.5; 
+            }
+            
+            // 核心邏輯：將提示詞與歌詞完全分開處理，使用不同的算圖節點
+            
+            // 節點 6 保持為視覺風格提示詞
             if (promptJson["6"] && promptJson["6"]["inputs"]) {
-                promptJson["6"]["inputs"]["text"] = "masterpiece, highly detailed, visually stunning, neon light glow, dynamic action";
+                promptJson["6"]["inputs"]["text"] = promptText || "masterpiece, best quality, highly detailed, neon cyberpunk";
+            }
+
+            // 新增節點 13：專門處理歌詞/意象
+            promptJson["13"] = {
+                "inputs": {
+                    "text": lyrics || "",
+                    "clip": ["4", 1]
+                },
+                "class_type": "CLIPTextEncode",
+                "_meta": { "title": "Lyrics Processor" }
+            };
+
+            // 新增節點 14：將風格(6)與歌詞(13)合併
+            promptJson["14"] = {
+                "inputs": {
+                    "conditioning_1": ["6", 0],
+                    "conditioning_2": ["13", 0]
+                },
+                "class_type": "ConditioningCombine",
+                "_meta": { "title": "Merge Visuals & Lyrics" }
+            };
+
+            // 讓算圖器(3)改從合併後的節點(14)接收正面條件
+            if (promptJson["3"] && promptJson["3"]["inputs"]) {
+                promptJson["3"]["inputs"]["positive"] = ["14", 0];
             }
 
             // --- 自動計算尺寸比例 (Aspect Ratio) ---
@@ -131,6 +292,7 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
         const ws = new WebSocket(`ws://${COMFY_SERVER}/ws?clientId=${clientId}`);
         
         ws.on('open', () => {
+            console.log(`[ComfyWS] 成功建立與算圖引擎的 WebSocket 連線`);
             sendToClient(jobId, { type: 'log', msg: '📡 成功穿透內網連接到算圖引擎，開始為您執行...' });
             const data = JSON.stringify({ prompt: promptJson, client_id: clientId });
             const reqComfy = http.request({
@@ -140,12 +302,17 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data) }
             });
+            reqComfy.on('error', (e) => {
+                console.error(`[ComfyAPI] 請求錯誤: ${e.message}`);
+                sendToClient(jobId, { type: 'error', msg: `引擎請求失敗: ${e.message}` });
+            });
             reqComfy.write(data);
             reqComfy.end();
         });
 
         ws.on('message', (data) => {
             const message = JSON.parse(data);
+            console.log(`[ComfyWS] 收到消息類型: ${message.type}`);
             if (message.type === 'progress') {
                 const percent = Math.round((message.data.value / message.data.max) * 100);
                 sendToClient(jobId, { type: 'progress', percent, val: message.data.value, max: message.data.max });
@@ -154,19 +321,25 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
                 try {
                     const outputs = message.data.output;
                     let videoUrl = null;
-                    for (let id of Object.keys(outputs)) {
-                        if (outputs[id] && outputs[id].gifs) {
-                            const filename = outputs[id].gifs[0].filename;
-                            videoUrl = `${req.protocol}://${req.get('host')}/api/video/${filename}`;
-                            break;
-                        }
+                    
+                    // 修正：ComfyUI WS 的 executed 訊息中，output 直接就是該節點的內容
+                    if (outputs.gifs && outputs.gifs.length > 0) {
+                        const filename = outputs.gifs[0].filename;
+                        videoUrl = `${req.protocol}://${req.get('host')}/api/video/${filename}`;
+                    } else if (outputs.images && outputs.images.length > 0) {
+                        const filename = outputs.images[0].filename;
+                        videoUrl = `${req.protocol}://${req.get('host')}/api/video/${filename}`;
                     }
-                    if (videoUrl) sendToClient(jobId, { type: 'done', url: videoUrl });
-                    else sendToClient(jobId, { type: 'error', msg: '找不到生成的影片檔案' });
+                    
+                    if (videoUrl) {
+                        console.log(`[JobDone] ${jobId} -> ${videoUrl}`);
+                        sendToClient(jobId, { type: 'done', url: videoUrl });
+                    }
                 } catch (e) {
-                    sendToClient(jobId, { type: 'error', msg: '影片網址解析失敗' });
+                    console.error('影片網址解析失敗:', e);
                 }
-                ws.close();
+                // 注意：這裡不主動關閉，除非確定是最終節點，或者交給客戶端斷開
+                // ws.close(); 
             }
         });
         
@@ -180,6 +353,7 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
     }
 });
 
-app.listen(port, () => {
+// 改用 server.listen 取代 app.listen
+server.listen(port, () => {
     console.log(`🚀 [Chaobang SaaS Node] 本機引擎就緒於 port ${port}`);
 });

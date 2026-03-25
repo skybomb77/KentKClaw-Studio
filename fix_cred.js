@@ -1,0 +1,1 @@
+﻿const fs = require("fs"); let text = fs.readFileSync("app/index.html", "utf8"); text = text.replace(/AI MV Generator \| .*/g, "AI MV Generator | 剩餘點數: 10 Credits</div>"); fs.writeFileSync("app/index.html", text, "utf8"); console.log("done");

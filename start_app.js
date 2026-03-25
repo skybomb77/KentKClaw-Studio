@@ -72,7 +72,7 @@ const { spawn, execSync } = require('child_process');
         } catch(e) { /* Ignore if no changes */ }
 
         console.log('🚀 啟動 Chaobang 後端中樞神經...');
-        const server = spawn('node', ['server.js'], { stdio: 'inherit' });
+        const server = spawn('node', ['server.js'], { stdio: 'inherit', cwd: __dirname });
         
         console.log('📦 正在將最新網址同步推送到 Vercel 正式站，這可能需要 10 秒...');
         const gitPush = spawn('git', ['commit', '-am', 'feat: update tunnel url via ngrok automatically', '&&', 'git', 'push', 'origin', 'main'], { shell: true });

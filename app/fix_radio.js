@@ -1,0 +1,1 @@
+﻿const fs = require("fs"); let html = fs.readFileSync("index.html", "utf8"); html = html.replace("const ratioBtns = document.querySelectorAll(\u0027.setting-btn\u0027);", "const ratioBtns = document.querySelectorAll(\u0027#ratioSelector .setting-btn\u0027);"); fs.writeFileSync("index.html", html, "utf8"); console.log("done");

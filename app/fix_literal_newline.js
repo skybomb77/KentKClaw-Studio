@@ -1,0 +1,1 @@
+﻿const fs = require("fs"); let html = fs.readFileSync("index.html", "utf8"); // 移除實體字串 "\r\n" 並換成真正的換行\nlet fixed = html.replace("\\r\\n                    <label>Resolution Quality</label>", "\n                    <label>Resolution Quality</label>");\nfs.writeFileSync("index.html", fixed, "utf8"); console.log("Fix applied locally");

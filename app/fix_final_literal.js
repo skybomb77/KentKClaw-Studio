@@ -1,0 +1,1 @@
+﻿const fs = require("fs"); let text = fs.readFileSync("index.html", "utf8"); // Use regex to find literal \\r\\n and replace with actual newline\ntext = text.replace(/\\\\r\\\\n\\s*<label>Resolution Quality/g, "\\n                    <label>Resolution Quality");\nfs.writeFileSync("index.html", text, "utf8"); console.log("done");
