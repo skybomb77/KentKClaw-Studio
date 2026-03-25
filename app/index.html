@@ -10,34 +10,42 @@
         
         :root {
             --bg: transparent; --sidebar: rgba(18, 18, 20, 0.65); --panel: rgba(24, 24, 27, 0.75); --border: #27272a;
-            --text: #ededed; --muted: #a1a1aa; --brand: #00ffaa; --brand-dim: rgba(0, 255, 170, 0.15);
+            --text: #ededed; --muted: #a1a1aa; 
+            --wv-brand: #00ffaa; --wv-brand-dim: rgba(0, 255, 170, 0.15);
+            --tf-brand: #b97af5; --tf-brand-dim: rgba(185, 122, 245, 0.15);
+            --brand: var(--wv-brand); --brand-dim: var(--wv-brand-dim);
+        }
+
+        body.toneforge-mode {
+            --brand: var(--tf-brand);
+            --brand-dim: var(--tf-brand-dim);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Noto Sans TC', sans-serif; height: 100vh; display: flex; overflow: hidden; }
 
-        .sidebar { width: 260px; background: var(--sidebar); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 24px 16px; gap: 32px; }
-        .brand { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: #fff; display: flex; align-items: center; gap: 12px; padding-left: 12px; text-decoration: none; }
-        .brand i { color: var(--brand); }
+        .sidebar { width: 260px; background: var(--sidebar); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 24px 16px; gap: 32px; transition: border-color 0.5s ease; }
+        .brand { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: #fff; display: flex; align-items: center; gap: 12px; padding-left: 12px; text-decoration: none; transition: color 0.5s ease; }
+        .brand i { color: var(--brand); transition: color 0.5s ease; }
         .nav-menu { display: flex; flex-direction: column; gap: 8px; }
-        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 12px; color: var(--muted); text-decoration: none; font-weight: 500; transition: all 0.2s ease; cursor: pointer; }
+        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 12px; color: var(--muted); text-decoration: none; font-weight: 500; transition: all 0.3s ease; cursor: pointer; }
         .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text); }
         .nav-item.active { background: var(--brand-dim); color: var(--brand); }
 
-        .main-content { flex: 1; display: none; flex-direction: column; overflow-y: auto; position: relative; }
-        .header { height: 70px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; }
-        .user-profile { display: flex; align-items: center; gap: 12px; background: var(--panel); padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid var(--border); font-size: 0.9rem; }
+        .main-content { flex: 1; display: none; flex-direction: column; overflow-y: auto; position: relative; transition: background 0.5s ease; }
+        .header { height: 70px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; transition: border-color 0.5s ease; }
+        .user-profile { display: flex; align-items: center; gap: 12px; background: var(--panel); padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid var(--border); font-size: 0.9rem; transition: border-color 0.5s ease; }
         .content-grid { display: grid; grid-template-columns: 380px 1fr; gap: 32px; padding: 40px; max-width: 1600px; margin: 0 auto; width: 100%; }
 
-        .create-panel { background: var(--panel); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid var(--border); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 24px; min-height: 700px; }
+        .create-panel { background: var(--panel); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid var(--border); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 24px; min-height: 700px; transition: border-color 0.5s ease, box-shadow 0.5s ease; }
         .panel-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .custom-toggle { font-size: 0.8rem; color: var(--brand); background: var(--brand-dim); padding: 4px 10px; border-radius: 999px; display: flex; align-items: center; gap: 6px; }
+        .custom-toggle { font-size: 0.8rem; color: var(--brand); background: var(--brand-dim); padding: 4px 10px; border-radius: 999px; display: flex; align-items: center; gap: 6px; transition: all 0.5s ease; }
         .input-group { display: flex; flex-direction: column; gap: 10px; }
         .input-group label { font-size: 0.85rem; color: var(--muted); font-weight: 500; display: flex; justify-content: space-between; }
         
         .file-drop-area { border: 2px dashed var(--border); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: rgba(0,0,0,0.2); position: relative; }
         .file-drop-area:hover { border-color: var(--brand); background: var(--brand-dim); }
-        .file-drop-area i { font-size: 2rem; color: var(--muted); margin-bottom: 10px; }
+        .file-drop-area i { font-size: 2rem; color: var(--muted); margin-bottom: 10px; transition: color 0.5s ease; }
         .file-drop-area span { display: block; font-size: 0.9rem; color: var(--muted); }
         input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         textarea { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 16px; border-radius: 12px; color: var(--text); font-family: inherit; resize: vertical; min-height: 120px; outline: none; transition: border 0.3s ease; line-height: 1.5; }
@@ -49,7 +57,9 @@
 
         .cyber-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 18px; font-size: 1.1rem; font-weight: bold; letter-spacing: 2px; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: all 0.3s ease; width: 100%; border-radius: 12px; margin-top: 10px; }
         .cyber-btn:hover { background: var(--brand-dim); color: var(--brand); border-color: var(--brand); box-shadow: 0 0 20px rgba(0, 255, 170, 0.2); transform: translateY(-2px); }
+        body.toneforge-mode .cyber-btn:hover { box-shadow: 0 0 20px rgba(185, 122, 245, 0.2); }
         .cyber-btn:active { background: rgba(0, 255, 170, 0.3); transform: scale(0.98); }
+        body.toneforge-mode .cyber-btn:active { background: rgba(185, 122, 245, 0.3); }
 
         .feed-panel { display: flex; flex-direction: column; gap: 24px; }
         .section-title { font-size: 1.5rem; font-weight: 700; }
@@ -408,32 +418,59 @@
             selectedToneLen = len;
         }
 
-        async function forgeMusic() {
+    async function forgeMusic() {
             const style = document.getElementById('toneStyle').value;
             const mood = document.getElementById('toneMood').value;
-            const resultDiv = document.getElementById('toneResult');
             const statusDiv = document.getElementById('toneStatus');
             const playerDiv = document.getElementById('tonePlayer');
+            const downloadBtn = document.getElementById('toneDownload');
             
-            statusDiv.innerHTML = `<i class="fa-solid fa-spinner fa-spin" style="font-size:3rem; color:var(--brand); margin-bottom:20px;"></i><p>正在鍛造音軌... 預計需要 30 秒</p>`;
+            statusDiv.style.display = 'flex';
+            playerDiv.style.display = 'none';
+            statusDiv.innerHTML = `<i class="fa-solid fa-spinner fa-spin" style="font-size:3rem; color:var(--brand); margin-bottom:20px;"></i><p>正在鍛造音軌... 預計需要 10-20 秒</p>`;
             
             try {
-                const response = await fetch(`${BACKEND_URL}/api/forge-music`, {
+                // 如果在雲端，發送給 Ngrok；如果在 localhost，發給 localhost
+                const apiUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/forge-music` : `/api/forge-music`;
+                
+                const response = await fetch(apiUrl, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'bypass-tunnel-reminder': 'true',
+                        'ngrok-skip-browser-warning': 'true'
+                    },
                     body: JSON.stringify({ style, mood, duration: selectedToneLen })
                 });
+                
+                if (!response.ok) {
+                    const text = await response.text();
+                    throw new Error(`Server Error: ${text.substring(0, 100)}`);
+                }
+
                 const data = await response.json();
                 
                 if (data.success) {
                     statusDiv.style.display = 'none';
                     playerDiv.style.display = 'block';
                     document.getElementById('toneTitle').innerText = `${style} - ${selectedToneLen}s Custom Beat`;
-                    document.getElementById('audioOut').src = data.audioUrl;
+                    
+                    let finalUrl = data.audioUrl;
+                    // 修正內網 IP
+                    if (BACKEND_URL.startsWith('http') && finalUrl.includes('localhost:3000')) {
+                        finalUrl = finalUrl.replace(/http:\/\/localhost:3000/, BACKEND_URL);
+                    } else if (BACKEND_URL.startsWith('http') && finalUrl.includes('127.0.0.1:3000')) {
+                        finalUrl = finalUrl.replace(/http:\/\/127\.0\.0\.1:3000/, BACKEND_URL);
+                    }
+
+                    document.getElementById('audioOut').src = finalUrl;
+                    downloadBtn.href = finalUrl;
+                    document.getElementById('audioOut').play();
                 } else {
-                    throw new Error(data.error);
+                    throw new Error(data.error || 'Unknown error');
                 }
             } catch (err) {
+                console.error("Forge Error:", err);
                 statusDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p>鍛造失敗: ${err.message}</p>`;
             }
         }
@@ -460,18 +497,20 @@
             }
             
             if(tab === 'create') {
+                document.body.classList.remove('toneforge-mode');
                 document.getElementById('create-view').style.display = 'grid';
                 document.getElementById('other-view').style.display = 'none';
             } else if(tab === 'toneforge') {
+                document.body.classList.add('toneforge-mode');
                 document.getElementById('create-view').style.display = 'none';
                 document.getElementById('other-view').style.display = 'block';
                 document.getElementById('other-view').innerHTML = `
                     <div style="padding: 40px; max-width: 1000px; margin: 0 auto;">
-                        <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:10px;">ToneForge <span style="color:var(--brand)">BGM</span></h1>
+                        <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:10px;">ToneForge <span style="color:var(--brand)">AI Music</span></h1>
                         <p style="color:var(--muted); margin-bottom:30px;">專為短影片與插曲設計的 AI 配樂引擎</p>
                         
                         <div style="display:grid; grid-template-columns: 400px 1fr; gap:30px;">
-                            <div class="create-panel" style="min-height: auto;">
+                            <div class="create-panel" style="min-height: auto; border-color: var(--brand);">
                                 <div class="input-group">
                                     <label>音樂風格 (Music Style)</label>
                                     <select id="toneStyle" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border); padding:12px; border-radius:8px; color:white; outline:none;">
@@ -498,15 +537,15 @@
                             </div>
                             
                             <div class="feed-panel">
-                                <div id="toneResult" style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:300px;">
+                                <div id="toneResult" style="background:var(--panel); border:1px solid var(--brand); border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:400px; box-shadow: 0 0 30px var(--brand-dim);">
                                     <div id="toneStatus">
-                                        <i class="fa-solid fa-music" style="font-size:3rem; color:var(--muted); opacity:0.3; margin-bottom:20px;"></i>
+                                        <i class="fa-solid fa-music" style="font-size:3rem; color:var(--brand); opacity:0.6; margin-bottom:20px;"></i>
                                         <p style="color:var(--muted);">設定參數並開始鍛造你的專屬配樂</p>
                                     </div>
                                     <div id="tonePlayer" style="display:none; width:100%;">
                                         <h3 id="toneTitle" style="margin-bottom:15px; text-align:center;"></h3>
                                         <audio id="audioOut" controls style="width:100%; margin-bottom:20px;"></audio>
-                                        <button class="cyber-btn" style="background:var(--brand-dim); color:var(--brand); border-color:var(--brand);">DOWNLOAD .WAV</button>
+                                        <a id="toneDownload" download class="cyber-btn" style="background:var(--brand-dim); color:var(--brand); border-color:var(--brand); text-decoration:none; display:flex; align-items:center; justify-content:center;">DOWNLOAD .WAV</a>
                                     </div>
                                 </div>
                             </div>
