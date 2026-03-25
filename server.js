@@ -139,7 +139,8 @@ app.post('/api/forge-music', async (req, res) => {
             return res.status(404).json({ success: false, error: 'Synthesis script not found' });
         }
 
-        const pythonProcess = spawn('python', [
+        const pythonExecutable = 'C:\\Users\\skybo\\.openclaw\\workspace\\Comfy_env\\Scripts\\python.exe';
+        const pythonProcess = spawn(pythonExecutable, [
             scriptPath,
             '--style', style || 'Lofi Hip Hop',
             '--duration', duration || 15,
