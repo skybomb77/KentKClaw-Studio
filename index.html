@@ -516,6 +516,11 @@
                 const launchTfBtn = document.getElementById("launch-tf-btn");
 
                 const handleProtectedClick = (e, target) => {
+                    // 如果 Clerk 還沒準備好，暫且放行讓 <a> 標籤處理 (但可能失去登入驗證)
+                    // 或者彈出提示
+                    if (!window.Clerk || !window.Clerk.isReady) {
+                        return; 
+                    }
                     if (!window.Clerk.user) {
                         e.preventDefault();
                         const targetUrl = new URL(target, window.location.href).href;
