@@ -6,6 +6,8 @@ const WebSocket = require('ws');
 const http = require('http');
 const cors = require('cors');
 
+const { spawn } = require('child_process');
+
 const app = express();
 const port = 3000;
 const COMFY_SERVER = '127.0.0.1:8188';
@@ -129,23 +131,46 @@ app.post('/api/forge-music', async (req, res) => {
     
     console.log(`[ToneForge] 鍛造請求: ${style} | ${mood} | ${duration}s`);
 
-    // 這裡調用 Python 腳本進行物理建模合成或 AI 生成
-    // 目前先使用內建的 generate_music.py 進行示範性合成
-    const pythonProcess = spawn('python', [
-        path.join(__dirname, 'scripts/generate_music.py'),
-        '--style', style,
-        '--duration', duration,
-        '--output', outputPath
-    ]);
-
-    pythonProcess.on('close', (code) => {
-        if (code === 0) {
-            const audioUrl = `${req.protocol}://${req.get('host')}/audio_output/${outputFilename}`;
-            res.json({ success: true, audioUrl });
-        } else {
-            res.status(500).json({ success: false, error: 'Music synthesis failed' });
+    try {
+        // 這裡調用 Python 腳本進行物理建模合成或 AI 生成
+        const scriptPath = path.join(__dirname, 'scripts/generate_music.py');
+        
+        if (!fs.existsSync(scriptPath)) {
+            return res.status(404).json({ success: false, error: 'Synthesis script not found' });
         }
-    });
+
+        const pythonProcess = spawn('python', [
+            scriptPath,
+            '--style', style || 'Lofi Hip Hop',
+            '--duration', duration || 15,
+            '--output', outputPath
+        ]);
+
+        let errorOutput = '';
+        pythonProcess.stderr.on('data', (data) => {
+            errorOutput += data.toString();
+        });
+
+        pythonProcess.on('error', (err) => {
+            console.error('[ToneForge] Failed to start python process:', err);
+            if (!res.headersSent) res.status(500).json({ success: false, error: 'Failed to start engine' });
+        });
+
+        pythonProcess.on('close', (code) => {
+            if (code === 0) {
+                // 回傳完整網址，包含通訊協定與主機名
+                const audioUrl = `${req.protocol}://${req.get('host')}/audio_output/${outputFilename}`;
+                console.log(`[ToneForge] 鍛造成功: ${audioUrl}`);
+                res.json({ success: true, audioUrl });
+            } else {
+                console.error(`[ToneForge] Python exited with code ${code}: ${errorOutput}`);
+                if (!res.headersSent) res.status(500).json({ success: false, error: `Synthesis failed (Code ${code})` });
+            }
+        });
+    } catch (err) {
+        console.error('[ToneForge] Unexpected Error:', err);
+        if (!res.headersSent) res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 // 靜態資源：允許訪問產出的音訊檔
