@@ -12,13 +12,13 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
 
         :root {
-            --bg-color: #050508;
+            --bg-color: #06060c;
             --text-primary: #ffffff;
             --text-secondary: #a1a1aa;
             --border-color: rgba(255, 255, 255, 0.1);
             --accent-green: #00ffaa;
             --accent-purple: #b97af5;
-            --nav-bg: rgba(5, 5, 8, 0.8);
+            --nav-bg: rgba(6, 6, 12, 0.8);
         }
 
         * {
@@ -31,11 +31,12 @@
         body {
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(circle at var(--mouse-x, 20%) var(--mouse-y, 20%), rgba(185, 122, 245, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 255, 170, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(185, 122, 245, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 10% 10%, rgba(0, 255, 170, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(56, 213, 255, 0.1) 0%, transparent 40%),
                 linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            background-size: 100% 100%, 100% 100%, 100% 100%, 60px 60px, 60px 60px;
             background-attachment: fixed;
             color: var(--text-primary);
             line-height: 1.6;
@@ -48,6 +49,20 @@
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 40px;
+        }
+        .showcase-card {
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid var(--border-color); 
+            border-radius: 20px; 
+            padding: 24px; 
+            text-align: center; 
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .showcase-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.3);
         }
         @media (max-width: 768px) {
             .showcase-grid {
@@ -318,32 +333,32 @@
         
         <div class="showcase-grid">
             <!-- ToneForge Showcase -->
-            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; text-align: center; backdrop-filter: blur(5px);">
-                <h3 style="color: var(--accent-purple); margin-bottom: 16px; font-size: 1.8rem;">ToneForge Demo</h3>
-                <div style="position: relative; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 16/9; margin-bottom: 20px; border: 1px solid var(--border-color);">
-                    <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;">
-                        <source src="assets/demo_gold_spectrum.mp4" type="video/mp4">
+            <a href="toneforge-app.html" class="showcase-card" style="text-decoration: none; display: block;">
+                <h3 style="color: var(--accent-purple); margin-bottom: 16px; font-size: 1.8rem;">ToneForge (AI Music)</h3>
+                <div style="position: relative; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 16/9; margin-bottom: 20px; border: 1px solid var(--border-color); box-shadow: 0 0 30px rgba(185, 122, 245, 0.1);">
+                    <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;">
+                        <source src="assets/toneforge_demo.mp4" type="video/mp4">
                     </video>
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--text-primary); pointer-events: none;">
-                        <i class="fa-solid fa-volume-high" style="font-size: 3rem; opacity: 0.5;"></i>
+                    <div style="position: absolute; top: 15px; right: 15px; color: var(--accent-purple);">
+                        <i class="fa-solid fa-music" style="font-size: 1.5rem;"></i>
                     </div>
                 </div>
                 <p style="color: var(--text-secondary); margin-bottom: 20px;" data-i18n="tfShowcase">Dynamic music generation synced with frequency analysis.</p>
-            </div>
+            </a>
 
             <!-- WireVision Showcase -->
-            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; text-align: center; backdrop-filter: blur(5px);">
-                <h3 style="color: var(--accent-green); margin-bottom: 16px; font-size: 1.8rem;">WireVision Demo</h3>
-                <div style="position: relative; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 16/9; margin-bottom: 20px; border: 1px solid var(--border-color);">
-                    <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;">
-                        <source src="assets/demo_gold_waves.mp4" type="video/mp4">
+            <a href="app/index.html" class="showcase-card" style="text-decoration: none; display: block;">
+                <h3 style="color: var(--accent-green); margin-bottom: 16px; font-size: 1.8rem;">WireVision (AI Visuals)</h3>
+                <div style="position: relative; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 16/9; margin-bottom: 20px; border: 1px solid var(--border-color); box-shadow: 0 0 30px rgba(0, 255, 170, 0.1);">
+                    <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;">
+                        <source src="assets/wirevision_demo.mp4" type="video/mp4">
                     </video>
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--text-primary); pointer-events: none;">
-                        <i class="fa-solid fa-play" style="font-size: 3rem; opacity: 0.5;"></i>
+                    <div style="position: absolute; top: 15px; right: 15px; color: var(--accent-green);">
+                        <i class="fa-solid fa-film" style="font-size: 1.5rem;"></i>
                     </div>
                 </div>
                 <p style="color: var(--text-secondary); margin-bottom: 20px;" data-i18n="wvShowcase">Seamless music video generation from audio beat syncing.</p>
-            </div>
+            </a>
         </div>
     </section>
 
@@ -514,12 +529,11 @@
                 // ✨ 攔截按鈕：確保登入後跳轉
                 const launchMvBtn = document.getElementById("launch-mv-btn");
                 const launchTfBtn = document.getElementById("launch-tf-btn");
+                const showcaseCards = document.querySelectorAll(".showcase-card");
 
                 const handleProtectedClick = (e, target) => {
-                    // 如果 Clerk 還沒準備好，暫且放行讓 <a> 標籤處理 (但可能失去登入驗證)
-                    // 或者彈出提示
                     if (!window.Clerk || !window.Clerk.isReady) {
-                        return; 
+                        return; // 還沒準備好就不攔截
                     }
                     if (!window.Clerk.user) {
                         e.preventDefault();
@@ -534,6 +548,12 @@
                 if (launchTfBtn) {
                     launchTfBtn.addEventListener('click', (e) => handleProtectedClick(e, 'toneforge-app.html'));
                 }
+                showcaseCards.forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        const target = card.getAttribute('href');
+                        handleProtectedClick(e, target);
+                    });
+                });
             } catch (err) { console.error("Clerk 初始化錯誤:", err); }
         });
 document.body.appendChild(script);
