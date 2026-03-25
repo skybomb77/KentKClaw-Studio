@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Showcase of AI-generated music and visuals by Kent & KClaw Studio.">
+    <title>Showcase | Kent & KClaw Studio</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+
+        :root {
+            --bg-color: #06060c;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent-green: #00ffaa;
+            --accent-purple: #b97af5;
+            --nav-bg: rgba(6, 6, 12, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(185, 122, 245, 0.1) 0%, transparent 45%),
+                radial-gradient(circle at 10% 10%, rgba(0, 255, 170, 0.08) 0%, transparent 40%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 5%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .nav-links a:hover { color: var(--text-primary); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 999px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .showcase-container {
+            padding: 160px 5% 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
+            letter-spacing: -0.04em;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #fff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .showcase-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .showcase-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .video-wrapper {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
+            aspect-ratio: 16/9;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        footer {
+            padding: 60px 5%;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 900px) {
+            .showcase-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="brand">
+            <img src="assets/logo.svg" alt="Logo" style="width: 28px; height: 28px; margin-right: 8px;"> Kent & KClaw
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#toneforge">ToneForge</a>
+            <a href="index.html#wirevision">WireVision</a>
+            <a href="https://github.com/skybomb77" target="_blank">GitHub</a>
+        </div>
+        <div>
+            <a href="index.html" class="btn" style="border: 1px solid var(--border-color);">Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="showcase-container">
+        <div class="section-header">
+            <h1 data-i18n="showcaseTitle">See the Magic in Action</h1>
+            <p style="color: var(--text-secondary); font-size: 1.2rem; max-width: 700px; margin: 0 auto;" data-i18n="showcaseSub">Explore the high-quality outputs generated by our AI engines. From dynamic music tracks to beat-synced visuals.</p>
+        </div>
+
+        <div class="showcase-grid">
+            <!-- ToneForge Showcase -->
+            <div class="showcase-card">
+                <span class="tag" style="background: rgba(185, 122, 245, 0.1); color: var(--accent-purple); border: 1px solid var(--accent-purple);">Music Engine</span>
+                <h3 style="color: var(--accent-purple); margin-bottom: 16px; font-size: 2rem;">ToneForge</h3>
+                <div class="video-wrapper">
+                    <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                        <source src="assets/toneforge_demo.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;" data-i18n="tfShowcase">Dynamic music generation synced with frequency analysis. Perfect for ads, reels, and content creators.</p>
+            </div>
+
+            <!-- WireVision Showcase -->
+            <div class="showcase-card">
+                <span class="tag" style="background: rgba(0, 255, 170, 0.1); color: var(--accent-green); border: 1px solid var(--accent-green);">Visual Engine</span>
+                <h3 style="color: var(--accent-green); margin-bottom: 16px; font-size: 2rem;">WireVision</h3>
+                <div class="video-wrapper">
+                    <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                        <source src="assets/wirevision_demo_2.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;" data-i18n="wvShowcase">Seamless music video generation from audio beat syncing. Transform any track into a visual journey.</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 100px; text-align: center;">
+            <h2 style="margin-bottom: 30px;">Ready to create your own?</h2>
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <a href="toneforge-app.html" class="btn" style="background: var(--accent-purple); color: #000;">Launch ToneForge</a>
+                <a href="app/index.html" class="btn" style="background: var(--accent-green); color: #000;">Launch WireVision</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div>© 2026 Kent & KClaw Studio. All rights reserved.</div>
+        <div style="display: flex; gap: 24px;">
+            <a href="https://github.com/skybomb77"><i class="fa-brands fa-github"></i></a>
+            <a href="https://youtube.com/@KentKClawStudio"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('mousemove', e => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.body.style.setProperty('--mouse-x', `${x}%`);
+            document.body.style.setProperty('--mouse-y', `${y}%`);
+        });
+
+        // 雙語簡單支持 (可後續擴充)
+        const currentLang = localStorage.getItem('site-lang') || 'en';
+        if (currentLang === 'zh') {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const zh = {
+                    showcaseTitle: "見證 AI 的魔力",
+                    showcaseSub: "探索由我們的 AI 引擎生成的專業高品質內容。從動態配樂到節拍同步的視覺動畫。",
+                    tfShowcase: "動態音樂生成與頻率分析同步技術。專為廣告、Reels 和創作者打造。",
+                    wvShowcase: "音頻節拍同步，一鍵生成無縫音樂影片。將任何音軌轉化為視覺旅程。"
+                };
+                if (zh[key]) el.innerText = zh[key];
+            });
+        }
+    </script>
+</body>
+</html>
