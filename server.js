@@ -132,17 +132,18 @@ app.post('/api/forge-music', async (req, res) => {
     console.log(`[ToneForge] 鍛造請求: ${style} | ${mood} | ${duration}s`);
 
     try {
-        // 這裡調用 Python 腳本進行物理建模合成或 AI 生成
-        const scriptPath = path.join(__dirname, 'scripts/generate_music.py');
+        // === 專業級 AI 音樂引擎啟動 (MusicGen) ===
+        const scriptPath = path.join(__dirname, 'scripts/generate_music_pro.py');
         
         if (!fs.existsSync(scriptPath)) {
-            return res.status(404).json({ success: false, error: 'Synthesis script not found' });
+            return res.status(404).json({ success: false, error: 'Pro script not found' });
         }
 
         const pythonExecutable = 'C:\\Users\\skybo\\.openclaw\\workspace\\Comfy_env\\Scripts\\python.exe';
         const pythonProcess = spawn(pythonExecutable, [
             scriptPath,
             '--style', style || 'Lofi Hip Hop',
+            '--mood', mood || 'chill professional mix',
             '--duration', duration || 15,
             '--output', outputPath
         ]);
