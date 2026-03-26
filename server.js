@@ -255,8 +255,8 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
             // 調回更輕量化的算圖參數，確保引擎「秒給回應」
             if (promptJson["3"] && promptJson["3"]["inputs"]) {
                 promptJson["3"]["inputs"]["seed"] = Math.floor(Math.random() * 1000000); 
-                promptJson["3"]["inputs"]["steps"] = 6; // Blackwell 加速：6 步即可，省下一半時間
-                promptJson["3"]["inputs"]["cfg"] = 2.5; 
+                promptJson["3"]["inputs"]["steps"] = 12; // 提升至 12 步以換取商業級質感 (原 6 步太草率)
+                promptJson["3"]["inputs"]["cfg"] = 3.5;  // 稍微提升 CFG 增加細節對比度
             }
             
             // 核心邏輯：將提示詞與歌詞完全分開處理，使用不同的算圖節點
