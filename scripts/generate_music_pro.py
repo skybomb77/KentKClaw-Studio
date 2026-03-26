@@ -86,13 +86,18 @@ def create_dsp_beat(duration, style, mood=""):
     return track
 
 def forge_professional_music(style, mood, duration, output_path):
-    # Dynamic import to avoid crash if torchaudio fails
-    import torchaudio
-    from audiocraft.models import MusicGen
-    from audiocraft.data.audio import audio_write
+    # Dynamic import to avoid crash if torchaudio/ffmpeg fails
+    try:
+        import torchaudio
+        from audiocraft.models import MusicGen
+        from audiocraft.data.audio import audio_write
+    except Exception as e:
+        raise ImportError(f"Dependencies failed to load: {e}")
     
     print(f"--- Pro Forge Starting: {style} ({duration}s) ---")
     device = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"Using device: {device}")
+    
     model = MusicGen.get_pretrained('facebook/musicgen-small')
     model.set_generation_params(duration=duration)
     descriptions = [f"{style}, {mood}, high fidelity, professional studio mix, masterpiece, 44.1kHz"]
@@ -113,7 +118,7 @@ if __name__ == "__main__":
     try:
         forge_professional_music(args.style, args.mood, args.duration, args.output)
     except Exception as e:
-        print(f"Pro Engine Error (or Import Error): {e}")
+        print(f"Pro Engine Error: {e}")
         print("Falling back to High-Fidelity DSP Engine...")
         audio = create_dsp_beat(args.duration, args.style)
         if np.max(np.abs(audio)) > 0: audio = audio / np.max(np.abs(audio))
