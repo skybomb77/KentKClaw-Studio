@@ -160,8 +160,12 @@ app.post('/api/forge-music', async (req, res) => {
 
         pythonProcess.on('close', (code) => {
             if (code === 0) {
+                // 音樂生成成功，檢查檔案
+                const finalFile = outputPath.endsWith('.wav') ? outputPath : outputPath + '.wav';
+                const finalFilename = path.basename(finalFile);
+                
                 // 回傳完整網址，包含通訊協定與主機名
-                const audioUrl = `${req.protocol}://${req.get('host')}/audio_output/${outputFilename}`;
+                const audioUrl = `${req.protocol}://${req.get('host')}/audio_output/${finalFilename}`;
                 console.log(`[ToneForge] 鍛造成功: ${audioUrl}`);
                 res.json({ success: true, audioUrl });
             } else {
@@ -211,7 +215,7 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
             
             if (promptJson["11"] && promptJson["11"]["inputs"]) {
                 // 哥，調優 15 秒 (120 幀)，確保 5070 Ti 滿速運轉
-                promptJson["11"]["inputs"]["batch_size"] = 120; 
+                promptJson["11"]["inputs"]["batch_size"] = 128; 
             }
 
             // --- 音訊自動掛載 (修復沒聲音問題) ---
@@ -256,8 +260,8 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
             // 調回更輕量化的算圖參數，確保引擎「秒給回應」
             if (promptJson["3"] && promptJson["3"]["inputs"]) {
                 promptJson["3"]["inputs"]["seed"] = Math.floor(Math.random() * 1000000); 
-                promptJson["3"]["inputs"]["steps"] = 12; // 提升至 12 步以換取商業級質感 (原 6 步太草率)
-                promptJson["3"]["inputs"]["cfg"] = 3.5;  // 稍微提升 CFG 增加細節對比度
+                promptJson["3"]["inputs"]["steps"] = 15; // 提升至 15 步以換取商業級質感
+                promptJson["3"]["inputs"]["cfg"] = 4.0;  // 稍微提升 CFG 增加細節對比度
             }
             
             // 核心邏輯：將提示詞與歌詞完全分開處理，使用不同的算圖節點
