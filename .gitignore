@@ -6,5 +6,5 @@ node_modules/
 # OpenClaw
 audio_output/
 music_ideas/
-scripts/
+# scripts/  <-- 哥，我放行了，這才帥
 youtube_creds.txt
