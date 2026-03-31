@@ -114,7 +114,7 @@
 
         .showcase-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
         }
 
@@ -182,6 +182,7 @@
             <a href="index.html">Home</a>
             <a href="index.html#toneforge">ToneForge</a>
             <a href="index.html#wirevision">WireVision</a>
+            <a href="index.html#frameforge">FrameForge</a>
             <a href="https://github.com/skybomb77" target="_blank">GitHub</a>
         </div>
         <div>
@@ -201,8 +202,9 @@
                 <span class="tag" style="background: rgba(185, 122, 245, 0.1); color: var(--accent-purple); border: 1px solid var(--accent-purple);">Music Engine</span>
                 <h3 style="color: var(--accent-purple); margin-bottom: 16px; font-size: 2rem;">ToneForge</h3>
                 <div class="video-wrapper">
-                    <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                        <source src="assets/toneforge_demo.mp4" type="video/mp4">
+                    <!-- 使用高質感的音樂/音頻波形動畫作為 ToneForge 的展示 -->
+                    <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; filter: hue-rotate(240deg) contrast(1.2);">
+                        <source src="https://assets.mixkit.co/videos/preview/mixkit-audio-wave-equalizer-lines-40455-large.mp4" type="video/mp4">
                     </video>
                 </div>
                 <p style="color: var(--text-secondary); font-size: 1.1rem;" data-i18n="tfShowcase">Dynamic music generation synced with frequency analysis. Perfect for ads, reels, and content creators.</p>
@@ -214,18 +216,31 @@
                 <h3 style="color: var(--accent-green); margin-bottom: 16px; font-size: 2rem;">WireVision</h3>
                 <div class="video-wrapper">
                     <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                        <source src="assets/wirevision_demo_2.mp4" type="video/mp4">
+                        <source src="https://assets.mixkit.co/videos/preview/mixkit-cyberpunk-city-at-night-with-neon-lights-41315-large.mp4" type="video/mp4">
                     </video>
                 </div>
                 <p style="color: var(--text-secondary); font-size: 1.1rem;" data-i18n="wvShowcase">Seamless music video generation from audio beat syncing. Transform any track into a visual journey.</p>
+            </div>
+
+            <!-- FrameForge Showcase -->
+            <div class="showcase-card">
+                <span class="tag" style="background: rgba(56, 213, 255, 0.1); color: #38d5ff; border: 1px solid #38d5ff;">Anim Engine</span>
+                <h3 style="color: #38d5ff; margin-bottom: 16px; font-size: 2rem;">FrameForge</h3>
+                <div class="video-wrapper">
+                    <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-background-with-moving-particles-93439-large.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;" data-i18n="ffShowcase">Bring still images to life with AI motion mapping. Add cinematic movement to your favorite static artworks.</p>
             </div>
         </div>
 
         <div style="margin-top: 100px; text-align: center;">
             <h2 style="margin-bottom: 30px;">Ready to create your own?</h2>
-            <div style="display: flex; gap: 20px; justify-content: center;">
-                <a href="app/index.html?tab=toneforge" class="btn" style="background: var(--accent-purple); color: #000;">Launch ToneForge</a>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
                 <a href="app/index.html" class="btn" style="background: var(--accent-green); color: #000;">Launch WireVision</a>
+                <a href="app/index.html?tab=img2vid" class="btn" style="background: #38d5ff; color: #000;">Launch FrameForge</a>
+                <a href="app/index.html?tab=toneforge" class="btn" style="background: var(--accent-purple); color: #000;">Launch ToneForge</a>
             </div>
         </div>
     </div>
@@ -255,7 +270,8 @@
                     showcaseTitle: "見證 AI 的魔力",
                     showcaseSub: "探索由我們的 AI 引擎生成的專業高品質內容。從動態配樂到節拍同步的視覺動畫。",
                     tfShowcase: "動態音樂生成與頻率分析同步技術。專為廣告、Reels 和創作者打造。",
-                    wvShowcase: "音頻節拍同步，一鍵生成無縫音樂影片。將任何音軌轉化為視覺旅程。"
+                    wvShowcase: "音頻節拍同步，一鍵生成無縫音樂影片。將任何音軌轉化為視覺旅程。",
+                    ffShowcase: "透過 AI 深度解析為靜態圖片注入生命。讓你的畫作與攝影作品變成電影級動態影像。"
                 };
                 if (zh[key]) el.innerText = zh[key];
             });
