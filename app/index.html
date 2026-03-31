@@ -308,6 +308,7 @@
             btn.innerHTML = 'UPLOADING... <i class="fa-solid fa-spinner fa-spin"></i>';
             btn.style.pointerEvents = "none";
             
+            const lyricsText = document.getElementById('lyricsInput').value;
             const formData = new FormData();
             const originalFile = fileInput.files[0];
             if (originalFile) {
