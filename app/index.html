@@ -504,6 +504,106 @@
             }
         }
 
+        // ======= 🚀 FrameForge 圖片鍛造邏輯 =======
+        document.addEventListener('click', e => {
+            if (e.target.closest('#motionSelector .setting-btn')) {
+                const btn = e.target.closest('.setting-btn');
+                document.querySelectorAll('#motionSelector .setting-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.style.borderColor = 'var(--border)';
+                    b.style.color = 'var(--muted)';
+                    b.style.background = 'transparent';
+                });
+                btn.classList.add('active');
+                btn.style.borderColor = 'var(--brand)';
+                btn.style.color = 'var(--brand)';
+                btn.style.background = 'var(--brand-dim)';
+                document.getElementById('motionInput').value = btn.getAttribute('data-motion');
+            }
+        });
+
+        document.addEventListener('change', e => {
+            if (e.target.id === 'imageUpload') {
+                if (e.target.files.length) {
+                    document.getElementById('imgNameDisplay').innerText = e.target.files[0].name;
+                }
+            }
+        });
+
+        async function forgeImage() {
+            const fileInput = document.getElementById('imageUpload');
+            if (!fileInput.files.length) return alert('請先上傳圖片！');
+
+            const statusDiv = document.getElementById('frameStatus');
+            const playerDiv = document.getElementById('framePlayer');
+            
+            statusDiv.style.display = 'flex';
+            playerDiv.style.display = 'none';
+            statusDiv.innerHTML = `
+                <i class="fa-solid fa-circle-notch fa-spin" style="font-size:3rem; color:var(--brand); margin-bottom:20px;"></i>
+                <p id="frameProgressText">正在上傳圖片並啟動神經網絡引擎...</p>
+                <div style="width: 80%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 10px; overflow: hidden;">
+                    <div id="frameProgressBar" style="width: 0%; height: 100%; background: var(--brand); transition: 0.3s;"></div>
+                </div>
+            `;
+            
+            try {
+                const formData = new FormData();
+                const originalFile = fileInput.files[0];
+                const ext = originalFile.name.split('.').pop() || 'png';
+                const newFile = new File([originalFile], `img_${Date.now()}.${ext}`, { type: originalFile.type });
+                
+                formData.append('image', newFile);
+                formData.append('prompt', document.getElementById('imgPrompt').value);
+                formData.append('motion', document.getElementById('motionInput').value);
+
+                const apiUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/generate-img2vid` : `/api/generate-img2vid`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'bypass-tunnel-reminder': 'true', 'ngrok-skip-browser-warning': 'true' },
+                    body: formData
+                });
+                
+                const data = await response.json();
+                if(data.success && data.jobId) {
+                    let wsUrl;
+                    if (BACKEND_URL.startsWith('https')) wsUrl = BACKEND_URL.replace('https', 'wss') + `/api/ws/${data.jobId}`;
+                    else if (BACKEND_URL.startsWith('http')) wsUrl = BACKEND_URL.replace('http', 'ws') + `/api/ws/${data.jobId}`;
+                    else wsUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/api/ws/${data.jobId}`;
+
+                    const socket = new WebSocket(wsUrl);
+                    
+                    socket.onmessage = function(event) {
+                        const msgData = JSON.parse(event.data);
+                        if (msgData.type === 'progress') {
+                            document.getElementById('frameProgressText').innerText = `GPU 算圖中... ${msgData.percent}%`;
+                            document.getElementById('frameProgressBar').style.width = msgData.percent + '%';
+                        } else if (msgData.type === 'done') {
+                            let publicUrl = msgData.url;
+                            if (BACKEND_URL.startsWith('http') && publicUrl.includes('127.0.0.1:8188')) {
+                                publicUrl = publicUrl.replace(/http:\/\/127\.0\.0\.1:8188/, BACKEND_URL);
+                            }
+                            
+                            document.getElementById('frameVideoOut').src = publicUrl;
+                            document.getElementById('frameDownload').href = publicUrl;
+                            statusDiv.style.display = 'none';
+                            playerDiv.style.display = 'flex';
+                            playerDiv.style.flexDirection = 'column';
+                            socket.close();
+                        } else if (msgData.type === 'error') {
+                            statusDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p style="color:#ef4444;">${msgData.msg}</p>`;
+                            socket.close();
+                        }
+                    };
+                } else {
+                    statusDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p style="color:#ef4444;">錯誤：${data.error || '引擎未回應'}</p>`;
+                }
+            } catch(e) {
+                statusDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p style="color:#ef4444;">連線錯誤：${e.message}</p>`;
+            }
+        }
+
         // Init
         window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -552,23 +652,30 @@
                                 </div>
                                 <div class="input-group">
                                     <label>動態幅度 (Motion Scale)</label>
-                                    <div class="settings-row">
-                                        <div class="setting-btn active" style="border-color: var(--brand); color: var(--brand); background: var(--brand-dim);">Subtle (微幅)</div>
-                                        <div class="setting-btn">Normal (標準)</div>
-                                        <div class="setting-btn">Dynamic (強烈)</div>
+                                    <div class="settings-row" id="motionSelector">
+                                        <div class="setting-btn active" data-motion="Subtle" style="border-color: var(--brand); color: var(--brand); background: var(--brand-dim);">Subtle (微幅)</div>
+                                        <div class="setting-btn" data-motion="Normal">Normal (標準)</div>
+                                        <div class="setting-btn" data-motion="Dynamic">Dynamic (強烈)</div>
                                     </div>
+                                    <input type="hidden" id="motionInput" value="Subtle">
                                 </div>
                                 <div class="input-group">
                                     <label>附加提示詞 (Optional Prompt)</label>
-                                    <textarea placeholder="例如：頭髮隨風飄動、背景下雨、霓虹燈閃爍..." style="min-height:80px;"></textarea>
+                                    <textarea id="imgPrompt" placeholder="例如：頭髮隨風飄動、背景下雨、霓虹燈閃爍..." style="min-height:80px;"></textarea>
                                 </div>
-                                <button class="cyber-btn" onclick="alert('FrameForge 引擎正在預熱中！即將開放使用。')">ANIMATE IMAGE <i class="fa-solid fa-film"></i></button>
+                                <button class="cyber-btn" onclick="forgeImage()">ANIMATE IMAGE <i class="fa-solid fa-film"></i></button>
                             </div>
                             
                             <div class="feed-panel">
-                                <div style="background:var(--panel); border:1px solid var(--brand); border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:400px; box-shadow: 0 0 30px var(--brand-dim);">
-                                    <i class="fa-solid fa-video" style="font-size:3rem; color:var(--brand); opacity:0.6; margin-bottom:20px;"></i>
-                                    <p style="color:var(--muted); text-align: center;">上傳圖片後，AI 將分析畫面深度與語意，<br>為您生成高品質的動態影片。</p>
+                                <div id="frameResult" style="background:var(--panel); border:1px solid var(--brand); border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:400px; box-shadow: 0 0 30px var(--brand-dim);">
+                                    <div id="frameStatus">
+                                        <i class="fa-solid fa-video" style="font-size:3rem; color:var(--brand); opacity:0.6; margin-bottom:20px;"></i>
+                                        <p style="color:var(--muted); text-align: center;">上傳圖片後，AI 將分析畫面深度與語意，<br>為您生成高品質的動態影片。</p>
+                                    </div>
+                                    <div id="framePlayer" style="display:none; width:100%; height: 100%;">
+                                        <video id="frameVideoOut" autoplay loop controls style="width:100%; border-radius: 12px; margin-bottom:20px;"></video>
+                                        <a id="frameDownload" download class="cyber-btn" style="background:var(--brand-dim); color:var(--brand); border-color:var(--brand); text-decoration:none; display:flex; align-items:center; justify-content:center;">DOWNLOAD MP4</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

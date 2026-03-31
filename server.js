@@ -55,7 +55,9 @@ const storage = multer.diskStorage({
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
-    cb(null, `upload_${Date.now()}_${file.originalname}`);
+    // 哥，為了徹底解決檔名解析問題，我們直接放棄使用原檔名，改用純數字與安全字元
+    const ext = path.extname(file.originalname) || '.mp3';
+    cb(null, `upload_${Date.now()}_audio${ext}`);
   }
 });
 const upload = multer({ storage: storage });
@@ -221,8 +223,8 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
             // --- 音訊自動掛載 (修復沒聲音問題) ---
             if (file) {
                 promptJson["20"] = {
-                    "inputs": { "audio": file.filename },
-                    "class_type": "VHS_AudioLoader",
+                    "inputs": { "audio_file": file.filename },
+                    "class_type": "VHS_LoadAudio",
                     "_meta": { "title": "Audio Engine" }
                 };
                 if (promptJson["12"] && promptJson["12"]["inputs"]) {
@@ -381,6 +383,151 @@ app.post('/api/generate-mv', upload.single('audio'), async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: '伺服器錯誤' });
+    }
+});
+
+const imgUpload = multer({ storage: multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadPath = path.join(__dirname, '../ComfyUI/input');
+    if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath, { recursive: true });
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname) || '.png';
+    cb(null, `img_${Date.now()}${ext}`);
+  }
+}) });
+
+app.post('/api/generate-img2vid', imgUpload.single('image'), async (req, res) => {
+    try {
+        const file = req.file;
+        const promptText = req.body.prompt || "";
+        const motionScale = req.body.motion || "Normal";
+        const jobId = `job_img_${Date.now()}`;
+        const clientId = `app_client_${Date.now()}`;
+        
+        if (!file) {
+            return res.status(400).json({ success: false, error: 'No image uploaded' });
+        }
+
+        res.json({ success: true, jobId });
+        console.log(`[FrameForge] 新任務 ${jobId} | 檔案: ${file.filename} | 動態: ${motionScale} | 提示詞: ${promptText}`);
+
+        const workflowPath = path.join(__dirname, '../ComfyUI/workflow_animatediff.json');
+        if (!fs.existsSync(workflowPath)) {
+            return res.status(500).json({ success: false, error: "Workflow Missing" });
+        }
+        
+        let promptJson = JSON.parse(fs.readFileSync(workflowPath, 'utf8'));
+
+        // ==========================================
+        // FrameForge: Image-to-Video 特製工作流轉換
+        // ==========================================
+
+        // 1. 載入圖片節點
+        promptJson["30"] = {
+            "inputs": { "image": file.filename },
+            "class_type": "LoadImage",
+            "_meta": { "title": "Load Init Image" }
+        };
+
+        // 2. 轉為 Latent (因為原本有 CheckpointLoaderSimple 在 Node 4)
+        promptJson["31"] = {
+            "inputs": {
+                "pixels": ["30", 0],
+                "vae": ["4", 2]
+            },
+            "class_type": "VAEEncode",
+            "_meta": { "title": "VAE Encode Init" }
+        };
+
+        // 3. 複製 Latent 符合批次數量 (AnimateDiff 需要)
+        // 使用 ComfyUI 內建的 RepeatLatentBatch
+        // 假設預設 batch_size = 48 (約 6 秒)
+        const frameCount = 48;
+        promptJson["32"] = {
+            "inputs": {
+                "samples": ["31", 0],
+                "amount": frameCount
+            },
+            "class_type": "RepeatLatentBatch",
+            "_meta": { "title": "Repeat Latent" }
+        };
+
+        // 4. 修改 KSampler 接收這個初始 Latent，並降低 denoise 產生動態而不完全洗掉原圖
+        if (promptJson["3"] && promptJson["3"]["inputs"]) {
+            promptJson["3"]["inputs"]["latent_image"] = ["32", 0];
+            promptJson["3"]["inputs"]["seed"] = Math.floor(Math.random() * 1000000); 
+            promptJson["3"]["inputs"]["steps"] = 20; 
+            
+            // 動態幅度決定 Denoise 強度
+            let denoiseVal = 0.75; // Normal
+            if (motionScale === 'Subtle') denoiseVal = 0.65;
+            if (motionScale === 'Dynamic') denoiseVal = 0.85;
+            promptJson["3"]["inputs"]["denoise"] = denoiseVal;
+        }
+
+        // 5. 將 EmptyLatentImage 廢棄，但確保 AnimateDiff (Node 10, 15) 照常運作
+        // 確保影像幀數與 RepeatLatentBatch 一致
+        if (promptJson["12"] && promptJson["12"]["inputs"]) {
+            promptJson["12"]["inputs"]["frame_rate"] = 8;
+            // FrameForge 不需要音軌，把 audio 輸入移除
+            if (promptJson["12"]["inputs"]["audio"]) {
+                delete promptJson["12"]["inputs"]["audio"];
+            }
+        }
+
+        // 6. 設定提示詞
+        if (promptJson["6"] && promptJson["6"]["inputs"]) {
+            promptJson["6"]["inputs"]["text"] = promptText || "masterpiece, best quality, highly detailed, moving, dynamic";
+        }
+
+        // --- 發送給 ComfyUI ---
+        const ws = new WebSocket(`ws://${COMFY_SERVER}/ws?clientId=${clientId}`);
+        
+        ws.on('open', () => {
+            console.log(`[FrameForge] WS 連線成功，開始執行...`);
+            sendToClient(jobId, { type: 'log', msg: '📡 [FrameForge] 正在對您的圖片注入動態神經網絡...' });
+            const data = JSON.stringify({ prompt: promptJson, client_id: clientId });
+            const reqComfy = http.request({
+                hostname: COMFY_SERVER.split(':')[0],
+                port: 8188,
+                path: '/prompt',
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data) }
+            });
+            reqComfy.write(data);
+            reqComfy.end();
+        });
+
+        ws.on('message', (data) => {
+            const message = JSON.parse(data);
+            if (message.type === 'progress') {
+                const percent = Math.round((message.data.value / message.data.max) * 100);
+                sendToClient(jobId, { type: 'progress', percent, val: message.data.value, max: message.data.max });
+            }
+            if (message.type === 'executed') {
+                try {
+                    const outputs = message.data.output;
+                    let videoUrl = null;
+                    if (outputs.gifs && outputs.gifs.length > 0) {
+                        videoUrl = `${req.protocol}://${req.get('host')}/api/video/${outputs.gifs[0].filename}`;
+                    }
+                    if (videoUrl) {
+                        console.log(`[FrameForge Done] ${jobId} -> ${videoUrl}`);
+                        sendToClient(jobId, { type: 'done', url: videoUrl });
+                    }
+                } catch (e) {
+                    console.error('影片網址解析失敗:', e);
+                }
+            }
+        });
+        
+        ws.on('error', () => sendToClient(jobId, { type: 'error', msg: '引擎離線' }));
+
+    } catch (error) {
+        console.error(error);
+        if (!res.headersSent) res.status(500).json({ error: '伺服器錯誤' });
     }
 });
 
