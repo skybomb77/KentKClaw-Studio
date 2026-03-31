@@ -21,6 +21,16 @@
             --brand-dim: var(--tf-brand-dim);
         }
 
+        body.frameforge-mode {
+            --brand: var(--wv-brand);
+            --brand-dim: var(--wv-brand-dim);
+        }
+        /* Override specifically for FrameForge neon blue */
+        body.frameforge-mode {
+            --brand: #38d5ff;
+            --brand-dim: rgba(56, 213, 255, 0.15);
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Noto Sans TC', sans-serif; height: 100vh; display: flex; overflow: hidden; }
 
@@ -28,7 +38,8 @@
         .brand { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: #fff; display: flex; align-items: center; gap: 12px; padding-left: 12px; text-decoration: none; transition: color 0.5s ease; }
         .brand i { color: var(--brand); transition: color 0.5s ease; }
         .nav-menu { display: flex; flex-direction: column; gap: 8px; }
-        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 12px; color: var(--muted); text-decoration: none; font-weight: 500; transition: all 0.3s ease; cursor: pointer; }
+        .nav-section-title { font-size: 0.75rem; color: var(--muted); margin: 12px 0 4px 16px; font-weight: bold; letter-spacing: 1px; }
+        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 12px; color: var(--muted); text-decoration: none; font-weight: 500; transition: all 0.3s ease; cursor: pointer; border-left: 3px solid transparent; }
         .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text); }
         .nav-item.active { background: var(--brand-dim); color: var(--brand); }
 
@@ -108,9 +119,13 @@
         </a>
         <div class="nav-menu">
             <a href="#" class="nav-item" onclick="switchTab(event, 'dashboard')"><i class="fa-solid fa-house"></i> Dashboard</a>
-            <a href="#" class="nav-item active" onclick="switchTab(event, 'create')"><i class="fa-solid fa-bolt"></i> Create MV</a>
-            <a href="#" class="nav-item" onclick="switchTab(event, 'img2vid')"><i class="fa-solid fa-images"></i> Image to Video</a>
-            <a href="#" class="nav-item" onclick="switchTab(event, 'toneforge')"><i class="fa-solid fa-music"></i> ToneForge (BGM)</a>
+            
+            <div class="nav-section-title">STUDIO ENGINES</div>
+            <a href="#" class="nav-item active" onclick="switchTab(event, 'create')" style="border-left-color: var(--wv-brand);"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--wv-brand);"></i> WireVision (MV)</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'img2vid')" style="border-left-color: #38d5ff;"><i class="fa-solid fa-images" style="color: #38d5ff;"></i> FrameForge (Anim)</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'toneforge')" style="border-left-color: var(--tf-brand);"><i class="fa-solid fa-music" style="color: var(--tf-brand);"></i> ToneForge (Audio)</a>
+            
+            <div class="nav-section-title" style="margin-top: 24px;">TOOLS</div>
             <a href="#" class="nav-item" onclick="switchTab(event, 'screening')"><i class="fa-solid fa-film"></i> My Screening Room</a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'styles')"><i class="fa-solid fa-palette"></i> Style Library</a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'split')"><i class="fa-solid fa-music"></i> Audio Stem Splitter (Pro)</a>
@@ -512,9 +527,55 @@
             
             if(tab === 'create') {
                 document.body.classList.remove('toneforge-mode');
+                document.body.classList.remove('frameforge-mode');
                 document.getElementById('create-view').style.display = 'grid';
                 document.getElementById('other-view').style.display = 'none';
+            } else if(tab === 'img2vid') {
+                document.body.classList.remove('toneforge-mode');
+                document.body.classList.add('frameforge-mode');
+                document.getElementById('create-view').style.display = 'none';
+                document.getElementById('other-view').style.display = 'block';
+                document.getElementById('other-view').innerHTML = `
+                    <div style="padding: 40px; max-width: 1000px; margin: 0 auto;">
+                        <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:10px;">FrameForge <span style="color:var(--brand)">Anim</span></h1>
+                        <p style="color:var(--muted); margin-bottom:30px;">將靜態圖片注入生命，轉換成動態流暢的視覺影片。</p>
+                        
+                        <div style="display:grid; grid-template-columns: 400px 1fr; gap:30px;">
+                            <div class="create-panel" style="min-height: auto; border-color: var(--brand);">
+                                <div class="input-group">
+                                    <label>上傳靜態圖片 (Reference Image) <span style="color: var(--brand); font-size: 0.75rem;">Max 5MB</span></label>
+                                    <div class="file-drop-area" id="imgDropArea" style="border-color: var(--brand);">
+                                        <i class="fa-solid fa-image" style="color: var(--brand);"></i>
+                                        <span id="imgNameDisplay" style="color: var(--brand);">Drag & drop image here<br><span style="font-size: 0.75rem; color: var(--muted);">Supported: .JPG, .PNG, .WEBP</span></span>
+                                        <input type="file" id="imageUpload" accept="image/*" required>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label>動態幅度 (Motion Scale)</label>
+                                    <div class="settings-row">
+                                        <div class="setting-btn active" style="border-color: var(--brand); color: var(--brand); background: var(--brand-dim);">Subtle (微幅)</div>
+                                        <div class="setting-btn">Normal (標準)</div>
+                                        <div class="setting-btn">Dynamic (強烈)</div>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label>附加提示詞 (Optional Prompt)</label>
+                                    <textarea placeholder="例如：頭髮隨風飄動、背景下雨、霓虹燈閃爍..." style="min-height:80px;"></textarea>
+                                </div>
+                                <button class="cyber-btn" onclick="alert('FrameForge 引擎正在預熱中！即將開放使用。')">ANIMATE IMAGE <i class="fa-solid fa-film"></i></button>
+                            </div>
+                            
+                            <div class="feed-panel">
+                                <div style="background:var(--panel); border:1px solid var(--brand); border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:400px; box-shadow: 0 0 30px var(--brand-dim);">
+                                    <i class="fa-solid fa-video" style="font-size:3rem; color:var(--brand); opacity:0.6; margin-bottom:20px;"></i>
+                                    <p style="color:var(--muted); text-align: center;">上傳圖片後，AI 將分析畫面深度與語意，<br>為您生成高品質的動態影片。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
             } else if(tab === 'toneforge') {
+                document.body.classList.remove('frameforge-mode');
                 document.body.classList.add('toneforge-mode');
                 document.getElementById('create-view').style.display = 'none';
                 document.getElementById('other-view').style.display = 'block';
