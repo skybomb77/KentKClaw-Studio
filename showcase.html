@@ -126,6 +126,10 @@
             text-align: center;
             backdrop-filter: blur(10px);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: block; /* 讓整塊變成可點擊 */
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
         }
 
         .showcase-card:hover {
@@ -201,34 +205,34 @@
 
         <div class="showcase-grid">
             <!-- ToneForge Showcase -->
-            <div class="showcase-card">
+            <a href="app/index.html?tab=toneforge" class="showcase-card">
                 <span class="tag" style="background: rgba(185, 122, 245, 0.1); color: var(--accent-purple); border: 1px solid var(--accent-purple);">Music Engine</span>
                 <h3 style="color: var(--accent-purple); margin-bottom: 16px; font-size: 2rem;">ToneForge</h3>
                 <div class="video-wrapper">
                     <img src="https://media1.tenor.com/m/l1KxVdZcQZ4AAAAd/music-equalizer.gif" alt="ToneForge Demo" style="width: 100%; height: 100%; object-fit: cover; filter: hue-rotate(240deg) contrast(1.2);">
                 </div>
                 <p style="color: var(--text-secondary); font-size: 1.1rem;" data-i18n="tfShowcase">Dynamic music generation synced with frequency analysis. Perfect for ads, reels, and content creators.</p>
-            </div>
+            </a>
 
             <!-- WireVision Showcase -->
-            <div class="showcase-card">
+            <a href="app/index.html" class="showcase-card">
                 <span class="tag" style="background: rgba(0, 255, 170, 0.1); color: var(--accent-green); border: 1px solid var(--accent-green);">Visual Engine</span>
                 <h3 style="color: var(--accent-green); margin-bottom: 16px; font-size: 2rem;">WireVision</h3>
                 <div class="video-wrapper">
                     <img src="https://media1.tenor.com/m/UoP1w2A6R58AAAAd/cyberpunk.gif" alt="WireVision Demo" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <p style="color: var(--text-secondary); font-size: 1.1rem;" data-i18n="wvShowcase">Seamless music video generation from audio beat syncing. Transform any track into a visual journey.</p>
-            </div>
+            </a>
 
             <!-- FrameForge Showcase -->
-            <div class="showcase-card">
+            <a href="app/index.html?tab=img2vid" class="showcase-card">
                 <span class="tag" style="background: rgba(56, 213, 255, 0.1); color: #38d5ff; border: 1px solid #38d5ff;">Anim Engine</span>
                 <h3 style="color: #38d5ff; margin-bottom: 16px; font-size: 2rem;">FrameForge</h3>
                 <div class="video-wrapper">
                     <img src="https://media1.tenor.com/m/qVzN-M7L6YcAAAAd/ai-robot.gif" alt="FrameForge Demo" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <p style="color: var(--text-secondary); font-size: 1.1rem;" data-i18n="ffShowcase">Bring still images to life with AI motion mapping. Add cinematic movement to your favorite static artworks.</p>
-            </div>
+            </a>
         </div>
 
         <div style="margin-top: 100px; text-align: center;">
