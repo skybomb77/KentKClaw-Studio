@@ -308,8 +308,19 @@
             btn.innerHTML = 'UPLOADING... <i class="fa-solid fa-spinner fa-spin"></i>';
             btn.style.pointerEvents = "none";
             
-            const formData = new FormData(form);
-            const lyricsText = document.getElementById('lyricsInput').value;
+            const formData = new FormData();
+            const originalFile = fileInput.files[0];
+            if (originalFile) {
+                // Rename file to avoid any encoding/path issues on the server
+                const ext = originalFile.name.split('.').pop() || 'mp3';
+                const newFile = new File([originalFile], `audio_${Date.now()}.${ext}`, { type: originalFile.type });
+                formData.append('audio', newFile);
+            }
+            formData.append('prompt', document.getElementById('promptInput').value);
+            formData.append('lyrics', lyricsText);
+            formData.append('ratio', ratioInput.value);
+            formData.append('resolution', resInput.value);
+            
             logMsg(`開始上傳音軌... | 比例: ${ratioInput.value} | 歌詞長度: ${lyricsText.length} 字`);
 
             try {
