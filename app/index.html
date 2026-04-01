@@ -678,7 +678,12 @@
                                     <label>附加提示詞 (Optional Prompt)</label>
                                     <textarea id="imgPrompt" placeholder="例如：頭髮隨風飄動、背景下雨、霓虹燈閃爍..." style="min-height:80px;"></textarea>
                                 </div>
-                                <button class="cyber-btn" onclick="forgeImage()">ANIMATE IMAGE <i class="fa-solid fa-film"></i></button>
+                                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+                                    <button class="cyber-btn" onclick="forgeImage()" style="margin-top: 0;">ANIMATE IMAGE <i class="fa-solid fa-film"></i></button>
+                                    <button class="cyber-btn" onclick="window.location.reload();" style="margin-top: 0; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.5); color: #ef4444; padding: 12px; font-size: 0.9rem; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                        <i class="fa-solid fa-xmark"></i> CANCEL / RESET ENGINE
+                                    </button>
+                                </div>
                             </div>
                             
                             <div class="feed-panel">
