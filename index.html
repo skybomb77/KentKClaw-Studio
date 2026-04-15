@@ -50,26 +50,7 @@
             overflow-x: hidden;
         }
 
-        /* Showcase Responsive Fix */
-        .showcase-grid {
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 40px;
-        }
-        .showcase-card {
-            background: rgba(255, 255, 255, 0.03); 
-            border: 1px solid var(--border-color); 
-            border-radius: 20px; 
-            padding: 24px; 
-            text-align: center; 
-            backdrop-filter: blur(5px);
-            transition: transform 0.3s ease, background 0.3s ease;
-        }
-        .showcase-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
+        /* Showcase Responsive Fix - removed */
         .step-card, #team article {
             transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
         }
@@ -576,8 +557,6 @@
             <img src="assets/logo.svg" alt="Logo" style="width: 28px; height: 28px; margin-right: 8px;"> Kent & KClaw
         </a>
         <div class="nav-links">
-            <a href="showcase.html" data-i18n="navShowcase">Showcase</a>
-            <a href="#how-it-works" data-i18n="navHow">How it works</a>
             <a href="#toneforge" data-i18n="navTone">ToneForge</a>
             <a href="#wirevision" data-i18n="navWire">WireVision</a>
             <a href="#frameforge" data-i18n="navFrame">FrameForge</a>
@@ -594,7 +573,7 @@
         <h1 data-i18n="heroTitle">Creative AI for the next generation.</h1>
         <p data-i18n="heroSub">Two powerful engines. One creative studio. Build music and visual content faster than ever before.</p>
         <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-            <a href="showcase.html" class="btn btn-primary" data-i18n="heroCTA">Explore Showcase</a>
+            <a href="#toneforge" class="btn btn-primary" data-i18n="heroCTA">Get Started Free</a>
             <a href="#how-it-works" class="btn" style="border: 1px solid var(--border-color);" data-i18n="heroLearnMore">Learn More</a>
         </div>
     </section>
@@ -627,11 +606,24 @@
     <!-- Product 1: ToneForge -->
     <section class="product-section" id="toneforge">
         <div class="product-content">
+            <p style="color: var(--accent-purple); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;">AI Music Engine</p>
             <h2 class="toneforge-text">ToneForge</h2>
-            <div class="sub-heading" data-i18n="tfSub">ToneForge (AI Music Engine)</div>
-            <p data-i18n="tfDesc">An AI music product for creators, editors, and brands. Generate short-form, ad-ready soundtracks in minutes. Describe the vibe, get the track.</p>
+            <div class="sub-heading">Studio-quality music in minutes, not days.</div>
+            <p>Describe the mood. Get the track. ToneForge generates royalty-free, broadcast-ready soundtracks powered by AI — built for content creators, editors, and brands who need music fast.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 28px;">
+                <span style="background: rgba(185,122,245,0.1); color: var(--accent-purple); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(185,122,245,0.2);">YouTube配樂</span>
+                <span style="background: rgba(185,122,245,0.1); color: var(--accent-purple); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(185,122,245,0.2);">廣告音樂</span>
+                <span style="background: rgba(185,122,245,0.1); color: var(--accent-purple); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(185,122,245,0.2);">Podcast BGM</span>
+                <span style="background: rgba(185,122,245,0.1); color: var(--accent-purple); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(185,122,245,0.2);">短影音配樂</span>
+            </div>
+            <div style="margin-bottom: 28px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> 輸入情境描述，AI 自動作曲</div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> 支援多種風格：Lo-fi、Epic、Ambient、Hip-hop</div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> 商業授權，免版稅安心使用</div>
+                <div style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> MP3 / WAV 一鍵匯出</div>
+            </div>
             <a href="app/index.html?tab=toneforge" id="launch-tf-btn" class="btn" style="border: 1px solid var(--accent-purple); color: var(--accent-purple); background: rgba(185, 122, 245, 0.1);">
-                <i class="fa-solid fa-music"></i> <span data-i18n="tfBtn">Launch AI Music Engine</span>
+                <i class="fa-solid fa-music"></i> <span>Start Creating — It's Free</span>
             </a>
         </div>
         <div class="visual-box" style="box-shadow: 0 0 80px rgba(185, 122, 245, 0.15);">
@@ -674,21 +666,47 @@
             </div>
         </div>
         <div class="product-content">
+            <p style="color: var(--accent-green); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;">AI Video Engine</p>
             <h2 class="wirevision-text">WireVision</h2>
-            <div class="sub-heading" data-i18n="wvSub">The AI Visual Engine.</div>
-            <p data-i18n="wvDesc">Turn songs into scroll-stopping short videos. Upload your audio, enter a style prompt, and let our ComfyUI-powered engine generate a beat-synced MV instantly.</p>
-            <a href="app/index.html" id="launch-mv-btn" class="btn btn-wirevision"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="wvBtn">Launch MV Creator</span></a>
+            <div class="sub-heading">Turn any song into a scroll-stopping video.</div>
+            <p>Upload your audio, describe the visual vibe, and WireVision generates beat-synced short videos in minutes. Powered by ComfyUI + Stable Diffusion on NVIDIA RTX hardware — built for creators who move fast.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 28px;">
+                <span style="background: rgba(0,255,170,0.1); color: var(--accent-green); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(0,255,170,0.2);">Reels / Shorts</span>
+                <span style="background: rgba(0,255,170,0.1); color: var(--accent-green); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(0,255,170,0.2);">MV 製作</span>
+                <span style="background: rgba(0,255,170,0.1); color: var(--accent-green); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(0,255,170,0.2);">品牌廣告</span>
+                <span style="background: rgba(0,255,170,0.1); color: var(--accent-green); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(0,255,170,0.2);">音樂視覺化</span>
+            </div>
+            <div style="margin-bottom: 28px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> 音頻自動分析，節拍精準同步</div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> 文字提示詞控制視覺風格</div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> GPU 加速渲染，平均 3 分鐘出片</div>
+                <div style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> 1080p MP4 直接下載</div>
+            </div>
+            <a href="app/index.html" id="launch-mv-btn" class="btn btn-wirevision"><i class="fa-solid fa-wand-magic-sparkles"></i> <span>Start Creating — It's Free</span></a>
         </div>
     </section>
 
     <!-- Product 3: FrameForge -->
     <section class="product-section" id="frameforge" style="border-top: 1px solid var(--border-color); padding: 120px 5%;">
         <div class="product-content">
+            <p style="color: #38d5ff; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;">AI Animation Engine</p>
             <h2 class="frameforge-text">FrameForge</h2>
-            <div class="sub-heading" data-i18n="ivSub">Bring Still Images to Life.</div>
-            <p data-i18n="ivDesc">Upload a static image and our powerful ComfyUI engine will turn it into a dynamic, animated video clip. Perfect for bringing your reference art into motion.</p>
+            <div class="sub-heading">Animate any image with a single click.</div>
+            <p>Upload a static image — concept art, product photo, illustration — and FrameForge brings it to life with AI-powered motion. Perfect for designers, marketers, and anyone who wants their visuals to move.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 28px;">
+                <span style="background: rgba(56,213,255,0.1); color: #38d5ff; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(56,213,255,0.2);">概念動畫</span>
+                <span style="background: rgba(56,213,255,0.1); color: #38d5ff; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(56,213,255,0.2);">產品展示</span>
+                <span style="background: rgba(56,213,255,0.1); color: #38d5ff; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(56,213,255,0.2);">社群素材</span>
+                <span style="background: rgba(56,213,255,0.1); color: #38d5ff; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(56,213,255,0.2);">NFT 動態圖</span>
+            </div>
+            <div style="margin-bottom: 28px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: #38d5ff;"></i> 上傳 PNG / JPG / WebP 即可生成</div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: #38d5ff;"></i> 多種動態風格：呼吸、搖擺、縮放、3D 旋轉</div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: #38d5ff;"></i> ComfyUI + Stable Video Diffusion 引擎</div>
+                <div style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: #38d5ff;"></i> 高品質 MP4 / GIF 匯出</div>
+            </div>
             <a href="app/index.html?tab=img2vid" id="launch-iv-btn" class="btn btn-frameforge" style="border: 1px solid #38d5ff; color: #38d5ff; background: rgba(56, 213, 255, 0.1);">
-                <i class="fa-solid fa-images"></i> <span data-i18n="ivBtn">Launch FrameForge</span>
+                <i class="fa-solid fa-images"></i> <span>Start Creating — It's Free</span>
             </a>
         </div>
         <div class="visual-box" style="box-shadow: 0 0 80px rgba(56, 213, 255, 0.15);">
@@ -849,7 +867,6 @@
                 // ✨ 攔截按鈕：確保登入後跳轉
                 const launchMvBtn = document.getElementById("launch-mv-btn");
                 const launchTfBtn = document.getElementById("launch-tf-btn");
-                const showcaseCards = document.querySelectorAll(".showcase-card");
 
                 const handleProtectedClick = (e, target) => {
                     if (!window.Clerk || !window.Clerk.isReady) {
@@ -868,12 +885,6 @@
                 if (launchTfBtn) {
                     launchTfBtn.addEventListener('click', (e) => handleProtectedClick(e, 'app/index.html?tab=toneforge'));
                 }
-                showcaseCards.forEach(card => {
-                    card.addEventListener('click', (e) => {
-                        const target = card.getAttribute('href');
-                        handleProtectedClick(e, target);
-                    });
-                });
             } catch (err) { console.error("Clerk 初始化錯誤:", err); }
         });
 document.body.appendChild(script);
@@ -955,7 +966,7 @@ document.body.appendChild(script);
     </section>
 
     <!-- Pricing -->
-    <section class="pricing">
+    <section class="pricing" id="pricing">
         <div style="margin-bottom: 10px;">
             <p style="color: var(--accent-purple); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Pricing</p>
         </div>
@@ -1065,7 +1076,7 @@ document.body.appendChild(script);
         <p>Join thousands of creators building music and visual content with AI.</p>
         <div class="btn-group">
             <a href="app/index.html" class="btn btn-primary">Start Creating Free</a>
-            <a href="showcase.html" class="btn" style="border: 1px solid var(--border-color);">View Showcase</a>
+            <a href="#pricing" class="btn" style="border: 1px solid var(--border-color);">View Pricing</a>
         </div>
     </section>
 
