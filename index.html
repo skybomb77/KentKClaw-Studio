@@ -266,6 +266,153 @@
             max-width: 80%;
             margin: 0 auto;
         }
+        .visual-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 24px;
+        }
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            padding: 60px 5%;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+            background: rgba(255,255,255,0.01);
+        }
+        .stat-item h3 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-item p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 5%;
+            text-align: center;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .testimonial-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: left;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .testimonial-card .stars { color: #fbbf24; margin-bottom: 16px; font-size: 0.9rem; }
+        .testimonial-card .quote { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; margin-bottom: 20px; }
+        .testimonial-card .author { font-weight: 600; font-size: 0.95rem; }
+        .testimonial-card .role { color: var(--text-secondary); font-size: 0.85rem; }
+        /* Pricing */
+        .pricing { padding: 100px 5%; text-align: center; border-top: 1px solid var(--border-color); }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .price-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px 28px;
+            text-align: left;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            position: relative;
+        }
+        .price-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
+        .price-card.featured {
+            border-color: var(--accent-purple);
+            background: rgba(185, 122, 245, 0.05);
+        }
+        .price-card.featured::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-purple);
+            color: #000;
+            padding: 4px 16px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .price-card .plan-name { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
+        .price-card .price { font-size: 2.5rem; font-weight: 700; margin-bottom: 4px; }
+        .price-card .price span { font-size: 1rem; font-weight: 400; color: var(--text-secondary); }
+        .price-card .price-desc { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px; }
+        .price-card ul { list-style: none; margin-bottom: 28px; }
+        .price-card ul li { padding: 8px 0; color: var(--text-secondary); font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .price-card ul li i { color: var(--accent-green); margin-right: 8px; }
+        .price-card .btn { width: 100%; justify-content: center; }
+        /* FAQ */
+        .faq { padding: 100px 5%; text-align: center; border-top: 1px solid var(--border-color); }
+        .faq-list { max-width: 750px; margin: 50px auto 0; text-align: left; }
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        .faq-q {
+            padding: 20px 0;
+            font-size: 1.05rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        .faq-q:hover { color: var(--accent-green); }
+        .faq-q i { transition: transform 0.3s; font-size: 0.85rem; color: var(--text-secondary); }
+        .faq-item.open .faq-q i { transform: rotate(180deg); }
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .faq-item.open .faq-a { max-height: 300px; padding-bottom: 20px; }
+        /* Bottom CTA */
+        .bottom-cta {
+            padding: 120px 5%;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            background: radial-gradient(ellipse at center, rgba(185, 122, 245, 0.08) 0%, transparent 60%);
+        }
+        .bottom-cta h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 500; letter-spacing: -0.03em; margin-bottom: 16px; }
+        .bottom-cta p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .bottom-cta .btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        @media (max-width: 768px) {
+            .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 40px 5%; }
+            .testimonials-grid, .pricing-grid { grid-template-columns: 1fr; }
+        }
 
         /* 專屬色彩微調 */
         .toneforge-text { background: -webkit-linear-gradient(0deg, #b97af5, #7c5cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -388,14 +535,18 @@
             </a>
         </div>
         <div class="visual-box" style="box-shadow: 0 0 80px rgba(185, 122, 245, 0.1);">
-            <i class="fa-solid fa-wave-square" style="color: rgba(185, 122, 245, 0.3);"></i>
+            <video autoplay muted loop playsinline preload="metadata" poster="">
+                <source src="assets/toneforge_demo.mp4" type="video/mp4">
+            </video>
         </div>
     </section>
 
     <!-- Product 2: WireVision -->
     <section class="product-section" id="wirevision">
         <div class="visual-box" style="box-shadow: 0 0 80px rgba(0, 255, 170, 0.1);">
-            <i class="fa-solid fa-film" style="color: rgba(0, 255, 170, 0.3);"></i>
+            <video autoplay muted loop playsinline preload="metadata" poster="">
+                <source src="assets/wirevision_demo.mp4" type="video/mp4">
+            </video>
         </div>
         <div class="product-content">
             <h2 class="wirevision-text">WireVision</h2>
@@ -416,7 +567,173 @@
             </a>
         </div>
         <div class="visual-box" style="box-shadow: 0 0 80px rgba(56, 213, 255, 0.1);">
-            <i class="fa-solid fa-clapperboard" style="color: rgba(56, 213, 255, 0.3);"></i>
+            <video autoplay muted loop playsinline preload="metadata" poster="">
+                <source src="assets/demo_gold_waves.mp4" type="video/mp4">
+            </video>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <h3>10K+</h3>
+            <p>Tracks Generated</p>
+        </div>
+        <div class="stat-item">
+            <h3>5K+</h3>
+            <p>Videos Created</p>
+        </div>
+        <div class="stat-item">
+            <h3>99.9%</h3>
+            <p>Uptime</p>
+        </div>
+        <div class="stat-item">
+            <h3>< 2min</h3>
+            <p>Avg. Generation Time</p>
+        </div>
+    </div>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div style="margin-bottom: 10px;">
+            <p style="color: var(--accent-green); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Testimonials</p>
+        </div>
+        <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Loved by creators worldwide</h2>
+        <p style="color: var(--text-secondary);">See what our users have to say about their experience.</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">"ToneForge saved me hours of work. I describe the mood, and within minutes I have a professional-quality track ready for my YouTube videos."</p>
+                <p class="author">Alex Chen</p>
+                <p class="role">Content Creator · 500K subscribers</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">"WireVision is a game-changer for our marketing team. We turned 50 product songs into scroll-stopping videos in one afternoon."</p>
+                <p class="author">Sarah Lin</p>
+                <p class="role">Marketing Director · TechFlow Inc.</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">"FrameForge brought my concept art to life. The animation quality is stunning — my clients thought it was done by a professional studio."</p>
+                <p class="author">Marcus Rivera</p>
+                <p class="role">Freelance Designer</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing">
+        <div style="margin-bottom: 10px;">
+            <p style="color: var(--accent-purple); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Pricing</p>
+        </div>
+        <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Simple, transparent pricing</h2>
+        <p style="color: var(--text-secondary);">Start free. Scale when you're ready.</p>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <p class="plan-name">Free</p>
+                <p class="price">$0 <span>/ month</span></p>
+                <p class="price-desc">Perfect for trying things out.</p>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> 5 music generations / day</li>
+                    <li><i class="fa-solid fa-check"></i> 2 video generations / day</li>
+                    <li><i class="fa-solid fa-check"></i> 720p export quality</li>
+                    <li><i class="fa-solid fa-check"></i> Standard processing speed</li>
+                    <li><i class="fa-solid fa-check"></i> Community support</li>
+                </ul>
+                <a href="app/index.html" class="btn" style="border: 1px solid var(--border-color);">Get Started Free</a>
+            </div>
+            <div class="price-card featured">
+                <p class="plan-name">Pro</p>
+                <p class="price">$19 <span>/ month</span></p>
+                <p class="price-desc">For creators who ship daily.</p>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Unlimited music generations</li>
+                    <li><i class="fa-solid fa-check"></i> 50 video generations / day</li>
+                    <li><i class="fa-solid fa-check"></i> 1080p export quality</li>
+                    <li><i class="fa-solid fa-check"></i> Priority processing</li>
+                    <li><i class="fa-solid fa-check"></i> Commercial license included</li>
+                    <li><i class="fa-solid fa-check"></i> Email support</li>
+                </ul>
+                <a href="app/index.html" class="btn btn-primary">Start Pro Trial</a>
+            </div>
+            <div class="price-card">
+                <p class="plan-name">Enterprise</p>
+                <p class="price">Custom</p>
+                <p class="price-desc">For teams and agencies.</p>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Everything in Pro</li>
+                    <li><i class="fa-solid fa-check"></i> Unlimited everything</li>
+                    <li><i class="fa-solid fa-check"></i> 4K export quality</li>
+                    <li><i class="fa-solid fa-check"></i> API access</li>
+                    <li><i class="fa-solid fa-check"></i> Dedicated account manager</li>
+                    <li><i class="fa-solid fa-check"></i> Custom integrations</li>
+                </ul>
+                <a href="contact.html" class="btn" style="border: 1px solid var(--border-color);">Contact Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div style="margin-bottom: 10px;">
+            <p style="color: var(--accent-green); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">FAQ</p>
+        </div>
+        <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Frequently Asked Questions</h2>
+        <p style="color: var(--text-secondary);">Everything you need to know about our platform.</p>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    What file formats do you support for upload?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-a">We support MP3, WAV, FLAC for audio uploads, and PNG, JPG, WebP for image uploads. Export formats include MP3, WAV for audio and MP4 for video.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    Can I use the generated content commercially?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-a">Yes! Pro and Enterprise plans include a full commercial license. Free plan content is for personal use only.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    How long does generation take?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-a">Most music tracks are generated in under 2 minutes. Video generation typically takes 3-5 minutes depending on length and complexity. Pro users get priority queue access.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    Do I need to install any software?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-a">No. Kent & KClaw Studio is fully cloud-based. Just open your browser, sign in, and start creating. Works on Mac, Windows, and Linux.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    Can I cancel my subscription anytime?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-a">Absolutely. No contracts, no hidden fees. Cancel anytime from your account settings. You'll retain access until the end of your billing period.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    What AI models power your engines?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-a">Our music engine uses state-of-the-art audio synthesis models. For visuals, we run ComfyUI pipelines with Stable Diffusion and custom motion models on NVIDIA RTX 5070 Ti hardware.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="bottom-cta">
+        <h2>Ready to create?</h2>
+        <p>Join thousands of creators building music and visual content with AI.</p>
+        <div class="btn-group">
+            <a href="app/index.html" class="btn btn-primary">Start Creating Free</a>
+            <a href="showcase.html" class="btn" style="border: 1px solid var(--border-color);">View Showcase</a>
         </div>
     </section>
 
@@ -604,29 +921,204 @@ document.body.appendChild(script);
 
     </script>
 
-        <section id="team" style="margin-top: 5rem; text-align: center; padding: 100px 5%; border-top: 1px solid var(--border-color);">
-            <div style="margin-bottom: 60px;">
-                <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Who We Are</h2>
-                <p style="color: var(--text-secondary);">The minds behind the innovation.</p>
+    <!-- Team -->
+    <section id="team" style="text-align: center; padding: 100px 5%; border-top: 1px solid var(--border-color);">
+        <div style="margin-bottom: 60px;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Who We Are</h2>
+            <p style="color: var(--text-secondary);">The minds behind the innovation.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
+            <article style="background: rgba(255, 255, 255, 0.02); padding: 40px 20px; border-radius: 24px; border: 1px solid var(--border-color); backdrop-filter: blur(5px); transition: transform 0.3s ease;">
+                <div style="width: 80px; height: 80px; background: #58a6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: #000;"><i class="fas fa-crown"></i></div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Kent</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">Boss & Founder</p>
+            </article>
+            <article style="background: rgba(255, 255, 255, 0.02); padding: 40px 20px; border-radius: 24px; border: 1px solid var(--border-color); backdrop-filter: blur(5px); transition: transform 0.3s ease;">
+                <div style="width: 80px; height: 80px; background: #d2a8ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: #000;"><i class="fas fa-robot"></i></div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 8px;">KClaw</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">Senior AI / The Big Bro 🐯</p>
+            </article>
+            <article style="background: rgba(255, 255, 255, 0.02); padding: 40px 20px; border-radius: 24px; border: 1px solid var(--border-color); backdrop-filter: blur(5px); transition: transform 0.3s ease;">
+                <div style="width: 80px; height: 80px; background: #3fb950; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: #000;"><i class="fas fa-microchip"></i></div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 8px;">KTlaw</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">AI Assistant / The Little Bro 🤖</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <h3>10K+</h3>
+            <p>Tracks Generated</p>
+        </div>
+        <div class="stat-item">
+            <h3>5K+</h3>
+            <p>Videos Created</p>
+        </div>
+        <div class="stat-item">
+            <h3>99.9%</h3>
+            <p>Uptime</p>
+        </div>
+        <div class="stat-item">
+            <h3>< 2min</h3>
+            <p>Avg. Generation Time</p>
+        </div>
+    </div>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div style="margin-bottom: 10px;">
+            <p style="color: var(--accent-green); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Testimonials</p>
+        </div>
+        <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Loved by creators worldwide</h2>
+        <p style="color: var(--text-secondary);">See what our users have to say about their experience.</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">"ToneForge saved me hours of work. I describe the mood, and within minutes I have a professional-quality track ready for my YouTube videos."</p>
+                <p class="author">Alex Chen</p>
+                <p class="role">Content Creator · 500K subscribers</p>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
-                <article style="background: rgba(255, 255, 255, 0.02); padding: 40px 20px; border-radius: 24px; border: 1px solid var(--border-color); backdrop-filter: blur(5px); transition: transform 0.3s ease;">
-                    <div style="width: 80px; height: 80px; background: #58a6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: #000;"><i class="fas fa-crown"></i></div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Kent</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Boss & Founder</p>
-                </article>
-                <article style="background: rgba(255, 255, 255, 0.02); padding: 40px 20px; border-radius: 24px; border: 1px solid var(--border-color); backdrop-filter: blur(5px); transition: transform 0.3s ease;">
-                    <div style="width: 80px; height: 80px; background: #d2a8ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: #000;"><i class="fas fa-robot"></i></div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 8px;">KClaw</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Senior AI / The Big Bro 🐯</p>
-                </article>
-                <article style="background: rgba(255, 255, 255, 0.02); padding: 40px 20px; border-radius: 24px; border: 1px solid var(--border-color); backdrop-filter: blur(5px); transition: transform 0.3s ease;">
-                    <div style="width: 80px; height: 80px; background: #3fb950; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: #000;"><i class="fas fa-microchip"></i></div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 8px;">KTlaw</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">AI Assistant / The Little Bro 🤖</p>
-                </article>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">"WireVision is a game-changer for our marketing team. We turned 50 product songs into scroll-stopping videos in one afternoon."</p>
+                <p class="author">Sarah Lin</p>
+                <p class="role">Marketing Director · TechFlow Inc.</p>
             </div>
-        </section>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">"FrameForge brought my concept art to life. The animation quality is stunning — my clients thought it was done by a professional studio."</p>
+                <p class="author">Marcus Rivera</p>
+                <p class="role">Freelance Designer</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing">
+        <div style="margin-bottom: 10px;">
+            <p style="color: var(--accent-purple); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Pricing</p>
+        </div>
+        <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Simple, transparent pricing</h2>
+        <p style="color: var(--text-secondary);">Start free. Scale when you're ready.</p>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <p class="plan-name">Free</p>
+                <p class="price">$0 <span>/ month</span></p>
+                <p class="price-desc">Perfect for trying things out.</p>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> 5 music generations / day</li>
+                    <li><i class="fa-solid fa-check"></i> 2 video generations / day</li>
+                    <li><i class="fa-solid fa-check"></i> 720p export quality</li>
+                    <li><i class="fa-solid fa-check"></i> Standard processing speed</li>
+                    <li><i class="fa-solid fa-check"></i> Community support</li>
+                </ul>
+                <a href="app/index.html" class="btn" style="border: 1px solid var(--border-color);">Get Started Free</a>
+            </div>
+            <div class="price-card featured">
+                <p class="plan-name">Pro</p>
+                <p class="price">$19 <span>/ month</span></p>
+                <p class="price-desc">For creators who ship daily.</p>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Unlimited music generations</li>
+                    <li><i class="fa-solid fa-check"></i> 50 video generations / day</li>
+                    <li><i class="fa-solid fa-check"></i> 1080p export quality</li>
+                    <li><i class="fa-solid fa-check"></i> Priority processing</li>
+                    <li><i class="fa-solid fa-check"></i> Commercial license included</li>
+                    <li><i class="fa-solid fa-check"></i> Email support</li>
+                </ul>
+                <a href="app/index.html" class="btn btn-primary">Start Pro Trial</a>
+            </div>
+            <div class="price-card">
+                <p class="plan-name">Enterprise</p>
+                <p class="price">Custom</p>
+                <p class="price-desc">For teams and agencies.</p>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Everything in Pro</li>
+                    <li><i class="fa-solid fa-check"></i> Unlimited everything</li>
+                    <li><i class="fa-solid fa-check"></i> 4K export quality</li>
+                    <li><i class="fa-solid fa-check"></i> API access</li>
+                    <li><i class="fa-solid fa-check"></i> Dedicated account manager</li>
+                    <li><i class="fa-solid fa-check"></i> Custom integrations</li>
+                </ul>
+                <a href="contact.html" class="btn" style="border: 1px solid var(--border-color);">Contact Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div style="margin-bottom: 10px;">
+            <p style="color: var(--accent-green); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">FAQ</p>
+        </div>
+        <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Frequently Asked Questions</h2>
+        <p style="color: var(--text-secondary);">Everything you need to know about our platform.</p>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    What file formats do you support for upload?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-a">We support MP3, WAV, FLAC for audio uploads, and PNG, JPG, WebP for image uploads. Export formats include MP3, WAV for audio and MP4 for video.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    Can I use the generated content commercially?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-a">Yes! Pro and Enterprise plans include a full commercial license. Free plan content is for personal use only.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    How long does generation take?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-a">Most music tracks are generated in under 2 minutes. Video generation typically takes 3-5 minutes depending on length and complexity. Pro users get priority queue access.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    Do I need to install any software?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-a">No. Kent & KClaw Studio is fully cloud-based. Just open your browser, sign in, and start creating. Works on Mac, Windows, and Linux.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    Can I cancel my subscription anytime?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-a">Absolutely. No contracts, no hidden fees. Cancel anytime from your account settings. You'll retain access until the end of your billing period.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                    What AI models power your engines?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-a">Our music engine uses state-of-the-art audio synthesis models. For visuals, we run ComfyUI pipelines with Stable Diffusion and custom motion models on NVIDIA RTX 5070 Ti hardware.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="bottom-cta">
+        <h2>Ready to create?</h2>
+        <p>Join thousands of creators building music and visual content with AI.</p>
+        <div class="btn-group">
+            <a href="app/index.html" class="btn btn-primary">Start Creating Free</a>
+            <a href="showcase.html" class="btn" style="border: 1px solid var(--border-color);">View Showcase</a>
+        </div>
+    </section>
+
+    <footer>
+        <div data-i18n="footer">© 2026 Kent & KClaw Studio. All rights reserved.</div>
+        <div class="footer-links">
+            <a href="terms.html" data-i18n="terms">Terms of Service</a>
+            <a href="privacy.html" data-i18n="privacy">Privacy Policy</a>
+            <a href="https://github.com/skybomb77" target="_blank" style="margin-left: 10px;"><i class="fa-brands fa-github"></i></a>
+            <a href="https://youtube.com/@KentKClawStudio" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+    </footer>
 
 </body>
 </html>
