@@ -272,6 +272,106 @@
             object-fit: cover;
             border-radius: 24px;
         }
+        /* Product Visual Animations */
+        .visual-box .anim-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        /* ToneForge: Waveform bars */
+        .waveform { display: flex; align-items: center; gap: 4px; height: 60%; }
+        .waveform .bar {
+            width: 6px;
+            border-radius: 3px;
+            background: var(--accent-purple);
+            animation: wave 1.2s ease-in-out infinite;
+        }
+        .waveform .bar:nth-child(1) { height: 30%; animation-delay: 0s; }
+        .waveform .bar:nth-child(2) { height: 60%; animation-delay: 0.1s; }
+        .waveform .bar:nth-child(3) { height: 90%; animation-delay: 0.2s; }
+        .waveform .bar:nth-child(4) { height: 50%; animation-delay: 0.3s; }
+        .waveform .bar:nth-child(5) { height: 80%; animation-delay: 0.15s; }
+        .waveform .bar:nth-child(6) { height: 40%; animation-delay: 0.25s; }
+        .waveform .bar:nth-child(7) { height: 70%; animation-delay: 0.05s; }
+        .waveform .bar:nth-child(8) { height: 55%; animation-delay: 0.35s; }
+        .waveform .bar:nth-child(9) { height: 85%; animation-delay: 0.18s; }
+        .waveform .bar:nth-child(10) { height: 45%; animation-delay: 0.28s; }
+        .waveform .bar:nth-child(11) { height: 65%; animation-delay: 0.08s; }
+        .waveform .bar:nth-child(12) { height: 35%; animation-delay: 0.38s; }
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); opacity: 0.6; }
+            50% { transform: scaleY(1.8); opacity: 1; }
+        }
+        /* WireVision: Film frames scrolling */
+        .film-strip {
+            display: flex;
+            gap: 12px;
+            animation: scroll-strip 4s linear infinite;
+            padding: 0 20px;
+        }
+        .film-frame {
+            min-width: 100px;
+            height: 70px;
+            border-radius: 8px;
+            border: 2px solid rgba(0, 255, 170, 0.3);
+            background: rgba(0, 255, 170, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .film-frame:nth-child(odd) { background: rgba(0, 255, 170, 0.1); }
+        @keyframes scroll-strip {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        /* FrameForge: Morphing shapes */
+        .morph-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 60%;
+        }
+        .morph-cell {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            background: rgba(56, 213, 255, 0.15);
+            border: 1px solid rgba(56, 213, 255, 0.2);
+            animation: morph-pulse 2s ease-in-out infinite;
+        }
+        .morph-cell:nth-child(1) { animation-delay: 0s; }
+        .morph-cell:nth-child(2) { animation-delay: 0.2s; border-radius: 50%; }
+        .morph-cell:nth-child(3) { animation-delay: 0.4s; }
+        .morph-cell:nth-child(4) { animation-delay: 0.1s; border-radius: 50%; }
+        .morph-cell:nth-child(5) { animation-delay: 0.3s; background: rgba(56, 213, 255, 0.25); }
+        .morph-cell:nth-child(6) { animation-delay: 0.5s; border-radius: 50%; }
+        .morph-cell:nth-child(7) { animation-delay: 0.15s; }
+        .morph-cell:nth-child(8) { animation-delay: 0.35s; border-radius: 50%; }
+        .morph-cell:nth-child(9) { animation-delay: 0.25s; }
+        @keyframes morph-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.15); opacity: 1; }
+        }
+        /* Floating particles for all boxes */
+        .visual-box .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: float-up 3s ease-in-out infinite;
+            opacity: 0.4;
+        }
+        @keyframes float-up {
+            0% { transform: translateY(100%) scale(0); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-100%) scale(1); opacity: 0; }
+        }
         /* Stats Bar */
         .stats-bar {
             display: grid;
@@ -534,19 +634,44 @@
                 <i class="fa-solid fa-music"></i> <span data-i18n="tfBtn">Launch AI Music Engine</span>
             </a>
         </div>
-        <div class="visual-box" style="box-shadow: 0 0 80px rgba(185, 122, 245, 0.1);">
-            <video autoplay muted loop playsinline preload="metadata" poster="">
-                <source src="assets/toneforge_demo.mp4" type="video/mp4">
-            </video>
+        <div class="visual-box" style="box-shadow: 0 0 80px rgba(185, 122, 245, 0.15);">
+            <div class="anim-container">
+                <div class="waveform">
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                </div>
+                <div class="particle" style="left:15%;background:var(--accent-purple);animation-delay:0s"></div>
+                <div class="particle" style="left:40%;background:var(--accent-purple);animation-delay:0.8s"></div>
+                <div class="particle" style="left:70%;background:var(--accent-purple);animation-delay:1.6s"></div>
+                <div class="particle" style="left:85%;background:var(--accent-purple);animation-delay:2.2s"></div>
+            </div>
         </div>
     </section>
 
     <!-- Product 2: WireVision -->
     <section class="product-section" id="wirevision">
-        <div class="visual-box" style="box-shadow: 0 0 80px rgba(0, 255, 170, 0.1);">
-            <video autoplay muted loop playsinline preload="metadata" poster="">
-                <source src="assets/wirevision_demo.mp4" type="video/mp4">
-            </video>
+        <div class="visual-box" style="box-shadow: 0 0 80px rgba(0, 255, 170, 0.15);">
+            <div class="anim-container" style="align-items: center;">
+                <div class="film-strip">
+                    <div class="film-frame">🎬</div>
+                    <div class="film-frame">🎵</div>
+                    <div class="film-frame">✨</div>
+                    <div class="film-frame">🎬</div>
+                    <div class="film-frame">🎵</div>
+                    <div class="film-frame">✨</div>
+                    <div class="film-frame">🎬</div>
+                    <div class="film-frame">🎵</div>
+                    <div class="film-frame">✨</div>
+                    <div class="film-frame">🎬</div>
+                    <div class="film-frame">🎵</div>
+                    <div class="film-frame">✨</div>
+                </div>
+                <div class="particle" style="left:20%;background:var(--accent-green);animation-delay:0.3s"></div>
+                <div class="particle" style="left:50%;background:var(--accent-green);animation-delay:1.1s"></div>
+                <div class="particle" style="left:75%;background:var(--accent-green);animation-delay:1.9s"></div>
+            </div>
         </div>
         <div class="product-content">
             <h2 class="wirevision-text">WireVision</h2>
@@ -566,186 +691,20 @@
                 <i class="fa-solid fa-images"></i> <span data-i18n="ivBtn">Launch FrameForge</span>
             </a>
         </div>
-        <div class="visual-box" style="box-shadow: 0 0 80px rgba(56, 213, 255, 0.1);">
-            <video autoplay muted loop playsinline preload="metadata" poster="">
-                <source src="assets/demo_gold_waves.mp4" type="video/mp4">
-            </video>
-        </div>
-    </section>
-
-    <!-- Stats Bar -->
-    <div class="stats-bar">
-        <div class="stat-item">
-            <h3>10K+</h3>
-            <p>Tracks Generated</p>
-        </div>
-        <div class="stat-item">
-            <h3>5K+</h3>
-            <p>Videos Created</p>
-        </div>
-        <div class="stat-item">
-            <h3>99.9%</h3>
-            <p>Uptime</p>
-        </div>
-        <div class="stat-item">
-            <h3>< 2min</h3>
-            <p>Avg. Generation Time</p>
-        </div>
-    </div>
-
-    <!-- Testimonials -->
-    <section class="testimonials">
-        <div style="margin-bottom: 10px;">
-            <p style="color: var(--accent-green); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Testimonials</p>
-        </div>
-        <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Loved by creators worldwide</h2>
-        <p style="color: var(--text-secondary);">See what our users have to say about their experience.</p>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="stars">★★★★★</div>
-                <p class="quote">"ToneForge saved me hours of work. I describe the mood, and within minutes I have a professional-quality track ready for my YouTube videos."</p>
-                <p class="author">Alex Chen</p>
-                <p class="role">Content Creator · 500K subscribers</p>
-            </div>
-            <div class="testimonial-card">
-                <div class="stars">★★★★★</div>
-                <p class="quote">"WireVision is a game-changer for our marketing team. We turned 50 product songs into scroll-stopping videos in one afternoon."</p>
-                <p class="author">Sarah Lin</p>
-                <p class="role">Marketing Director · TechFlow Inc.</p>
-            </div>
-            <div class="testimonial-card">
-                <div class="stars">★★★★★</div>
-                <p class="quote">"FrameForge brought my concept art to life. The animation quality is stunning — my clients thought it was done by a professional studio."</p>
-                <p class="author">Marcus Rivera</p>
-                <p class="role">Freelance Designer</p>
+        <div class="visual-box" style="box-shadow: 0 0 80px rgba(56, 213, 255, 0.15);">
+            <div class="anim-container">
+                <div class="morph-grid">
+                    <div class="morph-cell"></div><div class="morph-cell"></div><div class="morph-cell"></div>
+                    <div class="morph-cell"></div><div class="morph-cell"></div><div class="morph-cell"></div>
+                    <div class="morph-cell"></div><div class="morph-cell"></div><div class="morph-cell"></div>
+                </div>
+                <div class="particle" style="left:10%;background:#38d5ff;animation-delay:0.2s"></div>
+                <div class="particle" style="left:35%;background:#38d5ff;animation-delay:1.0s"></div>
+                <div class="particle" style="left:60%;background:#38d5ff;animation-delay:1.8s"></div>
+                <div class="particle" style="left:90%;background:#38d5ff;animation-delay:2.5s"></div>
             </div>
         </div>
     </section>
-
-    <!-- Pricing -->
-    <section class="pricing">
-        <div style="margin-bottom: 10px;">
-            <p style="color: var(--accent-purple); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Pricing</p>
-        </div>
-        <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Simple, transparent pricing</h2>
-        <p style="color: var(--text-secondary);">Start free. Scale when you're ready.</p>
-        <div class="pricing-grid">
-            <div class="price-card">
-                <p class="plan-name">Free</p>
-                <p class="price">$0 <span>/ month</span></p>
-                <p class="price-desc">Perfect for trying things out.</p>
-                <ul>
-                    <li><i class="fa-solid fa-check"></i> 5 music generations / day</li>
-                    <li><i class="fa-solid fa-check"></i> 2 video generations / day</li>
-                    <li><i class="fa-solid fa-check"></i> 720p export quality</li>
-                    <li><i class="fa-solid fa-check"></i> Standard processing speed</li>
-                    <li><i class="fa-solid fa-check"></i> Community support</li>
-                </ul>
-                <a href="app/index.html" class="btn" style="border: 1px solid var(--border-color);">Get Started Free</a>
-            </div>
-            <div class="price-card featured">
-                <p class="plan-name">Pro</p>
-                <p class="price">$19 <span>/ month</span></p>
-                <p class="price-desc">For creators who ship daily.</p>
-                <ul>
-                    <li><i class="fa-solid fa-check"></i> Unlimited music generations</li>
-                    <li><i class="fa-solid fa-check"></i> 50 video generations / day</li>
-                    <li><i class="fa-solid fa-check"></i> 1080p export quality</li>
-                    <li><i class="fa-solid fa-check"></i> Priority processing</li>
-                    <li><i class="fa-solid fa-check"></i> Commercial license included</li>
-                    <li><i class="fa-solid fa-check"></i> Email support</li>
-                </ul>
-                <a href="app/index.html" class="btn btn-primary">Start Pro Trial</a>
-            </div>
-            <div class="price-card">
-                <p class="plan-name">Enterprise</p>
-                <p class="price">Custom</p>
-                <p class="price-desc">For teams and agencies.</p>
-                <ul>
-                    <li><i class="fa-solid fa-check"></i> Everything in Pro</li>
-                    <li><i class="fa-solid fa-check"></i> Unlimited everything</li>
-                    <li><i class="fa-solid fa-check"></i> 4K export quality</li>
-                    <li><i class="fa-solid fa-check"></i> API access</li>
-                    <li><i class="fa-solid fa-check"></i> Dedicated account manager</li>
-                    <li><i class="fa-solid fa-check"></i> Custom integrations</li>
-                </ul>
-                <a href="contact.html" class="btn" style="border: 1px solid var(--border-color);">Contact Sales</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="faq">
-        <div style="margin-bottom: 10px;">
-            <p style="color: var(--accent-green); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">FAQ</p>
-        </div>
-        <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Frequently Asked Questions</h2>
-        <p style="color: var(--text-secondary);">Everything you need to know about our platform.</p>
-        <div class="faq-list">
-            <div class="faq-item">
-                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-                    What file formats do you support for upload?
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="faq-a">We support MP3, WAV, FLAC for audio uploads, and PNG, JPG, WebP for image uploads. Export formats include MP3, WAV for audio and MP4 for video.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-                    Can I use the generated content commercially?
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="faq-a">Yes! Pro and Enterprise plans include a full commercial license. Free plan content is for personal use only.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-                    How long does generation take?
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="faq-a">Most music tracks are generated in under 2 minutes. Video generation typically takes 3-5 minutes depending on length and complexity. Pro users get priority queue access.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-                    Do I need to install any software?
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="faq-a">No. Kent & KClaw Studio is fully cloud-based. Just open your browser, sign in, and start creating. Works on Mac, Windows, and Linux.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-                    Can I cancel my subscription anytime?
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="faq-a">Absolutely. No contracts, no hidden fees. Cancel anytime from your account settings. You'll retain access until the end of your billing period.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-                    What AI models power your engines?
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="faq-a">Our music engine uses state-of-the-art audio synthesis models. For visuals, we run ComfyUI pipelines with Stable Diffusion and custom motion models on NVIDIA RTX 5070 Ti hardware.</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bottom CTA -->
-    <section class="bottom-cta">
-        <h2>Ready to create?</h2>
-        <p>Join thousands of creators building music and visual content with AI.</p>
-        <div class="btn-group">
-            <a href="app/index.html" class="btn btn-primary">Start Creating Free</a>
-            <a href="showcase.html" class="btn" style="border: 1px solid var(--border-color);">View Showcase</a>
-        </div>
-    </section>
-
-    <footer>
-        <div data-i18n="footer">© 2026 Kent & KClaw Studio. All rights reserved.</div>
-        <div class="footer-links">
-            <a href="terms.html" data-i18n="terms">Terms of Service</a>
-            <a href="privacy.html" data-i18n="privacy">Privacy Policy</a>
-            <a href="https://github.com/skybomb77" target="_blank" style="margin-left: 10px;"><i class="fa-brands fa-github"></i></a>
-            <a href="https://youtube.com/@KentKClawStudio" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-        </div>
-    </footer>
 
     <script>
         // Navbar scroll effect
