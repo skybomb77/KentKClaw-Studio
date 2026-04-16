@@ -537,7 +537,13 @@
 
         // ======= 🚀 畫面邏輯與後端 API =======
         let startTime = null;
-        const BACKEND_URL = localStorage.getItem('kc_backend_url') || "https://nonchimeric-fabled-nila.ngrok-free.dev";
+        const REMOTE_BACKEND = localStorage.getItem('kc_backend_url') || "https://nonchimeric-fabled-nila.ngrok-free.dev";
+        const LOCAL_BACKEND = "http://localhost:8788";
+        
+        // Auto-switch: Free → local Mac, Pro → remote RTX 5070
+        function getBackendUrl() {
+            return PlanManager.isPro() ? REMOTE_BACKEND : LOCAL_BACKEND;
+        }
 
         // Retry wrapper for API calls
         async function fetchWithRetry(url, options, retries = 2) {
@@ -743,7 +749,7 @@
 
             try {
                 // 如果在雲端，發送給 Ngrok；如果在 localhost，發給 localhost
-                const apiUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/generate-mv` : `/api/generate-mv`;
+                const apiUrl = getBackendUrl().startsWith('http') ? `${getBackendUrl()}/api/generate-mv` : `/api/generate-mv`;
                 
                 const response = await fetch(apiUrl, { 
                     method: 'POST', 
@@ -762,10 +768,10 @@
                 setStep(2);
                 
                 let wsUrl;
-                if (BACKEND_URL.startsWith('https')) {
-                    wsUrl = BACKEND_URL.replace('https', 'wss') + `/api/ws/${data.jobId}`;
-                } else if (BACKEND_URL.startsWith('http')) {
-                    wsUrl = BACKEND_URL.replace('http', 'ws') + `/api/ws/${data.jobId}`;
+                if (getBackendUrl().startsWith('https')) {
+                    wsUrl = getBackendUrl().replace('https', 'wss') + `/api/ws/${data.jobId}`;
+                } else if (getBackendUrl().startsWith('http')) {
+                    wsUrl = getBackendUrl().replace('http', 'ws') + `/api/ws/${data.jobId}`;
                 } else {
                     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
                     wsUrl = `${protocol}//${window.location.host}/api/ws/${data.jobId}`;
@@ -818,8 +824,8 @@
             
             // 修正內網 IP 成公網隧道網址 (若存在)
             let publicUrl = url;
-            if (BACKEND_URL.startsWith('http') && url.includes('127.0.0.1:8188')) {
-                 publicUrl = url.replace(/http:\/\/127\.0\.0\.1:8188/, BACKEND_URL);
+            if (getBackendUrl().startsWith('http') && url.includes('127.0.0.1:8188')) {
+                 publicUrl = url.replace(/http:\/\/127\.0\.0\.1:8188/, getBackendUrl());
             }
             
             document.getElementById('outputVideo').src = publicUrl;
@@ -887,7 +893,7 @@
             
             try {
                 // 如果在雲端，發送給 Ngrok；如果在 localhost，發給 localhost
-                const apiUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/forge-music` : `/api/forge-music`;
+                const apiUrl = getBackendUrl().startsWith('http') ? `${getBackendUrl()}/api/forge-music` : `/api/forge-music`;
                 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -913,10 +919,10 @@
                     
                     let finalUrl = data.audioUrl;
                     // 修正內網 IP
-                    if (BACKEND_URL.startsWith('http') && finalUrl.includes('localhost:3000')) {
-                        finalUrl = finalUrl.replace(/http:\/\/localhost:3000/, BACKEND_URL);
-                    } else if (BACKEND_URL.startsWith('http') && finalUrl.includes('127.0.0.1:3000')) {
-                        finalUrl = finalUrl.replace(/http:\/\/127\.0\.0\.1:3000/, BACKEND_URL);
+                    if (getBackendUrl().startsWith('http') && finalUrl.includes('localhost:3000')) {
+                        finalUrl = finalUrl.replace(/http:\/\/localhost:3000/, getBackendUrl());
+                    } else if (getBackendUrl().startsWith('http') && finalUrl.includes('127.0.0.1:3000')) {
+                        finalUrl = finalUrl.replace(/http:\/\/127\.0\.0\.1:3000/, getBackendUrl());
                     }
 
                     document.getElementById('audioOut').src = finalUrl;
@@ -1019,7 +1025,7 @@
                 formData.append('prompt', document.getElementById('imgPrompt').value);
                 formData.append('motion', document.getElementById('motionInput').value);
 
-                const apiUrl = BACKEND_URL.startsWith('http') ? `${BACKEND_URL}/api/generate-img2vid` : `/api/generate-img2vid`;
+                const apiUrl = getBackendUrl().startsWith('http') ? `${getBackendUrl()}/api/generate-img2vid` : `/api/generate-img2vid`;
                 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -1030,8 +1036,8 @@
                 const data = await response.json();
                 if(data.success && data.jobId) {
                     let wsUrl;
-                    if (BACKEND_URL.startsWith('https')) wsUrl = BACKEND_URL.replace('https', 'wss') + `/api/ws/${data.jobId}`;
-                    else if (BACKEND_URL.startsWith('http')) wsUrl = BACKEND_URL.replace('http', 'ws') + `/api/ws/${data.jobId}`;
+                    if (getBackendUrl().startsWith('https')) wsUrl = getBackendUrl().replace('https', 'wss') + `/api/ws/${data.jobId}`;
+                    else if (getBackendUrl().startsWith('http')) wsUrl = getBackendUrl().replace('http', 'ws') + `/api/ws/${data.jobId}`;
                     else wsUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/api/ws/${data.jobId}`;
 
                     const socket = new WebSocket(wsUrl);
@@ -1043,8 +1049,8 @@
                             document.getElementById('frameProgressBar').style.width = msgData.percent + '%';
                         } else if (msgData.type === 'done') {
                             let publicUrl = msgData.url;
-                            if (BACKEND_URL.startsWith('http') && publicUrl.includes('127.0.0.1:8188')) {
-                                publicUrl = publicUrl.replace(/http:\/\/127\.0\.0\.1:8188/, BACKEND_URL);
+                            if (getBackendUrl().startsWith('http') && publicUrl.includes('127.0.0.1:8188')) {
+                                publicUrl = publicUrl.replace(/http:\/\/127\.0\.0\.1:8188/, getBackendUrl());
                             }
                             
                             document.getElementById('frameVideoOut').src = publicUrl;
@@ -1168,15 +1174,15 @@
                 pipeLog('Step 1/3: Generating music (' + genre + ', ' + duration + 's)...');
                 
                 const musicResp = await fetchWithRetry(
-                    BACKEND_URL.startsWith('http') ? BACKEND_URL + '/api/forge-music' : '/api/forge-music',
+                    getBackendUrl().startsWith('http') ? getBackendUrl() + '/api/forge-music' : '/api/forge-music',
                     { method: 'POST', headers: { 'Content-Type': 'application/json', 'bypass-tunnel-reminder': 'true', 'ngrok-skip-browser-warning': 'true' }, body: JSON.stringify({ style: genre, mood: prompt, duration: duration }) }
                 );
                 const musicData = await musicResp.json();
                 if(!musicData.success) throw new Error('Music generation failed: ' + (musicData.error || 'Unknown'));
                 
                 audioUrl = musicData.audioUrl;
-                if(BACKEND_URL.startsWith('http') && audioUrl.includes('localhost:3000')) audioUrl = audioUrl.replace(/http:\/\/localhost:3000/, BACKEND_URL);
-                else if(BACKEND_URL.startsWith('http') && audioUrl.includes('127.0.0.1:3000')) audioUrl = audioUrl.replace(/http:\/\/127\.0\.0\.1:3000/, BACKEND_URL);
+                if(getBackendUrl().startsWith('http') && audioUrl.includes('localhost:3000')) audioUrl = audioUrl.replace(/http:\/\/localhost:3000/, getBackendUrl());
+                else if(getBackendUrl().startsWith('http') && audioUrl.includes('127.0.0.1:3000')) audioUrl = audioUrl.replace(/http:\/\/127\.0\.0\.1:3000/, getBackendUrl());
                 
                 pipeLog('Music generated! URL: ' + audioUrl.substring(0, 50) + '...');
                 document.getElementById('pipeAudioSection').style.display = 'block';
@@ -1204,7 +1210,7 @@
                 formData.append('resolution', '720p');
                 
                 const mvResp = await fetchWithRetry(
-                    BACKEND_URL.startsWith('http') ? BACKEND_URL + '/api/generate-mv' : '/api/generate-mv',
+                    getBackendUrl().startsWith('http') ? getBackendUrl() + '/api/generate-mv' : '/api/generate-mv',
                     { method: 'POST', headers: { 'bypass-tunnel-reminder': 'true', 'ngrok-skip-browser-warning': 'true' }, body: formData }
                 );
                 const mvData = await mvResp.json();
@@ -1214,8 +1220,8 @@
                 
                 // WebSocket for progress
                 let wsUrl;
-                if(BACKEND_URL.startsWith('https')) wsUrl = BACKEND_URL.replace('https', 'wss') + '/api/ws/' + mvData.jobId;
-                else if(BACKEND_URL.startsWith('http')) wsUrl = BACKEND_URL.replace('http', 'ws') + '/api/ws/' + mvData.jobId;
+                if(getBackendUrl().startsWith('https')) wsUrl = getBackendUrl().replace('https', 'wss') + '/api/ws/' + mvData.jobId;
+                else if(getBackendUrl().startsWith('http')) wsUrl = getBackendUrl().replace('http', 'ws') + '/api/ws/' + mvData.jobId;
                 else wsUrl = (location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + location.host + '/api/ws/' + mvData.jobId;
                 
                 await new Promise((resolve, reject) => {
@@ -1226,7 +1232,7 @@
                             pipeLog('GPU rendering... ' + msg.percent + '%');
                         } else if(msg.type === 'done') {
                             let videoUrl = msg.url;
-                            if(BACKEND_URL.startsWith('http') && videoUrl.includes('127.0.0.1:8188')) videoUrl = videoUrl.replace(/http:\/\/127\.0\.0\.1:8188/, BACKEND_URL);
+                            if(getBackendUrl().startsWith('http') && videoUrl.includes('127.0.0.1:8188')) videoUrl = videoUrl.replace(/http:\/\/127\.0\.0\.1:8188/, getBackendUrl());
                             pipeLog('Video generated!');
                             
                             setPipeStep(3);
@@ -1761,7 +1767,7 @@
                                 <h3 style="margin-bottom:16px;"><i class="fa-solid fa-server" style="color:var(--brand); margin-right:8px;"></i> Backend</h3>
                                 <div class="input-group">
                                     <label>Backend URL</label>
-                                    <input type="text" id="backendUrlInput" value="${BACKEND_URL}" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border); padding:12px; border-radius:8px; color:white; outline:none; font-family:monospace; font-size:0.85rem;">
+                                    <input type="text" id="backendUrlInput" value="${getBackendUrl()}" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border); padding:12px; border-radius:8px; color:white; outline:none; font-family:monospace; font-size:0.85rem;">
                                 </div>
                                 <button class="setting-btn" style="margin-top:12px;" onclick="localStorage.setItem('kc_backend_url', document.getElementById('backendUrlInput').value); alert('Backend URL saved! Refresh to apply.');">Save URL</button>
                             </div>
