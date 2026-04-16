@@ -361,7 +361,32 @@
 
         // ======= 🚀 畫面邏輯與後端 API =======
         let startTime = null;
-        const BACKEND_URL = "https://nonchimeric-fabled-nila.ngrok-free.dev"; // 你的 本機伺服器 隧道
+        const BACKEND_URL = localStorage.getItem('kc_backend_url') || "https://nonchimeric-fabled-nila.ngrok-free.dev";
+
+        // Retry wrapper for API calls
+        async function fetchWithRetry(url, options, retries = 2) {
+            for(let i = 0; i <= retries; i++) {
+                try {
+                    const controller = new AbortController();
+                    const timeout = setTimeout(() => controller.abort(), 60000); // 60s timeout
+                    const resp = await fetch(url, { ...options, signal: controller.signal });
+                    clearTimeout(timeout);
+                    if(!resp.ok && i < retries) { await new Promise(r => setTimeout(r, 2000)); continue; }
+                    return resp;
+                } catch(e) {
+                    if(i === retries) throw e;
+                    await new Promise(r => setTimeout(r, 2000));
+                }
+            }
+        }
+
+        function showError(el, msg, retryFn) {
+            el.innerHTML = `<div style="text-align:center; padding:20px;">
+                <i class="fa-solid fa-triangle-exclamation" style="font-size:2.5rem; color:#ef4444; margin-bottom:16px;"></i>
+                <p style="color:#ef4444; margin-bottom:16px;">${msg}</p>
+                ${retryFn ? `<button class="setting-btn" onclick="${retryFn}" style="display:inline-block;"><i class="fa-solid fa-rotate-right"></i> Retry</button>` : ''}
+            </div>`;
+        }
 
         const form = document.getElementById('uploadForm');
         const fileInput = document.getElementById('audioUpload');
@@ -609,6 +634,8 @@
         }
 
     async function forgeMusic() {
+            // Credit check
+            if(GenerationStore.getCredits() <= 0) { alert('No credits remaining! Go to Settings to reset.'); return; }
             const style = document.getElementById('toneStyle').value;
             const mood = document.getElementById('toneMood').value;
             const statusDiv = document.getElementById('toneStatus');
@@ -657,6 +684,10 @@
                     downloadBtn.href = finalUrl;
                     document.getElementById('audioOut').play();
                     
+                    // Generate waveform bars
+                    const wf = document.getElementById('toneWaveform');
+                    if(wf) { wf.innerHTML = ''; for(let i=0;i<80;i++){ const b=document.createElement('div'); b.className='wf-bar'; b.style.height=(Math.random()*50+5)+'px'; wf.appendChild(b); }}
+                    
                     // 儲存到歷史
                     GenerationStore.save({ type: 'toneforge', name: `${style} - ${selectedToneLen}s`, prompt: mood, url: finalUrl });
                     GenerationStore.useCredit();
@@ -690,14 +721,33 @@
         document.addEventListener('change', e => {
             if (e.target.id === 'imageUpload') {
                 if (e.target.files.length) {
-                    document.getElementById('imgNameDisplay').innerText = e.target.files[0].name;
+                    const file = e.target.files[0];
+                    document.getElementById('imgNameDisplay').innerText = file.name;
+                    document.getElementById('imgNameDisplay').style.color = 'var(--brand)';
+                    // Image preview
+                    const preview = document.getElementById('imgPreviewBox');
+                    const img = document.getElementById('imgPreviewImg');
+                    const reader = new FileReader();
+                    reader.onload = ev => { img.src = ev.target.result; preview.style.display = 'block'; };
+                    reader.readAsDataURL(file);
                 }
             }
         });
 
+        // FrameForge style tag handlers
+        document.addEventListener('click', e => {
+            const chip = e.target.closest('#frameStyleTags .tag-chip');
+            if(!chip) return;
+            document.querySelectorAll('#frameStyleTags .tag-chip').forEach(c => c.classList.remove('selected'));
+            chip.classList.add('selected');
+            const existing = document.getElementById('imgPrompt').value;
+            document.getElementById('imgPrompt').value = chip.dataset.prompt + (existing ? ', ' + existing : '');
+        });
+
         async function forgeImage() {
             const fileInput = document.getElementById('imageUpload');
-            if (!fileInput.files.length) return alert('請先上傳圖片！');
+            if (!fileInput.files.length) return alert('Please upload an image first!');
+            if(GenerationStore.getCredits() <= 0) { alert('No credits remaining! Go to Settings to reset.'); return; }
 
             const statusDiv = document.getElementById('frameStatus');
             const playerDiv = document.getElementById('framePlayer');
@@ -773,6 +823,24 @@
             }
         }
 
+        // ToneForge genre tag handlers
+        document.addEventListener('click', e => {
+            const chip = e.target.closest('#toneGenreTags .tag-chip');
+            if(!chip) return;
+            document.querySelectorAll('#toneGenreTags .tag-chip').forEach(c => c.classList.remove('selected'));
+            chip.classList.add('selected');
+            document.getElementById('toneStyle').value = chip.dataset.value;
+        });
+
+        // ToneForge mood tag handlers
+        document.addEventListener('click', e => {
+            const chip = e.target.closest('#toneMoodTags .tag-chip');
+            if(!chip) return;
+            document.querySelectorAll('#toneMoodTags .tag-chip').forEach(c => c.classList.remove('selected'));
+            chip.classList.add('selected');
+            document.getElementById('toneMood').value = chip.dataset.value;
+        });
+
         // Init
         window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -805,50 +873,65 @@
                 document.getElementById('create-view').style.display = 'none';
                 document.getElementById('other-view').style.display = 'block';
                 document.getElementById('other-view').innerHTML = `
-                    <div style="padding: 40px; max-width: 1000px; margin: 0 auto;">
-                        <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:10px;">FrameForge <span style="color:var(--brand)">Anim</span></h1>
-                        <p style="color:var(--muted); margin-bottom:30px;">將靜態圖片注入生命，轉換成動態流暢的視覺影片。</p>
+                    <div style="padding: 40px; max-width: 1100px; margin: 0 auto;">
+                        <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:6px;">FrameForge <span style="color:var(--brand)">Anim</span></h1>
+                        <p style="color:var(--muted); margin-bottom:30px;">Animate any static image into dynamic video. Upload, describe, generate.</p>
                         
-                        <div style="display:grid; grid-template-columns: 400px 1fr; gap:30px;">
+                        <div style="display:grid; grid-template-columns: 420px 1fr; gap:30px;">
                             <div class="create-panel" style="min-height: auto; border-color: var(--brand);">
                                 <div class="input-group">
-                                    <label>上傳靜態圖片 (Reference Image) <span style="color: var(--brand); font-size: 0.75rem;">Max 5MB</span></label>
+                                    <label><i class="fa-solid fa-image" style="margin-right:6px; opacity:0.5;"></i> Reference Image <span style="color: var(--brand); font-size: 0.75rem;">Max 5MB · JPG, PNG, WebP</span></label>
                                     <div class="file-drop-area" id="imgDropArea" style="border-color: var(--brand);">
-                                        <i class="fa-solid fa-image" style="color: var(--brand);"></i>
-                                        <span id="imgNameDisplay" style="color: var(--brand);">Drag & drop image here<br><span style="font-size: 0.75rem; color: var(--muted);">Supported: .JPG, .PNG, .WEBP</span></span>
+                                        <i class="fa-solid fa-cloud-arrow-up" style="color:var(--brand);"></i>
+                                        <span id="imgNameDisplay">Drag & drop image here or click to browse</span>
                                         <input type="file" id="imageUpload" accept="image/*" required>
+                                    </div>
+                                    <div id="imgPreviewBox" style="display:none; margin-top:10px;" class="file-preview">
+                                        <img id="imgPreviewImg" src="" alt="preview">
+                                        <button class="remove-btn" onclick="document.getElementById('imageUpload').value='';document.getElementById('imgPreviewBox').style.display='none';document.getElementById('imgNameDisplay').innerText='Drag & drop image here or click to browse';">✕</button>
                                     </div>
                                 </div>
                                 <div class="input-group">
-                                    <label>動態幅度 (Motion Scale)</label>
+                                    <label><i class="fa-solid fa-sliders" style="margin-right:6px; opacity:0.5;"></i> Motion Style</label>
+                                    <div class="tag-cloud" id="frameStyleTags" style="margin-bottom:8px;">
+                                        <span class="tag-chip" data-prompt="gentle breathing motion, soft ambient movement">Breathe</span>
+                                        <span class="tag-chip" data-prompt="hair flowing in wind, fabric swaying">Wind</span>
+                                        <span class="tag-chip" data-prompt="water ripples, liquid flow, reflections">Water</span>
+                                        <span class="tag-chip" data-prompt="camera zoom in slow dolly, cinematic push">Zoom</span>
+                                        <span class="tag-chip" data-prompt="particles floating, sparkle effects, glowing">Particles</span>
+                                        <span class="tag-chip" data-prompt="3D parallax rotation, depth movement">3D Rotate</span>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label>Motion Intensity</label>
                                     <div class="settings-row" id="motionSelector">
-                                        <div class="setting-btn active" data-motion="Subtle" style="border-color: var(--brand); color: var(--brand); background: var(--brand-dim);">Subtle (微幅)</div>
-                                        <div class="setting-btn" data-motion="Normal">Normal (標準)</div>
-                                        <div class="setting-btn" data-motion="Dynamic">Dynamic (強烈)</div>
+                                        <div class="setting-btn active" data-motion="Subtle" style="border-color: var(--brand); color: var(--brand); background: var(--brand-dim);">Subtle</div>
+                                        <div class="setting-btn" data-motion="Normal">Normal</div>
+                                        <div class="setting-btn" data-motion="Dynamic">Dynamic</div>
                                     </div>
                                     <input type="hidden" id="motionInput" value="Subtle">
                                 </div>
                                 <div class="input-group">
-                                    <label>附加提示詞 (Optional Prompt)</label>
-                                    <textarea id="imgPrompt" placeholder="例如：頭髮隨風飄動、背景下雨、霓虹燈閃爍..." style="min-height:80px;"></textarea>
+                                    <label><i class="fa-solid fa-quote-left" style="margin-right:6px; opacity:0.5;"></i> Additional Prompt <span style="color:var(--muted); font-size:0.75rem;">Optional</span></label>
+                                    <textarea id="imgPrompt" placeholder="Describe additional motion effects..." style="min-height:80px;"></textarea>
                                 </div>
-                                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
-                                    <button class="cyber-btn" onclick="forgeImage()" style="margin-top: 0;">ANIMATE IMAGE <i class="fa-solid fa-film"></i></button>
-                                    <button class="cyber-btn" onclick="window.location.reload();" style="margin-top: 0; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.5); color: #ef4444; padding: 12px; font-size: 0.9rem; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                                        <i class="fa-solid fa-xmark"></i> CANCEL / RESET ENGINE
-                                    </button>
+                                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
+                                    <button class="cyber-btn" onclick="forgeImage()" style="margin-top: 0; border-color: var(--brand); color: var(--brand);">ANIMATE IMAGE <i class="fa-solid fa-film" style="margin-left:8px;"></i></button>
                                 </div>
                             </div>
                             
                             <div class="feed-panel">
-                                <div id="frameResult" style="background:var(--panel); border:1px solid var(--brand); border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:400px; box-shadow: 0 0 30px var(--brand-dim);">
+                                <div id="frameResult" style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:450px; transition: border-color 0.3s;">
                                     <div id="frameStatus">
                                         <i class="fa-solid fa-video" style="font-size:3rem; color:var(--brand); opacity:0.6; margin-bottom:20px;"></i>
-                                        <p style="color:var(--muted); text-align: center;">上傳圖片後，AI 將分析畫面深度與語意，<br>為您生成高品質的動態影片。</p>
+                                        <p style="color:var(--muted); text-align: center;">Upload an image to start.<br>AI will analyze depth and semantics to generate motion.</p>
                                     </div>
-                                    <div id="framePlayer" style="display:none; width:100%; height: 100%;">
-                                        <video id="frameVideoOut" autoplay loop controls style="width:100%; border-radius: 12px; margin-bottom:20px;"></video>
-                                        <a id="frameDownload" download class="cyber-btn" style="background:var(--brand-dim); color:var(--brand); border-color:var(--brand); text-decoration:none; display:flex; align-items:center; justify-content:center;">DOWNLOAD MP4</a>
+                                    <div id="framePlayer" style="display:none; width:100%;">
+                                        <video id="frameVideoOut" autoplay loop controls style="width:100%; border-radius: 12px; margin-bottom:16px;"></video>
+                                        <div style="display:flex; gap:10px;">
+                                            <a id="frameDownload" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center; border-color:var(--brand); color:var(--brand);"><i class="fa-solid fa-download"></i> Download MP4</a>
+                                            <button class="setting-btn" onclick="switchTab(null,'screening')" style="flex:1;"><i class="fa-solid fa-film"></i> View in Screening Room</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -861,47 +944,68 @@
                 document.getElementById('create-view').style.display = 'none';
                 document.getElementById('other-view').style.display = 'block';
                 document.getElementById('other-view').innerHTML = `
-                    <div style="padding: 40px; max-width: 1000px; margin: 0 auto;">
-                        <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:10px;">ToneForge <span style="color:var(--brand)">AI Music</span></h1>
-                        <p style="color:var(--muted); margin-bottom:30px;">專為短影片與插曲設計的 AI 配樂引擎</p>
+                    <div style="padding: 40px; max-width: 1100px; margin: 0 auto;">
+                        <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:6px;">ToneForge <span style="color:var(--brand)">AI Music</span></h1>
+                        <p style="color:var(--muted); margin-bottom:30px;">Generate royalty-free music for any project. Describe the mood, get the track.</p>
                         
-                        <div style="display:grid; grid-template-columns: 400px 1fr; gap:30px;">
+                        <div style="display:grid; grid-template-columns: 420px 1fr; gap:30px;">
                             <div class="create-panel" style="min-height: auto; border-color: var(--brand);">
                                 <div class="input-group">
-                                    <label>音樂風格 (Music Style)</label>
-                                    <select id="toneStyle" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border); padding:12px; border-radius:8px; color:white; outline:none;">
-                                        <option value="Lofi Hip Hop">Lofi Hip Hop (放鬆隨興)</option>
-                                        <option value="Cinematic">Cinematic (壯闊史詩)</option>
-                                        <option value="Cyberpunk Techno">Cyberpunk Techno (科幻重音)</option>
-                                        <option value="Acoustic Folk">Acoustic Folk (溫暖民謠)</option>
-                                        <option value="Epic Orchestral">Epic Orchestral (磅礡管弦)</option>
-                                    </select>
+                                    <label><i class="fa-solid fa-guitar" style="margin-right:6px; opacity:0.5;"></i> Genre</label>
+                                    <div class="tag-cloud" id="toneGenreTags" style="margin-bottom:8px;">
+                                        <span class="tag-chip selected" data-value="Lofi Hip Hop">Lofi Hip Hop</span>
+                                        <span class="tag-chip" data-value="Cinematic">Cinematic</span>
+                                        <span class="tag-chip" data-value="Cyberpunk Techno">Techno</span>
+                                        <span class="tag-chip" data-value="Acoustic Folk">Folk</span>
+                                        <span class="tag-chip" data-value="Epic Orchestral">Orchestral</span>
+                                        <span class="tag-chip" data-value="Ambient Chill">Ambient</span>
+                                        <span class="tag-chip" data-value="Dark Trap">Trap</span>
+                                        <span class="tag-chip" data-value="Retro Synthpop">Synthpop</span>
+                                    </div>
+                                    <input type="hidden" id="toneStyle" value="Lofi Hip Hop">
                                 </div>
                                 <div class="input-group">
-                                    <label>氛圍描述 (Atmosphere)</label>
-                                    <textarea id="toneMood" placeholder="例如：深夜下雨的街道、孤獨但有希望的旋律..." style="min-height:80px;"></textarea>
+                                    <label><i class="fa-solid fa-cloud" style="margin-right:6px; opacity:0.5;"></i> Mood & Atmosphere</label>
+                                    <div class="tag-cloud" id="toneMoodTags" style="margin-bottom:8px;">
+                                        <span class="tag-chip" data-value="深夜下雨的街道">Rainy Night</span>
+                                        <span class="tag-chip" data-value="孤獨但有希望">Hopeful</span>
+                                        <span class="tag-chip" data-value="緊張刺激追逐">Tense</span>
+                                        <span class="tag-chip" data-value="溫暖幸福的時光">Warm</span>
+                                        <span class="tag-chip" data-value="史詩般的戰鬥">Epic Battle</span>
+                                        <span class="tag-chip" data-value="夢幻空靈">Dreamy</span>
+                                        <span class="tag-chip" data-value="暗黑神秘">Dark</span>
+                                        <span class="tag-chip" data-value="歡樂派對">Party</span>
+                                    </div>
+                                    <textarea id="toneMood" placeholder="Or type your own mood description..." style="min-height:70px;"></textarea>
                                 </div>
                                 <div class="input-group">
-                                    <label>長度 (Duration)</label>
+                                    <label>Duration</label>
                                     <div class="settings-row">
                                         <div class="setting-btn active" onclick="selectToneLen(this, 15)">15s</div>
                                         <div class="setting-btn" onclick="selectToneLen(this, 30)">30s</div>
                                         <div class="setting-btn" onclick="selectToneLen(this, 60)">60s</div>
+                                        <div class="setting-btn" onclick="selectToneLen(this, 120)" style="color:var(--tf-brand); border-color:rgba(185,122,245,0.4);"><i class="fa-solid fa-crown"></i> 2min</div>
                                     </div>
                                 </div>
-                                <button class="cyber-btn" onclick="forgeMusic()">START FORGING <i class="fa-solid fa-hammer"></i></button>
+                                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
+                                    <button class="cyber-btn" onclick="forgeMusic()" style="margin-top: 0; border-color: var(--brand); color: var(--brand);">START FORGING <i class="fa-solid fa-hammer" style="margin-left:8px;"></i></button>
+                                </div>
                             </div>
                             
                             <div class="feed-panel">
-                                <div id="toneResult" style="background:var(--panel); border:1px solid var(--brand); border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:400px; box-shadow: 0 0 30px var(--brand-dim);">
+                                <div id="toneResult" style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:450px; transition: border-color 0.3s;">
                                     <div id="toneStatus">
                                         <i class="fa-solid fa-music" style="font-size:3rem; color:var(--brand); opacity:0.6; margin-bottom:20px;"></i>
-                                        <p style="color:var(--muted);">設定參數並開始鍛造你的專屬配樂</p>
+                                        <p style="color:var(--muted);">Set your parameters and start forging your custom soundtrack.</p>
                                     </div>
                                     <div id="tonePlayer" style="display:none; width:100%;">
-                                        <h3 id="toneTitle" style="margin-bottom:15px; text-align:center;"></h3>
-                                        <audio id="audioOut" controls style="width:100%; margin-bottom:20px;"></audio>
-                                        <a id="toneDownload" download class="cyber-btn" style="background:var(--brand-dim); color:var(--brand); border-color:var(--brand); text-decoration:none; display:flex; align-items:center; justify-content:center;">DOWNLOAD .WAV</a>
+                                        <h3 id="toneTitle" style="margin-bottom:12px; text-align:center;"></h3>
+                                        <div class="waveform-preview" id="toneWaveform" style="height:60px; margin-bottom:16px; justify-content:center;"></div>
+                                        <audio id="audioOut" controls style="width:100%; margin-bottom:16px;"></audio>
+                                        <div style="display:flex; gap:10px;">
+                                            <a id="toneDownload" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center; border-color:var(--brand); color:var(--brand);"><i class="fa-solid fa-download"></i> Download WAV</a>
+                                            <button class="setting-btn" onclick="switchTab(null,'screening')" style="flex:1;"><i class="fa-solid fa-film"></i> View in Screening Room</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1078,7 +1182,7 @@
                                     <label>Backend URL</label>
                                     <input type="text" id="backendUrlInput" value="${BACKEND_URL}" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border); padding:12px; border-radius:8px; color:white; outline:none; font-family:monospace; font-size:0.85rem;">
                                 </div>
-                                <button class="setting-btn" style="margin-top:12px;" onclick="window.__BACKEND_URL=document.getElementById('backendUrlInput').value; alert('Backend URL updated! (session only)');">Apply (Session)</button>
+                                <button class="setting-btn" style="margin-top:12px;" onclick="localStorage.setItem('kc_backend_url', document.getElementById('backendUrlInput').value); alert('Backend URL saved! Refresh to apply.');">Save URL</button>
                             </div>
                             
                             <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px;">
