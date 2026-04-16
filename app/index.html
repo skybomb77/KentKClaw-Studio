@@ -147,9 +147,12 @@
             <a href="#" class="nav-item" onclick="switchTab(event, 'dashboard')"><i class="fa-solid fa-house"></i> Dashboard</a>
             
             <div class="nav-section-title">STUDIO ENGINES</div>
-            <a href="#" class="nav-item active" onclick="switchTab(event, 'create')" style="border-left-color: var(--wv-brand);"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--wv-brand);"></i> WireVision (MV)</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'create')" style="border-left-color: var(--wv-brand);"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--wv-brand);"></i> WireVision (MV)</a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'img2vid')" style="border-left-color: #38d5ff;"><i class="fa-solid fa-images" style="color: #38d5ff;"></i> FrameForge (Anim)</a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'toneforge')" style="border-left-color: var(--tf-brand);"><i class="fa-solid fa-music" style="color: var(--tf-brand);"></i> ToneForge (Audio)</a>
+            
+            <div class="nav-section-title" style="margin-top: 24px;">PIPELINE</div>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'pipeline')" style="border-left-color: #f59e0b; background: rgba(245,158,11,0.05);"><i class="fa-solid fa-rocket" style="color: #f59e0b;"></i> All-in-One Studio</a>
             
             <div class="nav-section-title" style="margin-top: 24px;">TOOLS</div>
             <a href="#" class="nav-item" onclick="switchTab(event, 'screening')"><i class="fa-solid fa-film"></i> My Screening Room</a>
@@ -841,6 +844,179 @@
             document.getElementById('toneMood').value = chip.dataset.value;
         });
 
+        // Pipeline tag handlers
+        document.addEventListener('click', e => {
+            const chip = e.target.closest('#pipeStyleTags .tag-chip');
+            if(chip) {
+                document.querySelectorAll('#pipeStyleTags .tag-chip').forEach(c => c.classList.remove('selected'));
+                chip.classList.add('selected');
+                document.getElementById('pipePrompt').value = chip.dataset.prompt;
+            }
+        });
+        document.addEventListener('click', e => {
+            const chip = e.target.closest('#pipeGenreTags .tag-chip');
+            if(chip) {
+                document.querySelectorAll('#pipeGenreTags .tag-chip').forEach(c => c.classList.remove('selected'));
+                chip.classList.add('selected');
+                document.getElementById('pipeGenre').value = chip.dataset.value;
+            }
+        });
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('#pipeRatioSelector .setting-btn');
+            if(btn) {
+                document.querySelectorAll('#pipeRatioSelector .setting-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('pipeRatio').value = btn.dataset.ratio;
+            }
+        });
+        function selectPipeLen(el, len) {
+            el.parentElement.querySelectorAll('.setting-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('pipeLen').value = len;
+        }
+
+        // ======= Pipeline Orchestrator =======
+        async function runPipeline() {
+            const credits = GenerationStore.getCredits();
+            if(credits < 2) { alert('Need at least 2 credits! You have ' + credits + '. Go to Settings to reset.'); return; }
+            
+            const btn = document.getElementById('pipeBtn');
+            const genre = document.getElementById('pipeGenre').value;
+            const duration = parseInt(document.getElementById('pipeLen').value);
+            const prompt = document.getElementById('pipePrompt').value;
+            const ratio = document.getElementById('pipeRatio').value;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> PIPELINE RUNNING...';
+            btn.style.pointerEvents = 'none';
+            
+            document.getElementById('pipeStatus').style.display = 'none';
+            document.getElementById('pipeProgress').style.display = 'block';
+            const log = document.getElementById('pipeLog');
+            log.innerHTML = '';
+            
+            function pipeLog(msg) {
+                log.innerHTML += '> ' + msg + '\\n';
+                log.scrollTop = log.scrollHeight;
+            }
+            function setPipeStep(n) {
+                for(let i=1; i<=3; i++) {
+                    const el = document.getElementById('pStep'+i);
+                    if(i < n) { el.style.borderColor = '#f59e0b'; el.style.background = 'rgba(245,158,11,0.05)'; el.querySelector('div:last-child').style.color = 'var(--muted)'; }
+                    else if(i === n) { el.style.borderColor = '#f59e0b'; el.style.background = 'rgba(245,158,11,0.15)'; }
+                    else { el.style.borderColor = 'var(--border)'; el.style.background = 'rgba(255,255,255,0.02)'; }
+                }
+            }
+            
+            let audioUrl = null;
+            
+            try {
+                // STEP 1: Generate Music
+                setPipeStep(1);
+                pipeLog('Step 1/3: Generating music (' + genre + ', ' + duration + 's)...');
+                
+                const musicResp = await fetchWithRetry(
+                    BACKEND_URL.startsWith('http') ? BACKEND_URL + '/api/forge-music' : '/api/forge-music',
+                    { method: 'POST', headers: { 'Content-Type': 'application/json', 'bypass-tunnel-reminder': 'true', 'ngrok-skip-browser-warning': 'true' }, body: JSON.stringify({ style: genre, mood: prompt, duration: duration }) }
+                );
+                const musicData = await musicResp.json();
+                if(!musicData.success) throw new Error('Music generation failed: ' + (musicData.error || 'Unknown'));
+                
+                audioUrl = musicData.audioUrl;
+                if(BACKEND_URL.startsWith('http') && audioUrl.includes('localhost:3000')) audioUrl = audioUrl.replace(/http:\/\/localhost:3000/, BACKEND_URL);
+                else if(BACKEND_URL.startsWith('http') && audioUrl.includes('127.0.0.1:3000')) audioUrl = audioUrl.replace(/http:\/\/127\.0\.0\.1:3000/, BACKEND_URL);
+                
+                pipeLog('Music generated! URL: ' + audioUrl.substring(0, 50) + '...');
+                document.getElementById('pipeAudioSection').style.display = 'block';
+                document.getElementById('pipeAudioOut').src = audioUrl;
+                document.getElementById('pipeAudioDownload').href = audioUrl;
+                
+                // Save music to history
+                GenerationStore.save({ type: 'toneforge', name: genre + ' - ' + duration + 's (Pipeline)', prompt: prompt, url: audioUrl });
+                GenerationStore.useCredit();
+                updateCreditDisplay();
+                
+                // STEP 2: Generate Video (WireVision)
+                setPipeStep(2);
+                pipeLog('Step 2/3: Generating video with audio...');
+                
+                // Fetch the audio file to upload
+                const audioBlob = await fetch(audioUrl).then(r => r.blob());
+                const audioFile = new File([audioBlob], 'pipeline_audio.mp3', { type: 'audio/mpeg' });
+                
+                const formData = new FormData();
+                formData.append('audio', audioFile);
+                formData.append('prompt', prompt);
+                formData.append('lyrics', '');
+                formData.append('ratio', ratio);
+                formData.append('resolution', '720p');
+                
+                const mvResp = await fetchWithRetry(
+                    BACKEND_URL.startsWith('http') ? BACKEND_URL + '/api/generate-mv' : '/api/generate-mv',
+                    { method: 'POST', headers: { 'bypass-tunnel-reminder': 'true', 'ngrok-skip-browser-warning': 'true' }, body: formData }
+                );
+                const mvData = await mvResp.json();
+                if(mvData.error) throw new Error('Video generation failed: ' + mvData.error);
+                
+                pipeLog('Video job started (ID: ' + mvData.jobId + '). Listening for progress...');
+                
+                // WebSocket for progress
+                let wsUrl;
+                if(BACKEND_URL.startsWith('https')) wsUrl = BACKEND_URL.replace('https', 'wss') + '/api/ws/' + mvData.jobId;
+                else if(BACKEND_URL.startsWith('http')) wsUrl = BACKEND_URL.replace('http', 'ws') + '/api/ws/' + mvData.jobId;
+                else wsUrl = (location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + location.host + '/api/ws/' + mvData.jobId;
+                
+                await new Promise((resolve, reject) => {
+                    const socket = new WebSocket(wsUrl);
+                    socket.onmessage = function(event) {
+                        const msg = JSON.parse(event.data);
+                        if(msg.type === 'progress') {
+                            pipeLog('GPU rendering... ' + msg.percent + '%');
+                        } else if(msg.type === 'done') {
+                            let videoUrl = msg.url;
+                            if(BACKEND_URL.startsWith('http') && videoUrl.includes('127.0.0.1:8188')) videoUrl = videoUrl.replace(/http:\/\/127\.0\.0\.1:8188/, BACKEND_URL);
+                            pipeLog('Video generated!');
+                            
+                            setPipeStep(3);
+                            pipeLog('Step 3/3: Export ready!');
+                            
+                            document.getElementById('pipeVideoSection').style.display = 'block';
+                            document.getElementById('pipeVideoOut').src = videoUrl;
+                            document.getElementById('pipeVideoDownload').href = videoUrl;
+                            
+                            // Save video to history
+                            GenerationStore.save({ type: 'wirevision', name: 'Pipeline: ' + genre, prompt: prompt, url: videoUrl, ratio: ratio });
+                            GenerationStore.useCredit();
+                            updateCreditDisplay();
+                            
+                            // Mark all steps done
+                            for(let i=1;i<=3;i++) {
+                                const el = document.getElementById('pStep'+i);
+                                el.style.borderColor = '#f59e0b'; el.style.background = 'rgba(245,158,11,0.1)';
+                            }
+                            
+                            pipeLog('Pipeline complete! 🎉');
+                            socket.close();
+                            resolve();
+                        } else if(msg.type === 'error') {
+                            pipeLog('ERROR: ' + msg.msg);
+                            socket.close();
+                            reject(new Error(msg.msg));
+                        }
+                    };
+                    socket.onerror = function() { reject(new Error('WebSocket connection failed')); };
+                });
+                
+            } catch(e) {
+                pipeLog('Pipeline failed: ' + e.message);
+                document.getElementById('pipeResult').style.borderColor = '#ef4444';
+            }
+            
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-rocket" style="margin-right:8px;"></i> START PIPELINE';
+            btn.style.pointerEvents = 'auto';
+        }
+
         // Init
         window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -862,7 +1038,117 @@
                 });
             }
             
-            if(tab === 'create') {
+            if(tab === 'pipeline') {
+                document.body.classList.remove('toneforge-mode');
+                document.body.classList.remove('frameforge-mode');
+                document.getElementById('create-view').style.display = 'none';
+                document.getElementById('other-view').style.display = 'block';
+                document.getElementById('other-view').innerHTML = `
+                    <div style="padding: 40px; max-width: 1100px; margin: 0 auto;">
+                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:6px;">
+                            <div style="width:40px; height:40px; background:linear-gradient(135deg, #f59e0b, #ef4444); border-radius:10px; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-rocket" style="color:#fff;"></i></div>
+                            <h1 style="font-family:'Orbitron', sans-serif;">All-in-One Studio</h1>
+                        </div>
+                        <p style="color:var(--muted); margin-bottom:30px;">One click to create a complete music video. AI generates the music, then the visuals — fully automated.</p>
+                        
+                        <div style="display:flex; gap:8px; margin-bottom:30px;" id="pipelineSteps">
+                            <div id="pStep1" style="flex:1; padding:12px; background:rgba(245,158,11,0.1); border:1px solid #f59e0b; border-radius:12px; text-align:center;">
+                                <div style="font-size:0.7rem; color:#f59e0b; margin-bottom:4px;">STEP 1</div>
+                                <div style="font-size:0.85rem; font-weight:600;">🎵 Generate Music</div>
+                            </div>
+                            <div style="display:flex; align-items:center; color:var(--muted);"><i class="fa-solid fa-arrow-right"></i></div>
+                            <div id="pStep2" style="flex:1; padding:12px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:12px; text-align:center;">
+                                <div style="font-size:0.7rem; color:var(--muted); margin-bottom:4px;">STEP 2</div>
+                                <div style="font-size:0.85rem; font-weight:600; color:var(--muted);">🎬 Generate Video</div>
+                            </div>
+                            <div style="display:flex; align-items:center; color:var(--muted);"><i class="fa-solid fa-arrow-right"></i></div>
+                            <div id="pStep3" style="flex:1; padding:12px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:12px; text-align:center;">
+                                <div style="font-size:0.7rem; color:var(--muted); margin-bottom:4px;">STEP 3</div>
+                                <div style="font-size:0.85rem; font-weight:600; color:var(--muted);">✨ Export</div>
+                            </div>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns: 420px 1fr; gap:30px;">
+                            <div class="create-panel" style="min-height:auto; border-color:#f59e0b;">
+                                <div class="input-group">
+                                    <label><i class="fa-solid fa-palette" style="margin-right:6px; opacity:0.5;"></i> Visual Style</label>
+                                    <div class="tag-cloud" id="pipeStyleTags" style="margin-bottom:8px;">
+                                        <span class="tag-chip selected" data-prompt="dark cyberpunk street, raining, cinematic lighting, neon glow">Cyberpunk</span>
+                                        <span class="tag-chip" data-prompt="retro 80s synthwave landscape, glowing grid, neon sunset">Synthwave</span>
+                                        <span class="tag-chip" data-prompt="cozy lo-fi bedroom, rain on window, warm glow, anime">Lo-fi</span>
+                                        <span class="tag-chip" data-prompt="epic mountain landscape, dramatic clouds, golden hour">Nature</span>
+                                        <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, anime city">Tokyo Pop</span>
+                                        <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors">Abstract</span>
+                                    </div>
+                                    <textarea id="pipePrompt" placeholder="Or write your own visual description..." style="min-height:70px;">dark cyberpunk street, raining, cinematic lighting, neon glow</textarea>
+                                </div>
+                                <div class="input-group">
+                                    <label><i class="fa-solid fa-guitar" style="margin-right:6px; opacity:0.5;"></i> Music Genre</label>
+                                    <div class="tag-cloud" id="pipeGenreTags" style="margin-bottom:8px;">
+                                        <span class="tag-chip selected" data-value="Lofi Hip Hop">Lofi</span>
+                                        <span class="tag-chip" data-value="Cinematic">Cinematic</span>
+                                        <span class="tag-chip" data-value="Cyberpunk Techno">Techno</span>
+                                        <span class="tag-chip" data-value="Epic Orchestral">Orchestral</span>
+                                        <span class="tag-chip" data-value="Acoustic Folk">Folk</span>
+                                        <span class="tag-chip" data-value="Ambient Chill">Ambient</span>
+                                    </div>
+                                    <input type="hidden" id="pipeGenre" value="Lofi Hip Hop">
+                                </div>
+                                <div class="input-group">
+                                    <label>Music Duration</label>
+                                    <div class="settings-row">
+                                        <div class="setting-btn active" onclick="selectPipeLen(this, 15)">15s</div>
+                                        <div class="setting-btn" onclick="selectPipeLen(this, 30)">30s</div>
+                                        <div class="setting-btn" onclick="selectPipeLen(this, 60)">60s</div>
+                                    </div>
+                                    <input type="hidden" id="pipeLen" value="15">
+                                </div>
+                                <div class="input-group">
+                                    <label>Aspect Ratio</label>
+                                    <div class="settings-row" id="pipeRatioSelector">
+                                        <div class="setting-btn active" data-ratio="9:16"><i class="fa-solid fa-mobile-screen"></i> 9:16</div>
+                                        <div class="setting-btn" data-ratio="1:1"><i class="fa-solid fa-square"></i> 1:1</div>
+                                        <div class="setting-btn" data-ratio="16:9"><i class="fa-solid fa-display"></i> 16:9</div>
+                                    </div>
+                                    <input type="hidden" id="pipeRatio" value="9:16">
+                                </div>
+                                <div style="display:flex; flex-direction:column; gap:10px; margin-top:16px;">
+                                    <button class="cyber-btn" onclick="runPipeline()" id="pipeBtn" style="margin-top:0; border-color:#f59e0b; color:#f59e0b; background:rgba(245,158,11,0.05);">
+                                        <i class="fa-solid fa-rocket" style="margin-right:8px;"></i> START PIPELINE
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="feed-panel">
+                                <div id="pipeResult" style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:30px; min-height:500px; transition:border-color 0.3s;">
+                                    <div id="pipeStatus" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; min-height:440px;">
+                                        <i class="fa-solid fa-rocket" style="font-size:3rem; color:#f59e0b; opacity:0.5; margin-bottom:20px;"></i>
+                                        <h3 style="margin-bottom:8px;">Ready to Launch</h3>
+                                        <p style="color:var(--muted); text-align:center;">Configure your style and hit START.<br>AI will generate music, then video — fully automated.</p>
+                                        <p style="color:#f59e0b; font-size:0.8rem; margin-top:12px;"><i class="fa-solid fa-coins" style="margin-right:4px;"></i> Uses 2 credits (music + video)</p>
+                                    </div>
+                                    <div id="pipeProgress" style="display:none;">
+                                        <div id="pipeLog" style="background:#000; border:1px solid var(--border); border-left:3px solid #f59e0b; border-radius:12px; padding:16px; font-family:monospace; font-size:0.8rem; color:#f59e0b; height:150px; overflow-y:auto; margin-bottom:20px; line-height:1.6;"></div>
+                                        <div id="pipeAudioSection" style="display:none; margin-bottom:20px;">
+                                            <h4 style="margin-bottom:8px; color:var(--muted); font-size:0.85rem;">🎵 Generated Music</h4>
+                                            <audio id="pipeAudioOut" controls style="width:100%;"></audio>
+                                        </div>
+                                        <div id="pipeVideoSection" style="display:none;">
+                                            <h4 style="margin-bottom:8px; color:var(--muted); font-size:0.85rem;">🎬 Generated Video</h4>
+                                            <video id="pipeVideoOut" autoplay loop controls style="width:100%; border-radius:12px; margin-bottom:16px;"></video>
+                                            <div style="display:flex; gap:10px;">
+                                                <a id="pipeVideoDownload" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center; border-color:#f59e0b; color:#f59e0b;"><i class="fa-solid fa-download"></i> Download Video</a>
+                                                <a id="pipeAudioDownload" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center; border-color:var(--tf-brand); color:var(--tf-brand);"><i class="fa-solid fa-music"></i> Download Audio</a>
+                                                <button class="setting-btn" onclick="switchTab(null,'screening')" style="flex:1;"><i class="fa-solid fa-film"></i> Screening Room</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if(tab === 'create') {
                 document.body.classList.remove('toneforge-mode');
                 document.body.classList.remove('frameforge-mode');
                 document.getElementById('create-view').style.display = 'grid';
