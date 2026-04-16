@@ -807,7 +807,24 @@
                 wvBtn: "Launch MV Creator",
                 footer: "© 2026 Kent & KClaw Studio. All rights reserved.",
                 terms: "Terms of Service",
-                privacy: "Privacy Policy"
+                privacy: "Privacy Policy",
+                pricingTag: "PRICING",
+                pricingTitle: "Simple, transparent pricing",
+                pricingSub: "Start free. Scale when you're ready.",
+                perMonth: "/ month",
+                planFree: "Free", freeDesc: "Perfect for trying things out.",
+                freeF1: "5 music generations / day", freeF2: "2 video generations / day",
+                freeF3: "720p export quality", freeF4: "Standard processing speed", freeF5: "Community support",
+                freeCTA: "Get Started Free",
+                planPro: "Pro", proDesc: "For creators who ship daily.",
+                proF1: "Unlimited music generations", proF2: "50 video generations / day",
+                proF3: "1080p export quality", proF4: "Priority processing",
+                proF5: "Commercial license included", proF6: "Email support",
+                proCTA: "Start Pro Trial",
+                planEnt: "Enterprise", entPrice: "Custom", entDesc: "For teams and agencies.",
+                entF1: "Everything in Pro", entF2: "Unlimited everything",
+                entF3: "4K export quality", entF4: "API access",
+                entF5: "Dedicated account manager", entF6: "Custom integrations"
             },
             zh: {
                 navTone: "ToneForge 音樂",
@@ -834,7 +851,24 @@
                 wvBtn: "啟動 MV 產生器 (SaaS)",
                 footer: "© 2026 Kent & KClaw Studio. 保留所有權利。",
                 terms: "服務條款",
-                privacy: "隱私權政策"
+                privacy: "隱私權政策",
+                pricingTag: "價格方案",
+                pricingTitle: "簡單透明的價格",
+                pricingSub: "免費開始，需要時再升級。",
+                perMonth: "/ 月",
+                planFree: "免費版", freeDesc: "適合初次體驗。",
+                freeF1: "每日 5 次音樂生成", freeF2: "每日 2 次影片生成",
+                freeF3: "720p 匯出畫質", freeF4: "標準處理速度", freeF5: "社群支援",
+                freeCTA: "免費開始",
+                planPro: "Pro 專業版", proDesc: "適合每天創作的創作者。",
+                proF1: "無限音樂生成", proF2: "每日 50 次影片生成",
+                proF3: "1080p 匯出畫質", proF4: "優先處理",
+                proF5: "含商業授權", proF6: "Email 客服支援",
+                proCTA: "開始 Pro 試用",
+                planEnt: "企業版", entPrice: "客製報價", entDesc: "適合團隊與代理商。",
+                entF1: "Pro 版全部功能", entF2: "無限使用",
+                entF3: "4K 匯出畫質", entF4: "API 存取",
+                entF5: "專屬客戶經理", entF6: "客製化整合"
             }
         };
 
@@ -852,6 +886,18 @@
                     }
                 }
             });
+
+            // Switch prices based on language
+            const priceFree = document.getElementById('price-free');
+            const pricePro = document.getElementById('price-pro');
+            if (priceFree) {
+                priceFree.innerHTML = currentLang === 'zh' ? 'NT$0' : '$0';
+                priceFree.innerHTML += ' <span data-i18n="perMonth">' + (currentLang === 'zh' ? '/ 月' : '/ month') + '</span>';
+            }
+            if (pricePro) {
+                pricePro.innerHTML = currentLang === 'zh' ? 'NT$490' : '$15';
+                pricePro.innerHTML += ' <span data-i18n="perMonth">' + (currentLang === 'zh' ? '/ 月' : '/ month') + '</span>';
+            }
             
             const langToggleBtn = document.getElementById('langToggle');
             if(langToggleBtn) {
@@ -1004,49 +1050,49 @@ document.body.appendChild(script);
     <!-- Pricing -->
     <section class="pricing" id="pricing">
         <div style="margin-bottom: 10px;">
-            <p style="color: var(--accent-purple); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Pricing</p>
+            <p style="color: var(--accent-purple); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;" data-i18n="pricingTag">Pricing</p>
         </div>
-        <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Simple, transparent pricing</h2>
-        <p style="color: var(--text-secondary);">Start free. Scale when you're ready.</p>
+        <h2 style="font-size: 2.5rem; margin-bottom: 12px;" data-i18n="pricingTitle">Simple, transparent pricing</h2>
+        <p style="color: var(--text-secondary);" data-i18n="pricingSub">Start free. Scale when you're ready.</p>
         <div class="pricing-grid">
             <div class="price-card">
-                <p class="plan-name">Free</p>
-                <p class="price">$0 <span>/ month</span></p>
-                <p class="price-desc">Perfect for trying things out.</p>
+                <p class="plan-name" data-i18n="planFree">Free</p>
+                <p class="price" id="price-free">$0 <span data-i18n="perMonth">/ month</span></p>
+                <p class="price-desc" data-i18n="freeDesc">Perfect for trying things out.</p>
                 <ul>
-                    <li><i class="fa-solid fa-check"></i> 5 music generations / day</li>
-                    <li><i class="fa-solid fa-check"></i> 2 video generations / day</li>
-                    <li><i class="fa-solid fa-check"></i> 720p export quality</li>
-                    <li><i class="fa-solid fa-check"></i> Standard processing speed</li>
-                    <li><i class="fa-solid fa-check"></i> Community support</li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="freeF1">5 music generations / day</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="freeF2">2 video generations / day</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="freeF3">720p export quality</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="freeF4">Standard processing speed</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="freeF5">Community support</span></li>
                 </ul>
-                <a href="app/index.html" class="btn" style="border: 1px solid var(--border-color);">Get Started Free</a>
+                <a href="app/index.html" class="btn" style="border: 1px solid var(--border-color);" data-i18n="freeCTA">Get Started Free</a>
             </div>
             <div class="price-card featured">
-                <p class="plan-name">Pro</p>
-                <p class="price">$15 <span>/ month</span></p>
-                <p class="price-desc">For creators who ship daily.</p>
+                <p class="plan-name" data-i18n="planPro">Pro</p>
+                <p class="price" id="price-pro">$15 <span data-i18n="perMonth">/ month</span></p>
+                <p class="price-desc" data-i18n="proDesc">For creators who ship daily.</p>
                 <ul>
-                    <li><i class="fa-solid fa-check"></i> Unlimited music generations</li>
-                    <li><i class="fa-solid fa-check"></i> 50 video generations / day</li>
-                    <li><i class="fa-solid fa-check"></i> 1080p export quality</li>
-                    <li><i class="fa-solid fa-check"></i> Priority processing</li>
-                    <li><i class="fa-solid fa-check"></i> Commercial license included</li>
-                    <li><i class="fa-solid fa-check"></i> Email support</li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="proF1">Unlimited music generations</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="proF2">50 video generations / day</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="proF3">1080p export quality</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="proF4">Priority processing</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="proF5">Commercial license included</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="proF6">Email support</span></li>
                 </ul>
-                <a href="app/index.html" class="btn btn-primary">Start Pro Trial</a>
+                <a href="app/index.html" class="btn btn-primary" data-i18n="proCTA">Start Pro Trial</a>
             </div>
             <div class="price-card">
-                <p class="plan-name">Enterprise</p>
-                <p class="price">Custom</p>
-                <p class="price-desc">For teams and agencies.</p>
+                <p class="plan-name" data-i18n="planEnt">Enterprise</p>
+                <p class="price" id="price-ent" data-i18n="entPrice">Custom</p>
+                <p class="price-desc" data-i18n="entDesc">For teams and agencies.</p>
                 <ul>
-                    <li><i class="fa-solid fa-check"></i> Everything in Pro</li>
-                    <li><i class="fa-solid fa-check"></i> Unlimited everything</li>
-                    <li><i class="fa-solid fa-check"></i> 4K export quality</li>
-                    <li><i class="fa-solid fa-check"></i> API access</li>
-                    <li><i class="fa-solid fa-check"></i> Dedicated account manager</li>
-                    <li><i class="fa-solid fa-check"></i> Custom integrations</li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="entF1">Everything in Pro</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="entF2">Unlimited everything</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="entF3">4K export quality</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="entF4">API access</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="entF5">Dedicated account manager</span></li>
+                    <li><i class="fa-solid fa-check"></i> <span data-i18n="entF6">Custom integrations</span></li>
                 </ul>
                 <a href="contact.html" class="btn" style="border: 1px solid var(--border-color);">Contact Sales</a>
             </div>
