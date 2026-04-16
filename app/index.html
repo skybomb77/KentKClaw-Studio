@@ -166,7 +166,10 @@
     <!-- 主內容區 -->
     <main class="main-content" id="mainApp">
         <header class="header">
-            <div style="font-weight: 500; color: var(--muted);">AI Studio | 剩餘點數: <span id="creditCount" style="color: var(--brand); font-weight: 700;">50</span> Credits</div>
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div id="planBadge" style="font-size:0.65rem; font-weight:700; letter-spacing:1.5px; padding:3px 10px; border-radius:999px; cursor:pointer;" onclick="togglePlanDisplay()" title="Click to switch plan for testing"></div>
+                <div style="font-weight: 500; color: var(--muted);">AI Studio | <span id="creditCount" style="color: var(--brand); font-weight: 700;">10</span>/<span id="creditMax">10</span> Credits | <span id="monthlyUsage" style="font-size:0.8rem;">0</span>/<span id="monthlyLimit">10</span> monthly</div>
+            </div>
             <div class="user-profile">
                 <div id="user-button"></div>
             </div>
@@ -175,7 +178,7 @@
         <div id="other-view" style="display:none;"></div>
         <div class="content-grid" id="create-view">
             <form id="uploadForm" class="create-panel">
-                <div class="panel-title">WireVision <div class="custom-toggle"><i class="fa-solid fa-sliders"></i> Pro Mode</div></div>
+                <div class="panel-title">WireVision <div class="custom-toggle" id="proModeToggle" onclick="toggleProMode()" style="cursor:pointer;"><i class="fa-solid fa-sliders"></i> <span id="proModeLabel">Pro Mode</span> <span id="proModeLock" style="font-size:0.7rem; margin-left:4px;"></span></div></div>
                 
                 <div class="step-indicator">
                     <div class="step-dot active" id="step1dot"></div>
@@ -209,8 +212,8 @@
                         <span class="tag-chip" data-prompt="fantasy gothic castle, red moon, dramatic lighting, dark atmosphere">Gothic</span>
                         <span class="tag-chip" data-prompt="cozy lo-fi bedroom, rain on window, warm lamp glow, anime aesthetic">Lo-fi</span>
                         <span class="tag-chip" data-prompt="epic mountain landscape, dramatic clouds, golden hour, cinematic">Nature</span>
-                        <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors, organic motion">Abstract</span>
-                        <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, vibrant anime city">Tokyo Pop</span>
+                        <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors, organic motion" data-pro="true">✨ Abstract</span>
+                        <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, vibrant anime city" data-pro="true">✨ Tokyo Pop</span>
                     </div>
                     <textarea id="promptInput" name="prompt" placeholder="Describe the visual vibe you want...">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
                     <div style="text-align:right; font-size:0.7rem; color:var(--muted); margin-top:4px;"><span id="promptCharCount">0</span>/500</div>
@@ -232,12 +235,35 @@
                 </div>
                 
                 <div class="input-group" style="margin-top: 16px;">
-                    <label>Resolution</label>
+                    <label>Resolution <span id="resLock" style="font-size:0.7rem;"></span></label>
                     <div class="settings-row" id="resSelector">
                         <div class="setting-btn active" data-res="720p">720p Standard</div>
                         <div class="setting-btn" data-res="1080p" style="color: #7c5cff; border-color: rgba(124,92,255,0.5);"><i class="fa-solid fa-crown"></i> 1080p Pro</div>
                     </div>
                     <input type="hidden" name="resolution" id="resInput" value="720p">
+                </div>
+
+                <!-- Pro Mode Advanced Panel -->
+                <div id="proAdvancedPanel" style="display:none; background: linear-gradient(180deg, rgba(124,92,255,0.06) 0%, rgba(124,92,255,0.02) 100%); border: 1px solid rgba(124,92,255,0.3); border-radius: 12px; padding: 20px; margin-top: 16px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px; color:#7c5cff; font-weight:600; font-size:0.9rem;">
+                        <i class="fa-solid fa-sliders"></i> PRO Advanced Settings
+                    </div>
+                    <div class="input-group" style="margin-bottom:12px;">
+                        <label style="font-size:0.85rem;">Guidance Scale (CFG) <span id="cfgValue" style="color:#7c5cff;">7.5</span></label>
+                        <input type="range" id="cfgSlider" min="1" max="20" step="0.5" value="7.5" style="width:100%; accent-color:#7c5cff;" oninput="document.getElementById('cfgValue').innerText=this.value">
+                    </div>
+                    <div class="input-group" style="margin-bottom:12px;">
+                        <label style="font-size:0.85rem;">Sampling Steps <span id="stepsValue" style="color:#7c5cff;">20</span></label>
+                        <input type="range" id="stepsSlider" min="10" max="50" step="1" value="20" style="width:100%; accent-color:#7c5cff;" oninput="document.getElementById('stepsValue').innerText=this.value">
+                    </div>
+                    <div class="input-group" style="margin-bottom:12px;">
+                        <label style="font-size:0.85rem;">Seed (0 = random)</label>
+                        <input type="number" id="seedInput" value="0" min="0" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(124,92,255,0.3); padding:8px; border-radius:6px; color:white; outline:none;">
+                    </div>
+                    <div class="input-group">
+                        <label style="font-size:0.85rem;">Negative Prompt</label>
+                        <textarea id="negPromptInput" placeholder="Things to avoid in generation..." style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(124,92,255,0.3); padding:8px; border-radius:6px; color:white; outline:none; resize:vertical; min-height:50px; font-size:0.85rem;">blurry, low quality, watermark, text</textarea>
+                    </div>
                 </div>
     
                 <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
@@ -298,6 +324,37 @@
     </main>
 
     <script>
+        // ======= 🚀 Plan 系統 (Free / Pro) =======
+        const PlanManager = {
+            KEY: 'kc_plan',
+            USAGE_KEY: 'kc_monthly_usage',
+            RESET_KEY: 'kc_usage_reset',
+            isPro() { return localStorage.getItem(this.KEY) === 'pro'; },
+            setPlan(p) { localStorage.setItem(this.KEY, p); this.applyPlanTheme(); updateCreditDisplay(); },
+            getMaxCredits() { return this.isPro() ? 100 : 10; },
+            getMonthlyUsage() { return parseInt(localStorage.getItem(this.USAGE_KEY) || '0'); },
+            addUsage() { localStorage.setItem(this.USAGE_KEY, this.getMonthlyUsage() + 1); },
+            getMonthlyLimit() { return this.isPro() ? 200 : 10; },
+            canGenerate() {
+                if (this.getMonthlyUsage() >= this.getMonthlyLimit()) return false;
+                return GenerationStore.getCredits() > 0;
+            },
+            getPlanLabel() { return this.isPro() ? 'PRO' : 'FREE'; },
+            getPlanColor() { return this.isPro() ? '#7c5cff' : '#a1a1aa'; },
+            applyPlanTheme() {
+                const header = document.querySelector('.header');
+                if (header) {
+                    if (this.isPro()) {
+                        header.style.borderBottom = '1px solid rgba(124,92,255,0.3)';
+                        header.style.background = 'linear-gradient(90deg, rgba(124,92,255,0.05), transparent)';
+                    } else {
+                        header.style.borderBottom = '1px solid var(--border)';
+                        header.style.background = 'transparent';
+                    }
+                }
+            }
+        };
+
         // ======= 🚀 商業級功能：本地儲存 & 點數系統 =======
         const GenerationStore = {
             KEY: 'kc_generations',
@@ -306,13 +363,118 @@
             save(item) { const all = this.getAll(); all.unshift({ ...item, id: Date.now(), createdAt: new Date().toISOString() }); localStorage.setItem(this.KEY, JSON.stringify(all.slice(0, 50))); },
             remove(id) { localStorage.setItem(this.KEY, JSON.stringify(this.getAll().filter(g => g.id !== id))); },
             clear() { localStorage.removeItem(this.KEY); },
-            getCredits() { return parseInt(localStorage.getItem(this.CREDITS_KEY) || '50'); },
-            setCredits(n) { localStorage.setItem(this.CREDITS_KEY, n); updateCreditDisplay(); },
+            getCredits() { return Math.min(parseInt(localStorage.getItem(this.CREDITS_KEY) || '10'), PlanManager.getMaxCredits()); },
+            setCredits(n) { localStorage.setItem(this.CREDITS_KEY, Math.min(n, PlanManager.getMaxCredits())); updateCreditDisplay(); },
             useCredit() { const c = this.getCredits(); if (c > 0) { this.setCredits(c - 1); return true; } return false; }
         };
         function updateCreditDisplay() {
             const el = document.getElementById('creditCount');
+            const maxEl = document.getElementById('creditMax');
+            const usageEl = document.getElementById('monthlyUsage');
+            const limitEl = document.getElementById('monthlyLimit');
+            const badge = document.getElementById('planBadge');
+            const resLock = document.getElementById('resLock');
+            const lock = document.getElementById('proModeLock');
+            
             if (el) el.innerText = GenerationStore.getCredits();
+            if (maxEl) maxEl.innerText = PlanManager.getMaxCredits();
+            if (usageEl) usageEl.innerText = PlanManager.getMonthlyUsage();
+            if (limitEl) limitEl.innerText = PlanManager.getMonthlyLimit();
+            
+            if (badge) {
+                if (PlanManager.isPro()) {
+                    badge.innerHTML = '<i class="fa-solid fa-crown" style="margin-right:4px;"></i> PRO';
+                    badge.style.background = 'rgba(124,92,255,0.2)';
+                    badge.style.color = '#7c5cff';
+                    badge.style.border = '1px solid rgba(124,92,255,0.5)';
+                } else {
+                    badge.innerText = 'FREE';
+                    badge.style.background = 'rgba(161,161,170,0.15)';
+                    badge.style.color = '#a1a1aa';
+                    badge.style.border = '1px solid rgba(161,161,170,0.3)';
+                }
+            }
+            
+            if (resLock) {
+                resLock.innerHTML = PlanManager.isPro() ? '' : '<i class="fa-solid fa-lock" style="color:#ef4444;"></i> <span style="color:#ef4444; font-size:0.7rem;">Upgrade to Pro for 1080p</span>';
+            }
+            if (lock) {
+                lock.innerHTML = PlanManager.isPro() ? '' : '🔒';
+            }
+            
+            // Lock 1080p button for Free users
+            const res1080p = document.querySelector('[data-res="1080p"]');
+            if (res1080p) {
+                if (!PlanManager.isPro()) {
+                    res1080p.style.opacity = '0.4';
+                    res1080p.style.pointerEvents = 'none';
+                    res1080p.style.cursor = 'not-allowed';
+                } else {
+                    res1080p.style.opacity = '1';
+                    res1080p.style.pointerEvents = 'auto';
+                    res1080p.style.cursor = 'pointer';
+                }
+            }
+            
+            PlanManager.applyPlanTheme();
+            applyProStyleLocks();
+        }
+        
+        // Pro Mode toggle
+        let proModeActive = false;
+        function toggleProMode() {
+            if (!PlanManager.isPro()) {
+                alert('🔒 Pro Mode is a Creator Pro feature!\nUpgrade to unlock advanced settings: CFG, Steps, Seed, Negative Prompt.');
+                return;
+            }
+            proModeActive = !proModeActive;
+            const panel = document.getElementById('proAdvancedPanel');
+            const label = document.getElementById('proModeLabel');
+            const toggle = document.getElementById('proModeToggle');
+            
+            if (proModeActive) {
+                panel.style.display = 'block';
+                label.innerText = 'Pro ON';
+                toggle.style.background = 'rgba(124,92,255,0.2)';
+                toggle.style.borderColor = '#7c5cff';
+                toggle.style.color = '#7c5cff';
+            } else {
+                panel.style.display = 'none';
+                label.innerText = 'Pro Mode';
+                toggle.style.background = '';
+                toggle.style.borderColor = '';
+                toggle.style.color = '';
+            }
+        }
+        
+        // Plan toggle for testing
+        function togglePlanDisplay() {
+            if (PlanManager.isPro()) {
+                PlanManager.setPlan('free');
+            } else {
+                PlanManager.setPlan('pro');
+            }
+            updateCreditDisplay();
+        }
+        
+        // Lock Pro-only style tags
+        function applyProStyleLocks() {
+            document.querySelectorAll('.tag-chip[data-pro="true"]').forEach(chip => {
+                if (!PlanManager.isPro()) {
+                    chip.style.opacity = '0.4';
+                    chip.style.pointerEvents = 'none';
+                    chip.style.cursor = 'not-allowed';
+                    if (!chip.querySelector('.pro-lock-icon')) {
+                        chip.innerHTML = '<i class="fa-solid fa-lock pro-lock-icon" style="font-size:0.65rem; margin-right:4px;"></i>' + chip.innerText;
+                    }
+                } else {
+                    chip.style.opacity = '1';
+                    chip.style.pointerEvents = 'auto';
+                    chip.style.cursor = 'pointer';
+                    const lockIcon = chip.querySelector('.pro-lock-icon');
+                    if (lockIcon) lockIcon.remove();
+                }
+            });
         }
         function updateRecentHistory() {
             const history = GenerationStore.getAll();
@@ -493,7 +655,13 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if(GenerationStore.getCredits() <= 0) { alert('No credits remaining! Go to Settings to reset.'); return; }
+            if(!PlanManager.canGenerate()) {
+                const msg = PlanManager.getMonthlyUsage() >= PlanManager.getMonthlyLimit()
+                    ? `Monthly limit reached (${PlanManager.getMonthlyLimit()} generations). Upgrade to Pro for more!`
+                    : 'No credits remaining! Upgrade your plan for more credits.';
+                alert('🚫 ' + msg);
+                return;
+            }
             document.getElementById('emptyState').style.display = 'none';
             terminal.style.display = 'block';
             document.getElementById('progress-container').style.display = 'block';
@@ -519,6 +687,14 @@
             formData.append('lyrics', lyricsText);
             formData.append('ratio', ratioInput.value);
             formData.append('resolution', resInput.value);
+            
+            // Pro params
+            if (PlanManager.isPro() && proModeActive) {
+                formData.append('cfg_scale', document.getElementById('cfgSlider').value);
+                formData.append('steps', document.getElementById('stepsSlider').value);
+                formData.append('seed', document.getElementById('seedInput').value);
+                formData.append('negative_prompt', document.getElementById('negPromptInput').value);
+            }
             
             logMsg(`開始上傳音軌... | 比例: ${ratioInput.value} | 歌詞長度: ${lyricsText.length} 字`);
 
@@ -613,6 +789,8 @@
             // 儲存到歷史
             GenerationStore.save({ type: 'wirevision', name: fileName, prompt: document.getElementById('promptInput').value, url: publicUrl, ratio: ratioInput.value });
             GenerationStore.useCredit();
+            PlanManager.addUsage();
+            updateCreditDisplay();
         }
 
         const prompts = [
@@ -638,7 +816,13 @@
 
     async function forgeMusic() {
             // Credit check
-            if(GenerationStore.getCredits() <= 0) { alert('No credits remaining! Go to Settings to reset.'); return; }
+            if(!PlanManager.canGenerate()) {
+                const msg = PlanManager.getMonthlyUsage() >= PlanManager.getMonthlyLimit()
+                    ? `Monthly limit reached (${PlanManager.getMonthlyLimit()} generations). Upgrade to Pro!`
+                    : 'No credits remaining! Upgrade your plan for more credits.';
+                alert('🚫 ' + msg);
+                return;
+            }
             const style = document.getElementById('toneStyle').value;
             const mood = document.getElementById('toneMood').value;
             const statusDiv = document.getElementById('toneStatus');
@@ -694,6 +878,8 @@
                     // 儲存到歷史
                     GenerationStore.save({ type: 'toneforge', name: `${style} - ${selectedToneLen}s`, prompt: mood, url: finalUrl });
                     GenerationStore.useCredit();
+                    PlanManager.addUsage();
+                    updateCreditDisplay();
                 } else {
                     throw new Error(data.error || 'Unknown error');
                 }
@@ -750,7 +936,13 @@
         async function forgeImage() {
             const fileInput = document.getElementById('imageUpload');
             if (!fileInput.files.length) return alert('Please upload an image first!');
-            if(GenerationStore.getCredits() <= 0) { alert('No credits remaining! Go to Settings to reset.'); return; }
+            if(!PlanManager.canGenerate()) {
+                const msg = PlanManager.getMonthlyUsage() >= PlanManager.getMonthlyLimit()
+                    ? `Monthly limit reached (${PlanManager.getMonthlyLimit()} generations). Upgrade to Pro!`
+                    : 'No credits remaining! Upgrade your plan for more credits.';
+                alert('🚫 ' + msg);
+                return;
+            }
 
             const statusDiv = document.getElementById('frameStatus');
             const playerDiv = document.getElementById('framePlayer');
@@ -813,6 +1005,8 @@
                             // 儲存到歷史
                             GenerationStore.save({ type: 'frameforge', name: document.getElementById('imgPrompt').value || 'Image Animation', prompt: document.getElementById('motionInput').value + ' motion', url: publicUrl });
                             GenerationStore.useCredit();
+                            PlanManager.addUsage();
+                            updateCreditDisplay();
                         } else if (msgData.type === 'error') {
                             statusDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p style="color:#ef4444;">${msgData.msg}</p>`;
                             socket.close();
@@ -878,7 +1072,13 @@
         // ======= Pipeline Orchestrator =======
         async function runPipeline() {
             const credits = GenerationStore.getCredits();
-            if(credits < 2) { alert('Need at least 2 credits! You have ' + credits + '. Go to Settings to reset.'); return; }
+            if(!PlanManager.canGenerate()) {
+                const msg = PlanManager.getMonthlyUsage() >= PlanManager.getMonthlyLimit()
+                    ? `Monthly limit reached (${PlanManager.getMonthlyLimit()}). Upgrade to Pro!`
+                    : 'Need at least 1 credit! You have ' + credits + '. Upgrade your plan.';
+                alert('🚫 ' + msg);
+                return;
+            }
             
             const btn = document.getElementById('pipeBtn');
             const genre = document.getElementById('pipeGenre').value;
@@ -1332,18 +1532,21 @@
                                     <ul style="list-style: none; color: var(--muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 20px;">
                                         <li><i class="fa-solid fa-check" style="color: var(--brand); margin-right: 8px;"></i> 10 Generations / month</li>
                                         <li><i class="fa-solid fa-check" style="color: var(--brand); margin-right: 8px;"></i> 720p Output</li>
+                                        <li><i class="fa-solid fa-lock" style="color: #ef4444; margin-right: 8px;"></i> <span style="text-decoration:line-through; opacity:0.5;">No Pro Mode</span></li>
                                     </ul>
-                                    <button class="setting-btn active" style="width:100%; pointer-events:none;">Current Plan</button>
+                                    <button class="setting-btn ${!PlanManager.isPro() ? 'active' : ''}" style="width:100%; ${!PlanManager.isPro() ? 'pointer-events:none;' : ''}" ${PlanManager.isPro() ? '' : ''}>${!PlanManager.isPro() ? 'Current Plan' : 'Downgrade'}</button>
                                 </div>
                                 <div style="background: linear-gradient(180deg, rgba(124, 92, 255, 0.05) 0%, var(--panel) 100%); border: 1px solid #7c5cff; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
                                     <div style="position: absolute; top: 10px; right: -25px; background: #7c5cff; color: white; font-size: 0.6rem; font-weight: bold; padding: 4px 25px; transform: rotate(45deg);">PRO</div>
                                     <h3 style="margin-bottom: 8px; color: #fff;">Creator Pro</h3>
                                     <div style="font-size: 2rem; font-family: 'Orbitron', sans-serif; margin-bottom: 16px;">$15<span style="font-size:1rem; color:var(--muted); font-family:'Noto Sans TC', sans-serif;">/mo</span></div>
                                     <ul style="list-style: none; color: var(--text); font-size: 0.9rem; line-height: 1.8; margin-bottom: 20px;">
-                                        <li><i class="fa-solid fa-check" style="color: #00ffaa; margin-right: 8px;"></i> 100 Generations / month</li>
-                                        <li><i class="fa-solid fa-check" style="color: #00ffaa; margin-right: 8px;"></i> 1080p High-Res (No Watermark)</li>
+                                        <li><i class="fa-solid fa-check" style="color: #00ffaa; margin-right: 8px;"></i> 200 Generations / month</li>
+                                        <li><i class="fa-solid fa-check" style="color: #00ffaa; margin-right: 8px;"></i> 1080p High-Res</li>
+                                        <li><i class="fa-solid fa-crown" style="color: #7c5cff; margin-right: 8px;"></i> Pro Mode (CFG, Seed, Steps)</li>
+                                        <li><i class="fa-solid fa-crown" style="color: #7c5cff; margin-right: 8px;"></i> Premium Styles Unlocked</li>
                                     </ul>
-                                    <a href="pricing.html" style="display:block; text-align:center; background:#7c5cff; color:#fff; text-decoration:none; padding:10px; border-radius:8px; font-weight:bold;">Upgrade Now</a>
+                                    <a href="pricing.html" style="display:block; text-align:center; background:#7c5cff; color:#fff; text-decoration:none; padding:10px; border-radius:8px; font-weight:bold;">${PlanManager.isPro() ? 'Current Plan ✓' : 'Upgrade Now'}</a>
                                 </div>
                             </div>
                         </div>
@@ -1434,25 +1637,65 @@
                 } else if (tab === 'settings') {
                     const credits = GenerationStore.getCredits();
                     const historyCount = GenerationStore.getAll().length;
+                    const isPro = PlanManager.isPro();
+                    const usage = PlanManager.getMonthlyUsage();
+                    const limit = PlanManager.getMonthlyLimit();
+                    const usagePercent = Math.min(100, Math.round((usage / limit) * 100));
+                    
                     document.getElementById('other-view').innerHTML = `
                         <div style="padding: 40px; max-width: 800px; margin: 0 auto;">
                             <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:30px;">Settings</h1>
                             
+                            <!-- Plan Card -->
+                            <div style="background:${isPro ? 'linear-gradient(135deg, rgba(124,92,255,0.1), rgba(124,92,255,0.03))' : 'var(--panel)'}; border:1px solid ${isPro ? 'rgba(124,92,255,0.4)' : 'var(--border)'}; border-radius:16px; padding:28px; margin-bottom:20px; position:relative; overflow:hidden;">
+                                ${isPro ? '<div style="position:absolute; top:0; right:0; background:#7c5cff; color:white; font-size:0.65rem; font-weight:700; padding:4px 20px; letter-spacing:1px;">CREATOR PRO</div>' : ''}
+                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-${isPro ? 'crown' : 'user'}" style="color:${isPro ? '#7c5cff' : 'var(--muted)'}; margin-right:8px;"></i> ${isPro ? 'Creator Pro' : 'Free Explorer'}</h3>
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+                                    <div style="background:rgba(0,0,0,0.2); padding:16px; border-radius:10px; text-align:center;">
+                                        <div style="font-size:2rem; font-family:'Orbitron', sans-serif; color:var(--brand);">${credits}</div>
+                                        <div style="font-size:0.8rem; color:var(--muted);">Credits Left</div>
+                                    </div>
+                                    <div style="background:rgba(0,0,0,0.2); padding:16px; border-radius:10px; text-align:center;">
+                                        <div style="font-size:2rem; font-family:'Orbitron', sans-serif; color:${isPro ? '#7c5cff' : 'var(--muted)'};">${usage}/${limit}</div>
+                                        <div style="font-size:0.8rem; color:var(--muted);">Monthly Usage</div>
+                                    </div>
+                                </div>
+                                <!-- Usage Bar -->
+                                <div style="background:rgba(255,255,255,0.05); border-radius:999px; height:8px; overflow:hidden; margin-bottom:8px;">
+                                    <div style="width:${usagePercent}%; height:100%; background:${usagePercent > 80 ? '#ef4444' : isPro ? '#7c5cff' : 'var(--brand)'}; border-radius:999px; transition:width 0.3s;"></div>
+                                </div>
+                                <p style="font-size:0.8rem; color:var(--muted); margin-bottom:16px;">${usagePercent}% of monthly limit used</p>
+                                ${!isPro ? `
+                                <a href="pricing.html" style="display:block; text-align:center; background:#7c5cff; color:#fff; text-decoration:none; padding:12px; border-radius:8px; font-weight:bold; margin-top:8px;">
+                                    <i class="fa-solid fa-crown" style="margin-right:6px;"></i> Upgrade to Pro — $15/mo
+                                </a>` : ''}
+                            </div>
+                            
+                            <!-- Credits -->
                             <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:20px;">
                                 <h3 style="margin-bottom:16px;"><i class="fa-solid fa-coins" style="color:var(--brand); margin-right:8px;"></i> Credits</h3>
                                 <div style="display:flex; align-items:center; gap:20px;">
                                     <div style="font-size:2.5rem; font-family:'Orbitron', sans-serif; color:var(--brand);">${credits}</div>
                                     <div>
                                         <p style="color:var(--muted); font-size:0.9rem;">Available credits</p>
-                                        <p style="color:var(--muted); font-size:0.8rem;">Each generation uses 1 credit</p>
+                                        <p style="color:var(--muted); font-size:0.8rem;">Each generation uses 1 credit · Max ${PlanManager.getMaxCredits()} (${PlanManager.getPlanLabel()})</p>
                                     </div>
                                 </div>
                                 <div style="margin-top:16px;">
                                     <label style="font-size:0.85rem; color:var(--muted);">Reset Credits</label>
                                     <div style="display:flex; gap:8px; margin-top:8px;">
-                                        <button class="setting-btn" onclick="GenerationStore.setCredits(50); switchTab(null,'settings');">Reset to 50</button>
-                                        <button class="setting-btn" onclick="GenerationStore.setCredits(100); switchTab(null,'settings');">Set to 100</button>
+                                        <button class="setting-btn" onclick="GenerationStore.setCredits(${isPro ? 100 : 10}); switchTab(null,'settings');">Reset to ${isPro ? 100 : 10}</button>
                                     </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Plan Toggle (for testing) -->
+                            <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:20px;">
+                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-flask" style="color:#f59e0b; margin-right:8px;"></i> Plan Toggle (Testing)</h3>
+                                <p style="color:var(--muted); font-size:0.85rem; margin-bottom:12px;">Toggle between Free and Pro to preview the experience.</p>
+                                <div style="display:flex; gap:8px;">
+                                    <button class="setting-btn ${!isPro ? 'active' : ''}" onclick="PlanManager.setPlan('free'); switchTab(null,'settings');" style="${!isPro ? 'border-color:#a1a1aa; color:#a1a1aa;' : ''}">Free</button>
+                                    <button class="setting-btn ${isPro ? 'active' : ''}" onclick="PlanManager.setPlan('pro'); GenerationStore.setCredits(100); switchTab(null,'settings');" style="${isPro ? 'border-color:#7c5cff; color:#7c5cff; background:rgba(124,92,255,0.1);' : ''}">Pro</button>
                                 </div>
                             </div>
                             
