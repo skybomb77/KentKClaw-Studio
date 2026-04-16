@@ -203,44 +203,66 @@
                     </div>
                 </div>
 
-                <div class="input-group">
-                    <label><i class="fa-solid fa-wand-magic-sparkles" style="margin-right:6px; opacity:0.5;"></i> Visual Style <span style="color:var(--brand); cursor:pointer; font-size:0.8rem; background:var(--brand-dim); padding:2px 8px; border-radius:4px;" onclick="generateRandomPrompt()"><i class="fa-solid fa-dice"></i> Random</span></label>
-                    <div class="tag-cloud" style="margin-bottom:10px;" id="styleTags">
-                        <span class="tag-chip" data-prompt="dark cyberpunk street, raining, cinematic lighting, neon glow">Cyberpunk</span>
-                        <span class="tag-chip" data-prompt="retro 80s synthwave landscape, glowing grid, vibrant neon sunset">Synthwave</span>
-                        <span class="tag-chip" data-prompt="ethereal underwater ruins, bioluminescent, light rays through water">Underwater</span>
-                        <span class="tag-chip" data-prompt="fantasy gothic castle, red moon, dramatic lighting, dark atmosphere">Gothic</span>
-                        <span class="tag-chip" data-prompt="cozy lo-fi bedroom, rain on window, warm lamp glow, anime aesthetic">Lo-fi</span>
-                        <span class="tag-chip" data-prompt="epic mountain landscape, dramatic clouds, golden hour, cinematic">Nature</span>
-                        <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors, organic motion" data-pro="true">✨ Abstract</span>
-                        <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, vibrant anime city" data-pro="true">✨ Tokyo Pop</span>
-                    </div>
-                    <textarea id="promptInput" name="prompt" placeholder="Describe the visual vibe you want...">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
-                    <div style="text-align:right; font-size:0.7rem; color:var(--muted); margin-top:4px;"><span id="promptCharCount">0</span>/500</div>
-                </div>
-
-                <div class="input-group">
-                    <label><i class="fa-solid fa-quote-left" style="margin-right:6px; opacity:0.5;"></i> Lyrics / Scene Description <span style="color:var(--brand); font-size:0.8rem;">AI analyzes separately</span></label>
-                    <textarea id="lyricsInput" name="lyrics" placeholder="Paste lyrics or describe specific visual scenes you want AI to interpret..."></textarea>
-                </div>
-
-                <div class="input-group">
-                    <label>Aspect Ratio</label>
-                    <div class="settings-row" id="ratioSelector">
-                        <div class="setting-btn" data-ratio="9:16"><i class="fa-solid fa-mobile-screen"></i> 9:16</div>
-                        <div class="setting-btn" data-ratio="1:1"><i class="fa-solid fa-square"></i> 1:1</div>
-                        <div class="setting-btn active" data-ratio="16:9"><i class="fa-solid fa-display"></i> 16:9</div>
+                <!-- Free: 簡化模式 — 只有 Style 快速選擇 -->
+                <div id="freeSimplePanel">
+                    <div class="input-group">
+                        <label><i class="fa-solid fa-wand-magic-sparkles" style="margin-right:6px; opacity:0.5;"></i> 視覺風格 <span style="color:var(--brand); cursor:pointer; font-size:0.8rem; background:var(--brand-dim); padding:2px 8px; border-radius:4px;" onclick="generateRandomPrompt()"><i class="fa-solid fa-dice"></i> Random</span></label>
+                        <div class="tag-cloud" style="margin-bottom:10px;" id="styleTags">
+                            <span class="tag-chip" data-prompt="dark cyberpunk street, raining, cinematic lighting, neon glow">Cyberpunk</span>
+                            <span class="tag-chip" data-prompt="retro 80s synthwave landscape, glowing grid, vibrant neon sunset">Synthwave</span>
+                            <span class="tag-chip" data-prompt="ethereal underwater ruins, bioluminescent, light rays through water">Underwater</span>
+                            <span class="tag-chip" data-prompt="fantasy gothic castle, red moon, dramatic lighting, dark atmosphere">Gothic</span>
+                            <span class="tag-chip" data-prompt="cozy lo-fi bedroom, rain on window, warm lamp glow, anime aesthetic">Lo-fi</span>
+                            <span class="tag-chip" data-prompt="epic mountain landscape, dramatic clouds, golden hour, cinematic">Nature</span>
+                            <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors, organic motion" data-pro="true">✨ Abstract</span>
+                            <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, vibrant anime city" data-pro="true">✨ Tokyo Pop</span>
+                        </div>
+                        <textarea id="promptInput" name="prompt" placeholder="Describe the visual vibe you want...">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
+                        <div style="text-align:right; font-size:0.7rem; color:var(--muted); margin-top:4px;"><span id="promptCharCount">0</span>/500</div>
                     </div>
                     <input type="hidden" name="ratio" id="ratioInput" value="16:9">
-                </div>
-                
-                <div class="input-group" style="margin-top: 16px;">
-                    <label>Resolution <span id="resLock" style="font-size:0.7rem;"></span></label>
-                    <div class="settings-row" id="resSelector">
-                        <div class="setting-btn active" data-res="720p">720p Standard</div>
-                        <div class="setting-btn" data-res="1080p" style="color: #7c5cff; border-color: rgba(124,92,255,0.5);"><i class="fa-solid fa-crown"></i> 1080p Pro</div>
-                    </div>
                     <input type="hidden" name="resolution" id="resInput" value="720p">
+                </div>
+
+                <!-- Pro: 完整進階面板 -->
+                <div id="proFullPanel" style="display:none;">
+                    <div class="input-group">
+                        <label><i class="fa-solid fa-wand-magic-sparkles" style="margin-right:6px; opacity:0.5;"></i> Visual Style <span style="color:var(--brand); cursor:pointer; font-size:0.8rem; background:var(--brand-dim); padding:2px 8px; border-radius:4px;" onclick="generateRandomPrompt()"><i class="fa-solid fa-dice"></i> Random</span></label>
+                        <div class="tag-cloud" style="margin-bottom:10px;" id="proStyleTags">
+                            <span class="tag-chip" data-prompt="dark cyberpunk street, raining, cinematic lighting, neon glow">Cyberpunk</span>
+                            <span class="tag-chip" data-prompt="retro 80s synthwave landscape, glowing grid, vibrant neon sunset">Synthwave</span>
+                            <span class="tag-chip" data-prompt="ethereal underwater ruins, bioluminescent, light rays through water">Underwater</span>
+                            <span class="tag-chip" data-prompt="fantasy gothic castle, red moon, dramatic lighting, dark atmosphere">Gothic</span>
+                            <span class="tag-chip" data-prompt="cozy lo-fi bedroom, rain on window, warm lamp glow, anime aesthetic">Lo-fi</span>
+                            <span class="tag-chip" data-prompt="epic mountain landscape, dramatic clouds, golden hour, cinematic">Nature</span>
+                            <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors, organic motion">Abstract</span>
+                            <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, vibrant anime city">Tokyo Pop</span>
+                        </div>
+                        <textarea id="proPromptInput" placeholder="Describe the visual vibe you want...">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines</textarea>
+                        <div style="text-align:right; font-size:0.7rem; color:var(--muted); margin-top:4px;"><span id="proPromptCharCount">0</span>/500</div>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fa-solid fa-quote-left" style="margin-right:6px; opacity:0.5;"></i> Lyrics / Scene Description <span style="color:var(--brand); font-size:0.8rem;">AI analyzes separately</span></label>
+                        <textarea id="lyricsInput" name="lyrics" placeholder="Paste lyrics or describe specific visual scenes you want AI to interpret..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Aspect Ratio</label>
+                        <div class="settings-row" id="ratioSelector">
+                            <div class="setting-btn" data-ratio="9:16"><i class="fa-solid fa-mobile-screen"></i> 9:16</div>
+                            <div class="setting-btn" data-ratio="1:1"><i class="fa-solid fa-square"></i> 1:1</div>
+                            <div class="setting-btn active" data-ratio="16:9"><i class="fa-solid fa-display"></i> 16:9</div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group" style="margin-top: 16px;">
+                        <label>Resolution</label>
+                        <div class="settings-row" id="resSelector">
+                            <div class="setting-btn active" data-res="720p">720p Standard</div>
+                            <div class="setting-btn" data-res="1080p" style="color: #7c5cff; border-color: rgba(124,92,255,0.5);"><i class="fa-solid fa-crown"></i> 1080p Pro</div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Pro Mode Advanced Panel -->
@@ -373,9 +395,6 @@
             const usageEl = document.getElementById('monthlyUsage');
             const limitEl = document.getElementById('monthlyLimit');
             const badge = document.getElementById('planBadge');
-            const resLock = document.getElementById('resLock');
-            const lock = document.getElementById('proModeLock');
-            
             if (el) el.innerText = GenerationStore.getCredits();
             if (maxEl) maxEl.innerText = PlanManager.getMaxCredits();
             if (usageEl) usageEl.innerText = PlanManager.getMonthlyUsage();
@@ -395,24 +414,16 @@
                 }
             }
             
-            if (resLock) {
-                resLock.innerHTML = PlanManager.isPro() ? '' : '<i class="fa-solid fa-lock" style="color:#ef4444;"></i> <span style="color:#ef4444; font-size:0.7rem;">Upgrade to Pro for 1080p</span>';
-            }
-            if (lock) {
-                lock.innerHTML = PlanManager.isPro() ? '' : '🔒';
-            }
-            
-            // Lock 1080p button for Free users
-            const res1080p = document.querySelector('[data-res="1080p"]');
-            if (res1080p) {
-                if (!PlanManager.isPro()) {
-                    res1080p.style.opacity = '0.4';
-                    res1080p.style.pointerEvents = 'none';
-                    res1080p.style.cursor = 'not-allowed';
+            // Toggle Free/Pro panels
+            const freePanel = document.getElementById('freeSimplePanel');
+            const proPanel = document.getElementById('proFullPanel');
+            if (freePanel && proPanel) {
+                if (PlanManager.isPro()) {
+                    freePanel.style.display = 'none';
+                    proPanel.style.display = 'block';
                 } else {
-                    res1080p.style.opacity = '1';
-                    res1080p.style.pointerEvents = 'auto';
-                    res1080p.style.cursor = 'pointer';
+                    freePanel.style.display = 'block';
+                    proPanel.style.display = 'none';
                 }
             }
             
@@ -558,36 +569,41 @@
         const terminal = document.getElementById('statusTerminal');
         const btn = document.getElementById('generateBtn');
 
-        // 綁定比例切換按鈕
+        // 綁定比例切換按鈕 (Pro only)
         const ratioBtns = document.querySelectorAll('#ratioSelector .setting-btn');
         const ratioInput = document.getElementById('ratioInput');
 
         const resBtns = document.querySelectorAll('#resSelector .setting-btn');
         const resInput = document.getElementById('resInput');
-        resBtns.forEach(rBtn => {
-            rBtn.addEventListener('click', () => {
-                resBtns.forEach(b => {
-                    b.classList.remove('active');
-                    if(b.getAttribute('data-res') === '1080p') b.style.borderColor = 'rgba(124,92,255,0.5)';
+        if (resBtns.length) {
+            resBtns.forEach(rBtn => {
+                rBtn.addEventListener('click', () => {
+                    if (!PlanManager.isPro() && rBtn.getAttribute('data-res') === '1080p') return;
+                    resBtns.forEach(b => {
+                        b.classList.remove('active');
+                        if(b.getAttribute('data-res') === '1080p') b.style.borderColor = 'rgba(124,92,255,0.5)';
+                    });
+                    rBtn.classList.add('active');
+                    if(rBtn.getAttribute('data-res') === '1080p') {
+                        rBtn.style.borderColor = '#7c5cff';
+                        rBtn.style.backgroundColor = 'rgba(124,92,255,0.1)';
+                    } else {
+                        document.querySelector('[data-res="1080p"]')?.style && (document.querySelector('[data-res="1080p"]').style.backgroundColor = 'transparent');
+                    }
+                    if (resInput) resInput.value = rBtn.getAttribute('data-res');
                 });
-                rBtn.classList.add('active');
-                if(rBtn.getAttribute('data-res') === '1080p') {
-                    rBtn.style.borderColor = '#7c5cff';
-                    rBtn.style.backgroundColor = 'rgba(124,92,255,0.1)';
-                } else {
-                    document.querySelector('[data-res="1080p"]').style.backgroundColor = 'transparent';
-                }
-                resInput.value = rBtn.getAttribute('data-res');
             });
-        });
+        }
     
-        ratioBtns.forEach(rBtn => {
-            rBtn.addEventListener('click', () => {
-                ratioBtns.forEach(b => b.classList.remove('active'));
-                rBtn.classList.add('active');
-                ratioInput.value = rBtn.getAttribute('data-ratio');
+        if (ratioBtns.length) {
+            ratioBtns.forEach(rBtn => {
+                rBtn.addEventListener('click', () => {
+                    ratioBtns.forEach(b => b.classList.remove('active'));
+                    rBtn.classList.add('active');
+                    if (ratioInput) ratioInput.value = rBtn.getAttribute('data-ratio');
+                });
             });
-        });
+        }
 
         fileInput.addEventListener('change', (e) => {
             if(e.target.files.length) {
@@ -623,21 +639,43 @@
         ['dragenter','dragover'].forEach(ev => dropArea.addEventListener(ev, e => { e.preventDefault(); dropArea.classList.add('dragover'); }));
         ['dragleave','drop'].forEach(ev => dropArea.addEventListener(ev, e => { e.preventDefault(); dropArea.classList.remove('dragover'); }));
 
-        // Style tag click handlers
+        // Style tag click handlers — Free panel
         document.getElementById('styleTags').addEventListener('click', e => {
             const chip = e.target.closest('.tag-chip');
-            if(!chip) return;
+            if(!chip || chip.dataset.pro === 'true' && !PlanManager.isPro()) return;
             document.querySelectorAll('#styleTags .tag-chip').forEach(c => c.classList.remove('selected'));
             chip.classList.add('selected');
             document.getElementById('promptInput').value = chip.dataset.prompt;
             document.getElementById('promptCharCount').innerText = chip.dataset.prompt.length;
         });
 
-        // Prompt character count
+        // Style tag click handlers — Pro panel
+        const proStyleTags = document.getElementById('proStyleTags');
+        if (proStyleTags) {
+            proStyleTags.addEventListener('click', e => {
+                const chip = e.target.closest('.tag-chip');
+                if(!chip) return;
+                document.querySelectorAll('#proStyleTags .tag-chip').forEach(c => c.classList.remove('selected'));
+                chip.classList.add('selected');
+                document.getElementById('proPromptInput').value = chip.dataset.prompt;
+                document.getElementById('proPromptCharCount').innerText = chip.dataset.prompt.length;
+            });
+        }
+
+        // Prompt character count — Free
         document.getElementById('promptInput').addEventListener('input', function() {
             document.getElementById('promptCharCount').innerText = this.value.length;
         });
         document.getElementById('promptCharCount').innerText = document.getElementById('promptInput').value.length;
+        
+        // Prompt character count — Pro
+        const proPromptEl = document.getElementById('proPromptInput');
+        if (proPromptEl) {
+            proPromptEl.addEventListener('input', function() {
+                document.getElementById('proPromptCharCount').innerText = this.value.length;
+            });
+            document.getElementById('proPromptCharCount').innerText = proPromptEl.value.length;
+        }
 
         function logMsg(msg) {
             terminal.innerHTML += `<p>> ${msg}</p>`;
@@ -674,7 +712,7 @@
             btn.style.pointerEvents = "none";
             setStep(1);
             
-            const lyricsText = document.getElementById('lyricsInput').value;
+            const lyricsText = document.getElementById('lyricsInput')?.value || '';
             const formData = new FormData();
             const originalFile = fileInput.files[0];
             if (originalFile) {
@@ -683,7 +721,12 @@
                 const newFile = new File([originalFile], `audio_${Date.now()}.${ext}`, { type: originalFile.type });
                 formData.append('audio', newFile);
             }
-            formData.append('prompt', document.getElementById('promptInput').value);
+            
+            // Read prompt from correct input based on plan
+            const promptVal = PlanManager.isPro() 
+                ? (document.getElementById('proPromptInput')?.value || '') 
+                : (document.getElementById('promptInput')?.value || '');
+            formData.append('prompt', promptVal);
             formData.append('lyrics', lyricsText);
             formData.append('ratio', ratioInput.value);
             formData.append('resolution', resInput.value);
@@ -784,10 +827,13 @@
             document.getElementById('outputVideo').play();
             const fileName = fileInput.files[0] ? fileInput.files[0].name : "Chaobang MV";
             document.getElementById('videoTitle').innerText = fileName;
-            document.getElementById('videoDesc').innerText = document.getElementById('promptInput').value;
+            const descPrompt = PlanManager.isPro() 
+                ? (document.getElementById('proPromptInput')?.value || '') 
+                : (document.getElementById('promptInput')?.value || '');
+            document.getElementById('videoDesc').innerText = descPrompt;
             
             // 儲存到歷史
-            GenerationStore.save({ type: 'wirevision', name: fileName, prompt: document.getElementById('promptInput').value, url: publicUrl, ratio: ratioInput.value });
+            GenerationStore.save({ type: 'wirevision', name: fileName, prompt: descPrompt, url: publicUrl, ratio: ratioInput.value });
             GenerationStore.useCredit();
             PlanManager.addUsage();
             updateCreditDisplay();
@@ -803,7 +849,13 @@
         ];
         function generateRandomPrompt() {
             const random = prompts[Math.floor(Math.random() * prompts.length)];
-            document.getElementById('promptInput').value = random;
+            if (PlanManager.isPro()) {
+                document.getElementById('proPromptInput').value = random;
+                document.getElementById('proPromptCharCount').innerText = random.length;
+            } else {
+                document.getElementById('promptInput').value = random;
+                document.getElementById('promptCharCount').innerText = random.length;
+            }
         }
 
         // ======= 🚀 ToneForge 音樂鍛造邏輯 =======
