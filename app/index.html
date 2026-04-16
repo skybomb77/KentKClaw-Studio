@@ -128,8 +128,8 @@
             <div class="nav-section-title" style="margin-top: 24px;">TOOLS</div>
             <a href="#" class="nav-item" onclick="switchTab(event, 'screening')"><i class="fa-solid fa-film"></i> My Screening Room</a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'styles')"><i class="fa-solid fa-palette"></i> Style Library</a>
-            <a href="#" class="nav-item" onclick="switchTab(event, 'split')"><i class="fa-solid fa-music"></i> Audio Stem Splitter (Pro)</a>
-            <a href="pricing.html" class="nav-item"><i class="fa-solid fa-star"></i> Subscription</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'split')"><i class="fa-solid fa-music"></i> Audio Stem Splitter</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'settings')"><i class="fa-solid fa-gear"></i> Settings</a>
         </div>
         <a href="#" class="nav-item" onclick="switchTab(event, 'nostalgia')" style="margin-top: auto; color: #ef4444; background: rgba(239,68,68,0.05);"><i class="fa-solid fa-trash-can"></i> Nostalgia Vault (Trash)</a>
     </aside>
@@ -137,7 +137,7 @@
     <!-- 主內容區 -->
     <main class="main-content" id="mainApp">
         <header class="header">
-            <div style="font-weight: 500; color: var(--muted);">AI MV Generator | 剩餘點數: 10 Credits</div>
+            <div style="font-weight: 500; color: var(--muted);">AI Studio | 剩餘點數: <span id="creditCount" style="color: var(--brand); font-weight: 700;">50</span> Credits</div>
             <div class="user-profile">
                 <div id="user-button"></div>
             </div>
@@ -200,18 +200,18 @@
 
             <div class="feed-panel">
 <div class="section-title">Generation History</div>
-<div class="video-card" style="display:block; margin-bottom: 24px;">
+<div class="video-card" id="recentHistoryCard" style="display:block; margin-bottom: 24px;">
     <div class="video-wrapper" style="height: 180px; background: #000; border-bottom: 1px solid rgba(255,255,255,0.1);">
-        <!-- Placeholder for history -->
-        <div style="display:flex; justify-content:center; align-items:center; height:100%; color:var(--muted); font-size: 0.9rem;">
+        <div id="recentHistoryContent" style="display:flex; justify-content:center; align-items:center; height:100%; color:var(--muted); font-size: 0.9rem;">
             <i class="fa-solid fa-clock-rotate-left" style="margin-right:8px;"></i> No recent generations
         </div>
     </div>
     <div class="video-info" style="padding: 16px;">
         <div class="video-meta">
             <h3 style="font-size: 1rem;">Recent Tasks</h3>
-            <p style="font-size: 0.8rem;">Your previous generated content will appear here.</p>
+            <p style="font-size: 0.8rem; color:var(--muted);">Your latest generation will appear here.</p>
         </div>
+        <a href="#" onclick="switchTab(null,'screening');return false;" style="color:var(--brand); font-size:0.85rem; text-decoration:none;">View All →</a>
     </div>
 </div>
                 <h2 class="section-title">Generation Queue</h2>
@@ -249,6 +249,43 @@
     </main>
 
     <script>
+        // ======= 🚀 商業級功能：本地儲存 & 點數系統 =======
+        const GenerationStore = {
+            KEY: 'kc_generations',
+            CREDITS_KEY: 'kc_credits',
+            getAll() { try { return JSON.parse(localStorage.getItem(this.KEY) || '[]'); } catch { return []; } },
+            save(item) { const all = this.getAll(); all.unshift({ ...item, id: Date.now(), createdAt: new Date().toISOString() }); localStorage.setItem(this.KEY, JSON.stringify(all.slice(0, 50))); },
+            remove(id) { localStorage.setItem(this.KEY, JSON.stringify(this.getAll().filter(g => g.id !== id))); },
+            clear() { localStorage.removeItem(this.KEY); },
+            getCredits() { return parseInt(localStorage.getItem(this.CREDITS_KEY) || '50'); },
+            setCredits(n) { localStorage.setItem(this.CREDITS_KEY, n); updateCreditDisplay(); },
+            useCredit() { const c = this.getCredits(); if (c > 0) { this.setCredits(c - 1); return true; } return false; }
+        };
+        function updateCreditDisplay() {
+            const el = document.getElementById('creditCount');
+            if (el) el.innerText = GenerationStore.getCredits();
+        }
+        function updateRecentHistory() {
+            const history = GenerationStore.getAll();
+            const container = document.getElementById('recentHistoryContent');
+            if (!container || history.length === 0) return;
+            const latest = history[0];
+            const isAudio = latest.type === 'toneforge';
+            const color = latest.type === 'toneforge' ? 'var(--tf-brand)' : latest.type === 'frameforge' ? '#38d5ff' : 'var(--wv-brand)';
+            container.parentElement.style.height = isAudio ? '120px' : '180px';
+            container.innerHTML = isAudio
+                ? `<audio src="${latest.url}" controls style="width:90%;"></audio>`
+                : `<video src="${latest.url}" muted loop autoplay style="width:100%; height:100%; object-fit:cover;"></video>`;
+            container.style.display = 'flex';
+            container.style.justifyContent = 'center';
+            container.style.alignItems = 'center';
+            const meta = container.closest('.video-card').querySelector('.video-meta');
+            if (meta) {
+                meta.querySelector('h3').innerText = latest.name || 'Untitled';
+                meta.querySelector('p').innerText = `${latest.type.toUpperCase()} • ${new Date(latest.createdAt).toLocaleDateString('zh-TW')}`;
+            }
+        }
+
         // ======= 🚀 CLERK 專業會員登入系統 =======
         const publishableKey = "pk_test_cmF0aW9uYWwtd2FscnVzLTkwLmNsZXJrLmFjY291bnRzLmRldiQ";
         const script = document.createElement("script");
@@ -263,6 +300,8 @@
                 if (window.Clerk.user) {
                     document.getElementById('login-overlay').style.display = 'none';
                     document.getElementById('mainApp').style.display = 'flex';
+                    updateCreditDisplay();
+                    updateRecentHistory();
                     const targetUrl = new URL('../index.html', window.location.href).href;
                     window.Clerk.mountUserButton(document.getElementById("user-button"), { afterSignOutUrl: targetUrl });
                 } else {
@@ -425,7 +464,7 @@
         function showVideo(url) {
             btn.innerHTML = 'GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>';
             btn.style.pointerEvents = "auto";
-            terminal.style.display = 'block'; // Keep queue visible
+            terminal.style.display = 'block';
             document.getElementById('videoResult').style.display = 'block';
             
             // 修正內網 IP 成公網隧道網址 (若存在)
@@ -437,8 +476,13 @@
             document.getElementById('outputVideo').src = publicUrl;
             document.getElementById('downloadBtn').href = publicUrl;
             document.getElementById('outputVideo').play();
-            document.getElementById('videoTitle').innerText = fileInput.files[0] ? fileInput.files[0].name : "Chaobang MV";
+            const fileName = fileInput.files[0] ? fileInput.files[0].name : "Chaobang MV";
+            document.getElementById('videoTitle').innerText = fileName;
             document.getElementById('videoDesc').innerText = document.getElementById('promptInput').value;
+            
+            // 儲存到歷史
+            GenerationStore.save({ type: 'wirevision', name: fileName, prompt: document.getElementById('promptInput').value, url: publicUrl, ratio: ratioInput.value });
+            GenerationStore.useCredit();
         }
 
         const prompts = [
@@ -510,6 +554,10 @@
                     document.getElementById('audioOut').src = finalUrl;
                     downloadBtn.href = finalUrl;
                     document.getElementById('audioOut').play();
+                    
+                    // 儲存到歷史
+                    GenerationStore.save({ type: 'toneforge', name: `${style} - ${selectedToneLen}s`, prompt: mood, url: finalUrl });
+                    GenerationStore.useCredit();
                 } else {
                     throw new Error(data.error || 'Unknown error');
                 }
@@ -606,6 +654,10 @@
                             playerDiv.style.display = 'flex';
                             playerDiv.style.flexDirection = 'column';
                             socket.close();
+                            
+                            // 儲存到歷史
+                            GenerationStore.save({ type: 'frameforge', name: document.getElementById('imgPrompt').value || 'Image Animation', prompt: document.getElementById('motionInput').value + ' motion', url: publicUrl });
+                            GenerationStore.useCredit();
                         } else if (msgData.type === 'error') {
                             statusDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p style="color:#ef4444;">${msgData.msg}</p>`;
                             socket.close();
@@ -809,9 +861,132 @@
                 document.getElementById('create-view').style.display = 'none';
                 document.getElementById('other-view').style.display = 'block';
                 if (tab === 'screening') {
-                    document.getElementById('other-view').innerHTML = `<div style="position: relative; overflow: hidden; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); min-height: 700px; display: flex; flex-direction: column;">\n                        <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: 0; transform: translate(-50%, -50%); opacity: 0.15; filter: blur(5px);">\n                            <source src="https://assets.mixkit.co/videos/preview/mixkit-cyberpunk-city-at-night-with-neon-lights-41315-large.mp4" type="video/mp4">\n                        </video>\n                        <div style="position: relative; z-index: 1; padding: 40px; text-align: center; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">\n                            <i class="fa-solid fa-film" style="font-size: 4rem; color: var(--brand); margin-bottom: 24px; text-shadow: 0 0 30px rgba(0,255,170,0.4);"></i>\n                            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2.5rem; margin-bottom: 16px; color: #fff; letter-spacing: 2px;">My Screening Room</h2>\n                            <p style="color: var(--muted); font-size: 1.1rem; max-width: 600px; line-height: 1.6;">Your personal theater. Past generations and saved AI music videos will appear here.</p>\n                            <div style="margin-top: 40px; display: flex; gap: 16px; justify-content: center;">\n                                <button onclick="switchTab(null, 'create')" class="cyber-btn" style="width: auto; padding: 12px 28px;"><i class="fa-solid fa-plus" style="margin-right: 8px;"></i> New Project</button>\n                            </div>\n                        </div>\n                    </div>`;
+                    const history = GenerationStore.getAll();
+                    let cards = '';
+                    if (history.length === 0) {
+                        cards = `<div style="grid-column: 1/-1; text-align:center; padding:60px 0; color:var(--muted);"><i class="fa-solid fa-clock-rotate-left" style="font-size:3rem; margin-bottom:16px; opacity:0.4;"></i><p>No generation history yet. Start creating!</p></div>`;
+                    } else {
+                        history.forEach(g => {
+                            const icon = g.type === 'toneforge' ? 'fa-music' : g.type === 'frameforge' ? 'fa-images' : 'fa-wand-magic-sparkles';
+                            const color = g.type === 'toneforge' ? 'var(--tf-brand)' : g.type === 'frameforge' ? '#38d5ff' : 'var(--wv-brand)';
+                            const date = new Date(g.createdAt).toLocaleDateString('zh-TW');
+                            const isAudio = g.type === 'toneforge';
+                            cards += `<div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; overflow:hidden; transition:transform 0.2s, border-color 0.2s;" onmouseover="this.style.borderColor='${color}';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+                                <div style="height:180px; background:#000; display:flex; align-items:center; justify-content:center; border-bottom:1px solid var(--border);">
+                                    ${isAudio ? `<audio src="${g.url}" controls style="width:90%;"></audio>` : `<video src="${g.url}" muted loop autoplay style="width:100%; height:100%; object-fit:cover;"></video>`}
+                                </div>
+                                <div style="padding:16px;">
+                                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                                        <i class="fa-solid ${icon}" style="color:${color};"></i>
+                                        <span style="font-size:0.75rem; color:${color}; text-transform:uppercase; font-weight:600;">${g.type}</span>
+                                    </div>
+                                    <h4 style="font-size:0.95rem; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${g.name || 'Untitled'}</h4>
+                                    <p style="font-size:0.8rem; color:var(--muted); margin-bottom:12px;">${date}</p>
+                                    <div style="display:flex; gap:8px;">
+                                        <a href="${g.url}" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center;"><i class="fa-solid fa-download"></i> Download</a>
+                                        <button class="setting-btn" onclick="GenerationStore.remove(${g.id}); switchTab(null,'screening');" style="color:#ef4444;"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>`;
+                        });
+                    }
+                    document.getElementById('other-view').innerHTML = `
+                        <div style="padding: 40px; max-width: 1200px; margin: 0 auto;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+                                <div>
+                                    <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:6px;">My Screening Room</h1>
+                                    <p style="color:var(--muted);">Your generation history. ${history.length} items saved.</p>
+                                </div>
+                                ${history.length > 0 ? `<button class="setting-btn" onclick="if(confirm('Clear all history?')){GenerationStore.clear();switchTab(null,'screening');}" style="color:#ef4444;"><i class="fa-solid fa-trash"></i> Clear All</button>` : ''}
+                            </div>
+                            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:20px;">
+                                ${cards}
+                            </div>
+                        </div>
+                    `;
+                } else if (tab === 'styles') {
+                    const stylePresets = [
+                        { name: 'Cyberpunk Neon', prompt: 'dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines', category: 'Sci-Fi' },
+                        { name: 'Gothic Fantasy', prompt: 'dark fantasy gothic castle, red moon, bats flying, dramatic lighting, highly detailed, concept art', category: 'Fantasy' },
+                        { name: 'Retro Synthwave', prompt: 'retro 80s synthwave landscape, glowing grid, wireframe mountains, vibrant purple and pink neon, sunset', category: 'Retro' },
+                        { name: 'Underwater Ethereal', prompt: 'ethereal underwater ruins, glowing bioluminescent plants, ancient statues, light rays through water, serene', category: 'Nature' },
+                        { name: 'Post-Apocalyptic', prompt: 'post-apocalyptic wasteland, overgrown city ruins, rusty mechs, golden hour lighting, cinematic', category: 'Sci-Fi' },
+                        { name: 'Anime Action', prompt: 'dynamic anime battle scene, speed lines, energy aura, dramatic clouds, vibrant colors, sakuga style', category: 'Anime' },
+                        { name: 'Dreamy Lo-fi', prompt: 'cozy bedroom at night, rain on window, warm lamp glow, anime lo-fi aesthetic, relaxing, soft colors', category: 'Chill' },
+                        { name: 'Neon City Pop', prompt: 'tokyo street at night, pop art style, vibrant neon signs, rain reflections, anime cityscape', category: 'Urban' },
+                        { name: 'Nature Cinematic', prompt: 'epic mountain landscape, dramatic clouds, golden hour, cinematic drone shot, 8k photorealistic', category: 'Nature' },
+                        { name: 'Abstract Motion', prompt: 'abstract fluid art, morphing shapes, gradient colors, organic motion, mesmerizing patterns', category: 'Abstract' },
+                        { name: 'Kawaii Pastel', prompt: 'pastel colored cute characters, sparkles, soft lighting, kawaii aesthetic, bubbles, flowers', category: 'Anime' },
+                        { name: 'Dark Industrial', prompt: 'industrial factory interior, steam pipes, sparks, dark moody atmosphere, metallic textures', category: 'Sci-Fi' }
+                    ];
+                    let presetCards = '';
+                    stylePresets.forEach(s => {
+                        const escapedPrompt = s.prompt.replace(/'/g, "\\\\'");
+                        presetCards += `<div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:20px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--brand)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'" onclick="document.getElementById('promptInput').value='${escapedPrompt}'; switchTab(null, 'create');">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                                <h4 style="font-size:1rem;">${s.name}</h4>
+                                <span style="font-size:0.7rem; background:var(--brand-dim); color:var(--brand); padding:2px 10px; border-radius:99px;">${s.category}</span>
+                            </div>
+                            <p style="font-size:0.8rem; color:var(--muted); line-height:1.5;">${s.prompt.substring(0, 80)}...</p>
+                        </div>`;
+                    });
+                    document.getElementById('other-view').innerHTML = `
+                        <div style="padding: 40px; max-width: 1200px; margin: 0 auto;">
+                            <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:6px;">Style Library</h1>
+                            <p style="color:var(--muted); margin-bottom:30px;">Click any preset to apply it to WireVision. ${stylePresets.length} templates available.</p>
+                            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:16px;">
+                                ${presetCards}
+                            </div>
+                        </div>
+                    `;
+                } else if (tab === 'settings') {
+                    const credits = GenerationStore.getCredits();
+                    const historyCount = GenerationStore.getAll().length;
+                    document.getElementById('other-view').innerHTML = `
+                        <div style="padding: 40px; max-width: 800px; margin: 0 auto;">
+                            <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:30px;">Settings</h1>
+                            
+                            <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:20px;">
+                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-coins" style="color:var(--brand); margin-right:8px;"></i> Credits</h3>
+                                <div style="display:flex; align-items:center; gap:20px;">
+                                    <div style="font-size:2.5rem; font-family:'Orbitron', sans-serif; color:var(--brand);">${credits}</div>
+                                    <div>
+                                        <p style="color:var(--muted); font-size:0.9rem;">Available credits</p>
+                                        <p style="color:var(--muted); font-size:0.8rem;">Each generation uses 1 credit</p>
+                                    </div>
+                                </div>
+                                <div style="margin-top:16px;">
+                                    <label style="font-size:0.85rem; color:var(--muted);">Reset Credits</label>
+                                    <div style="display:flex; gap:8px; margin-top:8px;">
+                                        <button class="setting-btn" onclick="GenerationStore.setCredits(50); switchTab(null,'settings');">Reset to 50</button>
+                                        <button class="setting-btn" onclick="GenerationStore.setCredits(100); switchTab(null,'settings');">Set to 100</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:20px;">
+                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-clock-rotate-left" style="color:var(--brand); margin-right:8px;"></i> History</h3>
+                                <p style="color:var(--muted); font-size:0.9rem; margin-bottom:12px;">${historyCount} items stored locally</p>
+                                <button class="setting-btn" onclick="if(confirm('Delete all ${historyCount} history items?')){GenerationStore.clear();switchTab(null,'settings');}" style="color:#ef4444;"><i class="fa-solid fa-trash"></i> Clear All History</button>
+                            </div>
+                            
+                            <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:20px;">
+                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-server" style="color:var(--brand); margin-right:8px;"></i> Backend</h3>
+                                <div class="input-group">
+                                    <label>Backend URL</label>
+                                    <input type="text" id="backendUrlInput" value="${BACKEND_URL}" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border); padding:12px; border-radius:8px; color:white; outline:none; font-family:monospace; font-size:0.85rem;">
+                                </div>
+                                <button class="setting-btn" style="margin-top:12px;" onclick="window.__BACKEND_URL=document.getElementById('backendUrlInput').value; alert('Backend URL updated! (session only)');">Apply (Session)</button>
+                            </div>
+                            
+                            <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px;">
+                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-info-circle" style="color:var(--brand); margin-right:8px;"></i> About</h3>
+                                <p style="color:var(--muted); font-size:0.9rem; line-height:1.6;">Kent & KClaw Studio AI Suite<br>Version 2.0 — Commercial Release<br>Powered by ComfyUI + Stable Diffusion on NVIDIA RTX 5070 Ti</p>
+                            </div>
+                        </div>
+                    `;
                 } else {
-                    document.getElementById('other-view').innerHTML = `<div style="padding:40px; text-align:center;"><h2 style="font-family:'Orbitron', sans-serif; margin-bottom:16px;">${tab === 'nostalgia' ? 'Nostalgia Vault (Trash)' : tab.charAt(0).toUpperCase() + tab.slice(1)}</h2><p style="color:var(--muted);">This feature is currently under development. Stay tuned!</p></div>`;
+                    document.getElementById('other-view').innerHTML = `<div style="padding:40px; text-align:center;"><h2 style="font-family:'Orbitron', sans-serif; margin-bottom:16px;">${tab === 'nostalgia' ? 'Nostalgia Vault (Trash)' : tab === 'split' ? 'Audio Stem Splitter' : tab.charAt(0).toUpperCase() + tab.slice(1)}</h2><p style="color:var(--muted);">This feature is coming soon. Stay tuned!</p></div>`;
                 }
             }
         }
