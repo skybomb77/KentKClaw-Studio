@@ -57,11 +57,37 @@
         
         .file-drop-area { border: 2px dashed var(--border); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: rgba(0,0,0,0.2); position: relative; }
         .file-drop-area:hover { border-color: var(--brand); background: var(--brand-dim); }
+        .file-drop-area.dragover { border-color: var(--brand); background: var(--brand-dim); transform: scale(1.02); }
         .file-drop-area i { font-size: 2rem; color: var(--muted); margin-bottom: 10px; transition: color 0.5s ease; }
         .file-drop-area span { display: block; font-size: 0.9rem; color: var(--muted); }
         input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         textarea { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 16px; border-radius: 12px; color: var(--text); font-family: inherit; resize: vertical; min-height: 120px; outline: none; transition: border 0.3s ease; line-height: 1.5; }
         textarea:focus { border-color: var(--brand); }
+        
+        .file-preview { position: relative; background: rgba(0,0,0,0.4); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+        .file-preview img { width: 100%; max-height: 200px; object-fit: contain; display: block; }
+        .file-preview .remove-btn { position: absolute; top: 8px; right: 8px; background: rgba(239,68,68,0.9); border: none; color: white; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+        
+        .step-indicator { display: flex; gap: 8px; margin-bottom: 20px; }
+        .step-dot { width: 100%; height: 4px; border-radius: 2px; background: var(--border); transition: background 0.5s; }
+        .step-dot.active { background: var(--brand); }
+        .step-dot.done { background: var(--brand); opacity: 0.5; }
+        
+        .waveform-preview { display: flex; align-items: center; gap: 2px; height: 40px; padding: 8px 0; }
+        .waveform-preview .wf-bar { width: 3px; border-radius: 2px; background: var(--brand); opacity: 0.6; transition: height 0.1s; }
+        
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag-chip { padding: 4px 12px; border-radius: 99px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; border: 1px solid var(--border); color: var(--muted); background: rgba(0,0,0,0.2); }
+        .tag-chip:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-dim); }
+        .tag-chip.selected { border-color: var(--brand); color: var(--brand); background: var(--brand-dim); }
+        
+        .gen-step { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.85rem; color: var(--muted); }
+        .gen-step .step-icon { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; }
+        .gen-step.pending .step-icon { background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
+        .gen-step.active .step-icon { background: var(--brand-dim); border: 1px solid var(--brand); color: var(--brand); animation: pulse-icon 1.5s infinite; }
+        .gen-step.done .step-icon { background: var(--brand); color: #000; }
+        .gen-step.error .step-icon { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #ef4444; }
+        @keyframes pulse-icon { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         .settings-row { display: flex; gap: 12px; }
         .setting-btn { flex: 1; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; color: var(--muted); cursor: pointer; text-align: center; font-size: 0.85rem; transition: 0.2s; user-select: none; }
@@ -146,28 +172,52 @@
         <div id="other-view" style="display:none;"></div>
         <div class="content-grid" id="create-view">
             <form id="uploadForm" class="create-panel">
-                <div class="panel-title">Create <div class="custom-toggle"><i class="fa-solid fa-sliders"></i> Pro Mode</div></div>
+                <div class="panel-title">WireVision <div class="custom-toggle"><i class="fa-solid fa-sliders"></i> Pro Mode</div></div>
+                
+                <div class="step-indicator">
+                    <div class="step-dot active" id="step1dot"></div>
+                    <div class="step-dot" id="step2dot"></div>
+                    <div class="step-dot" id="step3dot"></div>
+                    <div class="step-dot" id="step4dot"></div>
+                </div>
 
                 <div class="input-group">
-                    <label>Audio Track <span style="color: var(--brand); font-size: 0.75rem;">Max 10MB</span></label>
+                    <label><i class="fa-solid fa-music" style="margin-right:6px; opacity:0.5;"></i> Audio Track <span style="color: var(--brand); font-size: 0.75rem;">Max 10MB · MP3, WAV, OGG</span></label>
                     <div class="file-drop-area" id="dropArea">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <span id="fileNameDisplay">Drag & drop audio here<br><span style="font-size: 0.75rem; color: #7c5cff;">Supported: .MP3, .WAV, .OGG</span></span>
+                        <span id="fileNameDisplay">Drag & drop audio here or click to browse</span>
                         <input type="file" id="audioUpload" name="audio" accept="audio/*" required>
+                    </div>
+                    <div id="audioPreview" style="display:none; margin-top:8px;">
+                        <div class="waveform-preview" id="waveformViz"></div>
+                        <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--muted); margin-top:4px;">
+                            <span id="audioInfo"></span>
+                            <span id="audioDuration"></span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="input-group">
-                    <label>影片視覺風格 (Visual Style Prompt) <span style="color:var(--brand); cursor:pointer; font-size:0.8rem; background:var(--brand-dim); padding:2px 8px; border-radius:4px;" onclick="generateRandomPrompt()"><i class="fa-solid fa-dice"></i> 隨機風格</span></label>
-                    <textarea id="promptInput" name="prompt">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
+                    <label><i class="fa-solid fa-wand-magic-sparkles" style="margin-right:6px; opacity:0.5;"></i> Visual Style <span style="color:var(--brand); cursor:pointer; font-size:0.8rem; background:var(--brand-dim); padding:2px 8px; border-radius:4px;" onclick="generateRandomPrompt()"><i class="fa-solid fa-dice"></i> Random</span></label>
+                    <div class="tag-cloud" style="margin-bottom:10px;" id="styleTags">
+                        <span class="tag-chip" data-prompt="dark cyberpunk street, raining, cinematic lighting, neon glow">Cyberpunk</span>
+                        <span class="tag-chip" data-prompt="retro 80s synthwave landscape, glowing grid, vibrant neon sunset">Synthwave</span>
+                        <span class="tag-chip" data-prompt="ethereal underwater ruins, bioluminescent, light rays through water">Underwater</span>
+                        <span class="tag-chip" data-prompt="fantasy gothic castle, red moon, dramatic lighting, dark atmosphere">Gothic</span>
+                        <span class="tag-chip" data-prompt="cozy lo-fi bedroom, rain on window, warm lamp glow, anime aesthetic">Lo-fi</span>
+                        <span class="tag-chip" data-prompt="epic mountain landscape, dramatic clouds, golden hour, cinematic">Nature</span>
+                        <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors, organic motion">Abstract</span>
+                        <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, vibrant anime city">Tokyo Pop</span>
+                    </div>
+                    <textarea id="promptInput" name="prompt" placeholder="Describe the visual vibe you want...">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
+                    <div style="text-align:right; font-size:0.7rem; color:var(--muted); margin-top:4px;"><span id="promptCharCount">0</span>/500</div>
                 </div>
 
                 <div class="input-group">
-                    <label>歌詞 / 意象描述 (Lyrics / Script) <span style="color:var(--brand); font-size:0.8rem;">獨立解析頻道</span></label>
-                    <textarea id="lyricsInput" name="lyrics" placeholder="在此貼入歌詞或想呈現的具體畫面意象，AI 會獨立解析並與風格融合..."></textarea>
+                    <label><i class="fa-solid fa-quote-left" style="margin-right:6px; opacity:0.5;"></i> Lyrics / Scene Description <span style="color:var(--brand); font-size:0.8rem;">AI analyzes separately</span></label>
+                    <textarea id="lyricsInput" name="lyrics" placeholder="Paste lyrics or describe specific visual scenes you want AI to interpret..."></textarea>
                 </div>
 
-                <!-- 真實綁定比例的選擇器 -->
                 <div class="input-group">
                     <label>Aspect Ratio</label>
                     <div class="settings-row" id="ratioSelector">
@@ -177,13 +227,12 @@
                     </div>
                     <input type="hidden" name="ratio" id="ratioInput" value="16:9">
                 </div>
-
                 
-                <div class="input-group" style="margin-top: 24px;">
-                    <label>Resolution Quality</label>
+                <div class="input-group" style="margin-top: 16px;">
+                    <label>Resolution</label>
                     <div class="settings-row" id="resSelector">
-                        <div class="setting-btn active" data-res="720p">720p (Standard)</div>
-                        <div class="setting-btn" data-res="1080p" style="color: #7c5cff; border-color: rgba(124,92,255,0.5);"><i class="fa-solid fa-crown"></i> 1080p (Pro)</div>
+                        <div class="setting-btn active" data-res="720p">720p Standard</div>
+                        <div class="setting-btn" data-res="1080p" style="color: #7c5cff; border-color: rgba(124,92,255,0.5);"><i class="fa-solid fa-crown"></i> 1080p Pro</div>
                     </div>
                     <input type="hidden" name="resolution" id="resInput" value="720p">
                 </div>
@@ -191,9 +240,6 @@
                 <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
                     <button type="submit" class="cyber-btn" id="generateBtn" style="margin-top: 0; width: 100%; height: 60px;">
                         GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>
-                    </button>
-                    <button type="button" class="cyber-btn" id="cancelBtn" style="margin-top: 0; width: 100%; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.5); color: #ef4444; padding: 12px; font-size: 0.9rem; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="window.location.reload();">
-                        <i class="fa-solid fa-xmark"></i> CANCEL / RESET ENGINE
                     </button>
                 </div>
             </form>
@@ -355,18 +401,71 @@
 
         fileInput.addEventListener('change', (e) => {
             if(e.target.files.length) {
-                document.getElementById('fileNameDisplay').innerText = e.target.files[0].name;
+                const file = e.target.files[0];
+                document.getElementById('fileNameDisplay').innerText = file.name;
                 document.getElementById('fileNameDisplay').style.color = '#00ffaa';
+                // Show audio preview
+                const preview = document.getElementById('audioPreview');
+                const info = document.getElementById('audioInfo');
+                const dur = document.getElementById('audioDuration');
+                const waveform = document.getElementById('waveformViz');
+                preview.style.display = 'block';
+                info.innerText = `${file.name} (${(file.size/1024/1024).toFixed(1)}MB)`;
+                // Generate fake waveform bars
+                waveform.innerHTML = '';
+                for(let i=0; i<60; i++) {
+                    const bar = document.createElement('div');
+                    bar.className = 'wf-bar';
+                    bar.style.height = (Math.random() * 30 + 5) + 'px';
+                    waveform.appendChild(bar);
+                }
+                // Try to get duration
+                const audio = new Audio();
+                audio.src = URL.createObjectURL(file);
+                audio.addEventListener('loadedmetadata', () => {
+                    dur.innerText = `${Math.floor(audio.duration/60)}:${String(Math.floor(audio.duration%60)).padStart(2,'0')}`;
+                });
             }
         });
+
+        // Drag & drop visual
+        const dropArea = document.getElementById('dropArea');
+        ['dragenter','dragover'].forEach(ev => dropArea.addEventListener(ev, e => { e.preventDefault(); dropArea.classList.add('dragover'); }));
+        ['dragleave','drop'].forEach(ev => dropArea.addEventListener(ev, e => { e.preventDefault(); dropArea.classList.remove('dragover'); }));
+
+        // Style tag click handlers
+        document.getElementById('styleTags').addEventListener('click', e => {
+            const chip = e.target.closest('.tag-chip');
+            if(!chip) return;
+            document.querySelectorAll('#styleTags .tag-chip').forEach(c => c.classList.remove('selected'));
+            chip.classList.add('selected');
+            document.getElementById('promptInput').value = chip.dataset.prompt;
+            document.getElementById('promptCharCount').innerText = chip.dataset.prompt.length;
+        });
+
+        // Prompt character count
+        document.getElementById('promptInput').addEventListener('input', function() {
+            document.getElementById('promptCharCount').innerText = this.value.length;
+        });
+        document.getElementById('promptCharCount').innerText = document.getElementById('promptInput').value.length;
 
         function logMsg(msg) {
             terminal.innerHTML += `<p>> ${msg}</p>`;
             terminal.scrollTop = terminal.scrollHeight;
         }
 
+        function setStep(n) {
+            for(let i=1; i<=4; i++) {
+                const dot = document.getElementById(`step${i}dot`);
+                if(i < n) { dot.className = 'step-dot done'; }
+                else if(i === n) { dot.className = 'step-dot active'; }
+                else { dot.className = 'step-dot'; }
+            }
+        }
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if(GenerationStore.getCredits() <= 0) { alert('No credits remaining! Go to Settings to reset.'); return; }
             document.getElementById('emptyState').style.display = 'none';
             terminal.style.display = 'block';
             document.getElementById('progress-container').style.display = 'block';
@@ -377,6 +476,7 @@
             document.getElementById('videoResult').style.display = 'none';
             btn.innerHTML = 'UPLOADING... <i class="fa-solid fa-spinner fa-spin"></i>';
             btn.style.pointerEvents = "none";
+            setStep(1);
             
             const lyricsText = document.getElementById('lyricsInput').value;
             const formData = new FormData();
@@ -412,6 +512,7 @@
                 
                 logMsg("音軌已傳輸至 本機引擎！啟動 WebSocket 監聽進度...");
                 btn.innerHTML = 'GENERATING... <i class="fa-solid fa-circle-notch fa-spin"></i>';
+                setStep(2);
                 
                 let wsUrl;
                 if (BACKEND_URL.startsWith('https')) {
@@ -431,6 +532,7 @@
                         logMsg(`[GPU 算圖進度] ${msgData.percent}% (${msgData.val}/${msgData.max})`);
                         document.getElementById('progress-bar').style.width = msgData.percent + '%';
                         document.getElementById('progress-text').innerText = msgData.percent + '%';
+                        setStep(3);
                         if (msgData.percent > 0 && msgData.percent < 100) {
                             const elapsed = (Date.now() - startTime) / 1000;
                             const totalEst = elapsed / (msgData.percent / 100);
