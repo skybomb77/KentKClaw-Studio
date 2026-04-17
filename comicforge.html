@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComicForge 漫鍛 — AI 漫畫 | Kent & KClaw Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}:root{--bg:#0a0a0f;--panel:rgba(18,18,26,.65);--border:#27272a;--text:#ededed;--muted:#a1a1aa;--accent:#f59e0b}
+        body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text)}a{color:var(--accent);text-decoration:none}
+        .container{max-width:1100px;margin:0 auto;padding:0 24px}nav{padding:20px 0;display:flex;justify-content:space-between;align-items:center}
+        nav .logo{font-size:1.2rem;font-weight:700}nav .logo img{width:24px;height:24px;margin-right:8px;vertical-align:middle}
+        .nav-links{display:flex;gap:24px}.nav-links a{color:var(--muted);font-size:.9rem}
+        .hero{text-align:center;padding:100px 0 60px}.hero .tag{color:var(--accent);font-size:.85rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+        .hero h1{font-family:'Orbitron',sans-serif;font-size:3.5rem;margin-bottom:16px;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .hero .sub{color:var(--muted);font-size:1.2rem;max-width:600px;margin:0 auto 32px}
+        .tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:32px}.tags span{background:rgba(245,158,11,.1);color:var(--accent);padding:5px 14px;border-radius:99px;font-size:.8rem;border:1px solid rgba(245,158,11,.2)}
+        .features{max-width:600px;margin:0 auto 36px;text-align:left}.features div{display:flex;align-items:center;gap:10px;margin-bottom:10px;color:var(--muted);font-size:.9rem}.features i{color:var(--accent)}
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:12px;font-weight:600;border:1px solid var(--accent);color:var(--accent);background:rgba(245,158,11,.1)}
+        .styles{max-width:600px;margin:0 auto 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+        .styles div{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px 8px}.styles .emoji{font-size:1.5rem}.styles .name{font-size:.85rem;font-weight:600;margin-top:4px}
+        .pricing{max-width:800px;margin:0 auto 40px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center}
+        .pricing div{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 8px}
+        .pricing .name{font-weight:600;font-size:.85rem;margin-bottom:4px}.pricing .price{font-size:1.3rem;font-weight:800;color:var(--accent)}.pricing .per{font-size:.75rem;color:var(--muted)}
+        .back{text-align:center;padding:20px}.back a{color:var(--muted);font-size:.9rem}
+        footer{border-top:1px solid var(--border);padding:24px 0;text-align:center;color:var(--muted);font-size:.8rem}
+    </style>
+</head>
+<body><div class="container">
+    <nav><a href="index.html" class="logo"><img src="assets/logo.svg" alt=""> Kent & KClaw</a><div class="nav-links"><a href="index.html">← 所有產品</a><a href="https://skybomb77.github.io/comicforge/" target="_blank">獨立站</a></div></nav>
+    <div class="hero">
+        <div class="tag">📖 AI Comic Generator</div><h1>ComicForge 漫鍛</h1>
+        <p class="sub">說故事，出漫畫。上傳角色參考圖，輸入劇本，AI 自動生成角色一致的多格漫畫。</p>
+        <div class="tags"><span>日系漫畫</span><span>Webtoon</span><span>美式漫畫</span><span>水彩繪本</span><span>Q版可愛</span></div>
+        <div class="features">
+            <div><i class="fa-solid fa-check"></i> 上傳角色圖 → 每格保持一致性</div>
+            <div><i class="fa-solid fa-check"></i> 輸入故事大綱 → 自動分格生成</div>
+            <div><i class="fa-solid fa-check"></i> 6 種漫畫風格一鍵切換</div>
+            <div><i class="fa-solid fa-check"></i> 自動加入對話氣泡</div>
+        </div>
+        <a href="https://skybomb77.github.io/comicforge/" target="_blank" class="btn"><i class="fa-solid fa-book-open"></i> 免費開始創作</a>
+    </div>
+    <div class="styles">
+        <div><div class="emoji">📖</div><div class="name">日系黑白</div></div>
+        <div><div class="emoji">🎨</div><div class="name">日系彩色</div></div>
+        <div><div class="emoji">📱</div><div class="name">Webtoon</div></div>
+        <div><div class="emoji">💥</div><div class="name">美式漫畫</div></div>
+        <div><div class="emoji">💧</div><div class="name">水彩繪本</div></div>
+        <div><div class="emoji">😊</div><div class="name">Q版可愛</div></div>
+    </div>
+    <div class="pricing">
+        <div><div class="name">免費</div><div class="price">NT$0</div><div class="per">20 格</div></div>
+        <div><div class="name">創作者</div><div class="price">NT$590</div><div class="per">100 格/月</div></div>
+        <div><div class="name">工作室</div><div class="price">NT$1,490</div><div class="per">500 格/月</div></div>
+        <div><div class="name">出版社</div><div class="price">NT$2,990</div><div class="per">2000 格/月</div></div>
+    </div>
+    <div class="back"><a href="index.html">← 回到所有產品</a></div>
+</div><footer><div class="container">© 2026 Kent & KClaw Studio | 負責人：鄭凱壬 | skybomb7777@gmail.com</div></footer></body></html>

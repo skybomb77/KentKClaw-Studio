@@ -601,169 +601,61 @@
         </div>
     </section>
 
-    <!-- Product 1: ToneForge -->
-    <section class="product-section" id="toneforge">
-        <div class="product-content">
-            <p style="color: var(--accent-purple); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;">AI Music Engine</p>
-            <h2 class="toneforge-text">ToneForge</h2>
-            <div class="sub-heading">Studio-quality music in minutes, not days.</div>
-            <p>Describe the mood. Get the track. ToneForge generates royalty-free, broadcast-ready soundtracks powered by AI — built for content creators, editors, and brands who need music fast.</p>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 28px;">
-                <span style="background: rgba(185,122,245,0.1); color: var(--accent-purple); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(185,122,245,0.2);">YouTube配樂</span>
-                <span style="background: rgba(185,122,245,0.1); color: var(--accent-purple); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(185,122,245,0.2);">廣告音樂</span>
-                <span style="background: rgba(185,122,245,0.1); color: var(--accent-purple); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(185,122,245,0.2);">Podcast BGM</span>
-                <span style="background: rgba(185,122,245,0.1); color: var(--accent-purple); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(185,122,245,0.2);">短影音配樂</span>
-            </div>
-            <div style="margin-bottom: 28px;">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> 輸入情境描述，AI 自動作曲</div>
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> 支援多種風格：Lo-fi、Epic、Ambient、Hip-hop</div>
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> 商業授權，免版稅安心使用</div>
-                <div style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-purple);"></i> MP3 / WAV 一鍵匯出</div>
-            </div>
-            <a href="app/index.html?tab=toneforge" id="launch-tf-btn" class="btn" style="border: 1px solid var(--accent-purple); color: var(--accent-purple); background: rgba(185, 122, 245, 0.1);">
-                <i class="fa-solid fa-music"></i> <span>Start Creating — It's Free</span>
+    <!-- Product Grid (Compact) -->
+    <section style="padding: 100px 5%; border-top: 1px solid var(--border-color);">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Our Products</h2>
+            <p style="color: var(--text-secondary);">Five AI engines for every creative need.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <!-- ToneForge -->
+            <a href="toneforge.html" style="text-decoration:none; color:inherit;">
+                <div style="background: var(--panel-bg, rgba(255,255,255,0.02)); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; transition: all 0.3s; cursor: pointer;" onmouseover="this.style.borderColor='rgba(185,122,245,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.transform='none'">
+                    <div style="font-size: 2rem; margin-bottom: 12px;">🎵</div>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #b97af5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">ToneForge</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">AI 配樂引擎。輸入情境描述，幾分鐘內生成廣播級音樂。</p>
+                    <span style="color: #b97af5; font-size: 0.85rem; font-weight: 600;">了解更多 →</span>
+                </div>
             </a>
-        </div>
-        <div class="visual-box" style="box-shadow: 0 0 80px rgba(185, 122, 245, 0.15);">
-            <div class="anim-container">
-                <div class="waveform">
-                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <!-- WireVision -->
+            <a href="wirevision.html" style="text-decoration:none; color:inherit;">
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; transition: all 0.3s;" onmouseover="this.style.borderColor='rgba(0,255,170,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.transform='none'">
+                    <div style="font-size: 2rem; margin-bottom: 12px;">🎬</div>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #00ffaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">WireVision</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">AI 影片引擎。上傳音樂，自動生成節拍同步的 MV 短片。</p>
+                    <span style="color: #00ffaa; font-size: 0.85rem; font-weight: 600;">了解更多 →</span>
                 </div>
-                <div class="particle" style="left:15%;background:var(--accent-purple);animation-delay:0s"></div>
-                <div class="particle" style="left:40%;background:var(--accent-purple);animation-delay:0.8s"></div>
-                <div class="particle" style="left:70%;background:var(--accent-purple);animation-delay:1.6s"></div>
-                <div class="particle" style="left:85%;background:var(--accent-purple);animation-delay:2.2s"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Product 2: WireVision -->
-    <section class="product-section" id="wirevision">
-        <div class="visual-box" style="box-shadow: 0 0 80px rgba(0, 255, 170, 0.15);">
-            <div class="anim-container" style="align-items: center;">
-                <div class="film-strip">
-                    <div class="film-frame">🎬</div>
-                    <div class="film-frame">🎵</div>
-                    <div class="film-frame">✨</div>
-                    <div class="film-frame">🎬</div>
-                    <div class="film-frame">🎵</div>
-                    <div class="film-frame">✨</div>
-                    <div class="film-frame">🎬</div>
-                    <div class="film-frame">🎵</div>
-                    <div class="film-frame">✨</div>
-                    <div class="film-frame">🎬</div>
-                    <div class="film-frame">🎵</div>
-                    <div class="film-frame">✨</div>
-                </div>
-                <div class="particle" style="left:20%;background:var(--accent-green);animation-delay:0.3s"></div>
-                <div class="particle" style="left:50%;background:var(--accent-green);animation-delay:1.1s"></div>
-                <div class="particle" style="left:75%;background:var(--accent-green);animation-delay:1.9s"></div>
-            </div>
-        </div>
-        <div class="product-content">
-            <p style="color: var(--accent-green); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;">AI Video Engine</p>
-            <h2 class="wirevision-text">WireVision</h2>
-            <div class="sub-heading">Turn any song into a scroll-stopping video.</div>
-            <p>Upload your audio, describe the visual vibe, and WireVision generates beat-synced short videos in minutes. Powered by AI generation engines — built for creators who move fast.</p>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 28px;">
-                <span style="background: rgba(0,255,170,0.1); color: var(--accent-green); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(0,255,170,0.2);">Reels / Shorts</span>
-                <span style="background: rgba(0,255,170,0.1); color: var(--accent-green); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(0,255,170,0.2);">MV 製作</span>
-                <span style="background: rgba(0,255,170,0.1); color: var(--accent-green); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(0,255,170,0.2);">品牌廣告</span>
-                <span style="background: rgba(0,255,170,0.1); color: var(--accent-green); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(0,255,170,0.2);">音樂視覺化</span>
-            </div>
-            <div style="margin-bottom: 28px;">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> 音頻自動分析，節拍精準同步</div>
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> 文字提示詞控制視覺風格</div>
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> GPU 加速渲染，快速出片</div>
-                <div style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: var(--accent-green);"></i> 1080p MP4 直接下載</div>
-            </div>
-            <a href="app/index.html" id="launch-mv-btn" class="btn btn-wirevision"><i class="fa-solid fa-wand-magic-sparkles"></i> <span>Start Creating — It's Free</span></a>
-        </div>
-    </section>
-
-    <!-- Product 3: FrameForge -->
-    <section class="product-section" id="frameforge" style="border-top: 1px solid var(--border-color); padding: 120px 5%;">
-        <div class="product-content">
-            <p style="color: #38d5ff; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;">AI Animation Engine</p>
-            <h2 class="frameforge-text">FrameForge</h2>
-            <div class="sub-heading">Animate any image with a single click.</div>
-            <p>Upload a static image — concept art, product photo, illustration — and FrameForge brings it to life with AI-powered motion. Perfect for designers, marketers, and anyone who wants their visuals to move.</p>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 28px;">
-                <span style="background: rgba(56,213,255,0.1); color: #38d5ff; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(56,213,255,0.2);">概念動畫</span>
-                <span style="background: rgba(56,213,255,0.1); color: #38d5ff; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(56,213,255,0.2);">產品展示</span>
-                <span style="background: rgba(56,213,255,0.1); color: #38d5ff; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(56,213,255,0.2);">社群素材</span>
-                <span style="background: rgba(56,213,255,0.1); color: #38d5ff; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(56,213,255,0.2);">NFT 動態圖</span>
-            </div>
-            <div style="margin-bottom: 28px;">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: #38d5ff;"></i> 上傳 PNG / JPG / WebP 即可生成</div>
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: #38d5ff;"></i> 多種動態風格：呼吸、搖擺、縮放、3D 旋轉</div>
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: #38d5ff;"></i> ComfyUI + Stable Video Diffusion 引擎</div>
-                <div style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: #38d5ff;"></i> 高品質 MP4 / GIF 匯出</div>
-            </div>
-            <a href="app/index.html?tab=img2vid" id="launch-iv-btn" class="btn btn-frameforge" style="border: 1px solid #38d5ff; color: #38d5ff; background: rgba(56, 213, 255, 0.1);">
-                <i class="fa-solid fa-images"></i> <span>Start Creating — It's Free</span>
             </a>
-        </div>
-        <div class="visual-box" style="box-shadow: 0 0 80px rgba(56, 213, 255, 0.15);">
-            <div class="anim-container">
-                <div class="morph-grid">
-                    <div class="morph-cell"></div><div class="morph-cell"></div><div class="morph-cell"></div>
-                    <div class="morph-cell"></div><div class="morph-cell"></div><div class="morph-cell"></div>
-                    <div class="morph-cell"></div><div class="morph-cell"></div><div class="morph-cell"></div>
+            <!-- FrameForge -->
+            <a href="frameforge.html" style="text-decoration:none; color:inherit;">
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; transition: all 0.3s;" onmouseover="this.style.borderColor='rgba(56,213,255,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.transform='none'">
+                    <div style="font-size: 2rem; margin-bottom: 12px;">🖼️</div>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #38d5ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">FrameForge</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">AI 動畫引擎。上傳靜態圖片，一鍵生成動態影片。</p>
+                    <span style="color: #38d5ff; font-size: 0.85rem; font-weight: 600;">了解更多 →</span>
                 </div>
-                <div class="particle" style="left:10%;background:#38d5ff;animation-delay:0.2s"></div>
-                <div class="particle" style="left:35%;background:#38d5ff;animation-delay:1.0s"></div>
-                <div class="particle" style="left:60%;background:#38d5ff;animation-delay:1.8s"></div>
-                <div class="particle" style="left:90%;background:#38d5ff;animation-delay:2.5s"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Product 4: KC Product Shots -->
-    <section class="product-section" id="productshots" style="border-top: 1px solid var(--border-color); padding: 120px 5%;">
-        <div class="visual-box" style="box-shadow: 0 0 80px rgba(0, 232, 123, 0.15);">
-            <div class="anim-container" style="align-items: center;">
-                <div class="morph-grid">
-                    <div class="morph-cell" style="background: linear-gradient(135deg, rgba(0,232,123,0.15), transparent);"></div>
-                    <div class="morph-cell" style="background: linear-gradient(135deg, rgba(0,232,123,0.1), transparent);"></div>
-                    <div class="morph-cell" style="background: linear-gradient(135deg, rgba(0,232,123,0.2), transparent);"></div>
-                    <div class="morph-cell" style="background: linear-gradient(135deg, rgba(0,232,123,0.08), transparent);"></div>
-                    <div class="morph-cell" style="background: linear-gradient(135deg, rgba(0,232,123,0.15), transparent);"></div>
-                    <div class="morph-cell" style="background: linear-gradient(135deg, rgba(0,232,123,0.12), transparent);"></div>
-                    <div class="morph-cell" style="background: linear-gradient(135deg, rgba(0,232,123,0.18), transparent);"></div>
-                    <div class="morph-cell" style="background: linear-gradient(135deg, rgba(0,232,123,0.1), transparent);"></div>
-                    <div class="morph-cell" style="background: linear-gradient(135deg, rgba(0,232,123,0.14), transparent);"></div>
+            </a>
+            <!-- SnapForge -->
+            <a href="snapforge.html" style="text-decoration:none; color:inherit;">
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; transition: all 0.3s;" onmouseover="this.style.borderColor='rgba(0,232,123,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.transform='none'">
+                    <div style="font-size: 2rem; margin-bottom: 12px;">📸</div>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #00e87b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SnapForge 瞬拍</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">AI 商品攝影。上傳照片，AI 自動去背換背景，秒出電商級商品圖。</p>
+                    <span style="color: #00e87b; font-size: 0.85rem; font-weight: 600;">了解更多 →</span>
                 </div>
-                <div class="particle" style="left:15%;background:#00e87b;animation-delay:0.1s"></div>
-                <div class="particle" style="left:45%;background:#00e87b;animation-delay:0.9s"></div>
-                <div class="particle" style="left:75%;background:#00e87b;animation-delay:1.7s"></div>
-            </div>
-        </div>
-        <div class="product-content">
-            <p style="color: #00e87b; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;">AI Product Photography</p>
-            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 3.5rem; margin-bottom: 20px; background: linear-gradient(135deg, #fff, #00e87b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">SnapForge <span style="font-size:0.5em; opacity:0.8;">瞬拍</span></h2>
-            <div class="sub-heading">上傳照片，秒出專業商品圖。</div>
-            <p>不用攝影師、不用棚拍。上傳你的商品照片，AI 自動去背、換背景、打光，一鍵生成電商級商品圖。蝦皮、Momo、官網都適用。</p>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 28px;">
-                <span style="background: rgba(0,232,123,0.1); color: #00e87b; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(0,232,123,0.2);">電商商品圖</span>
-                <span style="background: rgba(0,232,123,0.1); color: #00e87b; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(0,232,123,0.2);">白底圖</span>
-                <span style="background: rgba(0,232,123,0.1); color: #00e87b; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(0,232,123,0.2);">生活場景</span>
-                <span style="background: rgba(0,232,123,0.1); color: #00e87b; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; border: 1px solid rgba(0,232,123,0.2);">品牌質感</span>
-            </div>
-            <div style="margin-bottom: 28px;">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: #00e87b;"></i> 手機拍的照片就能用</div>
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: #00e87b;"></i> 8 種專業背景風格一鍵切換</div>
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: #00e87b;"></i> AI 自動去背 + 換背景 + 打光</div>
-                <div style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary); font-size: 0.9rem;"><i class="fa-solid fa-check" style="color: #00e87b;"></i> 省下 90% 棚拍費用</div>
-            </div>
-            <a href="https://skybomb77.github.io/kc-product-shots-site/" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 12px; border: 1px solid #00e87b; color: #00e87b; background: rgba(0, 232, 123, 0.1); font-weight: 600; text-decoration: none; transition: all 0.3s;">
-                <i class="fa-solid fa-camera"></i> <span>免費試用</span>
+            </a>
+            <!-- ComicForge -->
+            <a href="comicforge.html" style="text-decoration:none; color:inherit;">
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; transition: all 0.3s;" onmouseover="this.style.borderColor='rgba(245,158,11,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.transform='none'">
+                    <div style="font-size: 2rem; margin-bottom: 12px;">📖</div>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">ComicForge 漫鍛</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">AI 漫畫生成。輸入故事，AI 自動出多格漫畫，角色每格一致。</p>
+                    <span style="color: #f59e0b; font-size: 0.85rem; font-weight: 600;">了解更多 →</span>
+                </div>
             </a>
         </div>
     </section>
+
 
     <script>
         // Navbar scroll effect
