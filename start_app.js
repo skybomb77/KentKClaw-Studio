@@ -74,6 +74,12 @@ const { spawn, execSync } = require('child_process');
         console.log('🚀 啟動 Chaobang 後端中樞神經...');
         const server = spawn('node', ['server.js'], { stdio: 'inherit', cwd: __dirname });
         
+        // 啟動 Hermes API Server (智慧 AI 助手層)
+        console.log('🧠 啟動 Hermes API Server (Port 3001)...');
+        const hermesDir = path.join(__dirname, 'hermes-api-server');
+        const hermesServer = spawn('node', ['server.js'], { stdio: 'inherit', cwd: hermesDir, env: { ...process.env, PYTHON_PATH: path.join(__dirname, '.venv', 'bin', 'python') } });
+        hermesServer.on('error', (err) => console.error('[Hermes] 啟動失敗:', err.message));
+        
         console.log('📦 正在將最新網址同步推送到 Vercel 正式站，這可能需要 10 秒...');
         const gitPush = spawn('git', ['commit', '-am', 'feat: update tunnel url via ngrok automatically', '&&', 'git', 'push', 'origin', 'main'], { shell: true });
         
