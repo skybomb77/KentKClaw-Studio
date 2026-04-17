@@ -234,10 +234,17 @@
     return '我是 KClaw 🐯 目前處於離線模式。連上網路後我可以幫你分析需求、推薦引擎、優化提示詞！';
   }
 
-  // Initialize when DOM is ready
+  // Initialize when DOM is ready - with error handling
+  function init() {
+    try {
+      createWidget();
+    } catch(e) {
+      console.error('[KClaw] Widget init error:', e);
+    }
+  }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', createWidget);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    createWidget();
+    init();
   }
 })();
