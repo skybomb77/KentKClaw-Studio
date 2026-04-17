@@ -601,56 +601,93 @@
         </div>
     </section>
 
-    <!-- Product Grid (Compact) -->
+    <!-- Product Grid (Enhanced) -->
     <section style="padding: 100px 5%; border-top: 1px solid var(--border-color);">
-        <div style="text-align: center; margin-bottom: 60px;">
+        <style>
+            @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+            .filter-tab { padding: 8px 20px; border-radius: 999px; border: 1px solid var(--border-color); background: transparent; color: var(--text-secondary); font-size: 0.85rem; cursor: pointer; transition: all 0.3s; font-family: inherit; }
+            .filter-tab:hover { border-color: rgba(255,255,255,0.3); color: var(--text-primary); }
+            .filter-tab.active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff; }
+            .product-card { transition: all 0.4s; }
+            .product-card:hover .card-inner { transform: translateY(-6px); }
+            .product-card:hover .card-glow { opacity: 1 !important; }
+            .product-card:hover .card-icon { animation: float 1.5s ease-in-out infinite !important; }
+            .product-card:hover .fa-arrow-right { transform: translateX(4px) !important; }
+            .product-card.hidden { display: none; }
+            .product-card.show { display: block; animation: fadeIn 0.4s ease; }
+            @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        </style>
+        <div style="text-align: center; margin-bottom: 40px;">
             <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Our Products</h2>
-            <p style="color: var(--text-secondary);">Five AI engines for every creative need.</p>
+            <p style="color: var(--text-secondary); margin-bottom: 28px;">Five AI engines for every creative need.</p>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;">
+                <button onclick="filterProducts('all')" class="filter-tab active" data-filter="all">✨ 全部</button>
+                <button onclick="filterProducts('music')" class="filter-tab" data-filter="music">🎵 音樂</button>
+                <button onclick="filterProducts('video')" class="filter-tab" data-filter="video">🎬 影片</button>
+                <button onclick="filterProducts('image')" class="filter-tab" data-filter="image">🖼️ 圖片</button>
+                <button onclick="filterProducts('commerce')" class="filter-tab" data-filter="commerce">📸 商業</button>
+                <button onclick="filterProducts('creative')" class="filter-tab" data-filter="creative">📖 創作</button>
+            </div>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-            <!-- ToneForge -->
-            <a href="toneforge.html" style="text-decoration:none; color:inherit;">
-                <div style="background: var(--panel-bg, rgba(255,255,255,0.02)); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; transition: all 0.3s; cursor: pointer;" onmouseover="this.style.borderColor='rgba(185,122,245,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.transform='none'">
-                    <div style="font-size: 2rem; margin-bottom: 12px;">🎵</div>
-                    <h3 style="font-size: 1.3rem; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #b97af5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">ToneForge</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">AI 配樂引擎。輸入情境描述，幾分鐘內生成廣播級音樂。</p>
-                    <span style="color: #b97af5; font-size: 0.85rem; font-weight: 600;">了解更多 →</span>
+        <div class="product-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <a href="toneforge.html" class="product-card show" data-category="music" style="text-decoration:none; color:inherit;">
+                <div class="card-inner" style="background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:20px; padding:32px; transition:all 0.4s; position:relative; overflow:hidden;">
+                    <div class="card-glow" style="position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle at 50% 50%, rgba(185,122,245,0.1), transparent 60%); opacity:0; transition:opacity 0.4s;"></div>
+                    <div style="position:relative; z-index:1;">
+                        <div class="card-icon" style="font-size:2.5rem; margin-bottom:16px; display:inline-block; animation:float 3s ease-in-out infinite;">🎵</div>
+                        <span style="display:inline-block; background:rgba(185,122,245,.15); color:#b97af5; font-size:.7rem; padding:3px 10px; border-radius:999px; margin-bottom:12px; font-weight:600; letter-spacing:.5px;">MUSIC</span>
+                        <h3 style="font-size:1.4rem; margin-bottom:8px; background:linear-gradient(135deg,#fff,#b97af5); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">ToneForge</h3>
+                        <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:20px; line-height:1.6;">AI 配樂引擎。輸入情境描述，幾分鐘內生成廣播級音樂。</p>
+                        <span style="color:#b97af5; font-size:0.85rem; font-weight:600; display:flex; align-items:center; gap:6px;">了解更多 <i class="fa-solid fa-arrow-right" style="transition:transform 0.3s;"></i></span>
+                    </div>
                 </div>
             </a>
-            <!-- WireVision -->
-            <a href="wirevision.html" style="text-decoration:none; color:inherit;">
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; transition: all 0.3s;" onmouseover="this.style.borderColor='rgba(0,255,170,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.transform='none'">
-                    <div style="font-size: 2rem; margin-bottom: 12px;">🎬</div>
-                    <h3 style="font-size: 1.3rem; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #00ffaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">WireVision</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">AI 影片引擎。上傳音樂，自動生成節拍同步的 MV 短片。</p>
-                    <span style="color: #00ffaa; font-size: 0.85rem; font-weight: 600;">了解更多 →</span>
+            <a href="wirevision.html" class="product-card show" data-category="video" style="text-decoration:none; color:inherit;">
+                <div class="card-inner" style="background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:20px; padding:32px; transition:all 0.4s; position:relative; overflow:hidden;">
+                    <div class="card-glow" style="position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle at 50% 50%, rgba(0,255,170,0.1), transparent 60%); opacity:0; transition:opacity 0.4s;"></div>
+                    <div style="position:relative; z-index:1;">
+                        <div class="card-icon" style="font-size:2.5rem; margin-bottom:16px; display:inline-block; animation:float 3s ease-in-out infinite 0.5s;">🎬</div>
+                        <span style="display:inline-block; background:rgba(0,255,170,.15); color:#00ffaa; font-size:.7rem; padding:3px 10px; border-radius:999px; margin-bottom:12px; font-weight:600; letter-spacing:.5px;">VIDEO</span>
+                        <h3 style="font-size:1.4rem; margin-bottom:8px; background:linear-gradient(135deg,#fff,#00ffaa); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">WireVision</h3>
+                        <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:20px; line-height:1.6;">AI 影片引擎。上傳音樂，自動生成節拍同步的 MV 短片。</p>
+                        <span style="color:#00ffaa; font-size:0.85rem; font-weight:600; display:flex; align-items:center; gap:6px;">了解更多 <i class="fa-solid fa-arrow-right" style="transition:transform 0.3s;"></i></span>
+                    </div>
                 </div>
             </a>
-            <!-- FrameForge -->
-            <a href="frameforge.html" style="text-decoration:none; color:inherit;">
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; transition: all 0.3s;" onmouseover="this.style.borderColor='rgba(56,213,255,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.transform='none'">
-                    <div style="font-size: 2rem; margin-bottom: 12px;">🖼️</div>
-                    <h3 style="font-size: 1.3rem; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #38d5ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">FrameForge</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">AI 動畫引擎。上傳靜態圖片，一鍵生成動態影片。</p>
-                    <span style="color: #38d5ff; font-size: 0.85rem; font-weight: 600;">了解更多 →</span>
+            <a href="frameforge.html" class="product-card show" data-category="image" style="text-decoration:none; color:inherit;">
+                <div class="card-inner" style="background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:20px; padding:32px; transition:all 0.4s; position:relative; overflow:hidden;">
+                    <div class="card-glow" style="position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle at 50% 50%, rgba(56,213,255,0.1), transparent 60%); opacity:0; transition:opacity 0.4s;"></div>
+                    <div style="position:relative; z-index:1;">
+                        <div class="card-icon" style="font-size:2.5rem; margin-bottom:16px; display:inline-block; animation:float 3s ease-in-out infinite 1s;">🖼️</div>
+                        <span style="display:inline-block; background:rgba(56,213,255,.15); color:#38d5ff; font-size:.7rem; padding:3px 10px; border-radius:999px; margin-bottom:12px; font-weight:600; letter-spacing:.5px;">ANIMATION</span>
+                        <h3 style="font-size:1.4rem; margin-bottom:8px; background:linear-gradient(135deg,#fff,#38d5ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">FrameForge</h3>
+                        <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:20px; line-height:1.6;">AI 動畫引擎。上傳靜態圖片，一鍵生成動態影片。</p>
+                        <span style="color:#38d5ff; font-size:0.85rem; font-weight:600; display:flex; align-items:center; gap:6px;">了解更多 <i class="fa-solid fa-arrow-right" style="transition:transform 0.3s;"></i></span>
+                    </div>
                 </div>
             </a>
-            <!-- SnapForge -->
-            <a href="snapforge.html" style="text-decoration:none; color:inherit;">
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; transition: all 0.3s;" onmouseover="this.style.borderColor='rgba(0,232,123,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.transform='none'">
-                    <div style="font-size: 2rem; margin-bottom: 12px;">📸</div>
-                    <h3 style="font-size: 1.3rem; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #00e87b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SnapForge 瞬拍</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">AI 商品攝影。上傳照片，AI 自動去背換背景，秒出電商級商品圖。</p>
-                    <span style="color: #00e87b; font-size: 0.85rem; font-weight: 600;">了解更多 →</span>
+            <a href="snapforge.html" class="product-card show" data-category="commerce" style="text-decoration:none; color:inherit;">
+                <div class="card-inner" style="background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:20px; padding:32px; transition:all 0.4s; position:relative; overflow:hidden;">
+                    <div class="card-glow" style="position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle at 50% 50%, rgba(0,232,123,0.1), transparent 60%); opacity:0; transition:opacity 0.4s;"></div>
+                    <div style="position:relative; z-index:1;">
+                        <div class="card-icon" style="font-size:2.5rem; margin-bottom:16px; display:inline-block; animation:float 3s ease-in-out infinite 1.5s;">📸</div>
+                        <span style="display:inline-block; background:rgba(0,232,123,.15); color:#00e87b; font-size:.7rem; padding:3px 10px; border-radius:999px; margin-bottom:12px; font-weight:600; letter-spacing:.5px;">E-COMMERCE</span>
+                        <h3 style="font-size:1.4rem; margin-bottom:8px; background:linear-gradient(135deg,#fff,#00e87b); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">SnapForge 瞬拍</h3>
+                        <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:20px; line-height:1.6;">AI 商品攝影。上傳照片，AI 自動去背換背景，秒出電商級商品圖。</p>
+                        <span style="color:#00e87b; font-size:0.85rem; font-weight:600; display:flex; align-items:center; gap:6px;">了解更多 <i class="fa-solid fa-arrow-right" style="transition:transform 0.3s;"></i></span>
+                    </div>
                 </div>
             </a>
-            <!-- ComicForge -->
-            <a href="comicforge.html" style="text-decoration:none; color:inherit;">
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; transition: all 0.3s;" onmouseover="this.style.borderColor='rgba(245,158,11,0.5)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.transform='none'">
-                    <div style="font-size: 2rem; margin-bottom: 12px;">📖</div>
-                    <h3 style="font-size: 1.3rem; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">ComicForge 漫鍛</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">AI 漫畫生成。輸入故事，AI 自動出多格漫畫，角色每格一致。</p>
-                    <span style="color: #f59e0b; font-size: 0.85rem; font-weight: 600;">了解更多 →</span>
+            <a href="comicforge.html" class="product-card show" data-category="creative" style="text-decoration:none; color:inherit;">
+                <div class="card-inner" style="background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:20px; padding:32px; transition:all 0.4s; position:relative; overflow:hidden;">
+                    <div class="card-glow" style="position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle at 50% 50%, rgba(245,158,11,0.1), transparent 60%); opacity:0; transition:opacity 0.4s;"></div>
+                    <div style="position:relative; z-index:1;">
+                        <div class="card-icon" style="font-size:2.5rem; margin-bottom:16px; display:inline-block; animation:float 3s ease-in-out infinite 2s;">📖</div>
+                        <span style="display:inline-block; background:rgba(245,158,11,.15); color:#f59e0b; font-size:.7rem; padding:3px 10px; border-radius:999px; margin-bottom:12px; font-weight:600; letter-spacing:.5px;">COMIC</span>
+                        <h3 style="font-size:1.4rem; margin-bottom:8px; background:linear-gradient(135deg,#fff,#f59e0b); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">ComicForge 漫鍛</h3>
+                        <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:20px; line-height:1.6;">AI 漫畫生成。輸入故事，AI 自動出多格漫畫，角色每格一致。</p>
+                        <span style="color:#f59e0b; font-size:0.85rem; font-weight:600; display:flex; align-items:center; gap:6px;">了解更多 <i class="fa-solid fa-arrow-right" style="transition:transform 0.3s;"></i></span>
+                    </div>
                 </div>
             </a>
         </div>
@@ -658,6 +695,21 @@
 
 
     <script>
+        // Product filter
+        function filterProducts(cat) {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.filter-tab[data-filter="${cat}"]`).classList.add('active');
+            document.querySelectorAll('.product-card').forEach(card => {
+                if (cat === 'all' || card.dataset.category === cat) {
+                    card.classList.remove('hidden');
+                    card.classList.add('show');
+                } else {
+                    card.classList.add('hidden');
+                    card.classList.remove('show');
+                }
+            });
+        }
+
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
