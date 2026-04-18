@@ -543,12 +543,13 @@
                         }
                     }
                 } else {
-                    // Save params before redirect
-                    if (preAuthParams && preAuthParams.length > 1) {
-                        sessionStorage.setItem('kc_pre_auth_params', preAuthParams);
+                    // Show login overlay instead of redirecting
+                    document.getElementById('login-overlay').style.display = 'flex';
+                    document.getElementById('mainApp').style.display = 'none';
+                    // Mount Clerk sign-in component
+                    if (window.Clerk.mountSignIn) {
+                        window.Clerk.mountSignIn(document.getElementById('sign-in'));
                     }
-                    const targetUrl = new URL('../index.html', window.location.href).href;
-                    window.location.href = targetUrl;
                 }
             } catch (err) { console.error("Clerk 初始化錯誤:", err); }
         });
