@@ -546,6 +546,98 @@
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
 </head>
+    ```javascript
+    <script>
+    // KClaw 自動修復腳本 - FAQ 國際化 + Sign In 對話框標題
+    (function() {
+        // 等待頁面載入完成
+        window.addEventListener('DOMContentLoaded', function() {
+            // 1. 為 FAQ 問題和答案添加 data-i18n 屬性
+            const faqItems = document.querySelectorAll('.faq-item');
+            const faqKeys = [
+                { question: 'faqQ1', answer: 'faqA1' },
+                { question: 'faqQ2', answer: 'faqA2' },
+                { question: 'faqQ3', answer: 'faqA3' },
+                { question: 'faqQ4', answer: 'faqA4' },
+                { question: 'faqQ5', answer: 'faqA5' },
+                { question: 'faqQ6', answer: 'faqA6' }
+            ];
+
+            faqItems.forEach((item, index) => {
+                if (index < faqKeys.length) {
+                    const question = item.querySelector('.faq-q');
+                    const answer = item.querySelector('.faq-a');
+
+                    if (question) question.setAttribute('data-i18n', faqKeys[index].question);
+                    if (answer) answer.setAttribute('data-i18n', faqKeys[index].answer);
+                }
+            });
+
+            // 2. 添加 FAQ 翻譯到 dict 對象
+            if (typeof dict !== 'undefined') {
+                // 英文翻譯
+                dict.en.faqQ1 = "What file formats do you support for upload?";
+                dict.en.faqA1 = "We support MP3, WAV, FLAC for audio uploads, and PNG, JPG, WebP for image uploads. Export formats include MP3, WAV for audio and MP4 for video.";
+                dict.en.faqQ2 = "Can I use the generated content commercially?";
+                dict.en.faqA2 = "Yes! Pro and Enterprise plans include a full commercial license. Free plan content is for personal use only.";
+                dict.en.faqQ3 = "How long does generation take?";
+                dict.en.faqA3 = "Most music tracks are generated in under 2 minutes. Video generation typically takes 3-5 minutes depending on length and complexity. Pro users get priority queue access.";
+                dict.en.faqQ4 = "Do I need to install any software?";
+                dict.en.faqA4 = "No. Kent & KClaw Studio is fully cloud-based. Just open your browser, sign in, and start creating. Works on Mac, Windows, and Linux.";
+                dict.en.faqQ5 = "Can I cancel my subscription anytime?";
+                dict.en.faqA5 = "Absolutely. No contracts, no hidden fees. Cancel anytime from your account settings. You'll retain access until the end of your billing period.";
+                dict.en.faqQ6 = "What AI models power your engines?";
+                dict.en.faqA6 = "Our music engine uses state-of-the-art audio synthesis models. For visuals, we run AI pipelines powered by Stable Diffusion and custom motion models on high-performance GPU hardware.";
+
+                // 中文翻譯
+                dict.zh.faqQ1 = "你支援哪些檔案格式？";
+                dict.zh.faqA1 = "我們支援 MP3、WAV、FLAC 的音訊上傳，以及 PNG、JPG、WebP 的圖片上傳。匯出格式包括 MP3、WAV 的音訊和 MP4 的影片。";
+                dict.zh.faqQ2 = "我可以商業使用生成的內容嗎？";
+                dict.zh.faqA2 = "可以！Pro 和企業方案包含完整的商業授權。免費方案的內容僅供個人使用。";
+                dict.zh.faqQ3 = "生成需要多長時間？";
+                dict.zh.faqA3 = "大多數音樂曲目在 2 分鐘內生成。影片生成通常需要 3-5 分鐘，取決於長度和複雜度。Pro 用戶享有優先處理權限。";
+                dict.zh.faqQ4 = "我需要安裝任何軟體嗎？";
+                dict.zh.faqA4 = "不需要。Kent & KClaw Studio 完全基於雲端。只需開啟瀏覽器，登入，即可開始創作。支援 Mac、Windows 和 Linux 。";
+                dict.zh.faqQ5 = "我可以隨時取消訂閱嗎？";
+                dict.zh.faqA5 = "當然可以。沒有合約，沒有隱藏費用。隨時從帳戶設定中取消。您將保留存取權限直到計費週期結束。";
+                dict.zh.faqQ6 = "你們的引擎使用哪些 AI 模型？";
+                dict.zh.faqA6 = "我們的音樂引擎使用最先進的音訊合成模型。視覺方面，我們運行由 Stable Diffusion 和自訂動態模型驅動的 AI 管 線，在高效能 GPU 硬體上執行。";
+
+                // 更新內容
+                if (typeof updateContent === 'function') {
+                    updateContent();
+                }
+            }
+
+            // 3. 修改 Sign In 對話框標題（當對話框出現時）
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.addedNodes.length) {
+                        mutation.addedNodes.forEach(function(node) {
+                            if (node.nodeType === 1) { // Element node
+                                const clerkTitle = node.querySelector('h1.cl-headerTitle');
+                                const clerkSubtitle = node.querySelector('p.cl-headerSubtitle');
+
+                                if (clerkTitle && clerkTitle.textContent.includes('Sign in to WireVision')) {
+                                    clerkTitle.textContent = '登入 Kent & KClaw Studio';
+                                }
+
+                                if (clerkSubtitle && clerkSubtitle.textContent.includes('Welcome back')) {
+                                    clerkSubtitle.textContent = '歡迎回來！請登入以繼續';
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+            // 開始觀察 document.body 的變化
+            observer.observe(document.body, { childList: true, subtree: true });
+
+            console.log('✅ KClaw 自動修復腳本已載入');
+        });
+    })();
+    </script>
 <body>
 
     <nav id="navbar">
