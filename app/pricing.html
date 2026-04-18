@@ -77,61 +77,67 @@
 
     <main class="main-content">
         <div class="header-title">
-            <h1>Upgrade Your Creative Workflow</h1>
-            <p>Unlock faster rendering, higher resolutions, and commercial rights.</p>
+            <h1>選擇你的創作方案</h1>
+            <p>每個產品都有免費體驗，按需升級解鎖更多功能。</p>
         </div>
 
         <div class="pricing-grid">
-            <!-- Basic Tier -->
+            <!-- Free Tier -->
             <div class="tier-card">
                 <div class="tier-header">
-                    <div class="tier-name">Free Explorer</div>
-                    <div class="tier-price">$0<span>/mo</span></div>
-                    <div class="tier-desc">For testing and personal experiments.</div>
+                    <div class="tier-name">免費體驗 Free</div>
+                    <div class="tier-price">NT$0</div>
+                    <div class="tier-desc">每個產品都可免費試用，體驗 AI 創作的魅力。</div>
                 </div>
                 <ul class="tier-features">
-                    <li><i class="fa-solid fa-check"></i> 10 Generations per month</li>
-                    <li><i class="fa-solid fa-check"></i> Standard Queue (Slow)</li>
-                    <li><i class="fa-solid fa-check"></i> 720p Output</li>
-                    <li><i class="fa-solid fa-check"></i> Chaobang Watermark</li>
-                    <li class="disabled"><i class="fa-solid fa-xmark"></i> Commercial Rights</li>
+                    <li><i class="fa-solid fa-check"></i> 每月 10 次生成</li>
+                    <li><i class="fa-solid fa-check"></i> 標準畫質 (720p)</li>
+                    <li><i class="fa-solid fa-check"></i> 基礎風格</li>
+                    <li><i class="fa-solid fa-check"></i> 標準排隊速度</li>
+                    <li class="disabled"><i class="fa-solid fa-xmark"></i> 商業使用權</li>
                 </ul>
-                <a href="#" class="action-btn">Current Plan</a>
+                <button class="action-btn" data-plan="free" data-price="0">目前方案</button>
             </div>
 
-            <!-- Pro Tier -->
+            <!-- Creator Pro -->
             <div class="tier-card popular">
                 <div class="tier-header">
-                    <div class="tier-name">Creator Pro</div>
-                    <div class="tier-price">$15<span>/mo</span></div>
-                    <div class="tier-desc">For active creators and social media managers.</div>
+                    <div class="tier-name">創作者 Creator Pro</div>
+                    <div class="tier-price">NT$590<span>/月</span></div>
+                    <div class="tier-desc">適合活躍創作者和社群經營者，解鎖進階功能。</div>
                 </div>
                 <ul class="tier-features">
-                    <li><i class="fa-solid fa-check"></i> 200 Generations per month</li>
-                    <li><i class="fa-solid fa-check"></i> 1080p High-Res Output</li>
-                    <li><i class="fa-solid fa-check"></i> Pro Mode (CFG / Steps / Seed)</li>
-                    <li><i class="fa-solid fa-check"></i> Premium Styles Unlocked</li>
-                    <li><i class="fa-solid fa-check"></i> Priority Server Queue</li>
+                    <li><i class="fa-solid fa-check"></i> 每月 200 次生成</li>
+                    <li><i class="fa-solid fa-check"></i> 高畫質 1080p</li>
+                    <li><i class="fa-solid fa-check"></i> 進階模式 (CFG/Steps/Seed)</li>
+                    <li><i class="fa-solid fa-check"></i> 全部風格解鎖</li>
+                    <li><i class="fa-solid fa-check"></i> 優先排隊</li>
                 </ul>
-                <a href="#" class="action-btn pro-btn">Upgrade to Pro</a>
+                <button class="action-btn pro-btn" data-plan="creator" data-price="590">升級 Creator Pro</button>
             </div>
 
-            <!-- Studio Tier -->
+            <!-- Studio -->
             <div class="tier-card">
                 <div class="tier-header">
-                    <div class="tier-name">Studio Max</div>
-                    <div class="tier-price">Contact<span> for pricing</span></div>
-                    <div class="tier-desc">For agencies, musicians, and power users.</div>
+                    <div class="tier-name">工作室 Studio</div>
+                    <div class="tier-price">NT$1,490<span>/月</span></div>
+                    <div class="tier-desc">適合工作室和重度使用者，無限制創作。</div>
                 </div>
                 <ul class="tier-features">
-                    <li><i class="fa-solid fa-check"></i> Unlimited Generations</li>
-                    <li><i class="fa-solid fa-check"></i> Dedicated GPU Node (Instant)</li>
-                    <li><i class="fa-solid fa-check"></i> 4K Ultra-Res & Custom Ratios</li>
-                    <li><i class="fa-solid fa-check"></i> Advanced Style Tuning (LoRA)</li>
-                    <li><i class="fa-solid fa-check"></i> Full Commercial & Resale Rights</li>
+                    <li><i class="fa-solid fa-check"></i> 每月 1000 次生成</li>
+                    <li><i class="fa-solid fa-check"></i> 4K 超高畫質</li>
+                    <li><i class="fa-solid fa-check"></i> 專用 GPU 節點（即時）</li>
+                    <li><i class="fa-solid fa-check"></i> 自訂 LoRA 風格微調</li>
+                    <li><i class="fa-solid fa-check"></i> 完整商業 & 轉售權</li>
                 </ul>
-                <a href="mailto:skybomb77@gmail.com" class="action-btn enterprise-btn">Contact Sales</a>
+                <button class="action-btn enterprise-btn" data-plan="studio" data-price="1490">升級 Studio</button>
             </div>
+        </div>
+
+        <!-- Payment pending notice -->
+        <div style="text-align:center;margin-top:40px;padding:20px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:12px;max-width:600px;">
+            <p style="color:#f59e0b;font-size:.9rem;font-weight:600;margin-bottom:4px;">💳 金流系統建置中</p>
+            <p style="color:var(--muted);font-size:.8rem;">目前可免費體驗所有功能。付費方案即將上線，敬請期待！</p>
         </div>
     </main>
 
