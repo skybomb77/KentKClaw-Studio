@@ -28,7 +28,14 @@ app.get('/api/hermes',(req,res)=>res.json({name:'Hermes API Server',version:'1.0
   {method:'GET',path:'/api/hermes/health',desc:'健康檢查'},
 ]}));
 
+// Telegram Bot
+const { getBot: startTelegramBot } = require('./routes/telegram');
+
 app.use((req,res)=>res.status(404).json({success:false,error:'Not found'}));
 
-app.listen(PORT,()=>console.log(`\n🐯 Hermes API Server v1.0.0 | Port ${PORT}\n   Health: /api/hermes/health\n   Docs:   /api/hermes\n`));
+app.listen(PORT,()=>{
+  console.log(`\n🐯 Hermes API Server v1.0.0 | Port ${PORT}\n   Health: /api/hermes/health\n   Docs:   /api/hermes\n`);
+  // Start Telegram bot
+  startTelegramBot();
+});
 module.exports=app;
