@@ -618,8 +618,8 @@
             @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         </style>
         <div style="text-align: center; margin-bottom: 40px;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Our Products</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 28px;">Five AI engines for every creative need.</p>
+            <h2 style="font-size: 2.5rem; margin-bottom: 12px;" data-i18n="productsTitle">Our Products</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 28px;" data-i18n="productsSub">Five AI engines for every creative need.</p>
             <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;">
                 <button onclick="filterProducts('all')" class="filter-tab active" data-filter="all">✨ 全部</button>
                 <button onclick="filterProducts('music')" class="filter-tab" data-filter="music">🎵 音樂</button>
@@ -769,7 +769,17 @@
                 planEnt: "Enterprise", entPrice: "Custom", entDesc: "For teams and agencies.",
                 entF1: "Everything in Pro", entF2: "Unlimited everything",
                 entF3: "4K export quality", entF4: "API access",
-                entF5: "Dedicated account manager", entF6: "Custom integrations"
+                entF5: "Dedicated account manager", entF6: "Custom integrations",
+                productsTitle: "Our Products", productsSub: "Five AI engines for every creative need.",
+                teamTitle: "Who We Are", teamSub: "The minds behind the innovation.",
+                statTracks: "Tracks Generated", statVideos: "Videos Created",
+                statUptime: "Uptime", statTime: "Avg. Generation Time",
+                testimonialsTag: "TESTIMONIALS", testimonialsTitle: "Loved by creators worldwide",
+                testimonialsSub: "See what our users have to say about their experience.",
+                contactSales: "Contact Sales",
+                faqTitle: "Frequently Asked Questions", faqSub: "Everything you need to know about our platform.",
+                bottomCtaTitle: "Ready to create?", bottomCtaSub: "Join thousands of creators building music and visual content with AI.",
+                bottomCtaBtn: "Start Creating Free", bottomCtaPricing: "View Pricing"
             },
             zh: {
                 navTone: "ToneForge 音樂",
@@ -813,7 +823,17 @@
                 planEnt: "企業版", entPrice: "客製報價", entDesc: "適合團隊與代理商。",
                 entF1: "Pro 版全部功能", entF2: "無限使用",
                 entF3: "4K 匯出畫質", entF4: "API 存取",
-                entF5: "專屬客戶經理", entF6: "客製化整合"
+                entF5: "專屬客戶經理", entF6: "客製化整合",
+                productsTitle: "我們的產品", productsSub: "五大 AI 引擎，滿足所有創作需求。",
+                teamTitle: "我們是誰", teamSub: "創新背後的推手。",
+                statTracks: "音樂已生成", statVideos: "影片已產出",
+                statUptime: "系統穩定度", statTime: "平均生成時間",
+                testimonialsTag: "用戶評價", testimonialsTitle: "全球創作者都愛用",
+                testimonialsSub: "看看用戶怎麼說。",
+                contactSales: "聯絡業務",
+                faqTitle: "常見問題", faqSub: "你需要知道的一切，都在這裡。",
+                bottomCtaTitle: "準備好開始創作了嗎？", bottomCtaSub: "加入數千位創作者，一起用 AI 打造音樂與視覺內容。",
+                bottomCtaBtn: "免費開始創作", bottomCtaPricing: "查看價格方案"
             }
         };
 
@@ -921,8 +941,8 @@ document.body.appendChild(script);
     <!-- Team -->
     <section id="team" style="text-align: center; padding: 100px 5%; border-top: 1px solid var(--border-color);">
         <div style="margin-bottom: 60px;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Who We Are</h2>
-            <p style="color: var(--text-secondary);">The minds behind the innovation.</p>
+            <h2 style="font-size: 2.5rem; margin-bottom: 12px;" data-i18n="teamTitle">Who We Are</h2>
+            <p style="color: var(--text-secondary);" data-i18n="teamSub">The minds behind the innovation.</p>
         </div>
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
             <article style="background: rgba(255, 255, 255, 0.02); padding: 40px 20px; border-radius: 24px; border: 1px solid var(--border-color); backdrop-filter: blur(5px); transition: transform 0.3s ease;">
@@ -947,29 +967,29 @@ document.body.appendChild(script);
     <div class="stats-bar">
         <div class="stat-item">
             <h3>10K+</h3>
-            <p>Tracks Generated</p>
+            <p data-i18n="statTracks">Tracks Generated</p>
         </div>
         <div class="stat-item">
             <h3>5K+</h3>
-            <p>Videos Created</p>
+            <p data-i18n="statVideos">Videos Created</p>
         </div>
         <div class="stat-item">
             <h3>99.9%</h3>
-            <p>Uptime</p>
+            <p data-i18n="statUptime">Uptime</p>
         </div>
         <div class="stat-item">
             <h3>< 2min</h3>
-            <p>Avg. Generation Time</p>
+            <p data-i18n="statTime">Avg. Generation Time</p>
         </div>
     </div>
 
     <!-- Testimonials -->
     <section class="testimonials">
         <div style="margin-bottom: 10px;">
-            <p style="color: var(--accent-green); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Testimonials</p>
+            <p style="color: var(--accent-green); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;" data-i18n="testimonialsTag">Testimonials</p>
         </div>
-        <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Loved by creators worldwide</h2>
-        <p style="color: var(--text-secondary);">See what our users have to say about their experience.</p>
+        <h2 style="font-size: 2.5rem; margin-bottom: 12px;" data-i18n="testimonialsTitle">Loved by creators worldwide</h2>
+        <p style="color: var(--text-secondary);" data-i18n="testimonialsSub">See what our users have to say about their experience.</p>
         <div class="testimonials-grid">
             <div class="testimonial-card">
                 <div class="stars">★★★★★</div>
@@ -1039,7 +1059,7 @@ document.body.appendChild(script);
                     <li><i class="fa-solid fa-check"></i> <span data-i18n="entF5">Dedicated account manager</span></li>
                     <li><i class="fa-solid fa-check"></i> <span data-i18n="entF6">Custom integrations</span></li>
                 </ul>
-                <a href="contact.html" class="btn" style="border: 1px solid var(--border-color);">Contact Sales</a>
+                <a href="contact.html" class="btn" style="border: 1px solid var(--border-color);" data-i18n="contactSales">Contact Sales</a>
             </div>
         </div>
     </section>
@@ -1049,8 +1069,8 @@ document.body.appendChild(script);
         <div style="margin-bottom: 10px;">
             <p style="color: var(--accent-green); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">FAQ</p>
         </div>
-        <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Frequently Asked Questions</h2>
-        <p style="color: var(--text-secondary);">Everything you need to know about our platform.</p>
+        <h2 style="font-size: 2.5rem; margin-bottom: 12px;" data-i18n="faqTitle">Frequently Asked Questions</h2>
+        <p style="color: var(--text-secondary);" data-i18n="faqSub">Everything you need to know about our platform.</p>
         <div class="faq-list">
             <div class="faq-item">
                 <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
@@ -1099,11 +1119,11 @@ document.body.appendChild(script);
 
     <!-- Bottom CTA -->
     <section class="bottom-cta">
-        <h2>Ready to create?</h2>
-        <p>Join thousands of creators building music and visual content with AI.</p>
+        <h2 data-i18n="bottomCtaTitle">Ready to create?</h2>
+        <p data-i18n="bottomCtaSub">Join thousands of creators building music and visual content with AI.</p>
         <div class="btn-group">
-            <a href="app/index.html" class="btn btn-primary">Start Creating Free</a>
-            <a href="#pricing" class="btn" style="border: 1px solid var(--border-color);">View Pricing</a>
+            <a href="app/index.html" class="btn btn-primary" data-i18n="bottomCtaBtn">Start Creating Free</a>
+            <a href="#pricing" class="btn" style="border: 1px solid var(--border-color);" data-i18n="bottomCtaPricing">View Pricing</a>
         </div>
     </section>
 
