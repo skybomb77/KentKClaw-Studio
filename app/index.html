@@ -518,6 +518,12 @@
         
         script.addEventListener("load", async () => {
             try {
+                // Save URL params before Clerk might redirect
+                const preAuthParams = window.location.search;
+                if (preAuthParams && preAuthParams.length > 1) {
+                    sessionStorage.setItem('kc_pre_auth_params', preAuthParams);
+                }
+
                 await window.Clerk.load();
                 if (window.Clerk.user) {
                     document.getElementById('login-overlay').style.display = 'none';
@@ -526,8 +532,21 @@
                     updateRecentHistory();
                     const targetUrl = new URL('../index.html', window.location.href).href;
                     window.Clerk.mountUserButton(document.getElementById("user-button"), { afterSignOutUrl: targetUrl });
+
+                    // Restore saved URL params after login
+                    const savedParams = sessionStorage.getItem('kc_pre_auth_params');
+                    if (savedParams) {
+                        sessionStorage.removeItem('kc_pre_auth_params');
+                        const restoredTab = new URLSearchParams(savedParams).get('tab');
+                        if (restoredTab) {
+                            switchTab(null, restoredTab);
+                        }
+                    }
                 } else {
-                    // 如果在 App 頁面未登入，強制導向首頁登入
+                    // Save params before redirect
+                    if (preAuthParams && preAuthParams.length > 1) {
+                        sessionStorage.setItem('kc_pre_auth_params', preAuthParams);
+                    }
                     const targetUrl = new URL('../index.html', window.location.href).href;
                     window.location.href = targetUrl;
                 }
@@ -537,12 +556,30 @@
 
         // ======= 🚀 畫面邏輯與後端 API =======
         let startTime = null;
-        const REMOTE_BACKEND = localStorage.getItem('kc_backend_url') || "https://nonchimeric-fabled-nila.ngrok-free.dev";
         const LOCAL_BACKEND = "http://localhost:8788";
         
-        // Auto-switch: Free → local Mac, Pro → remote RTX 5070
+        // Backend URL: localStorage override > env-based default
+        function getRemoteBackend() {
+            return localStorage.getItem('kc_backend_url') || '';
+        }
+        
+        // Smart backend selection:
+        // - If on localhost → use local backend
+        // - If localStorage override set → use that
+        // - Otherwise → relative paths (same-origin proxy)
         function getBackendUrl() {
-            return PlanManager.isPro() ? REMOTE_BACKEND : LOCAL_BACKEND;
+            const host = window.location.hostname;
+            if (host === 'localhost' || host === '127.0.0.1') return LOCAL_BACKEND;
+            const remote = getRemoteBackend();
+            return remote || LOCAL_BACKEND;
+        }
+
+        // XSS prevention: escape HTML entities
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
         }
 
         // Retry wrapper for API calls
@@ -684,7 +721,9 @@
         }
 
         function logMsg(msg) {
-            terminal.innerHTML += `<p>> ${msg}</p>`;
+            const p = document.createElement('p');
+            p.textContent = '> ' + msg;
+            terminal.appendChild(p);
             terminal.scrollTop = terminal.scrollHeight;
         }
 
@@ -943,7 +982,7 @@
                 }
             } catch (err) {
                 console.error("Forge Error:", err);
-                statusDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p>鍛造失敗: ${err.message}</p>`;
+                statusDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p>鍛造失敗: ${escapeHtml(err.message)}</p>`;
             }
         }
 
@@ -1066,15 +1105,15 @@
                             PlanManager.addUsage();
                             updateCreditDisplay();
                         } else if (msgData.type === 'error') {
-                            statusDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p style="color:#ef4444;">${msgData.msg}</p>`;
+                            statusDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p style="color:#ef4444;">${escapeHtml(msgData.msg)}</p>`;
                             socket.close();
                         }
                     };
                 } else {
-                    statusDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p style="color:#ef4444;">錯誤：${data.error || '引擎未回應'}</p>`;
+                    statusDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p style="color:#ef4444;">錯誤：${escapeHtml(data.error) || '引擎未回應'}</p>`;
                 }
             } catch(e) {
-                statusDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p style="color:#ef4444;">連線錯誤：${e.message}</p>`;
+                statusDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i><p style="color:#ef4444;">連線錯誤：${escapeHtml(e.message)}</p>`;
             }
         }
 
@@ -1154,7 +1193,7 @@
             log.innerHTML = '';
             
             function pipeLog(msg) {
-                log.innerHTML += '> ' + msg + '\\n';
+                log.textContent += '> ' + msg + '\n';
                 log.scrollTop = log.scrollHeight;
             }
             function setPipeStep(n) {
