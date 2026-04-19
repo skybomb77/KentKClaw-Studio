@@ -92,23 +92,17 @@ function getBot() {
       }
     });
 
-    // ── 文字訊息 ──
+    // ── 文字訊息（私訊 + 群組 @mention）──
     bot.on('message', async (msg) => {
       const chatId = msg.chat.id;
       const text = msg.text;
       if (!text || text.startsWith('/')) return;
 
-      // 群組過濾：只在被 @mention 時回覆
-      const isGroup = msg.chat.type === 'group' || msg.chat.type === 'supergroup';
-      if (isGroup) {
-        const botUsername = (await bot.getMe()).username.toLowerCase();
-        const isMentioned = text.toLowerCase().includes(`@${botUsername}`) ||
-          (msg.entities || []).some(e =>
-            (e.type === 'mention' || e.type === 'text_mention') &&
-            e.offset === 0 && text.substring(e.offset, e.offset + e.length).toLowerCase() === `@${botUsername}`
-          );
-        if (!isMentioned) return;
-      }
+      const isGroup = msg.chat.type !== 'private';
+      const isMentioned = isGroup && text.includes('@KentCclawbot');
+
+      // 群組中只有 @mention 才回覆
+      if (isGroup && !isMentioned) return;
 
       // ★ 橋接：同步到 KClaw Agent
       receiveFromTelegram(chatId, text, msg.from?.username || 'unknown');
