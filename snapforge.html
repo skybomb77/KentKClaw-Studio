@@ -152,7 +152,11 @@
             .divider{border:none;border-top:1px solid var(--border);margin:0}
             @media(max-width:768px){.hero h1{font-size:2rem}.steps{grid-template-columns:1fr}.bg-grid{grid-template-columns:repeat(2,1fr)}.pricing-grid{grid-template-columns:repeat(2,1fr)}.proof-row{grid-template-columns:1fr;gap:12px}.preview-area.active{flex-direction:column;align-items:center}}
             @media(max-width:480px){.pricing-grid{grid-template-columns:1fr}.bg-grid{grid-template-columns:repeat(2,1fr)}}
-        </style>
+        
+        .preview-box img { max-width:100%; max-height:300px; border-radius:8px; }
+        .preview-box img[src=""] { display:none; }
+        .preview-area { display:none; }
+    </style>
     </head>
     <body>
     <div class="container">
