@@ -16,6 +16,20 @@ app.use('/api/hermes',require('./routes/chat'));
 app.use('/api/hermes',require('./routes/route'));
 app.use('/api/hermes/music',require('./routes/music'));
 
+// Telegram Bridge API
+const { sendToTelegram, getNewMessages, getConnectionStatus } = require('./routes/telegram-bridge');
+app.get('/api/hermes/bridge/status', (req,res) => res.json({ success:true, ...getConnectionStatus() }));
+app.get('/api/hermes/bridge/messages', (req,res) => {
+  const since = parseInt(req.query.since) || 0;
+  res.json({ success:true, messages: getNewMessages(since) });
+});
+app.post('/api/hermes/bridge/send', async (req,res) => {
+  const { text } = req.body;
+  if (!text) return res.status(400).json({ success:false, error:'請提供 text' });
+  const result = await sendToTelegram(text);
+  res.json({ success: result.ok !== false, ...result });
+});
+
 app.get('/api/hermes/health',(req,res)=>res.json({status:'ok',service:'hermes-api-server',version:'1.0.0',timestamp:new Date().toISOString(),uptime:process.uptime()}));
 
 app.get('/api/hermes',(req,res)=>res.json({name:'Hermes API Server',version:'1.0.0',endpoints:[

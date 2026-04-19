@@ -1,3 +1,4 @@
 node_modules/
 .env
 audio_output/
+telegram-bridge.json
