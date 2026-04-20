@@ -385,6 +385,8 @@
                     aiEngines: 'AI 引擎',
                     avgTime: '平均生成時間',
                     tracks: '已創作數量',
+                    freeFeats: ['每月 10 次生成', '720p 輸出', '無進階模式'],
+                    proFeats: ['每月 200 次生成', '1080p 高畫質', '進階模式 (CFG, Seed, Steps)', '高級風格解鎖'],
                     credits: '點數',
                     monthly: '每月',
                 },
@@ -1802,9 +1804,7 @@
                                     <h3 style="margin-bottom: 8px;">${I18N.t('freePlan')}</h3>
                                     <div style="font-size: 2rem; font-family: 'Orbitron', sans-serif; margin-bottom: 16px;">$0<span style="font-size:1rem; color:var(--muted); font-family:'Noto Sans TC', sans-serif;">${I18N.t('freeMo')}</span></div>
                                     <ul style="list-style: none; color: var(--muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 20px;">
-                                        <li><i class="fa-solid fa-check" style="color: var(--brand); margin-right: 8px;"></i> 10 Generations / month</li>
-                                        <li><i class="fa-solid fa-check" style="color: var(--brand); margin-right: 8px;"></i> 720p Output</li>
-                                        <li><i class="fa-solid fa-lock" style="color: #ef4444; margin-right: 8px;"></i> <span style="text-decoration:line-through; opacity:0.5;">No Pro Mode</span></li>
+                                        ${I18N.t('freeFeats').map(f => `<li><i class="fa-solid fa-check" style="color: var(--brand); margin-right: 8px;"></i> ${f}</li>`).join('')}
                                     </ul>
                                     <button class="setting-btn ${!PlanManager.isPro() ? 'active' : ''}" style="width:100%; ${!PlanManager.isPro() ? 'pointer-events:none;' : ''}" ${PlanManager.isPro() ? '' : ''}>${!PlanManager.isPro() ? I18N.t('currentPlan') : I18N.t('downgrade')}</button>
                                 </div>
@@ -1813,10 +1813,7 @@
                                     <h3 style="margin-bottom: 8px; color: #fff;">${I18N.t('proPlan')}</h3>
                                     <div style="font-size: 2rem; font-family: 'Orbitron', sans-serif; margin-bottom: 16px;">$15<span style="font-size:1rem; color:var(--muted); font-family:'Noto Sans TC', sans-serif;">${I18N.t('proMo')}</span></div>
                                     <ul style="list-style: none; color: var(--text); font-size: 0.9rem; line-height: 1.8; margin-bottom: 20px;">
-                                        <li><i class="fa-solid fa-check" style="color: #00ffaa; margin-right: 8px;"></i> 200 Generations / month</li>
-                                        <li><i class="fa-solid fa-check" style="color: #00ffaa; margin-right: 8px;"></i> 1080p High-Res</li>
-                                        <li><i class="fa-solid fa-crown" style="color: #7c5cff; margin-right: 8px;"></i> Pro Mode (CFG, Seed, Steps)</li>
-                                        <li><i class="fa-solid fa-crown" style="color: #7c5cff; margin-right: 8px;"></i> Premium Styles Unlocked</li>
+                                        ${I18N.t('proFeats').map((f,i) => `<li><i class="fa-solid ${i < 2 ? 'fa-check' : 'fa-crown'}" style="color: ${i < 2 ? '#00ffaa' : '#7c5cff'}; margin-right: 8px;"></i> ${f}</li>`).join('')}
                                     </ul>
                                     <a href="pricing.html" style="display:block; text-align:center; background:#7c5cff; color:#fff; text-decoration:none; padding:10px; border-radius:8px; font-weight:bold;">${PlanManager.isPro() ? I18N.t('currentPlan') + ' ✓' : I18N.t('upgrade')}</a>
                                 </div>
