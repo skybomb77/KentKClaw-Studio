@@ -269,14 +269,14 @@
                 <!-- Pro Mode Advanced Panel -->
                 <div id="proAdvancedPanel" style="display:none; background: linear-gradient(180deg, rgba(124,92,255,0.06) 0%, rgba(124,92,255,0.02) 100%); border: 1px solid rgba(124,92,255,0.3); border-radius: 12px; padding: 20px; margin-top: 16px;">
                     <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px; color:#7c5cff; font-weight:600; font-size:0.9rem;">
-                        <i class="fa-solid fa-sliders"></i> PRO Advanced Settings
+                        <i class="fa-solid fa-sliders"></i> <span data-i18n="proAdvanced">進階設定</span>
                     </div>
                     <div class="input-group" style="margin-bottom:12px;">
-                        <label style="font-size:0.85rem;">Guidance Scale (CFG) <span id="cfgValue" style="color:#7c5cff;">7.5</span></label>
+                        <label style="font-size:0.85rem;"><span data-i18n="guidanceScale">引導強度 (CFG)</span> <span id="cfgValue" style="color:#7c5cff;">7.5</span></label>
                         <input type="range" id="cfgSlider" min="1" max="20" step="0.5" value="7.5" style="width:100%; accent-color:#7c5cff;" oninput="document.getElementById('cfgValue').innerText=this.value">
                     </div>
                     <div class="input-group" style="margin-bottom:12px;">
-                        <label style="font-size:0.85rem;">Sampling Steps <span id="stepsValue" style="color:#7c5cff;">20</span></label>
+                        <label style="font-size:0.85rem;"><span data-i18n="samplingSteps">取樣步數</span> <span id="stepsValue" style="color:#7c5cff;">20</span></label>
                         <input type="range" id="stepsSlider" min="10" max="50" step="1" value="20" style="width:100%; accent-color:#7c5cff;" oninput="document.getElementById('stepsValue').innerText=this.value">
                     </div>
                     <div class="input-group" style="margin-bottom:12px;">
@@ -284,7 +284,7 @@
                         <input type="number" id="seedInput" value="0" min="0" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(124,92,255,0.3); padding:8px; border-radius:6px; color:white; outline:none;">
                     </div>
                     <div class="input-group">
-                        <label style="font-size:0.85rem;">Negative Prompt</label>
+                        <label style="font-size:0.85rem;" data-i18n="negativePrompt">負面提示詞</label>
                         <textarea id="negPromptInput" placeholder="Things to avoid in generation..." style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(124,92,255,0.3); padding:8px; border-radius:6px; color:white; outline:none; resize:vertical; min-height:50px; font-size:0.85rem;">blurry, low quality, watermark, text</textarea>
                     </div>
                 </div>
@@ -414,6 +414,7 @@
                     uploadAudioHint: '上傳音軌以預覽 AI MV',
                     noRecentGen: '尚無近期生成',
                     viewAll: '查看全部',
+                    proAdvanced: '進階設定',
                     // FrameForge
                     animateImage: '動態化圖片',
                     animDesc: '將任何靜態圖片轉為動態影片。上傳、描述、生成。',
@@ -561,6 +562,7 @@
                     uploadAudioHint: 'Upload your audio track to preview the AI MV here',
                     noRecentGen: 'No recent generations',
                     viewAll: 'View All',
+                    proAdvanced: 'PRO Advanced Settings',
                     // FrameForge
                     animateImage: 'ANIMATE IMAGE',
                     animDesc: 'Animate any static image into dynamic video. Upload, describe, generate.',
