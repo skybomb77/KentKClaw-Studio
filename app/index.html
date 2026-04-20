@@ -207,16 +207,16 @@
                 <!-- Free: 簡化模式 — 只有 Style 快速選擇 -->
                 <div id="freeSimplePanel">
                     <div class="input-group">
-                        <label><i class="fa-solid fa-wand-magic-sparkles" style="margin-right:6px; opacity:0.5;"></i> 視覺風格 <span style="color:var(--brand); cursor:pointer; font-size:0.8rem; background:var(--brand-dim); padding:2px 8px; border-radius:4px;" onclick="generateRandomPrompt()"><i class="fa-solid fa-dice"></i> Random</span></label>
-                        <div class="tag-cloud" style="margin-bottom:10px;" id="styleTags">
-                            <span class="tag-chip" data-prompt="dark cyberpunk street, raining, cinematic lighting, neon glow">Cyberpunk</span>
-                            <span class="tag-chip" data-prompt="retro 80s synthwave landscape, glowing grid, vibrant neon sunset">Synthwave</span>
-                            <span class="tag-chip" data-prompt="ethereal underwater ruins, bioluminescent, light rays through water">Underwater</span>
-                            <span class="tag-chip" data-prompt="fantasy gothic castle, red moon, dramatic lighting, dark atmosphere">Gothic</span>
-                            <span class="tag-chip" data-prompt="cozy lo-fi bedroom, rain on window, warm lamp glow, anime aesthetic">Lo-fi</span>
-                            <span class="tag-chip" data-prompt="epic mountain landscape, dramatic clouds, golden hour, cinematic">Nature</span>
-                            <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors, organic motion" data-pro="true">✨ Abstract</span>
-                            <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, vibrant anime city" data-pro="true">✨ Tokyo Pop</span>
+                        <label><i class="fa-solid fa-wand-magic-sparkles" style="margin-right:6px; opacity:0.5;"></i> <span data-i18n="visualStyle">視覺風格</span> <span style="color:var(--brand); cursor:pointer; font-size:0.8rem; background:var(--brand-dim); padding:2px 8px; border-radius:4px;" onclick="generateRandomPrompt()"><i class="fa-solid fa-dice"></i> <span data-i18n="random">隨機</span></span></label>
+                        <div class="tag-cloud" id="styleTags" style="margin-bottom: 8px;">
+                            <span class="tag-chip selected" data-prompt="dark cyberpunk street, raining, cinematic lighting, neon glow" data-i18n="cyberpunk">賽博龐克</span>
+                            <span class="tag-chip" data-prompt="retro 80s synthwave landscape, glowing grid, vibrant neon sunset" data-i18n="synthwave">合成波</span>
+                            <span class="tag-chip" data-prompt="ethereal underwater ruins, bioluminescent, light rays through water" data-i18n="underwater">水底</span>
+                            <span class="tag-chip" data-prompt="fantasy gothic castle, red moon, dramatic lighting, dark atmosphere" data-i18n="gothic">哥德風</span>
+                            <span class="tag-chip" data-prompt="cozy lo-fi bedroom, rain on window, warm lamp glow, anime aesthetic" data-i18n="lofi">Lo-fi</span>
+                            <span class="tag-chip" data-prompt="serene nature landscape, mountains, sunset, peaceful, cinematic" data-i18n="styleNature">自然風景</span>
+                            <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors, organic motion" data-pro="true" data-i18n="abstract">✨ 抽象</span>
+                            <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, vibrant anime city" data-pro="true" data-i18n="tokyoPop">✨ 東京流行</span>
                         </div>
                         <textarea id="promptInput" name="prompt" placeholder="Describe the visual vibe you want...">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines --style echoes-of-tomorrow</textarea>
                         <div style="text-align:right; font-size:0.7rem; color:var(--muted); margin-top:4px;"><span id="promptCharCount">0</span>/500</div>
@@ -228,16 +228,16 @@
                 <!-- Pro: 完整進階面板 -->
                 <div id="proFullPanel" style="display:none;">
                     <div class="input-group">
-                        <label><i class="fa-solid fa-wand-magic-sparkles" style="margin-right:6px; opacity:0.5;"></i> Visual Style <span style="color:var(--brand); cursor:pointer; font-size:0.8rem; background:var(--brand-dim); padding:2px 8px; border-radius:4px;" onclick="generateRandomPrompt()"><i class="fa-solid fa-dice"></i> Random</span></label>
-                        <div class="tag-cloud" style="margin-bottom:10px;" id="proStyleTags">
-                            <span class="tag-chip" data-prompt="dark cyberpunk street, raining, cinematic lighting, neon glow">Cyberpunk</span>
-                            <span class="tag-chip" data-prompt="retro 80s synthwave landscape, glowing grid, vibrant neon sunset">Synthwave</span>
-                            <span class="tag-chip" data-prompt="ethereal underwater ruins, bioluminescent, light rays through water">Underwater</span>
-                            <span class="tag-chip" data-prompt="fantasy gothic castle, red moon, dramatic lighting, dark atmosphere">Gothic</span>
-                            <span class="tag-chip" data-prompt="cozy lo-fi bedroom, rain on window, warm lamp glow, anime aesthetic">Lo-fi</span>
-                            <span class="tag-chip" data-prompt="epic mountain landscape, dramatic clouds, golden hour, cinematic">Nature</span>
-                            <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors, organic motion">Abstract</span>
-                            <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, vibrant anime city">Tokyo Pop</span>
+                        <label><i class="fa-solid fa-wand-magic-sparkles" style="margin-right:6px; opacity:0.5;"></i> <span data-i18n="visualStyle">視覺風格</span> <span style="color:var(--brand); cursor:pointer; font-size:0.8rem; background:var(--brand-dim); padding:2px 8px; border-radius:4px;" onclick="generateRandomPrompt()"><i class="fa-solid fa-dice"></i> <span data-i18n="random">隨機</span></span></label>
+                        <div class="tag-cloud" id="proStyleTags" style="margin-bottom:10px;">
+                            <span class="tag-chip selected" data-prompt="dark cyberpunk street, raining, cinematic lighting, neon glow" data-i18n="cyberpunk">賽博龐克</span>
+                            <span class="tag-chip" data-prompt="retro 80s synthwave landscape, glowing grid, vibrant neon sunset" data-i18n="synthwave">合成波</span>
+                            <span class="tag-chip" data-prompt="ethereal underwater ruins, bioluminescent, light rays through water" data-i18n="underwater">水底</span>
+                            <span class="tag-chip" data-prompt="fantasy gothic castle, red moon, dramatic lighting, dark atmosphere" data-i18n="gothic">哥德風</span>
+                            <span class="tag-chip" data-prompt="cozy lo-fi bedroom, rain on window, warm lamp glow, anime aesthetic" data-i18n="lofi">Lo-fi</span>
+                            <span class="tag-chip" data-prompt="serene nature landscape, mountains, sunset, peaceful, cinematic" data-i18n="styleNature">自然風景</span>
+                            <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors, organic motion" data-i18n="abstract">抽象</span>
+                            <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, vibrant anime city" data-i18n="tokyoPop">東京流行</span>
                         </div>
                         <textarea id="proPromptInput" placeholder="Describe the visual vibe you want...">dark cyberpunk street, raining, cinematic lighting, neon explosion, hyper-dynamic action, glowing circuit lines</textarea>
                         <div style="text-align:right; font-size:0.7rem; color:var(--muted); margin-top:4px;"><span id="proPromptCharCount">0</span>/500</div>
@@ -397,6 +397,7 @@
                     chooseFile: '選擇檔案',
                     visualStyle: '視覺風格',
                     random: '隨機',
+                    styleNature: '自然風景',
                     aiAnalyzes: 'AI 自動分析',
                     aspectRatio: '畫面比例',
                     resolution: '解析度',
@@ -424,6 +425,7 @@
                     dragDropImage: '拖曳圖片至此，或點擊瀏覽',
                     motionStyle: '動態風格', additionalPrompt: '額外提示詞',
                     chooseImage: '動態化圖片',
+                    rotate3d: '3D 旋轉',
                     // ToneForge
                     aiMusic: 'AI 音樂',
                     musicDesc: '為任何專案生成免版稅音樂。描述氛圍，獲得曲目。',
@@ -458,10 +460,15 @@
                     free: '免費',
                     backendUrl: '後端網址',
                     saveUrl: '儲存網址',
+                    backendSaved: '後端網址已儲存！重新載入以套用。',
                     poweredBy: '由 AI 生成引擎驅動',
                     comingSoon: '此功能即將推出，敬請期待！',
                     aboutTitle: '關於',
                     clearAllHistory: '清除全部歷史',
+                    historyTitle: '歷史記錄',
+                    itemsStored: '筆記錄儲存於本地',
+                    backendLabel: '後端',
+                    freeBtn: '免費', proBtn: '專業',
                     // Style names
                     cyberpunk: '賽博龐克', synthwave: '合成波', underwater: '水底',
                     gothic: '哥德風', lofi: 'Lo-fi', natureNature: '自然',
@@ -521,6 +528,7 @@
                     chooseFile: 'Choose File',
                     visualStyle: 'Visual Style',
                     random: 'Random',
+                    styleNature: 'Nature',
                     aiAnalyzes: 'AI analyzes separately',
                     aspectRatio: 'Aspect Ratio',
                     resolution: 'Resolution',
@@ -548,6 +556,7 @@
                     dragDropImage: 'Drag & drop image here or click to browse',
                     motionStyle: 'Motion Style', additionalPrompt: 'Additional Prompt',
                     chooseImage: 'ANIMATE IMAGE',
+                    rotate3d: '3D Rotate',
                     // ToneForge
                     aiMusic: 'AI Music',
                     musicDesc: 'Generate royalty-free music for any project. Describe the mood, get the track.',
@@ -582,10 +591,15 @@
                     free: 'Free',
                     backendUrl: 'Backend URL',
                     saveUrl: 'Save URL',
+                    backendSaved: 'Backend URL saved! Refresh to apply.',
                     poweredBy: 'Powered by AI Generation Engines',
                     comingSoon: 'This feature is coming soon. Stay tuned!',
                     aboutTitle: 'About',
                     clearAllHistory: 'Clear All History',
+                    historyTitle: 'History',
+                    itemsStored: 'items stored locally',
+                    backendLabel: 'Backend',
+                    freeBtn: 'Free', proBtn: 'Pro',
                     // Style names
                     cyberpunk: 'Cyberpunk', synthwave: 'Synthwave', underwater: 'Underwater',
                     gothic: 'Gothic', lofi: 'Lo-fi', natureNature: 'Nature',
@@ -1680,14 +1694,14 @@
                         <div style="display:grid; grid-template-columns: 420px 1fr; gap:30px;">
                             <div class="create-panel" style="min-height:auto; border-color:#f59e0b;">
                                 <div class="input-group">
-                                    <label><i class="fa-solid fa-palette" style="margin-right:6px; opacity:0.5;"></i> Visual Style</label>
+                                    <label><i class="fa-solid fa-palette" style="margin-right:6px; opacity:0.5;"></i> <span data-i18n="visualStyle">視覺風格</span></label>
                                     <div class="tag-cloud" id="pipeStyleTags" style="margin-bottom:8px;">
-                                        <span class="tag-chip selected" data-prompt="dark cyberpunk street, raining, cinematic lighting, neon glow">Cyberpunk</span>
-                                        <span class="tag-chip" data-prompt="retro 80s synthwave landscape, glowing grid, neon sunset">Synthwave</span>
-                                        <span class="tag-chip" data-prompt="cozy lo-fi bedroom, rain on window, warm glow, anime">Lo-fi</span>
-                                        <span class="tag-chip" data-prompt="epic mountain landscape, dramatic clouds, golden hour">Nature</span>
-                                        <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, anime city">Tokyo Pop</span>
-                                        <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors">Abstract</span>
+                                        <span class="tag-chip selected" data-prompt="dark cyberpunk street, raining, cinematic lighting, neon glow" data-i18n="cyberpunk">賽博龐克</span>
+                                        <span class="tag-chip" data-prompt="retro 80s synthwave landscape, glowing grid, neon sunset" data-i18n="synthwave">合成波</span>
+                                        <span class="tag-chip" data-prompt="cozy lo-fi bedroom, rain on window, warm glow, anime" data-i18n="lofi">Lo-fi</span>
+                                        <span class="tag-chip" data-prompt="serene nature landscape, mountains, sunset, peaceful" data-i18n="styleNature">自然風景</span>
+                                        <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, anime city" data-i18n="tokyoPop">東京流行</span>
+                                        <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors" data-i18n="abstract">抽象</span>
                                     </div>
                                     <textarea id="pipePrompt" placeholder="Or write your own visual description..." style="min-height:70px;">dark cyberpunk street, raining, cinematic lighting, neon glow</textarea>
                                 </div>
@@ -1794,7 +1808,7 @@
                                         <span class="tag-chip" data-prompt="water ripples, liquid flow, reflections">${I18N.t('water')}</span>
                                         <span class="tag-chip" data-prompt="camera zoom in slow dolly, cinematic push">${I18N.t('zoom')}</span>
                                         <span class="tag-chip" data-prompt="particles floating, sparkle effects, glowing">${I18N.t('particles')}</span>
-                                        <span class="tag-chip" data-prompt="3D parallax rotation, depth movement">3D Rotate</span>
+                                        <span class="tag-chip" data-prompt="3D parallax rotation, depth movement" data-i18n="rotate3d">3D 旋轉</span>
                                     </div>
                                 </div>
                                 <div class="input-group">
@@ -2139,24 +2153,24 @@
                                 <h3 style="margin-bottom:16px;"><i class="fa-solid fa-flask" style="color:#f59e0b; margin-right:8px;"></i> ${I18N.t('planToggle')}</h3>
                                 <p style="color:var(--muted); font-size:0.85rem; margin-bottom:12px;">${I18N.t('togglePlanHint')}</p>
                                 <div style="display:flex; gap:8px;">
-                                    <button class="setting-btn ${!isPro ? 'active' : ''}" onclick="PlanManager.setPlan('free'); switchTab(null,'settings');" style="${!isPro ? 'border-color:#a1a1aa; color:#a1a1aa;' : ''}">Free</button>
-                                    <button class="setting-btn ${isPro ? 'active' : ''}" onclick="PlanManager.setPlan('pro'); GenerationStore.setCredits(100); switchTab(null,'settings');" style="${isPro ? 'border-color:#7c5cff; color:#7c5cff; background:rgba(124,92,255,0.1);' : ''}">Pro</button>
+                                    <button class="setting-btn ${!isPro ? 'active' : ''}" onclick="PlanManager.setPlan('free'); switchTab(null,'settings');" style="${!isPro ? 'border-color:#a1a1aa; color:#a1a1aa;' : ''}">${I18N.t('freeBtn')}</button>
+                                    <button class="setting-btn ${isPro ? 'active' : ''}" onclick="PlanManager.setPlan('pro'); GenerationStore.setCredits(100); switchTab(null,'settings');" style="${isPro ? 'border-color:#7c5cff; color:#7c5cff; background:rgba(124,92,255,0.1);' : ''}">${I18N.t('proBtn')}</button>
                                 </div>
                             </div>
                             
                             <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:20px;">
-                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-clock-rotate-left" style="color:var(--brand); margin-right:8px;"></i> History</h3>
-                                <p style="color:var(--muted); font-size:0.9rem; margin-bottom:12px;">${historyCount} items stored locally</p>
+                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-clock-rotate-left" style="color:var(--brand); margin-right:8px;"></i> ${I18N.t('historyTitle')}</h3>
+                                <p style="color:var(--muted); font-size:0.9rem; margin-bottom:12px;">${historyCount} ${I18N.t('itemsStored')}</p>
                                 <button class="setting-btn" onclick="if(confirm('${I18N.t('confirmClear')}')){GenerationStore.clear();switchTab(null,'settings');}" style="color:#ef4444;"><i class="fa-solid fa-trash"></i> ${I18N.t('clearAllHistory')}</button>
                             </div>
                             
                             <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:20px;">
-                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-server" style="color:var(--brand); margin-right:8px;"></i> Backend</h3>
+                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-server" style="color:var(--brand); margin-right:8px;"></i> ${I18N.t('backendLabel')}</h3>
                                 <div class="input-group">
-                                    <label>Backend URL</label>
+                                    <label>${I18N.t('backendUrl')}</label>
                                     <input type="text" id="backendUrlInput" value="${getBackendUrl()}" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border); padding:12px; border-radius:8px; color:white; outline:none; font-family:monospace; font-size:0.85rem;">
                                 </div>
-                                <button class="setting-btn" style="margin-top:12px;" onclick="localStorage.setItem('kc_backend_url', document.getElementById('backendUrlInput').value); alert('Backend URL saved! Refresh to apply.');">Save URL</button>
+                                <button class="setting-btn" style="margin-top:12px;" onclick="localStorage.setItem('kc_backend_url', document.getElementById('backendUrlInput').value); alert('${I18N.t('backendSaved')}');">${I18N.t('saveUrl')}</button>
                             </div>
                             
                             <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px;">
