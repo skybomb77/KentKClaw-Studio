@@ -26,7 +26,7 @@ function generateLocal(style,mood,duration,res) {
   const outputDir=path.join(__dirname,'..','..','audio_output');
   if(!fs.existsSync(outputDir))fs.mkdirSync(outputDir,{recursive:true});
   const outputFile=path.join(outputDir,`hermes_${Date.now()}.wav`);
-  const scriptPath=path.join(__dirname,'..','..','scripts','generate_music.py');
+  const scriptPath=path.join(__dirname,'..','..','scripts','generate_music_v2.py');
   if(!fs.existsSync(scriptPath))return res.status(500).json({success:false,error:'腳本不存在'});
   console.log(`[Hermes Music] Local DSP: ${style}`);
   const proc=spawn(pythonPath,[scriptPath,'--style',style,'--duration',String(duration),'--output',outputFile]);
