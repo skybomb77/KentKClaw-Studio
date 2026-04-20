@@ -26,7 +26,7 @@ function generateLocal(style,mood,duration,res) {
   const outputDir=path.join(__dirname,'..','..','audio_output');
   if(!fs.existsSync(outputDir))fs.mkdirSync(outputDir,{recursive:true});
   const outputFile=path.join(outputDir,`hermes_${Date.now()}.wav`);
-  const scriptPath=path.join(__dirname,'..','..','scripts','generate_music_v2.py');
+  const scriptPath=path.join(__dirname,'..','..','scripts','generate_music_v3.py');
   if(!fs.existsSync(scriptPath))return res.status(500).json({success:false,error:'腳本不存在'});
   console.log(`[Hermes Music] Local DSP: ${style}`);
   const proc=spawn(pythonPath,[scriptPath,'--style',style,'--duration',String(duration),'--output',outputFile]);
@@ -43,6 +43,8 @@ function generateLocal(style,mood,duration,res) {
 router.get('/styles',(req,res)=>res.json({success:true,styles:[
   {name:'Lofi Hip Hop',bpm:'72-88',mood:'放鬆'},{name:'Techno',bpm:'124-138',mood:'派對'},
   {name:'Cyberpunk',bpm:'124-138',mood:'賽博'},{name:'Cinematic',bpm:'55-75',mood:'史詩'},
-  {name:'Epic',bpm:'55-75',mood:'宏大'},{name:'Acoustic',bpm:'95-115',mood:'溫暖'}
+  {name:'Epic',bpm:'55-75',mood:'宏大'},{name:'Acoustic',bpm:'95-115',mood:'溫暖'},
+  {name:'Ambient',bpm:'60-80',mood:'空靈'},{name:'Trap',bpm:'130-145',mood:'暗黑'},
+  {name:'Synthpop',bpm:'110-125',mood:'復古'},
 ]}));
 module.exports=router;
