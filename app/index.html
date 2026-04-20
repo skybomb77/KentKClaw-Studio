@@ -244,12 +244,12 @@
                     </div>
 
                     <div class="input-group">
-                        <label><i class="fa-solid fa-quote-left" style="margin-right:6px; opacity:0.5;"></i> Lyrics / Scene Description <span style="color:var(--brand); font-size:0.8rem;">AI analyzes separately</span></label>
+                        <label><i class="fa-solid fa-quote-left" style="margin-right:6px; opacity:0.5;"></i> <span data-i18n="lyricsDesc">歌詞 / 場景描述</span> <span style="color:var(--brand); font-size:0.8rem;" data-i18n="aiAnalyzes">AI 自動分析</span></label>
                         <textarea id="lyricsInput" name="lyrics" placeholder="Paste lyrics or describe specific visual scenes you want AI to interpret..."></textarea>
                     </div>
 
                     <div class="input-group">
-                        <label>Aspect Ratio</label>
+                        <label data-i18n="aspectRatio">畫面比例</label>
                         <div class="settings-row" id="ratioSelector">
                             <div class="setting-btn" data-ratio="9:16"><i class="fa-solid fa-mobile-screen"></i> 9:16</div>
                             <div class="setting-btn" data-ratio="1:1"><i class="fa-solid fa-square"></i> 1:1</div>
@@ -258,10 +258,10 @@
                     </div>
                     
                     <div class="input-group" style="margin-top: 16px;">
-                        <label>Resolution</label>
+                        <label data-i18n="resolution">解析度</label>
                         <div class="settings-row" id="resSelector">
-                            <div class="setting-btn active" data-res="720p">720p Standard</div>
-                            <div class="setting-btn" data-res="1080p" style="color: #7c5cff; border-color: rgba(124,92,255,0.5);"><i class="fa-solid fa-crown"></i> 1080p Pro</div>
+                            <div class="setting-btn active" data-res="720p" data-i18n="standard720">720p 標準</div>
+                            <div class="setting-btn" data-res="1080p" style="color: #7c5cff; border-color: rgba(124,92,255,0.5);"><i class="fa-solid fa-crown"></i> <span data-i18n="pro1080">1080p 專業</span></div>
                         </div>
                     </div>
                 </div>
@@ -280,7 +280,7 @@
                         <input type="range" id="stepsSlider" min="10" max="50" step="1" value="20" style="width:100%; accent-color:#7c5cff;" oninput="document.getElementById('stepsValue').innerText=this.value">
                     </div>
                     <div class="input-group" style="margin-bottom:12px;">
-                        <label style="font-size:0.85rem;">Seed (0 = random)</label>
+                        <label style="font-size:0.85rem;"><span data-i18n="seedLabel">種子 (0 = 隨機)</span></label>
                         <input type="number" id="seedInput" value="0" min="0" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(124,92,255,0.3); padding:8px; border-radius:6px; color:white; outline:none;">
                     </div>
                     <div class="input-group">
@@ -415,6 +415,9 @@
                     noRecentGen: '尚無近期生成',
                     viewAll: '查看全部',
                     proAdvanced: '進階設定',
+                    lyricsDesc: '歌詞 / 場景描述',
+                    seedLabel: '種子 (0 = 隨機)',
+                    standard720: '720p 標準', pro1080: '1080p 專業',
                     // FrameForge
                     animateImage: '動態化圖片',
                     animDesc: '將任何靜態圖片轉為動態影片。上傳、描述、生成。',
@@ -563,6 +566,9 @@
                     noRecentGen: 'No recent generations',
                     viewAll: 'View All',
                     proAdvanced: 'PRO Advanced Settings',
+                    lyricsDesc: 'Lyrics / Scene Description',
+                    seedLabel: 'Seed (0 = random)',
+                    standard720: '720p Standard', pro1080: '1080p Pro',
                     // FrameForge
                     animateImage: 'ANIMATE IMAGE',
                     animDesc: 'Animate any static image into dynamic video. Upload, describe, generate.',
