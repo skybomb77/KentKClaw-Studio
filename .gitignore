@@ -7,4 +7,5 @@ node_modules/
 audio_output/
 music_ideas/
 # scripts/  <-- 哥，我放行了，這才帥
-youtube_creds.txt
+youtube_creds.txt.pids/*
+hermes-api-server/.env

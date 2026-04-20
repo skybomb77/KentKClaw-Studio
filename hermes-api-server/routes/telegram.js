@@ -106,6 +106,34 @@ function getBot() {
 
       // ★ 橋接：同步到 KClaw Agent
       receiveFromTelegram(chatId, text, msg.from?.username || 'unknown');
+
+      // 群組：用 KClaw AI 回覆（跟私訊一樣有溫度）
+      if (isGroup) {
+        try {
+          await bot.sendChatAction(chatId, 'typing');
+          const cleanText = text.replace(/@KentCclawbot/g, '').trim();
+          const analysis = enhance(cleanText);
+          const intent = analysis.intent;
+          let reply = '';
+
+          if (intent.engine && intent.engine !== 'undetected') {
+            const rec = analysis.recommendation;
+            const name = ENGINE_PROFILES[rec.engine]?.name || rec.engine;
+            reply = `🎯 ${name} 收到！`;
+            if (rec.body?.style) reply += ` 風格：${rec.body.style}`;
+            if (rec.body?.mood) reply += `，氛圍：${rec.body.mood}`;
+            if (intent.engine === 'toneforge') reply += `\n🎵 /generate music ${cleanText}`;
+          } else {
+            // 用 chat engine 給有意義的回覆
+            const result = chat(cleanText, { platform:'telegram-group', username:msg.from?.username, chatId });
+            reply = (result.response || '收到！').substring(0, 500);
+          }
+
+          await bot.sendMessage(chatId, reply);
+        } catch(e) { console.error('[TG group reply]', e.message); }
+        return;
+      }
+
       addToHistory(chatId, 'user', text);
 
       try {

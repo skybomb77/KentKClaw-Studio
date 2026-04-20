@@ -49,9 +49,8 @@ app.use((req,res)=>res.status(404).json({success:false,error:'Not found'}));
 
 app.listen(PORT,()=>{
   console.log(`\n🐯 Hermes API Server v1.0.0 | Port ${PORT}\n   Health: /api/hermes/health\n   Docs:   /api/hermes\n`);
-  // Start Telegram bot (skip if DISABLE_TELEGRAM is set to avoid conflict with Hermes Agent)
-  if (!process.env.DISABLE_TELEGRAM) {
-    startTelegramBot();
-  }
+  startTelegramBot();
+  const { getBot2 } = require('./routes/telegram-bot2');
+  getBot2();
 });
 module.exports=app;
