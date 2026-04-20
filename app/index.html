@@ -168,9 +168,10 @@
         <header class="header">
             <div style="display:flex; align-items:center; gap:12px;">
                 <div id="planBadge" style="font-size:0.65rem; font-weight:700; letter-spacing:1.5px; padding:3px 10px; border-radius:999px; cursor:pointer;" onclick="togglePlanDisplay()" title="Click to switch plan for testing"></div>
-                <div style="font-weight: 500; color: var(--muted);">AI Studio | <span id="creditCount" style="color: var(--brand); font-weight: 700;">10</span>/<span id="creditMax">10</span> Credits | <span id="monthlyUsage" style="font-size:0.8rem;">0</span>/<span id="monthlyLimit">10</span> monthly</div>
+                <div id="creditsDisplay" style="font-weight: 500; color: var(--muted);">AI Studio | <span id="creditCount" style="color: var(--brand); font-weight: 700;">10</span>/<span id="creditMax">10</span> Credits | <span id="monthlyUsage" style="font-size:0.8rem;">0</span>/<span id="monthlyLimit">10</span> monthly</div>
             </div>
             <div class="user-profile">
+                <button id="langToggle" onclick="I18N.toggle()" style="background:var(--brand-dim);color:var(--brand);border:none;padding:4px 10px;border-radius:999px;font-size:0.8rem;font-weight:700;cursor:pointer;margin-right:8px;">EN</button>
                 <div id="user-button"></div>
             </div>
         </header>
@@ -343,6 +344,141 @@
     </main>
 
     <script>
+        // ======= 🌐 i18n 語言切換 =======
+        const I18N = {
+            _lang: localStorage.getItem('kc_lang') || 'zh',
+            dict: {
+                zh: {
+                    dashboard: '儀表板',
+                    studioEngines: '工作室引擎',
+                    wireVision: 'WireVision (影片)',
+                    frameForge: 'FrameForge (動畫)',
+                    toneForge: 'ToneForge (音樂)',
+                    pipeline: '工作流',
+                    allInOne: '全能工作室',
+                    tools: '工具',
+                    screeningRoom: '我的放映室',
+                    styleLibrary: '風格庫',
+                    stemSplitter: '音軌分離器',
+                    settings: '設定',
+                    trash: '回收桶',
+                    langBtn: 'EN',
+                    heroTitle: '將<span style="color:var(--brand)">想像</span>化為現實。',
+                    heroSub: '存取我們三大核心引擎：WireVision 影片、FrameForge 動畫、ToneForge 音樂生成。無限創意自由。',
+                    demoTitle: '平台展示',
+                    demoSub: '看 Kent & KClaw Studio 如何將想法變成內容',
+                    demoWatch: '觀看',
+                    demoHeading: '3 引擎。一個工作室。',
+                    demoDesc: 'WireVision 影片 · FrameForge 動畫 · ToneForge 音樂',
+                    demoCTA: '探索所有引擎',
+                    upgradeTitle: '升級你的工作流',
+                    upgradeViewAll: '查看所有方案 →',
+                    freePlan: '免費探索',
+                    freeMo: '/月',
+                    freeFeats: ['每月 10 次生成', '720p 輸出', '無進階模式'],
+                    proPlan: '創作者 Pro',
+                    proMo: '/月',
+                    proFeats: ['每月 200 次生成', '1080p 高畫質', '進階模式 (CFG, Seed, Steps)', '高級風格解鎖'],
+                    currentPlan: '目前方案',
+                    upgrade: '立即升級',
+                    downgrade: '降級',
+                    aiEngines: 'AI 引擎',
+                    avgTime: '平均生成時間',
+                    tracks: '已創作數量',
+                    credits: '點數',
+                    monthly: '每月',
+                },
+                en: {
+                    dashboard: 'Dashboard',
+                    studioEngines: 'STUDIO ENGINES',
+                    wireVision: 'WireVision (MV)',
+                    frameForge: 'FrameForge (Anim)',
+                    toneForge: 'ToneForge (Audio)',
+                    pipeline: 'PIPELINE',
+                    allInOne: 'All-in-One Studio',
+                    tools: 'TOOLS',
+                    screeningRoom: 'My Screening Room',
+                    styleLibrary: 'Style Library',
+                    stemSplitter: 'Audio Stem Splitter',
+                    settings: 'Settings',
+                    trash: 'Nostalgia Vault (Trash)',
+                    langBtn: '中',
+                    heroTitle: 'Bring your <span style="color:var(--brand)">imagination</span> to life.',
+                    heroSub: 'Access our three core engines: WireVision for Music Videos, FrameForge for Animating Images, and ToneForge for AI audio generation. Unlimited creative freedom.',
+                    demoTitle: 'Platform Demo',
+                    demoSub: 'See how Kent & KClaw Studio turns ideas into content',
+                    demoWatch: 'Watch',
+                    demoHeading: '3 Engines. One Studio.',
+                    demoDesc: 'WireVision for MV · FrameForge for Animation · ToneForge for Music',
+                    demoCTA: 'Explore All Engines',
+                    upgradeTitle: 'Upgrade Your Workflow',
+                    upgradeViewAll: 'View All Plans →',
+                    freePlan: 'Free Explorer',
+                    freeMo: '/mo',
+                    freeFeats: ['10 Generations / month', '720p Output', 'No Pro Mode'],
+                    proPlan: 'Creator Pro',
+                    proMo: '/mo',
+                    proFeats: ['200 Generations / month', '1080p High-Res', 'Pro Mode (CFG, Seed, Steps)', 'Premium Styles Unlocked'],
+                    currentPlan: 'Current Plan',
+                    upgrade: 'Upgrade Now',
+                    downgrade: 'Downgrade',
+                    aiEngines: 'AI Engines',
+                    avgTime: 'Avg. Generation',
+                    tracks: 'Tracks Created',
+                    credits: 'Credits',
+                    monthly: 'monthly',
+                }
+            },
+            t(key) { return this.dict[this._lang]?.[key] ?? key; },
+            lang() { return this._lang; },
+            toggle() {
+                this._lang = this._lang === 'zh' ? 'en' : 'zh';
+                localStorage.setItem('kc_lang', this._lang);
+                document.documentElement.lang = this._lang === 'zh' ? 'zh-TW' : 'en';
+                this.applySidebar();
+                this.applyHeader();
+                if (typeof rerenderCurrentTab === 'function') rerenderCurrentTab();
+            },
+            applyHeader() {
+                const d = this.dict[this._lang];
+                const el = document.getElementById('creditsDisplay');
+                if (!el) return;
+                const cc = document.getElementById('creditCount')?.textContent || '10';
+                const cm = document.getElementById('creditMax')?.textContent || '10';
+                const mu = document.getElementById('monthlyUsage')?.textContent || '0';
+                const ml = document.getElementById('monthlyLimit')?.textContent || '10';
+                el.innerHTML = `AI Studio | <span id="creditCount" style="color: var(--brand); font-weight: 700;">${cc}</span>/<span id="creditMax">${cm}</span> ${d.credits} | <span id="monthlyUsage" style="font-size:0.8rem;">${mu}</span>/<span id="monthlyLimit">${ml}</span> ${d.monthly}`;
+            },
+            applySidebar() {
+                const d = this.dict[this._lang];
+                const items = document.querySelectorAll('.nav-item');
+                const sidebar = document.querySelector('.sidebar');
+                if (!sidebar) return;
+                sidebar.querySelectorAll('a.nav-item').forEach(a => {
+                    const icon = a.querySelector('i');
+                    const iconHtml = icon ? icon.outerHTML + ' ' : '';
+                    const onclick = a.getAttribute('onclick');
+                    if (onclick?.includes("'dashboard'")) a.innerHTML = iconHtml + d.dashboard;
+                    else if (onclick?.includes("'create'")) a.innerHTML = iconHtml + d.wireVision;
+                    else if (onclick?.includes("'img2vid'")) a.innerHTML = iconHtml + d.frameForge;
+                    else if (onclick?.includes("'toneforge'")) a.innerHTML = iconHtml + d.toneForge;
+                    else if (onclick?.includes("'pipeline'")) a.innerHTML = iconHtml + d.allInOne;
+                    else if (onclick?.includes("'screening'")) a.innerHTML = iconHtml + d.screeningRoom;
+                    else if (onclick?.includes("'styles'")) a.innerHTML = iconHtml + d.styleLibrary;
+                    else if (onclick?.includes("'split'")) a.innerHTML = iconHtml + d.stemSplitter;
+                    else if (onclick?.includes("'settings'")) a.innerHTML = iconHtml + d.settings;
+                    else if (onclick?.includes("'nostalgia'")) a.innerHTML = iconHtml + d.trash;
+                });
+                sidebar.querySelectorAll('.nav-section-title').forEach(el => {
+                    if (el.textContent.includes('STUDIO') || el.textContent.includes('引擎')) el.textContent = d.studioEngines;
+                    else if (el.textContent.includes('PIPELINE') || el.textContent.includes('工作流')) el.textContent = d.pipeline;
+                    else if (el.textContent.includes('TOOLS') || el.textContent.includes('工具')) el.textContent = d.tools;
+                });
+                const langBtn = document.getElementById('langToggle');
+                if (langBtn) langBtn.textContent = d.langBtn;
+            }
+        };
+
         // ======= 🚀 Plan 系統 (Free / Pro) =======
         const PlanManager = {
             KEY: 'kc_plan',
@@ -1601,8 +1737,8 @@
                         <!-- Hero Promo -->
                         <div style="background: linear-gradient(135deg, rgba(0,255,170,0.1), rgba(124,92,255,0.1)); border: 1px solid var(--border); border-radius: 20px; padding: 40px; display: flex; align-items: center; justify-content: space-between;">
                             <div style="max-width: 50%;">
-                                <h1 style="font-family: 'Orbitron', sans-serif; font-size: 2.5rem; margin-bottom: 16px;">Bring your <span style="color:var(--brand)">imagination</span> to life.</h1>
-                                <p style="color: var(--muted); line-height: 1.6; margin-bottom: 24px; font-size: 1.1rem;">Access our three core engines: WireVision for Music Videos, FrameForge for Animating Images, and ToneForge for AI audio generation. Unlimited creative freedom.</p>
+                                <h1 style="font-family: 'Orbitron', sans-serif; font-size: 2.5rem; margin-bottom: 16px;">${I18N.t('heroTitle')}</h1>
+                                <p style="color: var(--muted); line-height: 1.6; margin-bottom: 24px; font-size: 1.1rem;">${I18N.t('heroSub')}</p>
                                 <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                                     <button onclick="switchTab(null, 'create')" class="cyber-btn" style="width: auto; padding: 10px 20px; margin-top: 0; display: inline-block; font-size: 0.9rem; border-color: var(--wv-brand); color: var(--wv-brand);">WireVision <i class="fa-solid fa-wand-magic-sparkles"></i></button>
                                     <button onclick="switchTab(null, 'img2vid')" class="cyber-btn" style="width: auto; padding: 10px 20px; margin-top: 0; display: inline-block; font-size: 0.9rem; border-color: #38d5ff; color: #38d5ff;">FrameForge <i class="fa-solid fa-images"></i></button>
@@ -1624,33 +1760,33 @@
                         <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.4);">
                             <div style="padding: 32px 32px 20px; display: flex; justify-content: space-between; align-items: center;">
                                 <div>
-                                    <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; margin-bottom: 6px;"><i class="fa-solid fa-play" style="color: var(--brand); margin-right: 8px;"></i> Platform Demo</h2>
-                                    <p style="color: var(--muted); font-size: 0.9rem;">See how Kent & KClaw Studio turns ideas into content</p>
+                                    <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; margin-bottom: 6px;"><i class="fa-solid fa-play" style="color: var(--brand); margin-right: 8px;"></i> ${I18N.t('demoTitle')}</h2>
+                                    <p style="color: var(--muted); font-size: 0.9rem;">${I18N.t('demoSub')}</p>
                                 </div>
-                                <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" style="background: var(--brand-dim); color: var(--brand); font-size: 0.75rem; font-weight: 700; padding: 6px 14px; border-radius: 999px; text-decoration: none; display: flex; align-items: center; gap: 6px;"><i class="fa-brands fa-youtube"></i> Watch</a>
+                                <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" style="background: var(--brand-dim); color: var(--brand); font-size: 0.75rem; font-weight: 700; padding: 6px 14px; border-radius: 999px; text-decoration: none; display: flex; align-items: center; gap: 6px;"><i class="fa-brands fa-youtube"></i> ${I18N.t('demoWatch')}</a>
                             </div>
                             <div style="background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f3460 100%); height: 320px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
                                 <div style="position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,170,0.03) 2px, rgba(0,255,170,0.03) 4px);"></div>
                                 <div style="position: absolute; inset: 0; background: radial-gradient(circle at 30% 40%, rgba(0,255,170,0.08) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(185,122,245,0.08) 0%, transparent 50%);"></div>
                                 <div style="text-align: center; z-index: 1;">
                                     <div style="font-size: 4rem; margin-bottom: 16px; animation: float 3s ease-in-out infinite;">🚀</div>
-                                    <h3 style="font-family: 'Orbitron'; font-size: 1.5rem; color: #fff; margin-bottom: 8px;">3 Engines. One Studio.</h3>
-                                    <p style="color: var(--muted); max-width: 400px; line-height: 1.6; margin: 0 auto 20px;">WireVision for MV · FrameForge for Animation · ToneForge for Music</p>
-                                    <a href="../index.html#how-it-works" style="display: inline-flex; align-items: center; gap: 8px; background: var(--brand); color: #000; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Explore All Engines</a>
+                                    <h3 style="font-family: 'Orbitron'; font-size: 1.5rem; color: #fff; margin-bottom: 8px;">${I18N.t('demoHeading')}</h3>
+                                    <p style="color: var(--muted); max-width: 400px; line-height: 1.6; margin: 0 auto 20px;">${I18N.t('demoDesc')}</p>
+                                    <a href="../index.html#how-it-works" style="display: inline-flex; align-items: center; gap: 8px; background: var(--brand); color: #000; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${I18N.t('demoCTA')}</a>
                                 </div>
                             </div>
                             <div style="padding: 20px 32px; display: flex; gap: 24px; border-top: 1px solid var(--border);">
                                 <div style="flex: 1; text-align: center;">
                                     <div style="color: var(--brand); font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 700;">3</div>
-                                    <div style="color: var(--muted); font-size: 0.8rem; margin-top: 2px;">AI Engines</div>
+                                    <div style="color: var(--muted); font-size: 0.8rem; margin-top: 2px;">${I18N.t('aiEngines')}</div>
                                 </div>
                                 <div style="flex: 1; text-align: center;">
                                     <div style="color: var(--brand); font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 700;">&lt;2min</div>
-                                    <div style="color: var(--muted); font-size: 0.8rem; margin-top: 2px;">Avg. Generation</div>
+                                    <div style="color: var(--muted); font-size: 0.8rem; margin-top: 2px;">${I18N.t('avgTime')}</div>
                                 </div>
                                 <div style="flex: 1; text-align: center;">
                                     <div style="color: var(--brand); font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 700;">10K+</div>
-                                    <div style="color: var(--muted); font-size: 0.8rem; margin-top: 2px;">Tracks Created</div>
+                                    <div style="color: var(--muted); font-size: 0.8rem; margin-top: 2px;">${I18N.t('tracks')}</div>
                                 </div>
                             </div>
                         </div>
@@ -1658,31 +1794,31 @@
                         <!-- Pinned Subscription -->
                         <div>
                             <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
-                                <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.5rem;"><i class="fa-solid fa-star" style="color: #7c5cff; margin-right: 8px;"></i> Upgrade Your Workflow</h2>
-                                <a href="pricing.html" style="color: var(--brand); text-decoration: none; font-size: 0.9rem;">View All Plans &rarr;</a>
+                                <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.5rem;"><i class="fa-solid fa-star" style="color: #7c5cff; margin-right: 8px;"></i> ${I18N.t('upgradeTitle')}</h2>
+                                <a href="pricing.html" style="color: var(--brand); text-decoration: none; font-size: 0.9rem;">${I18N.t('upgradeViewAll')}</a>
                             </div>
                             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
                                 <div style="background: var(--panel); border: 1px solid var(--border); padding: 24px; border-radius: 16px;">
-                                    <h3 style="margin-bottom: 8px;">Free Explorer</h3>
-                                    <div style="font-size: 2rem; font-family: 'Orbitron', sans-serif; margin-bottom: 16px;">$0<span style="font-size:1rem; color:var(--muted); font-family:'Noto Sans TC', sans-serif;">/mo</span></div>
+                                    <h3 style="margin-bottom: 8px;">${I18N.t('freePlan')}</h3>
+                                    <div style="font-size: 2rem; font-family: 'Orbitron', sans-serif; margin-bottom: 16px;">$0<span style="font-size:1rem; color:var(--muted); font-family:'Noto Sans TC', sans-serif;">${I18N.t('freeMo')}</span></div>
                                     <ul style="list-style: none; color: var(--muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 20px;">
                                         <li><i class="fa-solid fa-check" style="color: var(--brand); margin-right: 8px;"></i> 10 Generations / month</li>
                                         <li><i class="fa-solid fa-check" style="color: var(--brand); margin-right: 8px;"></i> 720p Output</li>
                                         <li><i class="fa-solid fa-lock" style="color: #ef4444; margin-right: 8px;"></i> <span style="text-decoration:line-through; opacity:0.5;">No Pro Mode</span></li>
                                     </ul>
-                                    <button class="setting-btn ${!PlanManager.isPro() ? 'active' : ''}" style="width:100%; ${!PlanManager.isPro() ? 'pointer-events:none;' : ''}" ${PlanManager.isPro() ? '' : ''}>${!PlanManager.isPro() ? 'Current Plan' : 'Downgrade'}</button>
+                                    <button class="setting-btn ${!PlanManager.isPro() ? 'active' : ''}" style="width:100%; ${!PlanManager.isPro() ? 'pointer-events:none;' : ''}" ${PlanManager.isPro() ? '' : ''}>${!PlanManager.isPro() ? I18N.t('currentPlan') : I18N.t('downgrade')}</button>
                                 </div>
                                 <div style="background: linear-gradient(180deg, rgba(124, 92, 255, 0.05) 0%, var(--panel) 100%); border: 1px solid #7c5cff; padding: 24px; border-radius: 16px; position: relative; overflow: hidden;">
                                     <div style="position: absolute; top: 10px; right: -25px; background: #7c5cff; color: white; font-size: 0.6rem; font-weight: bold; padding: 4px 25px; transform: rotate(45deg);">PRO</div>
-                                    <h3 style="margin-bottom: 8px; color: #fff;">Creator Pro</h3>
-                                    <div style="font-size: 2rem; font-family: 'Orbitron', sans-serif; margin-bottom: 16px;">$15<span style="font-size:1rem; color:var(--muted); font-family:'Noto Sans TC', sans-serif;">/mo</span></div>
+                                    <h3 style="margin-bottom: 8px; color: #fff;">${I18N.t('proPlan')}</h3>
+                                    <div style="font-size: 2rem; font-family: 'Orbitron', sans-serif; margin-bottom: 16px;">$15<span style="font-size:1rem; color:var(--muted); font-family:'Noto Sans TC', sans-serif;">${I18N.t('proMo')}</span></div>
                                     <ul style="list-style: none; color: var(--text); font-size: 0.9rem; line-height: 1.8; margin-bottom: 20px;">
                                         <li><i class="fa-solid fa-check" style="color: #00ffaa; margin-right: 8px;"></i> 200 Generations / month</li>
                                         <li><i class="fa-solid fa-check" style="color: #00ffaa; margin-right: 8px;"></i> 1080p High-Res</li>
                                         <li><i class="fa-solid fa-crown" style="color: #7c5cff; margin-right: 8px;"></i> Pro Mode (CFG, Seed, Steps)</li>
                                         <li><i class="fa-solid fa-crown" style="color: #7c5cff; margin-right: 8px;"></i> Premium Styles Unlocked</li>
                                     </ul>
-                                    <a href="pricing.html" style="display:block; text-align:center; background:#7c5cff; color:#fff; text-decoration:none; padding:10px; border-radius:8px; font-weight:bold;">${PlanManager.isPro() ? 'Current Plan ✓' : 'Upgrade Now'}</a>
+                                    <a href="pricing.html" style="display:block; text-align:center; background:#7c5cff; color:#fff; text-decoration:none; padding:10px; border-radius:8px; font-weight:bold;">${PlanManager.isPro() ? I18N.t('currentPlan') + ' ✓' : I18N.t('upgrade')}</a>
                                 </div>
                             </div>
                         </div>
@@ -1861,6 +1997,19 @@
                 }
             }
         }
+
+        // ======= 🌐 i18n 初始化 + rerender =======
+        let _currentTab = 'create';
+        const _origSwitchTab = switchTab;
+        switchTab = function(e, tab) {
+            _currentTab = tab;
+            return _origSwitchTab(e, tab);
+        };
+        function rerenderCurrentTab() {
+            _origSwitchTab(null, _currentTab);
+        }
+        I18N.applySidebar();
+        I18N.applyHeader();
     </script>
 </body>
 </html>
