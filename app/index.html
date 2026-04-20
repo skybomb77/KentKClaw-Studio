@@ -179,7 +179,7 @@
         <div id="other-view" style="display:none;"></div>
         <div class="content-grid" id="create-view">
             <form id="uploadForm" class="create-panel">
-                <div class="panel-title">WireVision <div class="custom-toggle" id="proModeToggle" onclick="toggleProMode()" style="cursor:pointer;"><i class="fa-solid fa-sliders"></i> <span id="proModeLabel">Pro Mode</span> <span id="proModeLock" style="font-size:0.7rem; margin-left:4px;"></span></div></div>
+                <div class="panel-title">WireVision <div class="custom-toggle" id="proModeToggle" onclick="toggleProMode()" style="cursor:pointer;"><i class="fa-solid fa-sliders"></i> <span id="proModeLabel" data-i18n="proMode">Pro Mode</span> <span id="proModeLock" style="font-size:0.7rem; margin-left:4px;"></span></div></div>
                 
                 <div class="step-indicator">
                     <div class="step-dot active" id="step1dot"></div>
@@ -189,10 +189,10 @@
                 </div>
 
                 <div class="input-group">
-                    <label><i class="fa-solid fa-music" style="margin-right:6px; opacity:0.5;"></i> Audio Track <span style="color: var(--brand); font-size: 0.75rem;">Max 10MB · MP3, WAV, OGG</span></label>
+                    <label><i class="fa-solid fa-music" style="margin-right:6px; opacity:0.5;"></i> <span data-i18n="audioTrack">Audio Track</span> <span data-i18n="audioTrackHint" style="color: var(--brand); font-size: 0.75rem;">Max 10MB · MP3, WAV, OGG</span></label>
                     <div class="file-drop-area" id="dropArea">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <span id="fileNameDisplay">Drag & drop audio here or click to browse</span>
+                        <span id="fileNameDisplay" data-i18n="dragDropAudio">Drag & drop audio here or click to browse</span>
                         <input type="file" id="audioUpload" name="audio" accept="audio/*" required>
                     </div>
                     <div id="audioPreview" style="display:none; margin-top:8px;">
@@ -291,13 +291,13 @@
     
                 <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
                     <button type="submit" class="cyber-btn" id="generateBtn" style="margin-top: 0; width: 100%; height: 60px;">
-                        GENERATE <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>
+                        <span data-i18n="generate">GENERATE</span> <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>
                     </button>
                 </div>
             </form>
 
             <div class="feed-panel">
-<div class="section-title">Generation History</div>
+<div class="section-title" data-i18n="genHistory">Generation History</div>
 <div class="video-card" id="recentHistoryCard" style="display:block; margin-bottom: 24px;">
     <div class="video-wrapper" style="height: 180px; background: #000; border-bottom: 1px solid rgba(255,255,255,0.1);">
         <div id="recentHistoryContent" style="display:flex; justify-content:center; align-items:center; height:100%; color:var(--muted); font-size: 0.9rem;">
@@ -306,13 +306,13 @@
     </div>
     <div class="video-info" style="padding: 16px;">
         <div class="video-meta">
-            <h3 style="font-size: 1rem;">Recent Tasks</h3>
-            <p style="font-size: 0.8rem; color:var(--muted);">Your latest generation will appear here.</p>
+            <h3 style="font-size: 1rem;" data-i18n="recentTasks">Recent Tasks</h3>
+            <p style="font-size: 0.8rem; color:var(--muted);" data-i18n="latestGenHint">Your latest generation will appear here.</p>
         </div>
         <a href="#" onclick="switchTab(null,'screening');return false;" style="color:var(--brand); font-size:0.85rem; text-decoration:none;">View All →</a>
     </div>
 </div>
-                <h2 class="section-title">Generation Queue</h2>
+                <h2 class="section-title" data-i18n="genQueue">Generation Queue</h2>
                 <div id="progress-container" style="display: none; width: 100%; background: #000; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 16px; position: relative; height: 28px;">
                     <div id="progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #00ffaa, #00b377); transition: width 0.3s ease;"></div>
                     <div style="position: absolute; width: 100%; top: 0; left: 0; height: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 12px; font-size: 0.8rem; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); font-weight: bold; pointer-events: none; font-family: 'Orbitron', sans-serif;">
@@ -324,8 +324,8 @@
                                 <div class="empty-state" id="emptyState" style="position: relative; overflow: hidden; height: 380px; background: linear-gradient(135deg, #0a0a0f, #1a1a2e, #0f3460);">
                     <div style="z-index: 1; display: flex; flex-direction: column; align-items: center;">
                         <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 3.5rem; margin-bottom: 16px; color: var(--brand); opacity: 0.9; text-shadow: 0 0 20px rgba(0,255,170,0.5);"></i>
-                        <h3 style="color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.8); letter-spacing: 1px;">Ready to Generate</h3>
-                        <p style="color: var(--brand); font-size: 0.95rem; margin-top: 8px; text-shadow: 0 0 10px rgba(0,0,0,0.8);">Upload your audio track to preview the AI MV here</p>
+                        <h3 style="color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.8); letter-spacing: 1px;" data-i18n="readyToGenerate">Ready to Generate</h3>
+                        <p style="color: var(--brand); font-size: 0.95rem; margin-top: 8px; text-shadow: 0 0 10px rgba(0,0,0,0.8);" data-i18n="uploadAudioHint">Upload your audio track to preview the AI MV here</p>
                     </div>
                 </div>
                 
@@ -389,6 +389,90 @@
                     proFeats: ['每月 200 次生成', '1080p 高畫質', '進階模式 (CFG, Seed, Steps)', '高級風格解鎖'],
                     credits: '點數',
                     monthly: '每月',
+                    // WireVision
+                    proMode: '進階模式',
+                    audioTrack: '音軌',
+                    audioTrackHint: '最大 10MB · MP3, WAV, OGG',
+                    dragDropAudio: '拖曳音訊檔案至此，或點擊瀏覽',
+                    chooseFile: '選擇檔案',
+                    visualStyle: '視覺風格',
+                    random: '隨機',
+                    aiAnalyzes: 'AI 自動分析',
+                    aspectRatio: '畫面比例',
+                    resolution: '解析度',
+                    guidanceScale: '引導強度 (CFG)',
+                    samplingSteps: '取樣步數',
+                    negativePrompt: '負面提示詞',
+                    generate: '生成',
+                    genHistory: '生成歷史',
+                    recentTasks: '最近任務',
+                    latestGenHint: '你最新的生成將會顯示在這裡。',
+                    genQueue: '生成佇列',
+                    etaCalculating: '預估時間：計算中...',
+                    readyToGenerate: '準備生成',
+                    uploadAudioHint: '上傳音軌以預覽 AI MV',
+                    // FrameForge
+                    animateImage: '動態化圖片',
+                    animDesc: '將任何靜態圖片轉為動態影片。上傳、描述、生成。',
+                    breathe: '呼吸', wind: '風動', water: '水流', zoom: '縮放',
+                    particles: '粒子', motionIntensity: '動態強度',
+                    subtle: '微弱', normal: '一般', dynamic: '強烈',
+                    optional: '可選',
+                    uploadImageHint: '上傳圖片以開始。',
+                    aiDepthHint: 'AI 將分析深度與語義以生成動態。',
+                    referenceImage: '參考圖片', imageHint: '最大 5MB · JPG, PNG, WebP',
+                    dragDropImage: '拖曳圖片至此，或點擊瀏覽',
+                    motionStyle: '動態風格', additionalPrompt: '額外提示詞',
+                    chooseImage: '動態化圖片',
+                    // ToneForge
+                    aiMusic: 'AI 音樂',
+                    musicDesc: '為任何專案生成免版稅音樂。描述氛圍，獲得曲目。',
+                    duration: '時長',
+                    startForging: '開始鍛造',
+                    setParamsHint: '設定你的參數，開始打造專屬配樂。',
+                    genreLabel: '曲風', moodLabel: '氛圍與情緒',
+                    moodPlaceholder: '或輸入你自己的氛圍描述...',
+                    // All-in-One Studio
+                    allInOneStudio: '全能工作室',
+                    readyToLaunch: '準備啟動',
+                    configureHint: '設定風格後按下 START。',
+                    // Screening Room
+                    screeningRoomTitle: '我的放映室',
+                    noGenHistory: '尚無生成記錄。開始創作吧！',
+                    genHistoryHint: '你的生成歷史。共 ${n} 項。',
+                    clearAll: '清除全部', confirmClear: '確定清除全部歷史記錄？',
+                    // Style Library
+                    styleLibraryHint: '點擊任一預設以套用至 WireVision。共 ${n} 個模板。',
+                    // Settings
+                    settingsTitle: '設定',
+                    creatorPro: '創作者專業版',
+                    creditsLeft: '剩餘點數',
+                    monthlyUsage: '每月用量',
+                    availableCredits: '可用點數',
+                    creditHint: '每次生成消耗 1 點數 · 上限 ${max} (${plan})',
+                    resetCredits: '重置點數',
+                    resetTo: '重置為',
+                    planToggle: '方案切換（測試用）',
+                    togglePlanHint: '切換 Free / Pro 以預覽體驗。',
+                    monthlyLimitUsed: '每月額度已使用',
+                    free: '免費',
+                    backendUrl: '後端網址',
+                    saveUrl: '儲存網址',
+                    poweredBy: '由 AI 生成引擎驅動',
+                    comingSoon: '此功能即將推出，敬請期待！',
+                    aboutTitle: '關於',
+                    clearAllHistory: '清除全部歷史',
+                    // Style names
+                    cyberpunk: '賽博龐克', synthwave: '合成波', underwater: '水底',
+                    gothic: '哥德風', lofi: 'Lo-fi', natureNature: '自然',
+                    abstract: '抽象', tokyoPop: '東京流行',
+                    // Music styles
+                    lofiHipHop: 'Lo-fi Hip Hop', trap: 'Trap', synthpop: 'Synthpop',
+                    rainyNight: '雨夜', hopeful: '希望', tense: '緊張',
+                    warm: '溫暖', epicBattle: '史詩戰鬥', dreamy: '夢幻',
+                    dark: '黑暗', party: '派對', cinematic: '電影感',
+                    techno: 'Techno', orchestral: '管弦樂', folk: '民謠',
+                    ambient: '環境音樂',
                 },
                 en: {
                     dashboard: 'Dashboard',
@@ -429,6 +513,90 @@
                     tracks: 'Tracks Created',
                     credits: 'Credits',
                     monthly: 'monthly',
+                    // WireVision
+                    proMode: 'Pro Mode',
+                    audioTrack: 'Audio Track',
+                    audioTrackHint: 'Max 10MB · MP3, WAV, OGG',
+                    dragDropAudio: 'Drag & drop audio here or click to browse',
+                    chooseFile: 'Choose File',
+                    visualStyle: 'Visual Style',
+                    random: 'Random',
+                    aiAnalyzes: 'AI analyzes separately',
+                    aspectRatio: 'Aspect Ratio',
+                    resolution: 'Resolution',
+                    guidanceScale: 'Guidance Scale (CFG)',
+                    samplingSteps: 'Sampling Steps',
+                    negativePrompt: 'Negative Prompt',
+                    generate: 'GENERATE',
+                    genHistory: 'Generation History',
+                    recentTasks: 'Recent Tasks',
+                    latestGenHint: 'Your latest generation will appear here.',
+                    genQueue: 'Generation Queue',
+                    etaCalculating: 'ETA: Calculating...',
+                    readyToGenerate: 'Ready to Generate',
+                    uploadAudioHint: 'Upload your audio track to preview the AI MV here',
+                    // FrameForge
+                    animateImage: 'ANIMATE IMAGE',
+                    animDesc: 'Animate any static image into dynamic video. Upload, describe, generate.',
+                    breathe: 'Breathe', wind: 'Wind', water: 'Water', zoom: 'Zoom',
+                    particles: 'Particles', motionIntensity: 'Motion Intensity',
+                    subtle: 'Subtle', normal: 'Normal', dynamic: 'Dynamic',
+                    optional: 'Optional',
+                    uploadImageHint: 'Upload an image to start.',
+                    aiDepthHint: 'AI will analyze depth and semantics to generate motion.',
+                    referenceImage: 'Reference Image', imageHint: 'Max 5MB · JPG, PNG, WebP',
+                    dragDropImage: 'Drag & drop image here or click to browse',
+                    motionStyle: 'Motion Style', additionalPrompt: 'Additional Prompt',
+                    chooseImage: 'ANIMATE IMAGE',
+                    // ToneForge
+                    aiMusic: 'AI Music',
+                    musicDesc: 'Generate royalty-free music for any project. Describe the mood, get the track.',
+                    duration: 'Duration',
+                    startForging: 'START FORGING',
+                    setParamsHint: 'Set your parameters and start forging your custom soundtrack.',
+                    genreLabel: 'Genre', moodLabel: 'Mood & Atmosphere',
+                    moodPlaceholder: 'Or type your own mood description...',
+                    // All-in-One Studio
+                    allInOneStudio: 'All-in-One Studio',
+                    readyToLaunch: 'Ready to Launch',
+                    configureHint: 'Configure your style and hit START.',
+                    // Screening Room
+                    screeningRoomTitle: 'My Screening Room',
+                    noGenHistory: 'No generation history yet. Start creating!',
+                    genHistoryHint: 'Your generation history. ${n} items saved.',
+                    clearAll: 'Clear All', confirmClear: 'Clear all history?',
+                    // Style Library
+                    styleLibraryHint: 'Click any preset to apply it to WireVision. ${n} templates available.',
+                    // Settings
+                    settingsTitle: 'Settings',
+                    creatorPro: 'CREATOR PRO',
+                    creditsLeft: 'Credits Left',
+                    monthlyUsage: 'Monthly Usage',
+                    availableCredits: 'Available credits',
+                    creditHint: 'Each generation uses 1 credit · Max ${max} (${plan})',
+                    resetCredits: 'Reset Credits',
+                    resetTo: 'Reset to',
+                    planToggle: 'Plan Toggle (Testing)',
+                    togglePlanHint: 'Toggle between Free and Pro to preview the experience.',
+                    monthlyLimitUsed: 'of monthly limit used',
+                    free: 'Free',
+                    backendUrl: 'Backend URL',
+                    saveUrl: 'Save URL',
+                    poweredBy: 'Powered by AI Generation Engines',
+                    comingSoon: 'This feature is coming soon. Stay tuned!',
+                    aboutTitle: 'About',
+                    clearAllHistory: 'Clear All History',
+                    // Style names
+                    cyberpunk: 'Cyberpunk', synthwave: 'Synthwave', underwater: 'Underwater',
+                    gothic: 'Gothic', lofi: 'Lo-fi', natureNature: 'Nature',
+                    abstract: 'Abstract', tokyoPop: 'Tokyo Pop',
+                    // Music styles
+                    lofiHipHop: 'Lofi Hip Hop', trap: 'Trap', synthpop: 'Synthpop',
+                    rainyNight: 'Rainy Night', hopeful: 'Hopeful', tense: 'Tense',
+                    warm: 'Warm', epicBattle: 'Epic Battle', dreamy: 'Dreamy',
+                    dark: 'Dark', party: 'Party', cinematic: 'Cinematic',
+                    techno: 'Techno', orchestral: 'Orchestral', folk: 'Folk',
+                    ambient: 'Ambient',
                 }
             },
             t(key) { return this.dict[this._lang]?.[key] ?? key; },
@@ -439,7 +607,15 @@
                 document.documentElement.lang = this._lang === 'zh' ? 'zh-TW' : 'en';
                 this.applySidebar();
                 this.applyHeader();
+                this.applyPage();
                 if (typeof rerenderCurrentTab === 'function') rerenderCurrentTab();
+            },
+            applyPage() {
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    const text = this.t(key);
+                    if (text !== key) el.textContent = text;
+                });
             },
             applyHeader() {
                 const d = this.dict[this._lang];
@@ -1594,15 +1770,15 @@
                 document.getElementById('other-view').innerHTML = `
                     <div style="padding: 40px; max-width: 1100px; margin: 0 auto;">
                         <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:6px;">FrameForge <span style="color:var(--brand)">Anim</span></h1>
-                        <p style="color:var(--muted); margin-bottom:30px;">Animate any static image into dynamic video. Upload, describe, generate.</p>
+                        <p style="color:var(--muted); margin-bottom:30px;">${I18N.t('animDesc')}</p>
                         
                         <div style="display:grid; grid-template-columns: 420px 1fr; gap:30px;">
                             <div class="create-panel" style="min-height: auto; border-color: var(--brand);">
                                 <div class="input-group">
-                                    <label><i class="fa-solid fa-image" style="margin-right:6px; opacity:0.5;"></i> Reference Image <span style="color: var(--brand); font-size: 0.75rem;">Max 5MB · JPG, PNG, WebP</span></label>
+                                    <label><i class="fa-solid fa-image" style="margin-right:6px; opacity:0.5;"></i> ${I18N.t('referenceImage')} <span style="color: var(--brand); font-size: 0.75rem;">${I18N.t('imageHint')}</span></label>
                                     <div class="file-drop-area" id="imgDropArea" style="border-color: var(--brand);">
                                         <i class="fa-solid fa-cloud-arrow-up" style="color:var(--brand);"></i>
-                                        <span id="imgNameDisplay">Drag & drop image here or click to browse</span>
+                                        <span id="imgNameDisplay">${I18N.t('dragDropImage')}</span>
                                         <input type="file" id="imageUpload" accept="image/*" required>
                                     </div>
                                     <div id="imgPreviewBox" style="display:none; margin-top:10px;" class="file-preview">
@@ -1611,31 +1787,31 @@
                                     </div>
                                 </div>
                                 <div class="input-group">
-                                    <label><i class="fa-solid fa-sliders" style="margin-right:6px; opacity:0.5;"></i> Motion Style</label>
+                                    <label><i class="fa-solid fa-sliders" style="margin-right:6px; opacity:0.5;"></i> ${I18N.t('motionStyle')}</label>
                                     <div class="tag-cloud" id="frameStyleTags" style="margin-bottom:8px;">
-                                        <span class="tag-chip" data-prompt="gentle breathing motion, soft ambient movement">Breathe</span>
-                                        <span class="tag-chip" data-prompt="hair flowing in wind, fabric swaying">Wind</span>
-                                        <span class="tag-chip" data-prompt="water ripples, liquid flow, reflections">Water</span>
-                                        <span class="tag-chip" data-prompt="camera zoom in slow dolly, cinematic push">Zoom</span>
-                                        <span class="tag-chip" data-prompt="particles floating, sparkle effects, glowing">Particles</span>
+                                        <span class="tag-chip" data-prompt="gentle breathing motion, soft ambient movement">${I18N.t('breathe')}</span>
+                                        <span class="tag-chip" data-prompt="hair flowing in wind, fabric swaying">${I18N.t('wind')}</span>
+                                        <span class="tag-chip" data-prompt="water ripples, liquid flow, reflections">${I18N.t('water')}</span>
+                                        <span class="tag-chip" data-prompt="camera zoom in slow dolly, cinematic push">${I18N.t('zoom')}</span>
+                                        <span class="tag-chip" data-prompt="particles floating, sparkle effects, glowing">${I18N.t('particles')}</span>
                                         <span class="tag-chip" data-prompt="3D parallax rotation, depth movement">3D Rotate</span>
                                     </div>
                                 </div>
                                 <div class="input-group">
-                                    <label>Motion Intensity</label>
-                                    <div class="settings-row" id="motionSelector">
-                                        <div class="setting-btn active" data-motion="Subtle" style="border-color: var(--brand); color: var(--brand); background: var(--brand-dim);">Subtle</div>
-                                        <div class="setting-btn" data-motion="Normal">Normal</div>
-                                        <div class="setting-btn" data-motion="Dynamic">Dynamic</div>
+                                    <label>${I18N.t('motionIntensity')}</label>
+                                    <div class=\"settings-row\" id=\"motionSelector\">
+                                        <div class=\"setting-btn active\" data-motion=\"Subtle\" style=\"border-color: var(--brand); color: var(--brand); background: var(--brand-dim);\">${I18N.t('subtle')}</div>
+                                        <div class=\"setting-btn\" data-motion=\"Normal\">${I18N.t('normal')}</div>
+                                        <div class=\"setting-btn\" data-motion=\"Dynamic\">${I18N.t('dynamic')}</div>
                                     </div>
                                     <input type="hidden" id="motionInput" value="Subtle">
                                 </div>
                                 <div class="input-group">
-                                    <label><i class="fa-solid fa-quote-left" style="margin-right:6px; opacity:0.5;"></i> Additional Prompt <span style="color:var(--muted); font-size:0.75rem;">Optional</span></label>
+                                    <label><i class="fa-solid fa-quote-left" style="margin-right:6px; opacity:0.5;"></i> ${I18N.t('additionalPrompt')} <span style="color:var(--muted); font-size:0.75rem;">${I18N.t('optional')}</span></label>
                                     <textarea id="imgPrompt" placeholder="Describe additional motion effects..." style="min-height:80px;"></textarea>
                                 </div>
                                 <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
-                                    <button class="cyber-btn" onclick="forgeImage()" style="margin-top: 0; border-color: var(--brand); color: var(--brand);">ANIMATE IMAGE <i class="fa-solid fa-film" style="margin-left:8px;"></i></button>
+                                    <button class="cyber-btn" onclick="forgeImage()" style="margin-top: 0; border-color: var(--brand); color: var(--brand);">${I18N.t('chooseImage')} <i class="fa-solid fa-film" style="margin-left:8px;"></i></button>
                                 </div>
                             </div>
                             
@@ -1643,7 +1819,7 @@
                                 <div id="frameResult" style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:450px; transition: border-color 0.3s;">
                                     <div id="frameStatus">
                                         <i class="fa-solid fa-video" style="font-size:3rem; color:var(--brand); opacity:0.6; margin-bottom:20px;"></i>
-                                        <p style="color:var(--muted); text-align: center;">Upload an image to start.<br>AI will analyze depth and semantics to generate motion.</p>
+                                        <p style="color:var(--muted); text-align: center;">${I18N.t('uploadImageHint')}<br>${I18N.t('aiDepthHint')}</p>
                                     </div>
                                     <div id="framePlayer" style="display:none; width:100%;">
                                         <video id="frameVideoOut" autoplay loop controls style="width:100%; border-radius: 12px; margin-bottom:16px;"></video>
@@ -1664,41 +1840,41 @@
                 document.getElementById('other-view').style.display = 'block';
                 document.getElementById('other-view').innerHTML = `
                     <div style="padding: 40px; max-width: 1100px; margin: 0 auto;">
-                        <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:6px;">ToneForge <span style="color:var(--brand)">AI Music</span></h1>
-                        <p style="color:var(--muted); margin-bottom:30px;">Generate royalty-free music for any project. Describe the mood, get the track.</p>
+                        <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:6px;">ToneForge <span style="color:var(--brand)">${I18N.t('aiMusic')}</span></h1>
+                        <p style="color:var(--muted); margin-bottom:30px;">${I18N.t('musicDesc')}</p>
                         
                         <div style="display:grid; grid-template-columns: 420px 1fr; gap:30px;">
                             <div class="create-panel" style="min-height: auto; border-color: var(--brand);">
                                 <div class="input-group">
-                                    <label><i class="fa-solid fa-guitar" style="margin-right:6px; opacity:0.5;"></i> Genre</label>
+                                    <label><i class="fa-solid fa-guitar" style="margin-right:6px; opacity:0.5;"></i> ${I18N.t('genreLabel')}</label>
                                     <div class="tag-cloud" id="toneGenreTags" style="margin-bottom:8px;">
-                                        <span class="tag-chip selected" data-value="Lofi Hip Hop">Lofi Hip Hop</span>
-                                        <span class="tag-chip" data-value="Cinematic">Cinematic</span>
-                                        <span class="tag-chip" data-value="Cyberpunk Techno">Techno</span>
-                                        <span class="tag-chip" data-value="Acoustic Folk">Folk</span>
-                                        <span class="tag-chip" data-value="Epic Orchestral">Orchestral</span>
-                                        <span class="tag-chip" data-value="Ambient Chill">Ambient</span>
-                                        <span class="tag-chip" data-value="Dark Trap">Trap</span>
-                                        <span class="tag-chip" data-value="Retro Synthpop">Synthpop</span>
+                                        <span class="tag-chip selected" data-value="Lofi Hip Hop">${I18N.t('lofiHipHop')}</span>
+                                        <span class="tag-chip" data-value="Cinematic">${I18N.t('cinematic')}</span>
+                                        <span class="tag-chip" data-value="Cyberpunk Techno">${I18N.t('techno')}</span>
+                                        <span class="tag-chip" data-value="Acoustic Folk">${I18N.t('folk')}</span>
+                                        <span class="tag-chip" data-value="Epic Orchestral">${I18N.t('orchestral')}</span>
+                                        <span class="tag-chip" data-value="Ambient Chill">${I18N.t('ambient')}</span>
+                                        <span class="tag-chip" data-value="Dark Trap">${I18N.t('trap')}</span>
+                                        <span class="tag-chip" data-value="Retro Synthpop">${I18N.t('synthpop')}</span>
                                     </div>
                                     <input type="hidden" id="toneStyle" value="Lofi Hip Hop">
                                 </div>
                                 <div class="input-group">
-                                    <label><i class="fa-solid fa-cloud" style="margin-right:6px; opacity:0.5;"></i> Mood & Atmosphere</label>
+                                    <label><i class="fa-solid fa-cloud" style="margin-right:6px; opacity:0.5;"></i> ${I18N.t('moodLabel')}</label>
                                     <div class="tag-cloud" id="toneMoodTags" style="margin-bottom:8px;">
-                                        <span class="tag-chip" data-value="深夜下雨的街道">Rainy Night</span>
-                                        <span class="tag-chip" data-value="孤獨但有希望">Hopeful</span>
-                                        <span class="tag-chip" data-value="緊張刺激追逐">Tense</span>
-                                        <span class="tag-chip" data-value="溫暖幸福的時光">Warm</span>
-                                        <span class="tag-chip" data-value="史詩般的戰鬥">Epic Battle</span>
-                                        <span class="tag-chip" data-value="夢幻空靈">Dreamy</span>
-                                        <span class="tag-chip" data-value="暗黑神秘">Dark</span>
-                                        <span class="tag-chip" data-value="歡樂派對">Party</span>
+                                        <span class="tag-chip" data-value="深夜下雨的街道">${I18N.t('rainyNight')}</span>
+                                        <span class="tag-chip" data-value="孤獨但有希望">${I18N.t('hopeful')}</span>
+                                        <span class="tag-chip" data-value="緊張刺激追逐">${I18N.t('tense')}</span>
+                                        <span class="tag-chip" data-value="溫暖幸福的時光">${I18N.t('warm')}</span>
+                                        <span class="tag-chip" data-value="史詩般的戰鬥">${I18N.t('epicBattle')}</span>
+                                        <span class="tag-chip" data-value="夢幻空靈">${I18N.t('dreamy')}</span>
+                                        <span class="tag-chip" data-value="暗黑神秘">${I18N.t('dark')}</span>
+                                        <span class="tag-chip" data-value="歡樂派對">${I18N.t('party')}</span>
                                     </div>
-                                    <textarea id="toneMood" placeholder="Or type your own mood description..." style="min-height:70px;"></textarea>
+                                    <textarea id="toneMood" placeholder="${I18N.t('moodPlaceholder')}" style="min-height:70px;"></textarea>
                                 </div>
                                 <div class="input-group">
-                                    <label>Duration</label>
+                                    <label>${I18N.t('duration')}</label>
                                     <div class="settings-row">
                                         <div class="setting-btn active" onclick="selectToneLen(this, 15)">15s</div>
                                         <div class="setting-btn" onclick="selectToneLen(this, 30)">30s</div>
@@ -1707,7 +1883,7 @@
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
-                                    <button class="cyber-btn" onclick="forgeMusic()" style="margin-top: 0; border-color: var(--brand); color: var(--brand);">START FORGING <i class="fa-solid fa-hammer" style="margin-left:8px;"></i></button>
+                                    <button class="cyber-btn" onclick="forgeMusic()" style="margin-top: 0; border-color: var(--brand); color: var(--brand);">${I18N.t('startForging')} <i class="fa-solid fa-hammer" style="margin-left:8px;"></i></button>
                                 </div>
                             </div>
                             
@@ -1715,7 +1891,7 @@
                                 <div id="toneResult" style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:450px; transition: border-color 0.3s;">
                                     <div id="toneStatus">
                                         <i class="fa-solid fa-music" style="font-size:3rem; color:var(--brand); opacity:0.6; margin-bottom:20px;"></i>
-                                        <p style="color:var(--muted);">Set your parameters and start forging your custom soundtrack.</p>
+                                        <p style="color:var(--muted);">${I18N.t('setParamsHint')}</p>
                                     </div>
                                     <div id="tonePlayer" style="display:none; width:100%;">
                                         <h3 id="toneTitle" style="margin-bottom:12px; text-align:center;"></h3>
@@ -1828,7 +2004,7 @@
                     const history = GenerationStore.getAll();
                     let cards = '';
                     if (history.length === 0) {
-                        cards = `<div style="grid-column: 1/-1; text-align:center; padding:60px 0; color:var(--muted);"><i class="fa-solid fa-clock-rotate-left" style="font-size:3rem; margin-bottom:16px; opacity:0.4;"></i><p>No generation history yet. Start creating!</p></div>`;
+                        cards = `<div style="grid-column: 1/-1; text-align:center; padding:60px 0; color:var(--muted);"><i class="fa-solid fa-clock-rotate-left" style="font-size:3rem; margin-bottom:16px; opacity:0.4;"></i><p>${I18N.t('noGenHistory')}</p></div>`;
                     } else {
                         history.forEach(g => {
                             const icon = g.type === 'toneforge' ? 'fa-music' : g.type === 'frameforge' ? 'fa-images' : 'fa-wand-magic-sparkles';
@@ -1858,10 +2034,10 @@
                         <div style="padding: 40px; max-width: 1200px; margin: 0 auto;">
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
                                 <div>
-                                    <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:6px;">My Screening Room</h1>
-                                    <p style="color:var(--muted);">Your generation history. ${history.length} items saved.</p>
+                                    <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:6px;">${I18N.t('screeningRoomTitle')}</h1>
+                                    <p style="color:var(--muted);">${I18N.t('genHistoryHint').replace('${n}', history.length)}</p>
                                 </div>
-                                ${history.length > 0 ? `<button class="setting-btn" onclick="if(confirm('Clear all history?')){GenerationStore.clear();switchTab(null,'screening');}" style="color:#ef4444;"><i class="fa-solid fa-trash"></i> Clear All</button>` : ''}
+                                ${history.length > 0 ? `<button class="setting-btn" onclick="if(confirm('${I18N.t('confirmClear')}')){GenerationStore.clear();switchTab(null,'screening');}" style="color:#ef4444;"><i class="fa-solid fa-trash"></i> ${I18N.t('clearAll')}</button>` : ''}
                             </div>
                             <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:20px;">
                                 ${cards}
@@ -1896,8 +2072,8 @@
                     });
                     document.getElementById('other-view').innerHTML = `
                         <div style="padding: 40px; max-width: 1200px; margin: 0 auto;">
-                            <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:6px;">Style Library</h1>
-                            <p style="color:var(--muted); margin-bottom:30px;">Click any preset to apply it to WireVision. ${stylePresets.length} templates available.</p>
+                            <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:6px;">${I18N.t('styleLibraryTitle')}</h1>
+                            <p style="color:var(--muted); margin-bottom:30px;">${I18N.t('styleLibraryHint').replace('${n}', stylePresets.length)}</p>
                             <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:16px;">
                                 ${presetCards}
                             </div>
@@ -1913,55 +2089,55 @@
                     
                     document.getElementById('other-view').innerHTML = `
                         <div style="padding: 40px; max-width: 800px; margin: 0 auto;">
-                            <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:30px;">Settings</h1>
+                            <h1 style="font-family:'Orbitron', sans-serif; margin-bottom:30px;">${I18N.t('settingsTitle')}</h1>
                             
                             <!-- Plan Card -->
                             <div style="background:${isPro ? 'linear-gradient(135deg, rgba(124,92,255,0.1), rgba(124,92,255,0.03))' : 'var(--panel)'}; border:1px solid ${isPro ? 'rgba(124,92,255,0.4)' : 'var(--border)'}; border-radius:16px; padding:28px; margin-bottom:20px; position:relative; overflow:hidden;">
-                                ${isPro ? '<div style="position:absolute; top:0; right:0; background:#7c5cff; color:white; font-size:0.65rem; font-weight:700; padding:4px 20px; letter-spacing:1px;">CREATOR PRO</div>' : ''}
-                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-${isPro ? 'crown' : 'user'}" style="color:${isPro ? '#7c5cff' : 'var(--muted)'}; margin-right:8px;"></i> ${isPro ? 'Creator Pro' : 'Free Explorer'}</h3>
+                                ${isPro ? `<div style="position:absolute; top:0; right:0; background:#7c5cff; color:white; font-size:0.65rem; font-weight:700; padding:4px 20px; letter-spacing:1px;">${I18N.t('creatorPro')}</div>` : ''}
+                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-${isPro ? 'crown' : 'user'}" style="color:${isPro ? '#7c5cff' : 'var(--muted)'}; margin-right:8px;"></i> ${isPro ? I18N.t('proPlan') : I18N.t('freePlan')}</h3>
                                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
                                     <div style="background:rgba(0,0,0,0.2); padding:16px; border-radius:10px; text-align:center;">
                                         <div style="font-size:2rem; font-family:'Orbitron', sans-serif; color:var(--brand);">${credits}</div>
-                                        <div style="font-size:0.8rem; color:var(--muted);">Credits Left</div>
+                                        <div style="font-size:0.8rem; color:var(--muted);">${I18N.t('creditsLeft')}</div>
                                     </div>
                                     <div style="background:rgba(0,0,0,0.2); padding:16px; border-radius:10px; text-align:center;">
                                         <div style="font-size:2rem; font-family:'Orbitron', sans-serif; color:${isPro ? '#7c5cff' : 'var(--muted)'};">${usage}/${limit}</div>
-                                        <div style="font-size:0.8rem; color:var(--muted);">Monthly Usage</div>
+                                        <div style="font-size:0.8rem; color:var(--muted);">${I18N.t('monthlyUsage')}</div>
                                     </div>
                                 </div>
                                 <!-- Usage Bar -->
                                 <div style="background:rgba(255,255,255,0.05); border-radius:999px; height:8px; overflow:hidden; margin-bottom:8px;">
                                     <div style="width:${usagePercent}%; height:100%; background:${usagePercent > 80 ? '#ef4444' : isPro ? '#7c5cff' : 'var(--brand)'}; border-radius:999px; transition:width 0.3s;"></div>
                                 </div>
-                                <p style="font-size:0.8rem; color:var(--muted); margin-bottom:16px;">${usagePercent}% of monthly limit used</p>
+                                <p style="font-size:0.8rem; color:var(--muted); margin-bottom:16px;">${usagePercent}% ${I18N.t('monthlyLimitUsed')}</p>
                                 ${!isPro ? `
                                 <a href="pricing.html" style="display:block; text-align:center; background:#7c5cff; color:#fff; text-decoration:none; padding:12px; border-radius:8px; font-weight:bold; margin-top:8px;">
-                                    <i class="fa-solid fa-crown" style="margin-right:6px;"></i> Upgrade to Pro — $15/mo
+                                    <i class="fa-solid fa-crown" style="margin-right:6px;"></i> ${I18N.t('upgrade')} — $15${I18N.t('proMo')}
                                 </a>` : ''}
                             </div>
                             
                             <!-- Credits -->
                             <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:20px;">
-                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-coins" style="color:var(--brand); margin-right:8px;"></i> Credits</h3>
+                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-coins" style="color:var(--brand); margin-right:8px;"></i> ${I18N.t('credits')}</h3>
                                 <div style="display:flex; align-items:center; gap:20px;">
                                     <div style="font-size:2.5rem; font-family:'Orbitron', sans-serif; color:var(--brand);">${credits}</div>
                                     <div>
-                                        <p style="color:var(--muted); font-size:0.9rem;">Available credits</p>
-                                        <p style="color:var(--muted); font-size:0.8rem;">Each generation uses 1 credit · Max ${PlanManager.getMaxCredits()} (${PlanManager.getPlanLabel()})</p>
+                                        <p style="color:var(--muted); font-size:0.9rem;">${I18N.t('availableCredits')}</p>
+                                        <p style="color:var(--muted); font-size:0.8rem;">${I18N.t('creditHint').replace('${max}', PlanManager.getMaxCredits()).replace('${plan}', PlanManager.getPlanLabel())}</p>
                                     </div>
                                 </div>
                                 <div style="margin-top:16px;">
-                                    <label style="font-size:0.85rem; color:var(--muted);">Reset Credits</label>
+                                    <label style="font-size:0.85rem; color:var(--muted);">${I18N.t('resetCredits')}</label>
                                     <div style="display:flex; gap:8px; margin-top:8px;">
-                                        <button class="setting-btn" onclick="GenerationStore.setCredits(${isPro ? 100 : 10}); switchTab(null,'settings');">Reset to ${isPro ? 100 : 10}</button>
+                                        <button class="setting-btn" onclick="GenerationStore.setCredits(${isPro ? 100 : 10}); switchTab(null,'settings');">${I18N.t('resetTo')} ${isPro ? 100 : 10}</button>
                                     </div>
                                 </div>
                             </div>
                             
                             <!-- Plan Toggle (for testing) -->
                             <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:20px;">
-                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-flask" style="color:#f59e0b; margin-right:8px;"></i> Plan Toggle (Testing)</h3>
-                                <p style="color:var(--muted); font-size:0.85rem; margin-bottom:12px;">Toggle between Free and Pro to preview the experience.</p>
+                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-flask" style="color:#f59e0b; margin-right:8px;"></i> ${I18N.t('planToggle')}</h3>
+                                <p style="color:var(--muted); font-size:0.85rem; margin-bottom:12px;">${I18N.t('togglePlanHint')}</p>
                                 <div style="display:flex; gap:8px;">
                                     <button class="setting-btn ${!isPro ? 'active' : ''}" onclick="PlanManager.setPlan('free'); switchTab(null,'settings');" style="${!isPro ? 'border-color:#a1a1aa; color:#a1a1aa;' : ''}">Free</button>
                                     <button class="setting-btn ${isPro ? 'active' : ''}" onclick="PlanManager.setPlan('pro'); GenerationStore.setCredits(100); switchTab(null,'settings');" style="${isPro ? 'border-color:#7c5cff; color:#7c5cff; background:rgba(124,92,255,0.1);' : ''}">Pro</button>
@@ -1971,7 +2147,7 @@
                             <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:20px;">
                                 <h3 style="margin-bottom:16px;"><i class="fa-solid fa-clock-rotate-left" style="color:var(--brand); margin-right:8px;"></i> History</h3>
                                 <p style="color:var(--muted); font-size:0.9rem; margin-bottom:12px;">${historyCount} items stored locally</p>
-                                <button class="setting-btn" onclick="if(confirm('Delete all ${historyCount} history items?')){GenerationStore.clear();switchTab(null,'settings');}" style="color:#ef4444;"><i class="fa-solid fa-trash"></i> Clear All History</button>
+                                <button class="setting-btn" onclick="if(confirm('${I18N.t('confirmClear')}')){GenerationStore.clear();switchTab(null,'settings');}" style="color:#ef4444;"><i class="fa-solid fa-trash"></i> ${I18N.t('clearAllHistory')}</button>
                             </div>
                             
                             <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:20px;">
@@ -1984,13 +2160,13 @@
                             </div>
                             
                             <div style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:28px;">
-                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-info-circle" style="color:var(--brand); margin-right:8px;"></i> About</h3>
-                                <p style="color:var(--muted); font-size:0.9rem; line-height:1.6;">Kent & KClaw Studio AI Suite<br>Version 2.0 — Commercial Release<br>Powered by AI Generation Engines</p>
+                                <h3 style="margin-bottom:16px;"><i class="fa-solid fa-info-circle" style="color:var(--brand); margin-right:8px;"></i> ${I18N.t('aboutTitle')}</h3>
+                                <p style="color:var(--muted); font-size:0.9rem; line-height:1.6;">Kent & KClaw Studio AI Suite<br>Version 2.0 — Commercial Release<br>${I18N.t('poweredBy')}</p>
                             </div>
                         </div>
                     `;
                 } else {
-                    document.getElementById('other-view').innerHTML = `<div style="padding:40px; text-align:center;"><h2 style="font-family:'Orbitron', sans-serif; margin-bottom:16px;">${tab === 'nostalgia' ? 'Nostalgia Vault (Trash)' : tab === 'split' ? 'Audio Stem Splitter' : tab.charAt(0).toUpperCase() + tab.slice(1)}</h2><p style="color:var(--muted);">This feature is coming soon. Stay tuned!</p></div>`;
+                    document.getElementById('other-view').innerHTML = `<div style="padding:40px; text-align:center;"><h2 style="font-family:'Orbitron', sans-serif; margin-bottom:16px;">${tab === 'nostalgia' ? I18N.t('trash') : tab === 'split' ? I18N.t('stemSplitter') : tab.charAt(0).toUpperCase() + tab.slice(1)}</h2><p style="color:var(--muted);">${I18N.t('comingSoon')}</p></div>`;
                 }
             }
         }
@@ -2007,6 +2183,7 @@
         }
         I18N.applySidebar();
         I18N.applyHeader();
+        I18N.applyPage();
     </script>
 </body>
 </html>
