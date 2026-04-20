@@ -301,7 +301,7 @@
 <div class="video-card" id="recentHistoryCard" style="display:block; margin-bottom: 24px;">
     <div class="video-wrapper" style="height: 180px; background: #000; border-bottom: 1px solid rgba(255,255,255,0.1);">
         <div id="recentHistoryContent" style="display:flex; justify-content:center; align-items:center; height:100%; color:var(--muted); font-size: 0.9rem;">
-            <i class="fa-solid fa-clock-rotate-left" style="margin-right:8px;"></i> No recent generations
+            <i class="fa-solid fa-clock-rotate-left" style="margin-right:8px;"></i> <span data-i18n="noRecentGen">尚無近期生成</span>
         </div>
     </div>
     <div class="video-info" style="padding: 16px;">
@@ -309,7 +309,7 @@
             <h3 style="font-size: 1rem;" data-i18n="recentTasks">Recent Tasks</h3>
             <p style="font-size: 0.8rem; color:var(--muted);" data-i18n="latestGenHint">Your latest generation will appear here.</p>
         </div>
-        <a href="#" onclick="switchTab(null,'screening');return false;" style="color:var(--brand); font-size:0.85rem; text-decoration:none;">View All →</a>
+        <a href="#" onclick="switchTab(null,'screening');return false;" style="color:var(--brand); font-size:0.85rem; text-decoration:none;"><span data-i18n="viewAll">查看全部</span> →</a>
     </div>
 </div>
                 <h2 class="section-title" data-i18n="genQueue">Generation Queue</h2>
@@ -412,6 +412,8 @@
                     etaCalculating: '預估時間：計算中...',
                     readyToGenerate: '準備生成',
                     uploadAudioHint: '上傳音軌以預覽 AI MV',
+                    noRecentGen: '尚無近期生成',
+                    viewAll: '查看全部',
                     // FrameForge
                     animateImage: '動態化圖片',
                     animDesc: '將任何靜態圖片轉為動態影片。上傳、描述、生成。',
@@ -438,6 +440,20 @@
                     allInOneStudio: '全能工作室',
                     readyToLaunch: '準備啟動',
                     configureHint: '設定風格後按下 START。',
+                    pipelineDesc: '一鍵創作完整音樂影片。AI 先生成音樂，再生成視覺 — 全自動。',
+                    step1: '步驟 1', step2: '步驟 2', step3: '步驟 3',
+                    genMusic: '生成音樂', genVideo: '生成影片', exportResult: '匯出',
+                    musicGenre: '音樂曲風', musicDurationLabel: '音樂時長',
+                    aspectRatioLabel: '畫面比例',
+                    startPipeline: '啟動工作流',
+                    readyLaunchHint: '設定風格後按下 START。<br>AI 將生成音樂，再生成影片 — 全自動。',
+                    usesCredits: '消耗 2 點數（音樂 + 影片）',
+                    genMusicTitle: '🎵 已生成音樂',
+                    genVideoTitle: '🎬 已生成影片',
+                    downloadVideo: '下載影片', downloadAudio: '下載音樂',
+                    downloadMp4: '下載 MP4', downloadWav: '下載 WAV',
+                    viewInScreening: '前往放映室查看',
+                    pipePlaceholder: '或輸入你自己的視覺描述...',
                     // Screening Room
                     screeningRoomTitle: '我的放映室',
                     noGenHistory: '尚無生成記錄。開始創作吧！',
@@ -543,6 +559,8 @@
                     etaCalculating: 'ETA: Calculating...',
                     readyToGenerate: 'Ready to Generate',
                     uploadAudioHint: 'Upload your audio track to preview the AI MV here',
+                    noRecentGen: 'No recent generations',
+                    viewAll: 'View All',
                     // FrameForge
                     animateImage: 'ANIMATE IMAGE',
                     animDesc: 'Animate any static image into dynamic video. Upload, describe, generate.',
@@ -569,6 +587,20 @@
                     allInOneStudio: 'All-in-One Studio',
                     readyToLaunch: 'Ready to Launch',
                     configureHint: 'Configure your style and hit START.',
+                    pipelineDesc: 'One click to create a complete music video. AI generates the music, then the visuals — fully automated.',
+                    step1: 'STEP 1', step2: 'STEP 2', step3: 'STEP 3',
+                    genMusic: 'Generate Music', genVideo: 'Generate Video', exportResult: 'Export',
+                    musicGenre: 'Music Genre', musicDurationLabel: 'Music Duration',
+                    aspectRatioLabel: 'Aspect Ratio',
+                    startPipeline: 'START PIPELINE',
+                    readyLaunchHint: 'Configure your style and hit START.<br>AI will generate music, then video — fully automated.',
+                    usesCredits: 'Uses 2 credits (music + video)',
+                    genMusicTitle: '🎵 Generated Music',
+                    genVideoTitle: '🎬 Generated Video',
+                    downloadVideo: 'Download Video', downloadAudio: 'Download Audio',
+                    downloadMp4: 'Download MP4', downloadWav: 'Download WAV',
+                    viewInScreening: 'View in Screening Room',
+                    pipePlaceholder: 'Or write your own visual description...',
                     // Screening Room
                     screeningRoomTitle: 'My Screening Room',
                     noGenHistory: 'No generation history yet. Start creating!',
@@ -1670,24 +1702,24 @@
                     <div style="padding: 40px; max-width: 1100px; margin: 0 auto;">
                         <div style="display:flex; align-items:center; gap:12px; margin-bottom:6px;">
                             <div style="width:40px; height:40px; background:linear-gradient(135deg, #f59e0b, #ef4444); border-radius:10px; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-rocket" style="color:#fff;"></i></div>
-                            <h1 style="font-family:'Orbitron', sans-serif;">All-in-One Studio</h1>
+                            <h1 style="font-family:'Orbitron', sans-serif;">${I18N.t('allInOneStudio')}</h1>
                         </div>
-                        <p style="color:var(--muted); margin-bottom:30px;">One click to create a complete music video. AI generates the music, then the visuals — fully automated.</p>
+                        <p style="color:var(--muted); margin-bottom:30px;">${I18N.t('pipelineDesc')}</p>
                         
                         <div style="display:flex; gap:8px; margin-bottom:30px;" id="pipelineSteps">
                             <div id="pStep1" style="flex:1; padding:12px; background:rgba(245,158,11,0.1); border:1px solid #f59e0b; border-radius:12px; text-align:center;">
-                                <div style="font-size:0.7rem; color:#f59e0b; margin-bottom:4px;">STEP 1</div>
-                                <div style="font-size:0.85rem; font-weight:600;">🎵 Generate Music</div>
+                                <div style="font-size:0.7rem; color:#f59e0b; margin-bottom:4px;">${I18N.t('step1')}</div>
+                                <div style="font-size:0.85rem; font-weight:600;">🎵 ${I18N.t('genMusic')}</div>
                             </div>
                             <div style="display:flex; align-items:center; color:var(--muted);"><i class="fa-solid fa-arrow-right"></i></div>
                             <div id="pStep2" style="flex:1; padding:12px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:12px; text-align:center;">
-                                <div style="font-size:0.7rem; color:var(--muted); margin-bottom:4px;">STEP 2</div>
-                                <div style="font-size:0.85rem; font-weight:600; color:var(--muted);">🎬 Generate Video</div>
+                                <div style="font-size:0.7rem; color:var(--muted); margin-bottom:4px;">${I18N.t('step2')}</div>
+                                <div style="font-size:0.85rem; font-weight:600; color:var(--muted);">🎬 ${I18N.t('genVideo')}</div>
                             </div>
                             <div style="display:flex; align-items:center; color:var(--muted);"><i class="fa-solid fa-arrow-right"></i></div>
                             <div id="pStep3" style="flex:1; padding:12px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:12px; text-align:center;">
-                                <div style="font-size:0.7rem; color:var(--muted); margin-bottom:4px;">STEP 3</div>
-                                <div style="font-size:0.85rem; font-weight:600; color:var(--muted);">✨ Export</div>
+                                <div style="font-size:0.7rem; color:var(--muted); margin-bottom:4px;">${I18N.t('step3')}</div>
+                                <div style="font-size:0.85rem; font-weight:600; color:var(--muted);">✨ ${I18N.t('exportResult')}</div>
                             </div>
                         </div>
 
@@ -1703,22 +1735,22 @@
                                         <span class="tag-chip" data-prompt="tokyo neon street, pop art, rain reflections, anime city" data-i18n="tokyoPop">東京流行</span>
                                         <span class="tag-chip" data-prompt="abstract fluid art, morphing shapes, gradient colors" data-i18n="abstract">抽象</span>
                                     </div>
-                                    <textarea id="pipePrompt" placeholder="Or write your own visual description..." style="min-height:70px;">dark cyberpunk street, raining, cinematic lighting, neon glow</textarea>
+                                    <textarea id="pipePrompt" placeholder="${I18N.t('pipePlaceholder')}" style="min-height:70px;">dark cyberpunk street, raining, cinematic lighting, neon glow</textarea>
                                 </div>
                                 <div class="input-group">
-                                    <label><i class="fa-solid fa-guitar" style="margin-right:6px; opacity:0.5;"></i> Music Genre</label>
+                                    <label><i class="fa-solid fa-guitar" style="margin-right:6px; opacity:0.5;"></i> ${I18N.t('musicGenre')}</label>
                                     <div class="tag-cloud" id="pipeGenreTags" style="margin-bottom:8px;">
-                                        <span class="tag-chip selected" data-value="Lofi Hip Hop">Lofi</span>
-                                        <span class="tag-chip" data-value="Cinematic">Cinematic</span>
-                                        <span class="tag-chip" data-value="Cyberpunk Techno">Techno</span>
-                                        <span class="tag-chip" data-value="Epic Orchestral">Orchestral</span>
-                                        <span class="tag-chip" data-value="Acoustic Folk">Folk</span>
-                                        <span class="tag-chip" data-value="Ambient Chill">Ambient</span>
+                                        <span class="tag-chip selected" data-value="Lofi Hip Hop">${I18N.t('lofiHipHop')}</span>
+                                        <span class="tag-chip" data-value="Cinematic">${I18N.t('cinematic')}</span>
+                                        <span class="tag-chip" data-value="Cyberpunk Techno">${I18N.t('techno')}</span>
+                                        <span class="tag-chip" data-value="Epic Orchestral">${I18N.t('orchestral')}</span>
+                                        <span class="tag-chip" data-value="Acoustic Folk">${I18N.t('folk')}</span>
+                                        <span class="tag-chip" data-value="Ambient Chill">${I18N.t('ambient')}</span>
                                     </div>
                                     <input type="hidden" id="pipeGenre" value="Lofi Hip Hop">
                                 </div>
                                 <div class="input-group">
-                                    <label>Music Duration</label>
+                                    <label>${I18N.t('musicDurationLabel')}</label>
                                     <div class="settings-row">
                                         <div class="setting-btn active" onclick="selectPipeLen(this, 15)">15s</div>
                                         <div class="setting-btn" onclick="selectPipeLen(this, 30)">30s</div>
@@ -1727,7 +1759,7 @@
                                     <input type="hidden" id="pipeLen" value="15">
                                 </div>
                                 <div class="input-group">
-                                    <label>Aspect Ratio</label>
+                                    <label>${I18N.t('aspectRatioLabel')}</label>
                                     <div class="settings-row" id="pipeRatioSelector">
                                         <div class="setting-btn active" data-ratio="9:16"><i class="fa-solid fa-mobile-screen"></i> 9:16</div>
                                         <div class="setting-btn" data-ratio="1:1"><i class="fa-solid fa-square"></i> 1:1</div>
@@ -1737,7 +1769,7 @@
                                 </div>
                                 <div style="display:flex; flex-direction:column; gap:10px; margin-top:16px;">
                                     <button class="cyber-btn" onclick="runPipeline()" id="pipeBtn" style="margin-top:0; border-color:#f59e0b; color:#f59e0b; background:rgba(245,158,11,0.05);">
-                                        <i class="fa-solid fa-rocket" style="margin-right:8px;"></i> START PIPELINE
+                                        <i class="fa-solid fa-rocket" style="margin-right:8px;"></i> ${I18N.t('startPipeline')}
                                     </button>
                                 </div>
                             </div>
@@ -1746,23 +1778,23 @@
                                 <div id="pipeResult" style="background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:30px; min-height:500px; transition:border-color 0.3s;">
                                     <div id="pipeStatus" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; min-height:440px;">
                                         <i class="fa-solid fa-rocket" style="font-size:3rem; color:#f59e0b; opacity:0.5; margin-bottom:20px;"></i>
-                                        <h3 style="margin-bottom:8px;">Ready to Launch</h3>
-                                        <p style="color:var(--muted); text-align:center;">Configure your style and hit START.<br>AI will generate music, then video — fully automated.</p>
-                                        <p style="color:#f59e0b; font-size:0.8rem; margin-top:12px;"><i class="fa-solid fa-coins" style="margin-right:4px;"></i> Uses 2 credits (music + video)</p>
+                                        <h3 style="margin-bottom:8px;">${I18N.t('readyToLaunch')}</h3>
+                                        <p style="color:var(--muted); text-align:center;">${I18N.t('readyLaunchHint')}</p>
+                                        <p style="color:#f59e0b; font-size:0.8rem; margin-top:12px;"><i class="fa-solid fa-coins" style="margin-right:4px;"></i> ${I18N.t('usesCredits')}</p>
                                     </div>
                                     <div id="pipeProgress" style="display:none;">
                                         <div id="pipeLog" style="background:#000; border:1px solid var(--border); border-left:3px solid #f59e0b; border-radius:12px; padding:16px; font-family:monospace; font-size:0.8rem; color:#f59e0b; height:150px; overflow-y:auto; margin-bottom:20px; line-height:1.6;"></div>
                                         <div id="pipeAudioSection" style="display:none; margin-bottom:20px;">
-                                            <h4 style="margin-bottom:8px; color:var(--muted); font-size:0.85rem;">🎵 Generated Music</h4>
+                                            <h4 style="margin-bottom:8px; color:var(--muted); font-size:0.85rem;">${I18N.t('genMusicTitle')}</h4>
                                             <audio id="pipeAudioOut" controls style="width:100%;"></audio>
                                         </div>
                                         <div id="pipeVideoSection" style="display:none;">
-                                            <h4 style="margin-bottom:8px; color:var(--muted); font-size:0.85rem;">🎬 Generated Video</h4>
+                                            <h4 style="margin-bottom:8px; color:var(--muted); font-size:0.85rem;">${I18N.t('genVideoTitle')}</h4>
                                             <video id="pipeVideoOut" autoplay loop controls style="width:100%; border-radius:12px; margin-bottom:16px;"></video>
                                             <div style="display:flex; gap:10px;">
-                                                <a id="pipeVideoDownload" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center; border-color:#f59e0b; color:#f59e0b;"><i class="fa-solid fa-download"></i> Download Video</a>
-                                                <a id="pipeAudioDownload" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center; border-color:var(--tf-brand); color:var(--tf-brand);"><i class="fa-solid fa-music"></i> Download Audio</a>
-                                                <button class="setting-btn" onclick="switchTab(null,'screening')" style="flex:1;"><i class="fa-solid fa-film"></i> Screening Room</button>
+                                                <a id="pipeVideoDownload" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center; border-color:#f59e0b; color:#f59e0b;"><i class="fa-solid fa-download"></i> ${I18N.t('downloadVideo')}</a>
+                                                <a id="pipeAudioDownload" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center; border-color:var(--tf-brand); color:var(--tf-brand);"><i class="fa-solid fa-music"></i> ${I18N.t('downloadAudio')}</a>
+                                                <button class="setting-btn" onclick="switchTab(null,'screening')" style="flex:1;"><i class="fa-solid fa-film"></i> ${I18N.t('screeningRoomTitle')}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -1838,8 +1870,8 @@
                                     <div id="framePlayer" style="display:none; width:100%;">
                                         <video id="frameVideoOut" autoplay loop controls style="width:100%; border-radius: 12px; margin-bottom:16px;"></video>
                                         <div style="display:flex; gap:10px;">
-                                            <a id="frameDownload" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center; border-color:var(--brand); color:var(--brand);"><i class="fa-solid fa-download"></i> Download MP4</a>
-                                            <button class="setting-btn" onclick="switchTab(null,'screening')" style="flex:1;"><i class="fa-solid fa-film"></i> View in Screening Room</button>
+                                            <a id="frameDownload" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center; border-color:var(--brand); color:var(--brand);"><i class="fa-solid fa-download"></i> ${I18N.t('downloadMp4')}</a>
+                                            <button class="setting-btn" onclick="switchTab(null,'screening')" style="flex:1;"><i class="fa-solid fa-film"></i> ${I18N.t('viewInScreening')}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1912,8 +1944,8 @@
                                         <div class="waveform-preview" id="toneWaveform" style="height:60px; margin-bottom:16px; justify-content:center;"></div>
                                         <audio id="audioOut" controls style="width:100%; margin-bottom:16px;"></audio>
                                         <div style="display:flex; gap:10px;">
-                                            <a id="toneDownload" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center; border-color:var(--brand); color:var(--brand);"><i class="fa-solid fa-download"></i> Download WAV</a>
-                                            <button class="setting-btn" onclick="switchTab(null,'screening')" style="flex:1;"><i class="fa-solid fa-film"></i> View in Screening Room</button>
+                                            <a id="toneDownload" download class="setting-btn" style="flex:1; text-decoration:none; text-align:center; border-color:var(--brand); color:var(--brand);"><i class="fa-solid fa-download"></i> ${I18N.t('downloadWav')}</a>
+                                            <button class="setting-btn" onclick="switchTab(null,'screening')" style="flex:1;"><i class="fa-solid fa-film"></i> ${I18N.t('viewInScreening')}</button>
                                         </div>
                                     </div>
                                 </div>
