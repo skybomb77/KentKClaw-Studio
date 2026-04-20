@@ -92,26 +92,22 @@ function getBot() {
       }
     });
 
-    // ── 文字訊息（私訊 + 群組 @mention）──
+    // ── 文字訊息（私訊 + 群組全部）──
     bot.on('message', async (msg) => {
       const chatId = msg.chat.id;
       const text = msg.text;
       if (!text || text.startsWith('/')) return;
 
       const isGroup = msg.chat.type !== 'private';
-      const isMentioned = isGroup && text.includes('@KentCclawbot');
 
-      // 群組中只有 @mention 才回覆
-      if (isGroup && !isMentioned) return;
-
-      // ★ 橋接：同步到 KClaw Agent
+      // ★ 橋接：同步到 KClaw Agent（群組全部訊息，私訊全部訊息）
       receiveFromTelegram(chatId, text, msg.from?.username || 'unknown');
 
       // 群組：用 KClaw AI 回覆（跟私訊一樣有溫度）
       if (isGroup) {
         try {
           await bot.sendChatAction(chatId, 'typing');
-          const cleanText = text.replace(/@KentCclawbot/g, '').trim();
+          const cleanText = text.replace(/@KentCclawbot/g, '').trim() || text;
           const analysis = enhance(cleanText);
           const intent = analysis.intent;
           let reply = '';
@@ -174,18 +170,7 @@ function getBot() {
     bot.on('photo', async (msg) => {
       const chatId = msg.chat.id;
 
-      // 群組過濾：只在 @mention 時處理圖片
-      const isGroup = msg.chat.type === 'group' || msg.chat.type === 'supergroup';
-      if (isGroup) {
-        const caption = msg.caption || '';
-        const botUsername = (await bot.getMe()).username.toLowerCase();
-        const isMentioned = caption.toLowerCase().includes(`@${botUsername}`) ||
-          (msg.caption_entities || []).some(e =>
-            (e.type === 'mention' || e.type === 'text_mention') &&
-            caption.substring(e.offset, e.offset + e.length).toLowerCase() === `@${botUsername}`
-          );
-        if (!isMentioned) return;
-      }
+      // 群組：全部圖片都處理
       try {
         const photo = msg.photo[msg.photo.length - 1];
         const fileLink = await bot.getFileLink(photo.file_id);

@@ -1,0 +1,6 @@
+
+⚡ Middleware Proxy v1.0 | Port 3000
+   Hermes: http://127.0.0.1:3001
+   Health: /api/health
+   Routes: /api/hermes/* → http://127.0.0.1:3001/api/hermes/*
+

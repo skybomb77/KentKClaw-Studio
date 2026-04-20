@@ -1617,6 +1617,37 @@
                             </div>
                         </div>
 
+                        <!-- 功能展示影片 -->
+                        <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.4);">
+                            <div style="padding: 32px 32px 20px; display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; margin-bottom: 6px;"><i class="fa-solid fa-play" style="color: var(--brand); margin-right: 8px;"></i> Platform Demo</h2>
+                                    <p style="color: var(--muted); font-size: 0.9rem;">See how Kent & KClaw Studio turns ideas into content</p>
+                                </div>
+                                <span style="background: var(--brand-dim); color: var(--brand); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 999px;">2:30</span>
+                            </div>
+                            <div style="background: #000; position: relative;">
+                                <video id="demoVideo" src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-futuristic-devices-99786-large.mp4" poster="" muted loop playsinline style="width: 100%; display: block; cursor: pointer;" onclick="this.paused ? this.play() : this.pause(); document.getElementById('demoPlayIcon').style.display = this.paused ? 'block' : 'none';"></video>
+                                <div id="demoPlayIcon" onclick="document.getElementById('demoVideo').play(); this.style.display='none';" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 72px; height: 72px; background: rgba(0,255,170,0.9); border-radius: 50%; display: grid; place-items: center; cursor: pointer; box-shadow: 0 0 30px rgba(0,255,170,0.4); transition: transform 0.2s;" onmouseover="this.style.transform='translate(-50%,-50%) scale(1.1)'" onmouseout="this.style.transform='translate(-50%,-50%)'">
+                                    <i class="fa-solid fa-play" style="font-size: 1.5rem; color: #000; margin-left: 3px;"></i>
+                                </div>
+                            </div>
+                            <div style="padding: 20px 32px; display: flex; gap: 24px; border-top: 1px solid var(--border);">
+                                <div style="flex: 1; text-align: center;">
+                                    <div style="color: var(--brand); font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 700;">3</div>
+                                    <div style="color: var(--muted); font-size: 0.8rem; margin-top: 2px;">AI Engines</div>
+                                </div>
+                                <div style="flex: 1; text-align: center;">
+                                    <div style="color: var(--brand); font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 700;">&lt;2min</div>
+                                    <div style="color: var(--muted); font-size: 0.8rem; margin-top: 2px;">Avg. Generation</div>
+                                </div>
+                                <div style="flex: 1; text-align: center;">
+                                    <div style="color: var(--brand); font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 700;">10K+</div>
+                                    <div style="color: var(--muted); font-size: 0.8rem; margin-top: 2px;">Tracks Created</div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Pinned Subscription -->
                         <div>
                             <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
