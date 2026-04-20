@@ -117,23 +117,23 @@
         .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; background: var(--panel); border: 1px dashed var(--border); border-radius: 20px; color: var(--muted); text-align: center; }
         .empty-state i { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
 
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.15); } }
+
         /* Clerk 登入區 */
         #login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 100; flex-direction: column; }
         .login-hero { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: var(--brand); margin-bottom: 40px; text-shadow: 0 0 20px var(--brand-dim); }
     </style>
 </head>
 <body>
-    <video autoplay loop muted playsinline style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -2; opacity: 0.35; filter: blur(8px) brightness(0.8) contrast(1.2) saturate(1.2); pointer-events: none;">
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-cyberpunk-city-at-night-with-neon-lights-41315-large.mp4" type="video/mp4">
-    </video>
+    <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(-45deg, #0a0a0f, #1a1a2e, #16213e, #0f3460, #0a0a0f); background-size: 400% 400%; animation: gradientShift 10s ease infinite; z-index: -2; pointer-events: none;"></div>
     <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 50% 50%, rgba(9,9,11,0.3) 0%, rgba(9,9,11,0.95) 100%); z-index: -1; pointer-events: none;"></div>
 
     <!-- 登入遮罩 (未登入時顯示) -->
     <div id="login-overlay" style="position: relative; overflow: hidden;">
         <!-- 登入頁背景影片 -->
-        <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -1; transform: translate(-50%, -50%); opacity: 0.4; filter: contrast(1.2) saturate(1.5);">
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-over-a-futuristic-city-with-neon-lights-41316-large.mp4" type="video/mp4">
-        </video>
+        <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #0a0a0f, #1a1a2e, #0f3460); opacity: 0.9;"></div>
         <div class="login-hero" style="text-shadow: 0 0 30px #00ffaa, 0 0 10px #000; z-index: 1;">Chaobang Studio AI MV</div>
         <div id="sign-in" style="z-index: 1; box-shadow: 0 0 50px rgba(0,0,0,0.8); border-radius: 12px;"></div>
     </div>
@@ -1612,8 +1612,14 @@
                                     <button onclick="switchTab(null, 'toneforge')" class="cyber-btn" style="width: auto; padding: 10px 20px; margin-top: 0; display: inline-block; font-size: 0.9rem; border-color: var(--tf-brand); color: var(--tf-brand);">ToneForge <i class="fa-solid fa-music"></i></button>
                                 </div>
                             </div>
-                            <div style="width: 45%; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                                <video src="https://assets.mixkit.co/videos/preview/mixkit-cyber-city-with-neon-lights-at-night-41314-large.mp4" autoplay loop muted playsinline style="width: 100%; display: block;"></video>
+                            <div style="background: linear-gradient(-45deg, #0a0a0f, #1a1a2e, #16213e, #0f3460, #0a0a0f); background-size: 400% 400%; animation: gradientShift 8s ease infinite; width: 45%; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; min-height: 240px; position: relative;">
+                                <div style="text-align: center; z-index: 1;">
+                                    <div style="font-size: 3rem; margin-bottom: 12px; animation: float 3s ease-in-out infinite;">🎬</div>
+                                    <div style="color: var(--brand); font-family: 'Orbitron'; font-size: 1.2rem; font-weight: 700; margin-bottom: 8px;">AI Studio</div>
+                                    <div style="color: var(--muted); font-size: 0.85rem;">Music · Video · Animation</div>
+                                </div>
+                                <div style="position: absolute; top: 20%; left: 15%; width: 60px; height: 60px; border: 2px solid rgba(0,255,170,0.2); border-radius: 50%; animation: pulse 2s ease-in-out infinite;"></div>
+                                <div style="position: absolute; bottom: 25%; right: 20%; width: 40px; height: 40px; border: 2px solid rgba(185,122,245,0.2); border-radius: 50%; animation: pulse 2s ease-in-out infinite 1s;"></div>
                             </div>
                         </div>
 
@@ -1624,12 +1630,16 @@
                                     <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; margin-bottom: 6px;"><i class="fa-solid fa-play" style="color: var(--brand); margin-right: 8px;"></i> Platform Demo</h2>
                                     <p style="color: var(--muted); font-size: 0.9rem;">See how Kent & KClaw Studio turns ideas into content</p>
                                 </div>
-                                <span style="background: var(--brand-dim); color: var(--brand); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 999px;">2:30</span>
+                                <a href="https://www.youtube.com/@KentKClawStudio" target="_blank" style="background: var(--brand-dim); color: var(--brand); font-size: 0.75rem; font-weight: 700; padding: 6px 14px; border-radius: 999px; text-decoration: none; display: flex; align-items: center; gap: 6px;"><i class="fa-brands fa-youtube"></i> Watch</a>
                             </div>
-                            <div style="background: #000; position: relative;">
-                                <video id="demoVideo" src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-futuristic-devices-99786-large.mp4" poster="" muted loop playsinline style="width: 100%; display: block; cursor: pointer;" onclick="this.paused ? this.play() : this.pause(); document.getElementById('demoPlayIcon').style.display = this.paused ? 'block' : 'none';"></video>
-                                <div id="demoPlayIcon" onclick="document.getElementById('demoVideo').play(); this.style.display='none';" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 72px; height: 72px; background: rgba(0,255,170,0.9); border-radius: 50%; display: grid; place-items: center; cursor: pointer; box-shadow: 0 0 30px rgba(0,255,170,0.4); transition: transform 0.2s;" onmouseover="this.style.transform='translate(-50%,-50%) scale(1.1)'" onmouseout="this.style.transform='translate(-50%,-50%)'">
-                                    <i class="fa-solid fa-play" style="font-size: 1.5rem; color: #000; margin-left: 3px;"></i>
+                            <div style="background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f3460 100%); height: 320px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                                <div style="position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,170,0.03) 2px, rgba(0,255,170,0.03) 4px);"></div>
+                                <div style="position: absolute; inset: 0; background: radial-gradient(circle at 30% 40%, rgba(0,255,170,0.08) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(185,122,245,0.08) 0%, transparent 50%);"></div>
+                                <div style="text-align: center; z-index: 1;">
+                                    <div style="font-size: 4rem; margin-bottom: 16px; animation: float 3s ease-in-out infinite;">🚀</div>
+                                    <h3 style="font-family: 'Orbitron'; font-size: 1.5rem; color: #fff; margin-bottom: 8px;">3 Engines. One Studio.</h3>
+                                    <p style="color: var(--muted); max-width: 400px; line-height: 1.6; margin: 0 auto 20px;">WireVision for MV · FrameForge for Animation · ToneForge for Music</p>
+                                    <a href="../index.html#how-it-works" style="display: inline-flex; align-items: center; gap: 8px; background: var(--brand); color: #000; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Explore All Engines</a>
                                 </div>
                             </div>
                             <div style="padding: 20px 32px; display: flex; gap: 24px; border-top: 1px solid var(--border);">
