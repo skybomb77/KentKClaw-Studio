@@ -1,335 +1,367 @@
 <!DOCTYPE html>
-    <html lang="zh-TW">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>SnapForge 瞬拍 — AI 商品攝影 | Kent & KClaw Studio</title>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapForge 瞬拍 — AI 商品攝影 | Kent & KClaw Studio</title>
     <link rel="canonical" href="https://skybomb77.github.io/KentKClaw-Studio/snapforge.html">
     <meta property="og:title" content="SnapForge — AI 電商產品圖生成">
     <meta property="og:description" content="上傳產品圖，AI 自動生成專業級電商產品照。8 種背景風格、一鍵生成。">
     <meta property="og:image" content="https://skybomb77.github.io/KentKClaw-Studio/assets/snapforge-og.png">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://skybomb77.github.io/KentKClaw-Studio/snapforge.html">
-        <meta name="description" content="AI 商品攝影引擎。上傳照片，秒出電商級商品圖。自動去背、換背景、打光。">
-        <link rel="icon" href="assets/logo.svg">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700&display=swap">
-        <style>
-            *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-            :root{--bg:#0a0a0f;--panel:rgba(18,18,26,.65);--panel-solid:#12121a;--border:#27272a;--text:#ededed;--muted:#a1a1aa;--accent:#f59e0b;--accent-dim:rgba(245,158,11,.12);--accent-border:rgba(245,158,11,.25);--success:#22c55e;--radius:16px;--radius-sm:10px}
-            html{scroll-behavior:smooth}
-^[[13;1R            body{font-family:'Inter','Noto Sans TC',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
-            a{color:var(--accent);text-decoration:none;transition:opacity .2s}
-            a:hover{opacity:.85}
-            img{max-width:100%;display:block}
-            .container{max-width:1100px;margin:0 auto;padding:0 24px}
-            nav{padding:20px 0;display:flex;justify-content:space-between;align-items:center}
-            .logo{font-size:1.2rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
-            .logo img{width:24px;height:24px}
-            .nav-links{display:flex;gap:24px;align-items:center}
-            .nav-links a{color:var(--muted);font-size:.9rem}
-            .nav-links a:hover{color:var(--text)}
-            .hero{text-align:center;padding:80px 0 40px}
-            .hero .tag{color:var(--accent);font-size:.85rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
-            .hero h1{font-family:'Orbitron',sans-serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:800;margin-bottom:16px;background:linear-gradient(135deg,#fff 30%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-            .hero .sub{color:var(--muted);font-size:1.15rem;max-width:580px;margin:0 auto 28px}
-            .tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:28px}
-            .tags span{background:var(--accent-dim);color:var(--accent);padding:5px 14px;border-radius:99px;font-size:.8rem;font-weight:500;border:1px solid var(--accent-border)}
-            .features{max-width:480px;margin:0 auto 32px;text-align:left}
-            .features .item{display:flex;align-items:center;gap:10px;margin-bottom:10px;color:var(--muted);font-size:.92rem}
-            .features .item i{color:var(--accent);font-size:.8rem}
+    <meta name="description" content="AI 商品攝影引擎。上傳照片，秒出電商級商品圖。自動去背、換背景、打光。">
+    <link rel="icon" href="assets/logo.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#0a0a0f;--panel:rgba(18,18,26,.65);--panel-solid:#12121a;--border:#27272a;--text:#ededed;--muted:#a1a1aa;--accent:#f59e0b;--accent-dim:rgba(245,158,11,.12);--accent-border:rgba(245,158,11,.25);--success:#22c55e;--radius:16px;--radius-sm:10px}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter','Noto Sans TC',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+        a{color:var(--accent);text-decoration:none;transition:opacity .2s}
+        a:hover{opacity:.85}
+        img{max-width:100%;display:block}
+        .container{max-width:1100px;margin:0 auto;padding:0 24px}
 
+        /* NAV — 與其他產品頁一致 */
+        nav{padding:20px 0;display:flex;justify-content:space-between;align-items:center}
+        .logo{font-size:1.2rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+        .logo img{width:24px;height:24px}
+        .nav-links{display:flex;gap:24px;align-items:center}
+        .nav-links a{color:var(--muted);font-size:.9rem}
+        .nav-links a:hover{color:var(--text)}
 
+        /* HERO — 與其他產品頁一致 */
+        .hero{text-align:center;padding:80px 0 40px}
+        .hero .tag{color:var(--accent);font-size:.85rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+        .hero h1{font-family:'Orbitron',sans-serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:800;margin-bottom:16px;background:linear-gradient(135deg,#fff 30%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero .sub{color:var(--muted);font-size:1.15rem;max-width:580px;margin:0 auto 28px}
+        .tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:28px}
+        .tags span{background:var(--accent-dim);color:var(--accent);padding:5px 14px;border-radius:99px;font-size:.8rem;font-weight:500;border:1px solid var(--accent-border)}
+        .features{max-width:480px;margin:0 auto 32px;text-align:left}
+        .features .item{display:flex;align-items:center;gap:10px;margin-bottom:10px;color:var(--muted);font-size:.92rem}
+        .features .item i{color:var(--accent);font-size:.8rem}
 
+        /* CTA — 與其他產品頁一致 (.cta-btn) */
+        .cta-btn{display:inline-flex;align-items:center;gap:10px;padding:16px 36px;border-radius:14px;font-weight:700;font-size:1.05rem;border:1px solid var(--accent);color:var(--accent);background:var(--accent-dim);transition:all .3s ease;cursor:pointer}
+        .cta-btn:hover{background:var(--accent);color:#000;box-shadow:0 0 30px rgba(245,158,11,.3);transform:translateY(-2px)}
 
+        /* SECTION TITLE — 與其他產品頁一致 */
+        .section-title{text-align:center;margin-bottom:48px}
+        .section-title h2{font-family:'Orbitron',sans-serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;margin-bottom:12px}
+        .section-title p{color:var(--muted);font-size:1rem;max-width:500px;margin:0 auto}
 
+        /* 3 STEPS — 與其他產品頁一致 */
+        .steps{padding:60px 0}
+        .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+        .step-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:32px 24px;text-align:center;position:relative;overflow:hidden;transition:all .3s ease}
+        .step-card:hover{border-color:var(--accent-border);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+        .step-num{font-family:'Orbitron',sans-serif;font-size:3rem;font-weight:900;color:var(--accent);opacity:.15;position:absolute;top:10px;right:16px}
+        .step-icon{width:56px;height:56px;border-radius:14px;background:var(--accent-dim);display:grid;place-items:center;margin:0 auto 16px;font-size:1.5rem;color:var(--accent)}
+        .step-card h3{font-size:1.05rem;font-weight:700;margin-bottom:8px}
+        .step-card p{color:var(--muted);font-size:.88rem}
 
+        /* DEMO */
+        .demo-section{padding:60px 0}
+        .demo-container{max-width:700px;margin:0 auto}
+        .upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:48px 24px;text-align:center;cursor:pointer;transition:all .3s;margin-bottom:20px}
+        .upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:var(--accent-dim)}
+        .upload-zone .icon{font-size:2.5rem;color:var(--accent);margin-bottom:12px}
+        .upload-zone p{color:var(--muted);font-size:.95rem}
+        .upload-zone .hint{font-size:.8rem;margin-top:8px}
+        .processing{display:none;text-align:center;padding:24px}
+        .processing.active{display:block}
+        .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .analysis-result{display:none;text-align:left;margin-top:20px;padding:16px 20px;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:var(--radius-sm);font-size:.85rem;color:var(--muted)}
+        .analysis-result.active{display:block}
+        .analysis-result strong{color:var(--accent)}
+        .analysis-result .label-tag{display:inline-block;background:var(--accent-dim);color:var(--accent);padding:2px 10px;border-radius:99px;font-size:.75rem;margin:4px 4px 0 0;border:1px solid var(--accent-border)}
+        .style-selector{display:none;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:20px}
+        .style-selector.active{display:flex}
+        .style-btn{padding:8px 16px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.8rem;cursor:pointer;transition:all .2s}
+        .style-btn:hover,.style-btn.selected{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
 
+        /* BG GRID */
+        .bg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:800px;margin:0 auto}
+        .bg-card{aspect-ratio:1;border-radius:var(--radius-sm);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all .3s;overflow:hidden;position:relative}
+        .bg-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 8px 32px rgba(245,158,11,.15)}
+        .bg-card .swatch{width:60%;aspect-ratio:1;border-radius:50%;border:2px solid rgba(255,255,255,.1)}
+        .bg-card .name{font-size:.8rem;font-weight:600;color:var(--muted)}
+        .swatch-white{background:linear-gradient(135deg,#fff,#f5f5f5)}
+        .swatch-marble{background:linear-gradient(135deg,#e8e8e8,#d4d4d8,#f0f0f0);background-size:200% 200%;animation:marble 4s ease infinite}
+        .swatch-wood{background:linear-gradient(135deg,#8B6914,#A0522D,#CD853F)}
+        .swatch-gray{background:linear-gradient(135deg,#1a1a2e,#4a4a5e)}
+        .swatch-life{background:linear-gradient(135deg,#f5f0e8,#e8d8c0,#d4c4a8)}
+        .swatch-dark{background:linear-gradient(135deg,#0a0a0f,#1a1a28,#2a2a38)}
+        .swatch-pastel{background:linear-gradient(135deg,#fce4ec,#f8bbd0,#e1bee7)}
+        .swatch-warm{background:linear-gradient(135deg,#fff3e0,#ffe0b2,#ffcc80)}
+        @keyframes marble{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 
+        /* PRICING */
+        .pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:900px;margin:0 auto}
+        .price-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:28px 16px;text-align:center;transition:transform .2s,border-color .2s;position:relative}
+        .price-card:hover{transform:translateY(-4px);border-color:var(--accent-border)}
+        .price-card.featured{border-color:var(--accent);background:linear-gradient(180deg,var(--accent-dim) 0%,var(--panel) 100%)}
+        .price-card.featured::before{content:'🔥 推薦';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--bg);padding:3px 14px;border-radius:99px;font-size:.72rem;font-weight:700}
+        .price-card .plan-name{font-size:.9rem;font-weight:600;margin-bottom:4px}
+        .price-card .price{font-size:1.6rem;font-weight:800;color:var(--accent);margin-bottom:2px}
+        .price-card .per{font-size:.75rem;color:var(--muted);margin-bottom:16px}
+        .price-card .desc{font-size:.78rem;color:var(--muted);margin-bottom:16px}
+        .price-card ul{list-style:none;text-align:left;margin-bottom:20px}
+        .price-card li{font-size:.82rem;color:var(--muted);padding:4px 0;display:flex;align-items:center;gap:8px}
+        .price-card li i{color:var(--success);font-size:.7rem}
+        .price-card .price-cta{width:100%;justify-content:center;padding:10px 16px;font-size:.85rem;display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--accent);border:1px solid var(--accent-border);border-radius:10px;background:var(--accent-dim);transition:all .2s}
+        .price-card .price-cta:hover{background:var(--accent);color:#000}
 
+        /* PROOF */
+        .proof-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:800px;margin:0 auto}
+        .proof-card{text-align:center;padding:28px 16px}
+        .proof-card .number{font-size:2.2rem;font-weight:800;color:var(--accent);margin-bottom:4px}
+        .proof-card .label{font-size:.85rem;color:var(--muted)}
 
+        /* FAQ */
+        .faq-list{max-width:700px;margin:0 auto}
+        .faq-item{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:12px;overflow:hidden}
+        .faq-q{padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.9rem;transition:background .2s}
+        .faq-q:hover{background:var(--panel)}
+        .faq-q i{transition:transform .3s;color:var(--muted);font-size:.8rem}
+        .faq-item.open .faq-q i{transform:rotate(180deg)}
+        .faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+        .faq-item.open .faq-a{max-height:200px;padding:0 20px 16px}
+        .faq-a p{font-size:.85rem;color:var(--muted);line-height:1.7}
 
+        /* BOTTOM CTA */
+        .final-cta{text-align:center;padding:80px 0}
+        .final-cta h2{font-family:'Orbitron',sans-serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:700;margin-bottom:12px}
+        .final-cta p{color:var(--muted);margin-bottom:28px;font-size:1rem}
+        .final-cta .cta-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+        .btn-ghost{border:1px solid var(--border);color:var(--muted);padding:12px 24px;border-radius:10px;font-weight:600;font-size:.9rem;transition:all .2s}
+        .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
 
+        .back{text-align:center;padding:20px 0}
+        .back a{color:var(--muted);font-size:.9rem}
 
+        .divider{border:none;border-top:1px solid var(--border);margin:0}
 
+        footer{border-top:1px solid var(--border);padding:24px 0;text-align:center;color:var(--muted);font-size:.8rem}
+        footer a{color:var(--muted);margin:0 6px}
+        footer a:hover{color:var(--text)}
 
+        @media(max-width:768px){
+            .hero h1{font-size:2rem}
+            .steps-grid{grid-template-columns:1fr}
+            .bg-grid{grid-template-columns:repeat(2,1fr)}
+            .pricing-grid{grid-template-columns:repeat(2,1fr)}
+            .proof-row{grid-template-columns:1fr;gap:12px}
+            .preview-area.active{flex-direction:column;align-items:center}
+        }
+        @media(max-width:480px){
+            .pricing-grid{grid-template-columns:1fr}
+            .bg-grid{grid-template-columns:repeat(2,1fr)}
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            .analysis-result{display:none;text-align:left;margin-top:20px;padding:16px 20px;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:var(--radius-sm);font-size:.85rem;color:var(--muted)}
-            .analysis-result.active{display:block}
-            .analysis-result strong{color:var(--accent)}
-            .analysis-result .label-tag{display:inline-block;background:var(--accent-dim);color:var(--accent);padding:2px 10px;border-radius:99px;font-size:.75rem;margin:4px 4px 0 0;border:1px solid var(--accent-border)}
-            .style-selector{display:none;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:20px}
-            .style-selector.active{display:flex}
-            .style-btn{padding:8px 16px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.8rem;cursor:pointer;transition:all .2s}
-            .style-btn:hover,.style-btn.selected{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
-            .bg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:800px;margin:0 auto}
-            .bg-card{aspect-ratio:1;border-radius:var(--radius-sm);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all .3s;overflow:hidden;position:relative}
-            .bg-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 8px 32px rgba(245,158,11,.15)}
-            .bg-card .swatch{width:60%;aspect-ratio:1;border-radius:50%;border:2px solid rgba(255,255,255,.1)}
-            .bg-card .name{font-size:.8rem;font-weight:600;color:var(--muted)}
-            .swatch-white{background:linear-gradient(135deg,#fff,#f5f5f5)}
-            .swatch-marble{background:linear-gradient(135deg,#e8e8e8,#d4d4d8,#f0f0f0);background-size:200% 200%;animation:marble 4s ease infinite}
-            .swatch-wood{background:linear-gradient(135deg,#8B6914,#A0522D,#CD853F)}
-            .swatch-gray{background:linear-gradient(135deg,#1a1a2e,#4a4a5e)}
-            .swatch-life{background:linear-gradient(135deg,#f5f0e8,#e8d8c0,#d4c4a8)}
-            .swatch-dark{background:linear-gradient(135deg,#0a0a0f,#1a1a28,#2a2a38)}
-            .swatch-pastel{background:linear-gradient(135deg,#fce4ec,#f8bbd0,#e1bee7)}
-            .swatch-warm{background:linear-gradient(135deg,#fff3e0,#ffe0b2,#ffcc80)}
-            @keyframes marble{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-            .pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:900px;margin:0 auto}
-            .price-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:28px 16px;text-align:center;transition:transform .2s,border-color .2s;position:relative}
-            .price-card:hover{transform:translateY(-4px);border-color:var(--accent-border)}
-            .price-card.featured{border-color:var(--accent);background:linear-gradient(180deg,var(--accent-dim) 0%,var(--panel) 100%)}
-            .price-card.featured::before{content:'🔥 推薦';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--bg);padding:3px 14px;border-radius:99px;font-size:.72rem;font-weight:700}
-            .price-card .plan-name{font-size:.9rem;font-weight:600;margin-bottom:4px}
-            .price-card .price{font-size:1.6rem;font-weight:800;color:var(--accent);margin-bottom:2px}
-            .price-card .per{font-size:.75rem;color:var(--muted);margin-bottom:16px}
-            .price-card .desc{font-size:.78rem;color:var(--muted);margin-bottom:16px}
-            .price-card ul{list-style:none;text-align:left;margin-bottom:20px}
-            .price-card li{font-size:.82rem;color:var(--muted);padding:4px 0;display:flex;align-items:center;gap:8px}
-            .price-card li i{color:var(--success);font-size:.7rem}
-            .price-card .btn{width:100%;justify-content:center;padding:10px 16px;font-size:.85rem}
-            .faq-list{max-width:700px;margin:0 auto}
-            .faq-item{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:12px;overflow:hidden}
-            .faq-q{padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.9rem;transition:background .2s}
-            .faq-q:hover{background:var(--panel)}
-            .faq-q i{transition:transform .3s;color:var(--muted);font-size:.8rem}
-            .faq-item.open .faq-q i{transform:rotate(180deg)}
-            .faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
-            .faq-item.open .faq-a{max-height:200px;padding:0 20px 16px}
-            .faq-a p{font-size:.85rem;color:var(--muted);line-height:1.7}
-            .proof-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:800px;margin:0 auto}
-            .proof-card{text-align:center;padding:28px 16px}
-            .proof-card .number{font-size:2.2rem;font-weight:800;color:var(--accent);margin-bottom:4px}
-            .proof-card .label{font-size:.85rem;color:var(--muted)}
-            .cta-section{text-align:center;padding:80px 0}
-            .cta-section h2{font-size:2rem;font-weight:800;margin-bottom:12px}
-            .cta-section p{color:var(--muted);margin-bottom:28px;font-size:1rem}
-            .cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-            .back{text-align:center;padding:20px 0}
-            .back a{color:var(--muted);font-size:.9rem}
-^[[22;1R^[[23;1R            footer{border-top:1px solid var(--border);padding:24px 0;text-align:center;color:var(--muted);font-size:.8rem}
-            footer a{color:var(--muted);margin:0 6px}
-            footer a:hover{color:var(--text)}
-            .divider{border:none;border-top:1px solid var(--border);margin:0}
-            @media(max-width:768px){.hero h1{font-size:2rem}.steps{grid-template-columns:1fr}.bg-grid{grid-template-columns:repeat(2,1fr)}.pricing-grid{grid-template-columns:repeat(2,1fr)}.proof-row{grid-template-columns:1fr;gap:12px}.preview-area.active{flex-direction:column;align-items:center}}
-            @media(max-width:480px){.pricing-grid{grid-template-columns:1fr}.bg-grid{grid-template-columns:repeat(2,1fr)}}
-        
-        .preview-box img { max-width:100%; max-height:300px; border-radius:8px; }
-        .preview-box img[src=""] { display:none; }
-        .preview-area { display:none; }
+        .preview-box img{max-width:100%;max-height:300px;border-radius:8px}
+        .preview-box img[src=""]{display:none}
+        .preview-area{display:none}
     </style>
-    </head>
-    <body>
-    <div class="container">
-        <nav>
-            <a href="index.html" class="logo"><img src="assets/logo.svg" alt=""> Kent & KClaw</a>
-            <div class="nav-links">
-                <a href="index.html">← 所有產品</a>
-                <a href="https://skybomb77.github.io/kc-product-shots-site/" target="_blank">獨立站</a>
-            </div>
-        </nav>
-
-        <div class="hero">
-            <div class="tag">📸 AI Product Photography</div>
-            <h1>SnapForge 瞬拍</h1>
-            <p class="sub">上傳照片，秒出電商級商品圖。AI 自動去背、換背景、打光。蝦皮、Momo、官網都適用。</p>
-            <div class="tags"><span>電商商品圖</span><span>白底圖</span><span>生活場景</span><span>品牌質感</span><span>批量處理</span></div>
-            <div class="features">
-                <div class="item"><i class="fa-solid fa-check"></i> 手機拍的照片就能用，無需專業設備</div>
-                <div class="item"><i class="fa-solid fa-check"></i> 8 種專業背景風格一鍵切換</div>
-                <div class="item"><i class="fa-solid fa-check"></i> AI 自動去背 + 換背景 + 打光</div>
-                <div class="item"><i class="fa-solid fa-check"></i> 平均 30 秒出圖，省下 90% 棚拍費用</div>
-            </div>
-            <a href="https://skybomb77.github.io/kc-product-shots-site/app.html" class="btn"><i class="fa-solid fa-camera"></i> 免費試用 — 每天 10 張</a>
+</head>
+<body>
+<div class="container">
+    <nav>
+        <a href="index.html" class="logo"><img src="assets/logo.svg" alt=""> Kent & KClaw</a>
+        <div class="nav-links">
+            <a href="index.html">← 所有產品</a>
+            <a href="https://skybomb77.github.io/kc-product-shots-site/" target="_blank">獨立站</a>
         </div>
+    </nav>
 
-        <section>
-            <h2 class="section-title">三步驟搞定商品圖</h2>
-            <p class="section-sub">不用攝影師，不用棚拍，手機就能拍出專業級</p>
-            <div class="steps">
-                <div class="step"><div class="num">1</div><div class="icon">📸</div><h3>上傳商品照</h3><p>用手機拍、任何角度、任何背景都可以。支援 PNG / JPG / WebP。</p></div>
-                <div class="step"><div class="num">2</div><div class="icon">🎨</div><h3>選背景風格</h3><p>純白、大理石、生活場景、暗黑質感等 8 種風格一鍵切換。</p></div>
-                <div class="step"><div class="num">3</div><div class="icon">⬇️</div><h3>下載成品</h3><p>30 秒出圖，高畫質下載，直接用在蝦皮、Momo、官網。</p></div>
-            </div>
-        </section>
-        <hr class="divider">
-
-        <section class="demo-section">
-            <h2 class="section-title">即時體驗 AI 去背</h2>
-            <p class="section-sub">上傳一張商品照，看看 AI 能幫你做什麼</p>
-            <div class="demo-container">
-                <div class="upload-zone" id="uploadZone">
-                    <div class="icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                    <p>拖曳或點擊上傳商品照</p>
-                    <p class="hint">支援 PNG / JPG / WebP，最大 10MB</p>
-                    <input type="file" id="fileInput" accept="image/*" style="display:none">
-                </div>
-                <div class="processing" id="processing"><div class="spinner"></div><span>AI 分析中，正在辨識商品...</span></div>
-                <div class="analysis-result" id="analysisResult"></div>
-                <div class="preview-area" id="previewArea">
-                    <div class="preview-box"><div class="label original">原始照片</div><img id="originalImg" src="" alt="Original"></div>
-                    <div class="preview-box"><div class="label result">✨ AI 去背效果</div><img id="resultImg" src="" alt="Result"></div>
-                </div>
-                <div class="style-selector" id="styleSelector">
-                    <button class="style-btn selected" data-style="white">⬜ 純白</button>
-                    <button class="style-btn" data-style="marble">🪨 大理石</button>
-                    <button class="style-btn" data-style="wood">🪵 木質</button>
-                    <button class="style-btn" data-style="gray">🌑 漸層灰</button>
-                    <button class="style-btn" data-style="life">🌿 生活場景</button>
-                    <button class="style-btn" data-style="dark">🖤 暗黑質感</button>
-                    <button class="style-btn" data-style="pastel">🩷 粉嫩馬卡龍</button>
-                    <button class="style-btn" data-style="warm">🌅 自然暖光</button>
-                </div>
-            </div>
-        </section>
-        <hr class="divider">
-
-        <section>
-            <h2 class="section-title">8 種專業背景風格</h2>
-            <p class="section-sub">從電商白底到品牌質感，一站搞定</p>
-            <div class="bg-grid">
-                <div class="bg-card"><div class="swatch swatch-white"></div><div class="name">純白背景</div></div>
-                <div class="bg-card"><div class="swatch swatch-marble"></div><div class="name">大理石紋</div></div>
-                <div class="bg-card"><div class="swatch swatch-wood"></div><div class="name">木質地板</div></div>
-                <div class="bg-card"><div class="swatch swatch-gray"></div><div class="name">漸層灰</div></div>
-                <div class="bg-card"><div class="swatch swatch-life"></div><div class="name">生活場景</div></div>
-                <div class="bg-card"><div class="swatch swatch-dark"></div><div class="name">暗黑質感</div></div>
-                <div class="bg-card"><div class="swatch swatch-pastel"></div><div class="name">粉嫩馬卡龍</div></div>
-                <div class="bg-card"><div class="swatch swatch-warm"></div><div class="name">自然暖光</div></div>
-            </div>
-        </section>
-        <hr class="divider">
-
-        <section>
-            <h2 class="section-title">簡單透明的方案</h2>
-            <p class="section-sub">從免費試用到大量出圖，都有適合你的</p>
-            <div class="pricing-grid">
-                <div class="price-card">
-                    <div class="plan-name">免費試用</div><div class="price">$0</div><div class="per">體驗用</div>
-                    <ul><li><i class="fa-solid fa-check"></i> 10 張商品圖</li><li><i class="fa-solid fa-check"></i> 全部風格</li><li><i class="fa-solid fa-check"></i> 標準畫質</li></ul>
-                    <a href="https://skybomb77.github.io/kc-product-shots-site/app.html" class="btn">開始試用</a>
-                </div>
-                <div class="price-card featured">
-                    <div class="plan-name">Starter</div><div class="price">NT$590</div><div class="per">100 張 / 月</div><div class="desc">小賣家適用</div>
-                    <ul><li><i class="fa-solid fa-check"></i> 100 張 / 月</li><li><i class="fa-solid fa-check"></i> HD 高畫質</li><li><i class="fa-solid fa-check"></i> 優先處理</li><li><i class="fa-solid fa-check"></i> 商業授權</li></ul>
-                    <a href="https://skybomb77.github.io/kc-product-shots-site/app.html" class="btn">立即訂閱</a>
-                </div>
-                <div class="price-card">
-                    <div class="plan-name">Growth</div><div class="price">NT$1,490</div><div class="per">500 張 / 月</div><div class="desc">中型賣家</div>
-                    <ul><li><i class="fa-solid fa-check"></i> 500 張 / 月</li><li><i class="fa-solid fa-check"></i> 超高清</li><li><i class="fa-solid fa-check"></i> 批次上傳</li><li><i class="fa-solid fa-check"></i> 商業授權</li></ul>
-                    <a href="https://skybomb77.github.io/kc-product-shots-site/app.html" class="btn btn-ghost">選擇此方案</a>
-                </div>
-                <div class="price-card">
-                    <div class="plan-name">Agency</div><div class="price">NT$2,990</div><div class="per">2000 張 / 月</div><div class="desc">代運營 / 攝影工作室</div>
-                    <ul><li><i class="fa-solid fa-check"></i> 2000 張 / 月</li><li><i class="fa-solid fa-check"></i> 最高畫質</li><li><i class="fa-solid fa-check"></i> 批次 + API</li><li><i class="fa-solid fa-check"></i> 專屬客服</li></ul>
-                    <a href="https://skybomb77.github.io/kc-product-shots-site/app.html" class="btn btn-ghost">選擇此方案</a>
-                </div>
-            </div>
-        </section>
-        <hr class="divider">
-
-        <section>
-            <h2 class="section-title">一張照片，省下萬元棚拍費</h2>
-            <p class="section-sub">已有賣家透過 AI 商品圖提升 40% 點擊率</p>
-            <div class="proof-row">
-                <div class="proof-card"><div class="number">90%</div><div class="label">平均省下拍攝成本</div></div>
-                <div class="proof-card"><div class="number">30秒</div><div class="label">平均出圖時間</div></div>
-                <div class="proof-card"><div class="number">40%</div><div class="label">平均點擊率提升</div></div>
-            </div>
-        </section>
-        <hr class="divider">
-
-        <section>
-            <h2 class="section-title">常見問題</h2>
-            <p class="section-sub">有任何疑問？這裡有答案</p>
-            <div class="faq-list">
-                <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>支援哪些圖片格式？</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-a"><p>上 傳支援 PNG、JPG、WebP。匯出為高清 PNG，也可選 JPG。最大檔案 10MB。</p></div></div>
-                <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>手機拍的照片可以用嗎？</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-a"><p>當然可以！手機拍的任何角度、任何背景都能用。AI 會自動辨識商品主體並去背。</p></div></div>
-                <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>可以用在蝦皮、Momo 等電商平台嗎？</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-a"><p>可以。所有付費方案都包含商業授權，生成的圖片可直接用於蝦皮、Momo、PChome、官網等任何商業用途。</p></div></div>
-                <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>可以批次處理大量照片嗎？</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-a"><p>Growth 和 Agency 方案支援批次上傳，一次處理多張。Agency 方案還提供 API 串接。</p></div></div>
-                <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>跟外包攝影棚比，品質差多少？</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-a"><p>AI 生成的商品圖已達電商平台標準，多數蝦皮、Momo 賣家反饋點擊率反而更高。對於高端品牌拍攝，仍建議搭配實拍做精修。</p></div></div>
-                <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>可以取消訂閱嗎？</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-a"><p>隨時 可以取消，沒有合約，沒有隱藏費用。取消後保留使用權到當期結束。</p></div></div>
-            </div>
-        </section>
-
-        <div class="cta-section">
-            <h2>一張照片，秒出電商級商品圖</h2>
-            <p>免費試用 10 張，不用信用卡</p>
-            <div class="cta-buttons">
-                <a href="https://skybomb77.github.io/kc-product-shots-site/app.html" class="btn"><i class="fa-solid fa-camera"></i> 免費開始</a>
-                <a href="#pricing" class="btn btn-ghost">查看方案</a>
-            </div>
+    <div class="hero">
+        <div class="tag">📸 AI Product Photography</div>
+        <h1>SnapForge 瞬拍</h1>
+        <p class="sub">上傳照片，秒出電商級商品圖。AI 自動去背、換背景、打光。蝦皮、Momo、官網都適用。</p>
+        <div class="tags"><span>電商商品圖</span><span>白底圖</span><span>生活場景</span><span>品牌質感</span><span>批量處理</span></div>
+        <div class="features">
+            <div class="item"><i class="fa-solid fa-check"></i> 手機拍的照片就能用，無需專業設備</div>
+            <div class="item"><i class="fa-solid fa-check"></i> 8 種專業背景風格一鍵切換</div>
+            <div class="item"><i class="fa-solid fa-check"></i> AI 自動去背 + 換背景 + 打光</div>
+            <div class="item"><i class="fa-solid fa-check"></i> 平均 30 秒出圖，省下 90% 棚拍費用</div>
         </div>
-        <div class="back"><a href="index.html">← 回到所有產品</a></div>
+        <a href="https://skybomb77.github.io/kc-product-shots-site/app.html" class="cta-btn"><i class="fa-solid fa-camera"></i> 免費試用 — 每天 10 張</a>
     </div>
 
-    <footer>
-        <div class="container">
-            © 2026 Kent & KClaw Studio | 負責人：鄭凱壬 |
-            <a href="mailto:skybomb7777@gmail.com">skybomb7777@gmail.com</a> |
-            <a href="terms.html">服務條款</a> |
-            <a href="privacy.html">隱私權政策</a> |
-            <a href="https://github.com/skybomb77">GitHub</a> |
-            <a href="https://youtube.com/@KentKClawStudio">YouTube</a>
+    <!-- 3 STEPS — 與其他產品頁一致的結構 -->
+    <div class="steps">
+        <div class="section-title">
+            <h2>三步驟搞定商品圖</h2>
+            <p>不用攝影師，不用棚拍，手機就能拍出專業級</p>
         </div>
-    </footer>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <div class="step-icon">📸</div>
+                <h3>上傳商品照</h3>
+                <p>用手機拍、任何角度、任何背景都可以。支援 PNG / JPG / WebP。</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <div class="step-icon">🎨</div>
+                <h3>選背景風格</h3>
+                <p>純白、大理石、生活場景、暗黑質感等 8 種風格一鍵切換。</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <div class="step-icon">⬇️</div>
+                <h3>下載成品</h3>
+                <p>30 秒出圖，高畫質下載，直接用在蝦皮、Momo、官網。</p>
+            </div>
+        </div>
+    </div>
+    <hr class="divider">
 
-    <script>
-    const uploadZone=document.getElementById('uploadZone'),fileInput=document.getElementById('fileInput'),processing=document.getElementById('processing'),analysisResult=document.getElementById('analysisResult'),previewArea=document.getElementById('previewArea'),originalImg=document.getElementById('originalImg'),resultImg=document.getElementById('resultImg'),styleSelector=document.getElementById('styleSelector');
-    uploadZone.addEventListener('click',()=>fileInput.click());
-    uploadZone.addEventListener('dragover',e=>{e.preventDefault();uploadZone.classList.add('dragover')});
-    uploadZone.addEventListener('dragleave',()=>uploadZone.classList.remove('dragover'));
-    uploadZone.addEventListener('drop',e=>{e.preventDefault();uploadZone.classList.remove('dragover');if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0])});
-    fileInput.addEventListener('change',e=>{if(e.target.files.length)handleFile(e.target.files[0])});
-    function handleFile(file){if(!file.type.startsWith('image/')){alert('請上傳圖片檔案');return}if(file.size>10*1024*1024){alert('檔案太大，請上傳 10MB 以下的圖片');return}const reader=new FileReader();reader.onload=e=>{originalImg.src=e.target.result;resultImg.src='';previewArea.classList.remove('active');styleSelector.classList.remove('active');analysisResult.classList.remove('active');processing.classList.add('active');setTimeout(()=>{processing.classList.remove('active');showAnalysis(file.name);generateResult(e.target.result);styleSelector.classList.add('active')},2000)};reader.readAsDataURL(file)}
-    function showAnalysis(fn){analysisResult.innerHTML=`<div style="margin-bottom:8px"><strong>🔍 AI 分析結果</strong></div><div style="margin-bottom:6px">檔案：<strong>${fn}</strong></div><div style="margin-bottom:6px">偵測類型：商品攝影</div><div style="margin-bottom:6px">建議背景：<strong>純白背景</strong>（電商標準）</div><div>推薦標籤：<span class="label-tag">商品主圖</span><span class="label-tag">電商素材</span><span class="label-tag">白底圖</span></div>`;analysisResult.classList.add('active')}
-    function generateResult(dataUrl){const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),img=new Image;img.onload=()=>{canvas.width=img.width;canvas.height=img.height;ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);const g=ctx.createRadialGradient(canvas.width/2,canvas.height/2,0,canvas.width/2,canvas.height/2,canvas.width*.7);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(245,240,235,.5)');ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);const s=.85,w=img.width*s,h=img.height*s,x=(canvas.width-w)/2,y=(canvas.height-h)/2;ctx.drawImage(img,x,y,w,h);resultImg.src=canvas.toDataURL('image/png');previewArea.classList.add('active')};img.src=dataUrl}
-    document.querySelectorAll('.style-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.style-btn').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');const s=btn.dataset.style,c={white:['#fff','#f5f5f5'],marble:['#e8e8e8','#d4d4d8','#f0f0f0'],wood:['#8B6914','#A0522D','#CD853F'],gray:['#1a1a2e','#4a4a5e'],life:['#f5f0e8','#e8d8c0','#d4c4a8'],dark:['#0a0a0f','#1a1a28','#2a2a38'],pastel:['#fce4ec','#f8bbd0','#e1bee7'],warm:['#fff3e0','#ffe0b2','#ffcc80']};applyStyle(c[s]||c.white)})});
-    function applyStyle(bg){if(!originalImg.src)return;const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),img=new Image;img.onload=()=>{canvas.width=img.width;canvas.height=img.height;const g=ctx.createLinearGradient(0,0,canvas.width,canvas.height);bg.forEach((c,i)=>g.addColorStop(i/(bg.length-1),c));ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);const s=.85,w=img.width*s,h=img.height*s,x=(canvas.width-w)/2,y=(canvas.height-h)/2;ctx.drawImage(img,x,y,w,h);resultImg.src=canvas.toDataURL('image/png')};img.src=originalImg.src}
-    </script>
-    </body>
-    </html>
+    <section class="demo-section">
+        <div class="section-title">
+            <h2>即時體驗 AI 去背</h2>
+            <p>上傳一張商品照，看看 AI 能幫你做什麼</p>
+        </div>
+        <div class="demo-container">
+            <div class="upload-zone" id="uploadZone">
+                <div class="icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                <p>拖曳或點擊上傳商品照</p>
+                <p class="hint">支援 PNG / JPG / WebP，最大 10MB</p>
+                <input type="file" id="fileInput" accept="image/*" style="display:none">
+            </div>
+            <div class="processing" id="processing"><div class="spinner"></div><span>AI 分析中，正在辨識商品...</span></div>
+            <div class="analysis-result" id="analysisResult"></div>
+            <div class="preview-area" id="previewArea">
+                <div class="preview-box"><div class="label original">原始照片</div><img id="originalImg" src="" alt="Original"></div>
+                <div class="preview-box"><div class="label result">✨ AI 去背效果</div><img id="resultImg" src="" alt="Result"></div>
+            </div>
+            <div class="style-selector" id="styleSelector">
+                <button class="style-btn selected" data-style="white">⬜ 純白</button>
+                <button class="style-btn" data-style="marble">🪨 大理石</button>
+                <button class="style-btn" data-style="wood">🪵 木質</button>
+                <button class="style-btn" data-style="gray">🌑 漸層灰</button>
+                <button class="style-btn" data-style="life">🌿 生活場景</button>
+                <button class="style-btn" data-style="dark">🖤 暗黑質感</button>
+                <button class="style-btn" data-style="pastel">🩷 粉嫩馬卡龍</button>
+                <button class="style-btn" data-style="warm">🌅 自然暖光</button>
+            </div>
+        </div>
+    </section>
+    <hr class="divider">
 
+    <section>
+        <div class="section-title">
+            <h2>8 種專業背景風格</h2>
+            <p>從電商白底到品牌質感，一站搞定</p>
+        </div>
+        <div class="bg-grid">
+            <div class="bg-card"><div class="swatch swatch-white"></div><div class="name">純白背景</div></div>
+            <div class="bg-card"><div class="swatch swatch-marble"></div><div class="name">大理石紋</div></div>
+            <div class="bg-card"><div class="swatch swatch-wood"></div><div class="name">木質地板</div></div>
+            <div class="bg-card"><div class="swatch swatch-gray"></div><div class="name">漸層灰</div></div>
+            <div class="bg-card"><div class="swatch swatch-life"></div><div class="name">生活場景</div></div>
+            <div class="bg-card"><div class="swatch swatch-dark"></div><div class="name">暗黑質感</div></div>
+            <div class="bg-card"><div class="swatch swatch-pastel"></div><div class="name">粉嫩馬卡龍</div></div>
+            <div class="bg-card"><div class="swatch swatch-warm"></div><div class="name">自然暖光</div></div>
+        </div>
+    </section>
+    <hr class="divider">
 
+    <section>
+        <div class="section-title">
+            <h2>簡單透明的方案</h2>
+            <p>從免費試用到大量出圖，都有適合你的</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div class="plan-name">免費試用</div><div class="price">$0</div><div class="per">體驗用</div>
+                <ul><li><i class="fa-solid fa-check"></i> 10 張商品圖</li><li><i class="fa-solid fa-check"></i> 全部風格</li><li><i class="fa-solid fa-check"></i> 標準畫質</li></ul>
+                <a href="https://skybomb77.github.io/kc-product-shots-site/app.html" class="price-cta">開始試用</a>
+            </div>
+            <div class="price-card featured">
+                <div class="plan-name">Starter</div><div class="price">NT$590</div><div class="per">100 張 / 月</div><div class="desc">小賣家適用</div>
+                <ul><li><i class="fa-solid fa-check"></i> 100 張 / 月</li><li><i class="fa-solid fa-check"></i> HD 高畫質</li><li><i class="fa-solid fa-check"></i> 優先處理</li><li><i class="fa-solid fa-check"></i> 商業授權</li></ul>
+                <a href="https://skybomb77.github.io/kc-product-shots-site/app.html" class="price-cta">立即訂閱</a>
+            </div>
+            <div class="price-card">
+                <div class="plan-name">Growth</div><div class="price">NT$1,490</div><div class="per">500 張 / 月</div><div class="desc">中型賣家</div>
+                <ul><li><i class="fa-solid fa-check"></i> 500 張 / 月</li><li><i class="fa-solid fa-check"></i> 超高清</li><li><i class="fa-solid fa-check"></i> 批次上傳</li><li><i class="fa-solid fa-check"></i> 商業授權</li></ul>
+                <a href="https://skybomb77.github.io/kc-product-shots-site/app.html" class="price-cta">選擇此方案</a>
+            </div>
+            <div class="price-card">
+                <div class="plan-name">Agency</div><div class="price">NT$2,990</div><div class="per">2000 張 / 月</div><div class="desc">代運營 / 攝影工作室</div>
+                <ul><li><i class="fa-solid fa-check"></i> 2000 張 / 月</li><li><i class="fa-solid fa-check"></i> 最高畫質</li><li><i class="fa-solid fa-check"></i> 批次 + API</li><li><i class="fa-solid fa-check"></i> 專屬客服</li></ul>
+                <a href="https://skybomb77.github.io/kc-product-shots-site/app.html" class="price-cta">選擇此方案</a>
+            </div>
+        </div>
+    </section>
+    <hr class="divider">
 
+    <section>
+        <div class="section-title">
+            <h2>一張照片，省下萬元棚拍費</h2>
+            <p>已有賣家透過 AI 商品圖提升 40% 點擊率</p>
+        </div>
+        <div class="proof-row">
+            <div class="proof-card"><div class="number">90%</div><div class="label">平均省下拍攝成本</div></div>
+            <div class="proof-card"><div class="number">30秒</div><div class="label">平均出圖時間</div></div>
+            <div class="proof-card"><div class="number">40%</div><div class="label">平均點擊率提升</div></div>
+        </div>
+    </section>
+    <hr class="divider">
 
+    <section>
+        <div class="section-title">
+            <h2>常見問題</h2>
+            <p>有任何疑問？這裡有答案</p>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>支援哪些圖片格式？</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-a"><p>上傳支援 PNG、JPG、WebP。匯出為高清 PNG，也可選 JPG。最大檔案 10MB。</p></div></div>
+            <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>手機拍的照片可以用嗎？</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-a"><p>當然可以！手機拍的任何角度、任何背景都能用。AI 會自動辨識商品主體並去背。</p></div></div>
+            <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>可以用在蝦皮、Momo 等電商平台嗎？</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-a"><p>可以。所有付費方案都包含商業授權，生成的圖片可直接用於蝦皮、Momo、PChome、官網等任何商業用途。</p></div></div>
+            <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>可以批次處理大量照片嗎？</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-a"><p>Growth 和 Agency 方案支援批次上傳，一次處理多張。Agency 方案還提供 API 串接。</p></div></div>
+            <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>跟外包攝影棚比，品質差多少？</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-a"><p>AI 生成的商品圖已達電商平台標準，多數蝦皮、Momo 賣家反饋點擊率反而更高。對於高端品牌拍攝，仍建議搭配實拍做精修。</p></div></div>
+            <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>可以取消訂閱嗎？</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-a"><p>隨時可以取消，沒有合約，沒有隱藏費用。取消後保留使用權到當期結束。</p></div></div>
+        </div>
+    </section>
 
+    <div class="final-cta">
+        <h2>一張照片，秒出電商級商品圖</h2>
+        <p>免費試用 10 張，不用信用卡</p>
+        <div class="cta-group">
+            <a href="https://skybomb77.github.io/kc-product-shots-site/app.html" class="cta-btn"><i class="fa-solid fa-camera"></i> 免費開始</a>
+            <a href="#pricing" class="btn-ghost">查看方案</a>
+        </div>
+    </div>
+    <div class="back"><a href="index.html">← 回到所有產品</a></div>
+</div>
+
+<footer>
+    <div class="container">
+        © 2026 Kent & KClaw Studio | 負責人：鄭凱壬 |
+        <a href="mailto:skybomb7777@gmail.com">skybomb7777@gmail.com</a> |
+        <a href="terms.html">服務條款</a> |
+        <a href="privacy.html">隱私權政策</a> |
+        <a href="https://github.com/skybomb77">GitHub</a> |
+        <a href="https://youtube.com/@KentKClawStudio">YouTube</a>
+    </div>
+</footer>
+
+<script>
+const uploadZone=document.getElementById('uploadZone'),fileInput=document.getElementById('fileInput'),processing=document.getElementById('processing'),analysisResult=document.getElementById('analysisResult'),previewArea=document.getElementById('previewArea'),originalImg=document.getElementById('originalImg'),resultImg=document.getElementById('resultImg'),styleSelector=document.getElementById('styleSelector');
+uploadZone.addEventListener('click',()=>fileInput.click());
+uploadZone.addEventListener('dragover',e=>{e.preventDefault();uploadZone.classList.add('dragover')});
+uploadZone.addEventListener('dragleave',()=>uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop',e=>{e.preventDefault();uploadZone.classList.remove('dragover');if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0])});
+fileInput.addEventListener('change',e=>{if(e.target.files.length)handleFile(e.target.files[0])});
+function handleFile(file){if(!file.type.startsWith('image/')){alert('請上傳圖片檔案');return}if(file.size>10*1024*1024){alert('檔案太大，請上傳 10MB 以下的圖片');return}const reader=new FileReader();reader.onload=e=>{originalImg.src=e.target.result;resultImg.src='';previewArea.classList.remove('active');styleSelector.classList.remove('active');analysisResult.classList.remove('active');processing.classList.add('active');setTimeout(()=>{processing.classList.remove('active');showAnalysis(file.name);generateResult(e.target.result);styleSelector.classList.add('active')},2000)};reader.readAsDataURL(file)}
+function showAnalysis(fn){analysisResult.innerHTML=`<div style="margin-bottom:8px"><strong>🔍 AI 分析結果</strong></div><div style="margin-bottom:6px">檔案：<strong>${fn}</strong></div><div style="margin-bottom:6px">偵測類型：商品攝影</div><div style="margin-bottom:6px">建議背景：<strong>純白背景</strong>（電商標準）</div><div>推薦標籤：<span class="label-tag">商品主圖</span><span class="label-tag">電商素材</span><span class="label-tag">白底圖</span></div>`;analysisResult.classList.add('active')}
+function generateResult(dataUrl){const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),img=new Image;img.onload=()=>{canvas.width=img.width;canvas.height=img.height;ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);const g=ctx.createRadialGradient(canvas.width/2,canvas.height/2,0,canvas.width/2,canvas.height/2,canvas.width*.7);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(245,240,235,.5)');ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);const s=.85,w=img.width*s,h=img.height*s,x=(canvas.width-w)/2,y=(canvas.height-h)/2;ctx.drawImage(img,x,y,w,h);resultImg.src=canvas.toDataURL('image/png');previewArea.classList.add('active')};img.src=dataUrl}
+document.querySelectorAll('.style-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.style-btn').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');const s=btn.dataset.style,c={white:['#fff','#f5f5f5'],marble:['#e8e8e8','#d4d4d8','#f0f0f0'],wood:['#8B6914','#A0522D','#CD853F'],gray:['#1a1a2e','#4a4a5e'],life:['#f5f0e8','#e8d8c0','#d4c4a8'],dark:['#0a0a0f','#1a1a28','#2a2a38'],pastel:['#fce4ec','#f8bbd0','#e1bee7'],warm:['#fff3e0','#ffe0b2','#ffcc80']};applyStyle(c[s]||c.white)})});
+function applyStyle(bg){if(!originalImg.src)return;const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),img=new Image;img.onload=()=>{canvas.width=img.width;canvas.height=img.height;const g=ctx.createLinearGradient(0,0,canvas.width,canvas.height);bg.forEach((c,i)=>g.addColorStop(i/(bg.length-1),c));ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);const s=.85,w=img.width*s,h=img.height*s,x=(canvas.width-w)/2,y=(canvas.height-h)/2;ctx.drawImage(img,x,y,w,h);resultImg.src=canvas.toDataURL('image/png')};img.src=originalImg.src}
+</script>
+</body>
+</html>
