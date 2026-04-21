@@ -223,6 +223,9 @@
                     </div>
                     <input type="hidden" name="ratio" id="ratioInput" value="16:9">
                     <input type="hidden" name="resolution" id="resInput" value="720p">
+                    <div onclick="showProUpgradeModal()" style="margin-top:12px; padding:12px; background:linear-gradient(135deg, rgba(124,92,255,0.08), rgba(185,122,245,0.05)); border:1px dashed rgba(124,92,255,0.3); border-radius:12px; cursor:pointer; text-align:center; transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(124,92,255,0.6)'" onmouseout="this.style.borderColor='rgba(124,92,255,0.3)'">
+                        <div style="font-size:0.8rem; color:#b97af5; font-weight:600;"><i class="fa-solid fa-crown" style="margin-right:6px;"></i>PRO 解鎖：1080p · 畫面比例 · 歌詞分析 · 進階設定</div>
+                    </div>
                 </div>
 
                 <!-- Pro: 完整進階面板 -->
@@ -1326,6 +1329,10 @@
         // ======= 🚀 ToneForge 音樂鍛造邏輯 =======
         let selectedToneLen = 15;
         function selectToneLen(btn, len) {
+            if (len > 60 && !PlanManager.isPro()) {
+                showProUpgradeModal();
+                return;
+            }
             btn.parentElement.querySelectorAll('.setting-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             selectedToneLen = len;
@@ -1581,6 +1588,10 @@
             }
         });
         function selectPipeLen(el, len) {
+            if (len > 60 && !PlanManager.isPro()) {
+                showProUpgradeModal();
+                return;
+            }
             el.parentElement.querySelectorAll('.setting-btn').forEach(b => b.classList.remove('active'));
             el.classList.add('active');
             document.getElementById('pipeLen').value = len;
@@ -1832,6 +1843,8 @@
                                         <div class="setting-btn active" onclick="selectPipeLen(this, 15)">15s</div>
                                         <div class="setting-btn" onclick="selectPipeLen(this, 30)">30s</div>
                                         <div class="setting-btn" onclick="selectPipeLen(this, 60)">60s</div>
+                                        <div class="setting-btn" onclick="selectPipeLen(this, 120)" style="${PlanManager.isPro() ? '' : 'opacity:0.4;'}" ${PlanManager.isPro() ? '' : 'data-pro="true"'}>120s ${PlanManager.isPro() ? '' : '🔒'}</div>
+                                        <div class="setting-btn" onclick="selectPipeLen(this, 240)" style="${PlanManager.isPro() ? 'color:#7c5cff; border-color:rgba(124,92,255,0.5);' : 'opacity:0.4;'}" ${PlanManager.isPro() ? '' : 'data-pro="true"'}>240s ${PlanManager.isPro() ? '👑' : '🔒'}</div>
                                     </div>
                                     <input type="hidden" id="pipeLen" value="15">
                                 </div>
@@ -2002,7 +2015,9 @@
                                         <div class="setting-btn active" onclick="selectToneLen(this, 15)">15s</div>
                                         <div class="setting-btn" onclick="selectToneLen(this, 30)">30s</div>
                                         <div class="setting-btn" onclick="selectToneLen(this, 60)">60s</div>
-                                        <div class="setting-btn" onclick="selectToneLen(this, 120)" style="color:var(--tf-brand); border-color:rgba(185,122,245,0.4);"><i class="fa-solid fa-crown"></i> 2min</div>
+                                        <div class="setting-btn" onclick="selectToneLen(this, 120)" style="${PlanManager.isPro() ? 'color:var(--tf-brand); border-color:rgba(185,122,245,0.4);' : 'opacity:0.4;'}" ${PlanManager.isPro() ? '' : 'data-pro="true"'}>2min ${PlanManager.isPro() ? '' : '🔒'}</div>
+                                        <div class="setting-btn" onclick="selectToneLen(this, 180)" style="${PlanManager.isPro() ? 'color:var(--tf-brand); border-color:rgba(185,122,245,0.4);' : 'opacity:0.4;'}" ${PlanManager.isPro() ? '' : 'data-pro="true"'}>3min ${PlanManager.isPro() ? '' : '🔒'}</div>
+                                        <div class="setting-btn" onclick="selectToneLen(this, 240)" style="${PlanManager.isPro() ? 'color:#7c5cff; border-color:rgba(124,92,255,0.5);' : 'opacity:0.4;'}" ${PlanManager.isPro() ? '' : 'data-pro="true"'}>4min ${PlanManager.isPro() ? '👑' : '🔒'}</div>
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
