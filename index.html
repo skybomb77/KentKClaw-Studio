@@ -95,23 +95,34 @@
         }
 
         .brand {
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-size: 1.6rem;
+            font-weight: 700;
             letter-spacing: -0.02em;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .nav-links {
             display: flex;
-            gap: 32px;
-            font-size: 0.95rem;
+            gap: 6px;
+            font-size: 0.82rem;
             font-weight: 500;
             color: var(--text-secondary);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            padding: 5px 14px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            transition: all 0.25s ease;
+            white-space: nowrap;
         }
         .nav-links a:hover {
             color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--border-color);
         }
 
         .nav-right {
@@ -545,6 +556,7 @@
                 padding: 80px 5%;
             }
             .nav-links { display: none; }
+            nav { padding: 16px 5%; }
         }
     </style>
 
@@ -645,7 +657,7 @@
 
     <nav id="navbar">
         <a href="#" class="brand">
-            <img src="assets/logo.svg" alt="Logo" style="width: 28px; height: 28px; margin-right: 8px;"> Kent & KClaw
+            <img src="assets/logo.svg" alt="Logo" style="width: 38px; height: 38px; margin-right: 8px;"> Kent & KClaw
         </a>
         <div class="nav-links">
             <a href="toneforge.html" data-i18n="navTone">ToneForge</a>
@@ -653,7 +665,8 @@
             <a href="frameforge.html" data-i18n="navFrame">FrameForge</a>
             <a href="snapforge.html">SnapForge 瞬拍</a>
             <a href="comicforge.html">ComicForge 漫鍛</a>
-            <a href="app/index.html" style="color: var(--accent-green); font-weight: 600;"><i class="fa-solid fa-bolt"></i> Studio</a>
+            <a href="app/index.html" style="background: rgba(0, 255, 170, 0.12); border-color: rgba(0, 255, 170, 0.3); color: var(--accent-green); font-weight: 600;"><i class="fa-solid fa-bolt"></i> Studio</a>
+            <span style="width:1px; height:16px; background:var(--border-color); margin:0 2px;"></span>
             <a href="https://github.com/skybomb77/KentKClaw-Studio" target="_blank">GitHub</a>
         </div>
         <div class="nav-right">
