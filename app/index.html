@@ -149,6 +149,7 @@
             <div class="nav-section-title">STUDIO ENGINES</div>
             <a href="#" class="nav-item" onclick="switchTab(event, 'create')" style="border-left-color: var(--wv-brand);"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--wv-brand);"></i> WireVision (MV)</a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'img2vid')" style="border-left-color: #38d5ff;"><i class="fa-solid fa-images" style="color: #38d5ff;"></i> FrameForge (Anim)</a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 'ltxv')" style="border-left-color: #00e87b;"><i class="fa-solid fa-clapperboard" style="color: #00e87b;"></i> LTXV (Text→Video)</a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'toneforge')" style="border-left-color: var(--tf-brand);"><i class="fa-solid fa-music" style="color: var(--tf-brand);"></i> ToneForge (Audio)</a>
             
             <div class="nav-section-title" style="margin-top: 24px;">PIPELINE</div>
@@ -180,6 +181,46 @@
         <div class="content-grid" id="create-view">
             <form id="uploadForm" class="create-panel">
                 <div class="panel-title">WireVision <div class="custom-toggle" id="proModeToggle" onclick="toggleProMode()" style="cursor:pointer;"><i class="fa-solid fa-sliders"></i> <span id="proModeLabel" data-i18n="proMode">Pro Mode</span> <span id="proModeLock" style="font-size:0.7rem; margin-left:4px;"></span></div></div>
+                
+                <!-- Engine Selector -->
+                <div style="display:flex; gap:6px; margin-bottom:8px;">
+                    <div class="setting-btn active" id="engineCloud" onclick="switchEngine('cloud')" style="flex:1; font-size:0.8rem;"><i class="fa-solid fa-cloud" style="margin-right:4px;"></i>Cloud API</div>
+                    <div class="setting-btn" id="engineLtxv" onclick="switchEngine('ltxv')" style="flex:1; font-size:0.8rem; color:#38d5ff; border-color:rgba(56,213,255,0.3);"><i class="fa-solid fa-microchip" style="margin-right:4px;"></i>Local LTXV</div>
+                </div>
+                <input type="hidden" id="engineType" value="cloud">
+                
+                <!-- LTXV Settings Panel (hidden by default) -->
+                <div id="ltxvPanel" style="display:none; background:linear-gradient(180deg, rgba(56,213,255,0.06) 0%, rgba(56,213,255,0.02) 100%); border:1px solid rgba(56,213,255,0.3); border-radius:12px; padding:16px; margin-bottom:12px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; color:#38d5ff; font-weight:600; font-size:0.85rem;">
+                        <i class="fa-solid fa-microchip"></i> LTXV 本地引擎
+                    </div>
+                    <div class="input-group" style="margin-bottom:10px;">
+                        <label style="font-size:0.8rem;">解析度</label>
+                        <div class="settings-row">
+                            <div class="setting-btn active" onclick="selectLtxvRes(this,512,384)">512×384</div>
+                            <div class="setting-btn" onclick="selectLtxvRes(this,768,512)">768×512</div>
+                            <div class="setting-btn" onclick="selectLtxvRes(this,512,768)">512×768</div>
+                        </div>
+                    </div>
+                    <div class="input-group" style="margin-bottom:10px;">
+                        <label style="font-size:0.8rem;">影片時長</label>
+                        <div class="settings-row">
+                            <div class="setting-btn active" onclick="selectLtxvLen(this,33)">1.4s</div>
+                            <div class="setting-btn" onclick="selectLtxvLen(this,49)">2s</div>
+                            <div class="setting-btn" onclick="selectLtxvLen(this,65)">2.7s</div>
+                            <div class="setting-btn" onclick="selectLtxvLen(this,97)">4s</div>
+                        </div>
+                    </div>
+                    <div class="input-group" style="margin-bottom:10px;">
+                        <label style="font-size:0.8rem;">品質 <span id="ltxvStepsLabel" style="color:#38d5ff;">40</span> steps · CFG <span id="ltxvCfgLabel" style="color:#38d5ff;">4.0</span></label>
+                        <input type="range" id="ltxvSteps" min="20" max="50" value="40" style="width:100%; accent-color:#38d5ff;" oninput="document.getElementById('ltxvStepsLabel').innerText=this.value">
+                        <input type="range" id="ltxvCfg" min="1" max="8" step="0.5" value="4.0" style="width:100%; accent-color:#38d5ff; margin-top:4px;" oninput="document.getElementById('ltxvCfgLabel').innerText=this.value">
+                    </div>
+                    <div class="input-group">
+                        <label style="font-size:0.8rem;">Seed (0 = 隨機)</label>
+                        <input type="number" id="ltxvSeed" value="0" min="0" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(56,213,255,0.3); padding:6px 10px; border-radius:6px; color:white; font-size:0.85rem; outline:none;">
+                    </div>
+                </div>
                 
                 <div class="step-indicator">
                     <div class="step-dot active" id="step1dot"></div>
@@ -1168,6 +1209,54 @@
                 alert('🚫 ' + msg);
                 return;
             }
+            
+            // ===== LTXV Local Engine Branch =====
+            if (document.getElementById('engineType').value === 'ltxv') {
+                e.preventDefault();
+                document.getElementById('emptyState').style.display = 'none';
+                terminal.style.display = 'block';
+                document.getElementById('progress-container').style.display = 'block';
+                document.getElementById('progress-bar').style.width = '10%';
+                document.getElementById('progress-text').innerText = '10%';
+                document.getElementById('progress-eta').innerText = 'ETA: ~2-5 min';
+                document.getElementById('videoResult').style.display = 'none';
+                btn.innerHTML = 'GENERATING... <i class="fa-solid fa-circle-notch fa-spin"></i>';
+                btn.style.pointerEvents = 'none';
+                setStep(1);
+                
+                const promptVal = PlanManager.isPro()
+                    ? (document.getElementById('proPromptInput')?.value || '')
+                    : (document.getElementById('promptInput')?.value || '');
+                const negVal = document.getElementById('negPromptInput')?.value || 'low quality, blurry, distorted, watermark, ugly';
+                const steps = parseInt(document.getElementById('ltxvSteps')?.value || 40);
+                const cfg = parseFloat(document.getElementById('ltxvCfg')?.value || 4.0);
+                const seed = parseInt(document.getElementById('ltxvSeed')?.value || 0);
+                
+                try {
+                    setStep(2);
+                    const videoUrl = await generateLtxv(promptVal, negVal, steps, cfg, seed);
+                    setStep(3);
+                    document.getElementById('progress-bar').style.width = '100%';
+                    document.getElementById('progress-text').innerText = '100%';
+                    document.getElementById('progress-eta').innerText = 'Complete!';
+                    
+                    const videoResult = document.getElementById('videoResult');
+                    videoResult.style.display = 'block';
+                    videoResult.innerHTML = `<video controls style="width:100%; border-radius:12px;"><source src="${videoUrl}" type="video/mp4"></video>`;
+                    logMsg('🎬 LTXV 影片生成完成！');
+                    GenerationStore.save({ type: 'ltxv', name: promptVal.substring(0, 50), prompt: promptVal, url: videoUrl, ratio: `${ltxvW}:${ltxvH}` });
+                    GenerationStore.addUsage();
+                    updateCreditDisplay();
+                } catch (err) {
+                    logMsg(`❌ 錯誤: ${err.message}`);
+                    document.getElementById('progress-bar').style.background = '#ef4444';
+                } finally {
+                    btn.innerHTML = '<span data-i18n="generate">GENERATE</span> <i class="fa-solid fa-bolt" style="margin-left: 8px;"></i>';
+                    btn.style.pointerEvents = '';
+                }
+                return;
+            }
+            
             document.getElementById('emptyState').style.display = 'none';
             terminal.style.display = 'block';
             document.getElementById('progress-container').style.display = 'block';
@@ -1315,6 +1404,75 @@
             "post-apocalyptic wasteland, overgrown city ruins, rusty mechs, golden hour lighting, cinematic composition, photorealistic",
             "cyberpunk dj spinning tracks in a futuristic club, holographic equalizers, neon lasers, energetic crowd, highly detailed"
         ];
+        
+        // ======= 🎬 LTXV Engine Functions =======
+        let ltxvW = 512, ltxvH = 384, ltxvFrames = 33;
+        const COMFYUI_URL = 'http://127.0.0.1:8188';
+        
+        function switchEngine(type) {
+            document.getElementById('engineType').value = type;
+            const cloudBtn = document.getElementById('engineCloud');
+            const ltxvBtn = document.getElementById('engineLtxv');
+            const ltxvPanel = document.getElementById('ltxvPanel');
+            const audioSection = document.getElementById('dropArea')?.closest('.input-group');
+            
+            if (type === 'ltxv') {
+                cloudBtn.classList.remove('active'); cloudBtn.style.opacity = '0.5';
+                ltxvBtn.classList.add('active'); ltxvBtn.style.opacity = '1';
+                ltxvPanel.style.display = 'block';
+                if (audioSection) audioSection.style.display = 'none';
+            } else {
+                cloudBtn.classList.add('active'); cloudBtn.style.opacity = '1';
+                ltxvBtn.classList.remove('active'); ltxvBtn.style.opacity = '0.7';
+                ltxvPanel.style.display = 'none';
+                if (audioSection) audioSection.style.display = '';
+            }
+        }
+        
+        function selectLtxvRes(el, w, h) {
+            el.parentElement.querySelectorAll('.setting-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            ltxvW = w; ltxvH = h;
+        }
+        
+        function selectLtxvLen(el, frames) {
+            el.parentElement.querySelectorAll('.setting-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            ltxvFrames = frames;
+        }
+        
+        async function generateLtxv(prompt, negative, steps, cfg, seed) {
+            const backendUrl = getBackendUrl();
+            const url = backendUrl.startsWith('http') ? `${backendUrl}/api/generate-ltxv` : '/api/generate-ltxv';
+            
+            logMsg(`🎬 LTXV 本地引擎啟動 | ${ltxvW}×${ltxvH} | ${ltxvFrames} frames | ${steps} steps`);
+            
+            const resp = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt, negative, width: ltxvW, height: ltxvH, length: ltxvFrames, steps, cfg, seed })
+            });
+            const data = await resp.json();
+            if (!data.success) throw new Error(data.error || 'LTXV generation failed');
+            
+            logMsg(`✅ 已排入佇列 (seed: ${data.seed})，等待生成...`);
+            
+            const statusUrl = backendUrl.startsWith('http') ? `${backendUrl}/api/ltxv-status/${data.prompt_id}` : `/api/ltxv-status/${data.prompt_id}`;
+            for (let i = 0; i < 60; i++) {
+                await new Promise(r => setTimeout(r, 5000));
+                const statusResp = await fetch(statusUrl);
+                const statusData = await statusResp.json();
+                
+                if (statusData.status === 'success' && statusData.video) {
+                    logMsg(`🎉 生成完成！`);
+                    return `${COMFYUI_URL}/view?filename=${statusData.video.filename}&subfolder=${statusData.video.subfolder || ''}&type=${statusData.video.type}`;
+                }
+                if (statusData.status === 'error') throw new Error(statusData.error || 'Generation error');
+                logMsg(`⏳ 生成中... (${(i+1)*5}s)`);
+            }
+            throw new Error('Generation timeout');
+        }
+        
         function generateRandomPrompt() {
             const random = prompts[Math.floor(Math.random() * prompts.length)];
             if (PlanManager.isPro()) {
@@ -1595,6 +1753,125 @@
             el.parentElement.querySelectorAll('.setting-btn').forEach(b => b.classList.remove('active'));
             el.classList.add('active');
             document.getElementById('pipeLen').value = len;
+        }
+
+        // ======= LTXV Video Generation =======
+        function selectLtxvRatio(el) {
+            el.parentElement.querySelectorAll('.setting-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            window._ltxvW = parseInt(el.dataset.w);
+            window._ltxvH = parseInt(el.dataset.h);
+        }
+        function selectLtxvLen(el, len) {
+            if (len > 65 && !PlanManager.isPro()) { showProUpgradeModal(); return; }
+            el.parentElement.querySelectorAll('.setting-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            window._ltxvLen = len;
+        }
+        function ltxvLog(msg) {
+            const log = document.getElementById('ltxvLog');
+            if (log) { log.innerHTML += msg + '\n'; log.scrollTop = log.scrollHeight; }
+        }
+        async function runLtxvGenerate() {
+            const prompt = document.getElementById('ltxvPrompt')?.value?.trim();
+            if (!prompt) return;
+            if (!PlanManager.canGenerate()) { alert('🚫 No credits! Upgrade for more.'); return; }
+
+            const negPrompt = document.getElementById('ltxvNegPrompt')?.value || '';
+            const steps = parseInt(document.getElementById('ltxvSteps')?.value || 30);
+            const cfg = parseFloat(document.getElementById('ltxvCfg')?.value || 3.5);
+            const seed = parseInt(document.getElementById('ltxvSeed')?.value || 0);
+            const w = window._ltxvW || 768, h = window._ltxvH || 512, len = window._ltxvLen || 49;
+
+            // Show progress
+            document.getElementById('ltxvResult').style.display = 'none';
+            document.getElementById('ltxvProgress').style.display = 'block';
+            document.getElementById('ltxvVideoResult').style.display = 'none';
+            document.getElementById('ltxvLog').innerHTML = '';
+            const btn = document.getElementById('ltxvGenBtn');
+            btn.disabled = true; btn.style.opacity = '0.5';
+
+            ltxvLog(`🎬 LTXV 啟動 | ${w}×${h} | ${len}幀 | ${steps}steps | cfg=${cfg}`);
+            ltxvLog(`📝 ${prompt.substring(0, 60)}...`);
+
+            const startTime = Date.now();
+            const pollInterval = setInterval(async () => {
+                try {
+                    const histResp = await fetch(`http://${window.location.hostname}:8188/history`);
+                    const hist = await histResp.json();
+                    // Find our job
+                    for (const [pid, info] of Object.entries(hist)) {
+                        if (pid === window._ltxvPromptId) {
+                            const status = info.status?.status_str;
+                            if (status === 'success') {
+                                clearInterval(pollInterval);
+                                const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+                                ltxvLog(`✅ 完成！耗時 ${elapsed}s`);
+                                // Find video output
+                                for (const [nid, out] of Object.entries(info.outputs || {})) {
+                                    if (out.videos) {
+                                        for (const v of out.videos) {
+                                            const videoUrl = `http://${window.location.hostname}:8188/view?filename=${v.filename}&subfolder=${v.subfolder || ''}&type=${v.type}`;
+                                            ltxvLog(`📁 ${v.filename}`);
+                                            document.getElementById('ltxvVideoResult').style.display = 'block';
+                                            document.getElementById('ltxvVideoResult').innerHTML = `
+                                                <video controls autoplay loop style="width:100%; border-radius:12px; margin-bottom:16px;">
+                                                    <source src="${videoUrl}" type="video/mp4">
+                                                </video>
+                                                <div style="display:flex; gap:12px;">
+                                                    <a href="${videoUrl}" download="${v.filename}" style="flex:1; text-align:center; padding:12px; background:rgba(0,232,123,0.1); border:1px solid rgba(0,232,123,0.3); border-radius:8px; color:#00e87b; text-decoration:none; font-weight:600;"><i class="fa-solid fa-download" style="margin-right:6px;"></i>Download</a>
+                                                    <button onclick="runLtxvGenerate()" style="flex:1; padding:12px; background:rgba(0,232,123,0.05); border:1px solid rgba(0,232,123,0.2); border-radius:8px; color:#00e87b; cursor:pointer; font-weight:600;"><i class="fa-solid fa-rotate" style="margin-right:6px;"></i>Regenerate</button>
+                                                </div>`;
+                                            GenerationStore.save({ type: 'ltxv', name: prompt.substring(0, 40), prompt: prompt, url: videoUrl, ratio: `${w}:${h}` });
+                                        }
+                                    }
+                                }
+                                btn.disabled = false; btn.style.opacity = '1';
+                                GenerationStore.useCredit();
+                                PlanManager.addUsage();
+                                updateCreditDisplay();
+                                return;
+                            } else if (status === 'error') {
+                                clearInterval(pollInterval);
+                                ltxvLog(`❌ 錯誤：生成失敗`);
+                                btn.disabled = false; btn.style.opacity = '1';
+                                return;
+                            }
+                        }
+                    }
+                } catch (e) {}
+            }, 5000);
+
+            // Timeout after 10 min
+            setTimeout(() => { clearInterval(pollInterval); btn.disabled = false; btn.style.opacity = '1'; ltxvLog('⏰ 超時，請重試'); }, 600000);
+
+            // Send to ComfyUI
+            try {
+                const seedVal = seed || Math.floor(Math.random() * 1000000);
+                const comfyPrompt = {
+                    "1": {"class_type": "CheckpointLoaderSimple", "inputs": {"ckpt_name": "ltx-video-2b-v0.9.safetensors"}},
+                    "2": {"class_type": "CLIPLoader", "inputs": {"clip_name": "t5xxl_fp16.safetensors", "type": "ltxv"}},
+                    "3": {"class_type": "CLIPTextEncode", "inputs": {"text": prompt, "clip": ["2", 0]}},
+                    "4": {"class_type": "CLIPTextEncode", "inputs": {"text": negPrompt, "clip": ["2", 0]}},
+                    "5": {"class_type": "LTXVConditioning", "inputs": {"positive": ["3", 0], "negative": ["4", 0], "frame_rate": 24.0}},
+                    "6": {"class_type": "EmptyLTXVLatentVideo", "inputs": {"width": w, "height": h, "length": len, "batch_size": 1}},
+                    "7": {"class_type": "KSampler", "inputs": {"model": ["1", 0], "positive": ["5", 0], "negative": ["5", 1], "latent_image": ["6", 0], "seed": seedVal, "steps": steps, "cfg": cfg, "sampler_name": "euler", "scheduler": "normal", "denoise": 1.0}},
+                    "8": {"class_type": "VAEDecode", "inputs": {"samples": ["7", 0], "vae": ["1", 2]}},
+                    "9": {"class_type": "CreateVideo", "inputs": {"images": ["8", 0], "fps": 24.0}},
+                    "10": {"class_type": "SaveVideo", "inputs": {"video": ["9", 0], "filename_prefix": "ltxv_studio", "format": "mp4", "codec": "h264"}}
+                };
+                const resp = await fetch(`http://${window.location.hostname}:8188/prompt`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({prompt: comfyPrompt})
+                });
+                const result = await resp.json();
+                window._ltxvPromptId = result.prompt_id;
+                ltxvLog(`📡 已排入佇列 #${result.number || '?'}`);
+            } catch (e) {
+                ltxvLog(`❌ 連線錯誤：${e.message}`);
+                clearInterval(pollInterval);
+                btn.disabled = false; btn.style.opacity = '1';
+            }
         }
 
         // ======= Pipeline Orchestrator =======
@@ -1969,6 +2246,81 @@
                         </div>
                     </div>
                 `;
+            } else if(tab === 'ltxv') {
+                document.body.classList.remove('toneforge-mode');
+                document.body.classList.remove('frameforge-mode');
+                document.getElementById('create-view').style.display = 'none';
+                document.getElementById('other-view').style.display = 'block';
+                document.getElementById('other-view').innerHTML = `
+                    <div style="padding: 40px; max-width: 1200px; margin: 0 auto;">
+                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:6px;">
+                            <div style="width:40px; height:40px; background:linear-gradient(135deg, #00e87b, #38d5ff); border-radius:10px; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-clapperboard" style="color:#fff;"></i></div>
+                            <h1 style="font-family:'Orbitron', sans-serif;">LTXV Text → Video</h1>
+                        </div>
+                        <p style="color:var(--muted); margin-bottom:30px;">用文字描述場景，AI 自動生成高品質短影片。本地運算，無需雲端。</p>
+                        
+                        <div style="display:grid; grid-template-columns: 380px 1fr; gap:32px;">
+                            <!-- Control Panel -->
+                            <div style="background:rgba(18,18,20,0.65); border:1px solid rgba(0,232,123,0.2); border-radius:20px; padding:28px; backdrop-filter:blur(10px);">
+                                <div class="input-group" style="margin-bottom:20px;">
+                                    <label><i class="fa-solid fa-pen-fancy" style="margin-right:6px; color:#00e87b;"></i> 場景描述 (Prompt)</label>
+                                    <textarea id="ltxvPrompt" placeholder="A cinematic aerial shot of a futuristic city at night, neon lights..." style="min-height:120px;">A golden sunset over calm ocean waves, cinematic warm lighting, smooth camera pan, reflections on water</textarea>
+                                </div>
+                                <div class="input-group" style="margin-bottom:20px;">
+                                    <label><i class="fa-solid fa-ban" style="margin-right:6px; color:#ef4444;"></i> 負面提示詞</label>
+                                    <textarea id="ltxvNegPrompt" placeholder="low quality, blurry, distorted..." style="min-height:50px; font-size:0.85rem;">low quality, blurry, distorted, watermark, static, ugly, deformed</textarea>
+                                </div>
+                                <div class="input-group" style="margin-bottom:20px;">
+                                    <label>畫面比例</label>
+                                    <div class="settings-row" id="ltxvRatioSelector">
+                                        <div class="setting-btn active" data-w="768" data-h="512" onclick="selectLtxvRatio(this)">橫版 768×512</div>
+                                        <div class="setting-btn" data-w="512" data-h="768" onclick="selectLtxvRatio(this)">豎版 512×768</div>
+                                        <div class="setting-btn" data-w="512" data-h="512" onclick="selectLtxvRatio(this)">方形</div>
+                                    </div>
+                                </div>
+                                <div class="input-group" style="margin-bottom:20px;">
+                                    <label>影片長度 (幀數)</label>
+                                    <div class="settings-row" id="ltxvLenSelector">
+                                        <div class="setting-btn" onclick="selectLtxvLen(this,33)">1.4s</div>
+                                        <div class="setting-btn active" onclick="selectLtxvLen(this,49)">2s</div>
+                                        <div class="setting-btn" onclick="selectLtxvLen(this,65)">2.7s</div>
+                                        <div class="setting-btn" onclick="selectLtxvLen(this,97)" style="${PlanManager.isPro()?'':'opacity:0.4;'}">${PlanManager.isPro()?'4s':'🔒 4s'}</div>
+                                    </div>
+                                </div>
+                                <div class="input-group" style="margin-bottom:20px;">
+                                    <label>品質 <span id="ltxvStepsLabel" style="color:#00e87b;">30</span> steps</label>
+                                    <input type="range" id="ltxvSteps" min="15" max="50" value="30" style="width:100%; accent-color:#00e87b;" oninput="document.getElementById('ltxvStepsLabel').innerText=this.value">
+                                </div>
+                                <div class="input-group" style="margin-bottom:20px;">
+                                    <label>CFG 引導強度 <span id="ltxvCfgLabel" style="color:#00e87b;">3.5</span></label>
+                                    <input type="range" id="ltxvCfg" min="1" max="8" step="0.5" value="3.5" style="width:100%; accent-color:#00e87b;" oninput="document.getElementById('ltxvCfgLabel').innerText=this.value">
+                                </div>
+                                <div class="input-group" style="margin-bottom:20px;">
+                                    <label>種子 (0 = 隨機)</label>
+                                    <input type="number" id="ltxvSeed" value="0" min="0" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid var(--border); padding:8px; border-radius:6px; color:white; outline:none;">
+                                </div>
+                                <button class="cyber-btn" onclick="runLtxvGenerate()" id="ltxvGenBtn" style="margin-top:0; border-color:#00e87b; color:#00e87b; background:rgba(0,232,123,0.05);">
+                                    <i class="fa-solid fa-bolt" style="margin-right:8px;"></i> GENERATE VIDEO
+                                </button>
+                            </div>
+                            
+                            <!-- Result Panel -->
+                            <div style="background:var(--panel); border:1px solid var(--border); border-radius:20px; padding:28px; min-height:500px;">
+                                <div id="ltxvResult" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; min-height:440px;">
+                                    <i class="fa-solid fa-clapperboard" style="font-size:3rem; color:#00e87b; opacity:0.3; margin-bottom:20px;"></i>
+                                    <h3 style="margin-bottom:8px;">LTXV 本地影片生成</h3>
+                                    <p style="color:var(--muted); text-align:center; max-width:300px;">輸入描述，點擊 Generate，AI 在你的 GPU 上直接生成影片</p>
+                                    <p style="color:#00e87b; font-size:0.8rem; margin-top:12px;"><i class="fa-solid fa-microchip" style="margin-right:4px;"></i> RTX 5070 Ti · 本地運算</p>
+                                </div>
+                                <div id="ltxvProgress" style="display:none;">
+                                    <div id="ltxvLog" style="background:#000; border:1px solid var(--border); border-left:3px solid #00e87b; border-radius:12px; padding:16px; font-family:monospace; font-size:0.8rem; color:#00e87b; height:120px; overflow-y:auto; margin-bottom:20px; line-height:1.6;"></div>
+                                    <div id="ltxvVideoResult" style="display:none;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                // Store ratio
+                window._ltxvW = 768; window._ltxvH = 512; window._ltxvLen = 49;
             } else if(tab === 'toneforge') {
                 document.body.classList.remove('frameforge-mode');
                 document.body.classList.add('toneforge-mode');
